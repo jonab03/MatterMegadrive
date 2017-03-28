@@ -36,18 +36,37 @@ buildscript {
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-version = "${config.mc_version}-${config.mod_version}"
+version = "${config.mc_version}-0.4.3"
 
 if (System.getenv('TRAVIS_BUILD_NUMBER') != null) {
     version += "-build-" + System.getenv('TRAVIS_BUILD_NUMBER')
 }
 
-group= "${config.mo_group}"
+group = "${config.mo_group}"
 archivesBaseName = "${config.mo_base_name}"
 
 minecraft {
     version = config.mc_version + "-" + config.forge_version
     runDir = "run"
+}
+
+processResources {
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        // replace version and mcversion
+        expand 'version': project.version, 'mcversion': project.minecraft.version
+    }
+
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
 }
 
 bintray {
@@ -59,7 +78,7 @@ bintray {
         userOrg = 'simeonradivoev'
         version {
             name = config.mc_version + '-' + config.mod_version
-            released  = new Date()
+            released = new Date()
             desc = System.getenv('TRAVIS_COMMIT')
         }
         filesSpec {

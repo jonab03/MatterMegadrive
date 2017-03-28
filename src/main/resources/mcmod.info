@@ -3,15 +3,11 @@
   "modid": "mo",
   "name": "Matter Overdrive",
   "description": "A mod that dwells within matter and energy.",
-  "version": "0.4.1",
-  "mcversion": "1.7.10",
-  "url": "https://mo.simeonradivoev.com/",
-  "updateUrl": "",
-  "authorList": ["Simeon Radivoev"],
-  "credits": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/Ionaru/MatterOverdrive",
+  "authorList": ["Simeon Radivoev", "Ionaru"],
   "logoFile": "/MatterOverdriveLogo.png",
-  "screenshots": [],
-  "requiredMods": [ "Forge", "CoFHLib" ],
-  "dependencies": []
+  "requiredMods": [ "Forge", "CoFHLib" ]
 }
 ]

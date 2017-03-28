@@ -21,12 +21,17 @@ package matteroverdrive;
 import cpw.mods.fml.common.Loader;
 import matteroverdrive.client.data.Color;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Reference
 {
 	public static final String MOD_ID = "mo";
 	public static final String MOD_NAME = "Matter Overdrive";
-	public static final String VERSION = "0.4.2";
-	public static final String VERSION_DATE = "20.09.2016";
+	public static final String VERSION = "@VERSION@";
+	private static final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+	public static final String VERSION_DATE = dateFormat.format(new Date());
 	public static final String GUI_FACTORY_CLASS = "matteroverdrive.gui.GuiConfigFactory";
 	public static final String DEPEDNENCIES = "after:ThermalExpansion;after:exnihilo;after:EnderIO;";
 	public static final String CLIENT_PROXY_CLASS = "matteroverdrive.proxy.ClientProxy";
