@@ -25,13 +25,12 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 8/12/2015.
  */
-public class DialogMessageAndroidOnly extends DialogMessage
-{
+public class DialogMessageAndroidOnly extends DialogMessage {
 
-    public DialogMessageAndroidOnly()
-    {
+    public DialogMessageAndroidOnly() {
         super();
     }
+
     public DialogMessageAndroidOnly(String message) {
         super(message);
     }
@@ -41,8 +40,7 @@ public class DialogMessageAndroidOnly extends DialogMessage
     }
 
     @Override
-    public boolean isVisible(IDialogNpc npc,EntityPlayer player)
-    {
+    public boolean isVisible(IDialogNpc npc, EntityPlayer player) {
         return AndroidPlayer.get(player) != null && AndroidPlayer.get(player).isAndroid();
     }
 }

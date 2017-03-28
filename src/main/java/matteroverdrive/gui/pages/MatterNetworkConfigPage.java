@@ -31,25 +31,23 @@ import matteroverdrive.machines.components.ComponentMatterNetworkConfigs;
 /**
  * Created by Simeon on 7/17/2015.
  */
-public class MatterNetworkConfigPage extends AutoConfigPage implements ITextHandler
-{
+public class MatterNetworkConfigPage extends AutoConfigPage implements ITextHandler {
     ComponentMatterNetworkConfigs componentMatterNetworkConfigs;
     ElementInventorySlot filterSlot;
     MOElementTextField destinationTextField;
 
-    public MatterNetworkConfigPage(MOGuiMachine gui, int posX, int posY, int width, int height,ComponentMatterNetworkConfigs componentMatterNetworkConfigs,ComponentConfigs configurable) {
-        super(gui, posX, posY, width, height,configurable);
-        destinationTextField = new MOElementTextField(gui,this,4,42,96,16);
+    public MatterNetworkConfigPage(MOGuiMachine gui, int posX, int posY, int width, int height, ComponentMatterNetworkConfigs componentMatterNetworkConfigs, ComponentConfigs configurable) {
+        super(gui, posX, posY, width, height, configurable);
+        destinationTextField = new MOElementTextField(gui, this, 4, 42, 96, 16);
         destinationTextField.setName("Destination");
         destinationTextField.setBackground(MOElementButton.HOVER_TEXTURE_DARK);
         destinationTextField.setTextOffset(4, 3);
         this.componentMatterNetworkConfigs = componentMatterNetworkConfigs;
-        filterSlot = new ElementInventorySlot(gui,(MOSlot)machineGui.inventorySlots.getSlot(componentMatterNetworkConfigs.getDestinationFilterSlot()),104,37,22,22,"big");
+        filterSlot = new ElementInventorySlot(gui, (MOSlot) machineGui.inventorySlots.getSlot(componentMatterNetworkConfigs.getDestinationFilterSlot()), 104, 37, 22, 22, "big");
     }
 
     @Override
-    public void init()
-    {
+    public void init() {
         super.init();
         addElement(destinationTextField);
         if (componentMatterNetworkConfigs != null) {
@@ -60,17 +58,14 @@ public class MatterNetworkConfigPage extends AutoConfigPage implements ITextHand
     }
 
     @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
+    public void drawForeground(int mouseX, int mouseY) {
         super.drawForeground(mouseX, mouseY);
         getFontRenderer().drawString("Destination Address:", posX, posY + 28, 0xFFFFFF);
     }
 
     @Override
-    public void textChanged(String elementName, String text, boolean typed)
-    {
-        if (elementName.equals("Destination"))
-        {
+    public void textChanged(String elementName, String text, boolean typed) {
+        if (elementName.equals("Destination")) {
             if (componentMatterNetworkConfigs != null) {
                 componentMatterNetworkConfigs.setDestinationFilter(text);
                 machineGui.getMachine().sendConfigsToServer(false);
@@ -79,9 +74,8 @@ public class MatterNetworkConfigPage extends AutoConfigPage implements ITextHand
     }
 
     @Override
-    public void update(int mouseX, int mouseY)
-    {
-        super.update(mouseX,mouseY);
+    public void update(int mouseX, int mouseY) {
+        super.update(mouseX, mouseY);
         int x = destinationTextField.getPosX() + destinationTextField.getWidth() + 10;
         /*for (ElementSlot slot : networkConfigSlots)
         {

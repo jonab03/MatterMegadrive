@@ -31,13 +31,12 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 11/9/2015.
  */
-public class BlockInscriber extends MOBlockMachine
-{
+public class BlockInscriber extends MOBlockMachine {
     public BlockInscriber(Material material, String name) {
         super(material, name);
         setHardness(20.0F);
         this.setResistance(9.0f);
-        this.setHarvestLevel("pickaxe",2);
+        this.setHarvestLevel("pickaxe", 2);
         setHasGui(true);
     }
 
@@ -48,20 +47,17 @@ public class BlockInscriber extends MOBlockMachine
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister p_149651_1_)
-    {
+    public void registerBlockIcons(IIconRegister p_149651_1_) {
         return;
     }
 
     @Override
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return RendererBlockInscriber.renderID;
     }
 
     @Override
-    public boolean isOpaqueCube()
-    {
+    public boolean isOpaqueCube() {
         return false;
     }
 }

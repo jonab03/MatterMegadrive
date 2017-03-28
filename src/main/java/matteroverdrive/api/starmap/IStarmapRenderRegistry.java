@@ -26,8 +26,7 @@ import java.util.Collection;
 /**
  * Created by Simeon on 7/25/2015.
  */
-public interface IStarmapRenderRegistry
-{
+public interface IStarmapRenderRegistry {
     boolean registerRenderer(Class<? extends SpaceBody> spaceBodyType, ISpaceBodyHoloRenderer renderer);
 
     Collection<ISpaceBodyHoloRenderer> getStarmapRendererCollection(Class<? extends SpaceBody> spaceBodyType);

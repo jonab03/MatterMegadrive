@@ -32,51 +32,41 @@ import java.util.List;
 /**
  * Created by Simeon on 9/7/2015.
  */
-public class PacketSendMinimapInfo extends PacketAbstract
-{
+public class PacketSendMinimapInfo extends PacketAbstract {
     List<MinimapEntityInfo> entityInfos;
 
-    public PacketSendMinimapInfo()
-    {
+    public PacketSendMinimapInfo() {
 
     }
 
-    public PacketSendMinimapInfo(List<MinimapEntityInfo> entityInfos)
-    {
+    public PacketSendMinimapInfo(List<MinimapEntityInfo> entityInfos) {
         this.entityInfos = entityInfos;
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         entityInfos = new ArrayList<>();
         int size = buf.readInt();
-        for (int i = 0;i < size;i++)
-        {
+        for (int i = 0; i < size; i++) {
             entityInfos.add(new MinimapEntityInfo().readFromBuffer(buf));
         }
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         buf.writeInt(entityInfos.size());
-        for (MinimapEntityInfo entityInfo : entityInfos)
-        {
+        for (MinimapEntityInfo entityInfo : entityInfos) {
             entityInfo.writeToBuffer(buf);
         }
     }
 
-    public static class ClientHandler extends AbstractClientPacketHandler<PacketSendMinimapInfo>
-    {
+    public static class ClientHandler extends AbstractClientPacketHandler<PacketSendMinimapInfo> {
 
         @Override
-        public IMessage handleClientMessage(EntityPlayer player, PacketSendMinimapInfo message, MessageContext ctx)
-        {
+        public IMessage handleClientMessage(EntityPlayer player, PacketSendMinimapInfo message, MessageContext ctx) {
             AndroidPlayer androidPlayer = AndroidPlayer.get(player);
-            if (androidPlayer != null && androidPlayer.isAndroid())
-            {
-                androidPlayer.setMinimapEntityInfo(message.entityInfos);
+            if (androidPlayer != null && androidPlayer.isAndroid()) {
+                AndroidPlayer.setMinimapEntityInfo(message.entityInfos);
             }
             return null;
         }

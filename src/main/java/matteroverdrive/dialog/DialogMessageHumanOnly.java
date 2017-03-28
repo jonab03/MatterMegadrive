@@ -25,12 +25,11 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 8/12/2015.
  */
-public class DialogMessageHumanOnly extends DialogMessageRandom
-{
-    public DialogMessageHumanOnly()
-    {
+public class DialogMessageHumanOnly extends DialogMessageRandom {
+    public DialogMessageHumanOnly() {
         super();
     }
+
     public DialogMessageHumanOnly(String message) {
         super(message);
     }
@@ -40,8 +39,7 @@ public class DialogMessageHumanOnly extends DialogMessageRandom
     }
 
     @Override
-    public boolean isVisible(IDialogNpc npc,EntityPlayer player)
-    {
+    public boolean isVisible(IDialogNpc npc, EntityPlayer player) {
         return AndroidPlayer.get(player) == null || !AndroidPlayer.get(player).isAndroid();
     }
 }

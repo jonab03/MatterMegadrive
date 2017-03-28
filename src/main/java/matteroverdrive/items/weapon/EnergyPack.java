@@ -35,26 +35,24 @@ import java.util.List;
 /**
  * Created by Simeon on 8/2/2015.
  */
-public class EnergyPack extends MOBaseItem implements IEnergyPack
-{
+public class EnergyPack extends MOBaseItem implements IEnergyPack {
     IIcon overlay;
 
-    public EnergyPack(String name)
-    {
+    public EnergyPack(String name) {
         super(name);
     }
 
-    public boolean hasDetails(ItemStack stack){return true;}
+    public boolean hasDetails(ItemStack stack) {
+        return true;
+    }
 
-    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos)
-    {
-        super.addDetails(itemstack,player,infos);
-        infos.add(EnumChatFormatting.YELLOW + MOEnergyHelper.formatEnergy(null,getEnergyAmount(itemstack)));
+    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos) {
+        super.addDetails(itemstack, player, infos);
+        infos.add(EnumChatFormatting.YELLOW + MOEnergyHelper.formatEnergy(null, getEnergyAmount(itemstack)));
     }
 
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister)
-    {
+    public void registerIcons(IIconRegister iconRegister) {
         this.itemIcon = iconRegister.registerIcon(Reference.MOD_ID + ":" + "container_2");
         overlay = iconRegister.registerIcon(Reference.MOD_ID + ":" + "container_2_overlay");
     }
@@ -66,38 +64,31 @@ public class EnergyPack extends MOBaseItem implements IEnergyPack
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean requiresMultipleRenderPasses()
-    {
+    public boolean requiresMultipleRenderPasses() {
         return true;
     }
 
     @Override
-    public int getRenderPasses(int metadata)
-    {
+    public int getRenderPasses(int metadata) {
         return 2;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass(int damage, int pass)
-    {
-        if (pass == 1)
-        {
+    public IIcon getIconFromDamageForRenderPass(int damage, int pass) {
+        if (pass == 1) {
             return overlay;
-        }else
-        {
+        } else {
             return itemIcon;
         }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack itemStack, int pass)
-    {
-        if (pass == 1)
-        {
+    public int getColorFromItemStack(ItemStack itemStack, int pass) {
+        if (pass == 1) {
             return Reference.COLOR_HOLO_RED.getColor();
         }
-        return super.getColorFromItemStack(itemStack,pass);
+        return super.getColorFromItemStack(itemStack, pass);
     }
 }

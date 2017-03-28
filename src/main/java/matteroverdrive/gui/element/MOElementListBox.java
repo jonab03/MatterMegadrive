@@ -35,396 +35,376 @@ public class MOElementListBox extends MOElementBase {
 
     IListHandler listHandler;
 
-	public int borderColor = new Color(120, 120, 120, 255).getColor();
-	public int backgroundColor = new Color(0, 0, 0, 255).getColor();
-	public int selectedLineColor = new Color(0, 0, 0, 255).getColor();
-	public int textColor = new Color(150, 150, 150, 255).getColor();
-	public int selectedTextColor = new Color(255, 255, 255, 255).getColor();
+    public int borderColor = new Color(120, 120, 120, 255).getColor();
+    public int backgroundColor = new Color(0, 0, 0, 255).getColor();
+    public int selectedLineColor = new Color(0, 0, 0, 255).getColor();
+    public int textColor = new Color(150, 150, 150, 255).getColor();
+    public int selectedTextColor = new Color(255, 255, 255, 255).getColor();
 
-	private final int _marginTop = 2;
-	private final int _marginLeft = 2;
-	private final int _marginRight = 2;
-	private final int _marginBottom = 2;
+    private final int _marginTop = 2;
+    private final int _marginLeft = 2;
+    private final int _marginRight = 2;
+    private final int _marginBottom = 2;
 
-	private final List<IMOListBoxElement> _elements = new LinkedList<IMOListBoxElement>();
+    private final List<IMOListBoxElement> _elements = new LinkedList<IMOListBoxElement>();
 
-	private int _firstIndexDisplayed;
-	protected int _selectedIndex;
-	private int scrollHoriz;
+    private int _firstIndexDisplayed;
+    protected int _selectedIndex;
+    private int scrollHoriz;
 
-	public MOElementListBox(MOGuiBase containerScreen,IListHandler listHandler, int x, int y, int width, int height) {
+    public MOElementListBox(MOGuiBase containerScreen, IListHandler listHandler, int x, int y, int width, int height) {
 
-		super(containerScreen, x, y, width, height);
+        super(containerScreen, x, y, width, height);
         this.listHandler = listHandler;
-	}
-
-    public MOElementListBox(MOGuiBase containerScreen, int x, int y, int width, int height)
-    {
-        this(containerScreen,containerScreen,x,y,width,height);
     }
 
-	@Override
-	public void updateInfo()
-	{
+    public MOElementListBox(MOGuiBase containerScreen, int x, int y, int width, int height) {
+        this(containerScreen, containerScreen, x, y, width, height);
+    }
 
-	}
+    @Override
+    public void updateInfo() {
 
-	@Override
-	public void init()
-	{
+    }
 
-	}
+    @Override
+    public void init() {
 
-	@Override
-	public void addTooltip(List<String> var1, int mouseX, int mouseY)
-	{
+    }
 
-	}
+    @Override
+    public void addTooltip(List<String> var1, int mouseX, int mouseY) {
 
-	public void add(IMOListBoxElement element) {
+    }
 
-		_elements.add(element);
-	}
+    public void add(IMOListBoxElement element) {
 
-	public void add(Collection<? extends IMOListBoxElement> elements) {
+        _elements.add(element);
+    }
 
-		_elements.addAll(elements);
-	}
+    public void add(Collection<? extends IMOListBoxElement> elements) {
 
-	public void remove(IMOListBoxElement element) {
+        _elements.addAll(elements);
+    }
 
-		_elements.remove(element);
-	}
+    public void remove(IMOListBoxElement element) {
 
-	public void removeAt(int index) {
+        _elements.remove(element);
+    }
 
-		_elements.remove(index);
-	}
+    public void removeAt(int index) {
 
-	public void clear()
-	{
-		_elements.clear();
-	}
+        _elements.remove(index);
+    }
 
-	public int getInternalWidth() {
+    public void clear() {
+        _elements.clear();
+    }
 
-		int width = 0;
-		for (int i = 0; i < getElementCount(); i++) {
-			width = Math.max(getElementWidth(i), width);
-		}
-		return width;
-	}
+    public int getInternalWidth() {
 
-	public int getInternalHeight() {
+        int width = 0;
+        for (int i = 0; i < getElementCount(); i++) {
+            width = Math.max(getElementWidth(i), width);
+        }
+        return width;
+    }
 
-		int height = 0;
-		for (int i = 0; i < getElementCount(); i++) {
-			height += getElementHeight(i);
-		}
-		return height;
-	}
+    public int getInternalHeight() {
 
-	public int getContentWidth() {
+        int height = 0;
+        for (int i = 0; i < getElementCount(); i++) {
+            height += getElementHeight(i);
+        }
+        return height;
+    }
 
-		return sizeX - _marginLeft - _marginRight;
-	}
+    public int getContentWidth() {
 
-	public int getContentHeight() {
+        return sizeX - _marginLeft - _marginRight;
+    }
 
-		return sizeY - _marginTop - _marginBottom;
-	}
+    public int getContentHeight() {
 
-	public int getContentTop() {
+        return sizeY - _marginTop - _marginBottom;
+    }
 
-		return posY + _marginTop;
-	}
+    public int getContentTop() {
 
-	public int getContentLeft() {
+        return posY + _marginTop;
+    }
 
-		return posX + _marginLeft;
-	}
+    public int getContentLeft() {
 
-	public final int getContentBottom() {
+        return posX + _marginLeft;
+    }
 
-		return getContentTop() + getContentHeight();
-	}
+    public final int getContentBottom() {
 
-	public final int getContentRight() {
+        return getContentTop() + getContentHeight();
+    }
 
-		return getContentLeft() + getContentWidth();
-	}
+    public final int getContentRight() {
 
-	@Override
-	public void drawBackground(int mouseX, int mouseY, float gameTicks)
-	{
-		int heightDrawn = 0;
-		int nextElement = _firstIndexDisplayed;
+        return getContentLeft() + getContentWidth();
+    }
 
-		glDisable(GL_LIGHTING);
-		glPushMatrix();
-
-		RenderUtils.beginStencil();
-		drawStencil(getContentLeft(), getContentTop(), getContentRight(), getContentBottom(), 1);
-
-		glTranslated(-scrollHoriz, 0, 0);
-
-		int e = getElementCount();
-		while (nextElement < e && heightDrawn <= getContentHeight())
-		{
-			if (shouldBeDisplayed(getElement(nextElement))) {
-
-				if (this._selectedIndex == nextElement) {
-					DrawElement(nextElement,getContentLeft(),getContentTop() + heightDrawn,selectedLineColor,selectedTextColor,true,true);
-				} else {
-					DrawElement(nextElement,getContentLeft(),getContentTop() + heightDrawn,selectedLineColor,this.textColor,false,true);
-				}
-				heightDrawn += getElementHeight(nextElement);
-			}
-			nextElement++;
-		}
-
-		RenderUtils.endStencil();
-
-		glPopMatrix();
-	}
-
-	@Override
-	public void drawForeground(int mouseX, int mouseY)
-	{
-		int heightDrawn = 0;
-		int nextElement = _firstIndexDisplayed;
+    @Override
+    public void drawBackground(int mouseX, int mouseY, float gameTicks) {
+        int heightDrawn = 0;
+        int nextElement = _firstIndexDisplayed;
 
         glDisable(GL_LIGHTING);
         glPushMatrix();
 
-		RenderUtils.beginStencil();
-		drawStencil(getContentLeft(), getContentTop(), getContentRight(), getContentBottom(), 1);
+        RenderUtils.beginStencil();
+        drawStencil(getContentLeft(), getContentTop(), getContentRight(), getContentBottom(), 1);
 
-		glTranslated(-scrollHoriz, 0, 0);
+        glTranslated(-scrollHoriz, 0, 0);
 
-		int e = getElementCount();
-		while (nextElement < e && heightDrawn <= getContentHeight())
-		{
-			if (shouldBeDisplayed(getElement(nextElement)))
-			{
-				if (this._selectedIndex == nextElement) {
-					DrawElement(nextElement, getContentLeft(), getContentTop() + heightDrawn, selectedLineColor, selectedTextColor, true, false);
-				} else {
-					DrawElement(nextElement,getContentLeft(), getContentTop() + heightDrawn, selectedLineColor, this.textColor, false, false);
-				}
+        int e = getElementCount();
+        while (nextElement < e && heightDrawn <= getContentHeight()) {
+            if (shouldBeDisplayed(getElement(nextElement))) {
 
-				glDisable(GL_STENCIL_TEST);
-				if (getContentTop() + heightDrawn <= mouseY && getContentTop() + heightDrawn + getElementHeight(nextElement) >= mouseY &&
-						mouseX >= getContentLeft() && mouseX <= getContentLeft() + getElementWidth(nextElement)) {
-					drawElementTooltip(nextElement,mouseX,mouseY);
-				}
-				glEnable(GL_STENCIL_TEST);
-				heightDrawn += getElementHeight(nextElement);
-			}
-			nextElement++;
-		}
+                if (this._selectedIndex == nextElement) {
+                    DrawElement(nextElement, getContentLeft(), getContentTop() + heightDrawn, selectedLineColor, selectedTextColor, true, true);
+                } else {
+                    DrawElement(nextElement, getContentLeft(), getContentTop() + heightDrawn, selectedLineColor, this.textColor, false, true);
+                }
+                heightDrawn += getElementHeight(nextElement);
+            }
+            nextElement++;
+        }
 
-		RenderUtils.endStencil();
+        RenderUtils.endStencil();
 
-		glPopMatrix();
-	}
+        glPopMatrix();
+    }
 
-	@Override
-	public boolean onMousePressed(int mouseX, int mouseY, int mouseButton)
-	{
-		int heightChecked = 0;
-		for (int i = _firstIndexDisplayed; i < getElementCount(); i++)
-		{
-			if (heightChecked > getContentHeight()) {
-				break;
-			}
-			if (shouldBeDisplayed(getElement(i)))
-			{
-				int elementHeight = getElementHeight(i);
-				if (getContentTop() + heightChecked <= mouseY && getContentTop() + heightChecked + elementHeight >= mouseY) {
-					setSelectedIndex(i);
-					onElementClicked(i,mouseX - getContentLeft(),mouseY - (getContentTop() + heightChecked));
-					break;
-				}
-				heightChecked += elementHeight;
-			}
-		}
-		return true;
-	}
+    @Override
+    public void drawForeground(int mouseX, int mouseY) {
+        int heightDrawn = 0;
+        int nextElement = _firstIndexDisplayed;
 
-	@Override
-	public boolean onMouseWheel(int mouseX, int mouseY, int movement) {
-		if (MOStringHelper.isControlKeyDown()) {
-			if (movement > 0) {
-				scrollLeft();
-			} else if (movement < 0) {
-				scrollRight();
-			}
-		} else {
-			if (movement > 0) {
-				scrollUp();
-			} else if (movement < 0) {
-				scrollDown();
-			}
-		}
-		return true;
-	}
+        glDisable(GL_LIGHTING);
+        glPushMatrix();
 
-	public void scrollDown() {
+        RenderUtils.beginStencil();
+        drawStencil(getContentLeft(), getContentTop(), getContentRight(), getContentBottom(), 1);
 
-		int heightDisplayed = 0;
-		int elementsDisplayed = 0;
-		for (int i = _firstIndexDisplayed; i < getElementCount(); i++) {
-			if (heightDisplayed + getElementHeight(i) > sizeY) {
-				break;
-			}
-			heightDisplayed += getElementHeight(i);
-			elementsDisplayed++;
-		}
+        glTranslated(-scrollHoriz, 0, 0);
 
-		if (_firstIndexDisplayed + elementsDisplayed < getElementCount()) {
-			_firstIndexDisplayed++;
-		}
+        int e = getElementCount();
+        while (nextElement < e && heightDrawn <= getContentHeight()) {
+            if (shouldBeDisplayed(getElement(nextElement))) {
+                if (this._selectedIndex == nextElement) {
+                    DrawElement(nextElement, getContentLeft(), getContentTop() + heightDrawn, selectedLineColor, selectedTextColor, true, false);
+                } else {
+                    DrawElement(nextElement, getContentLeft(), getContentTop() + heightDrawn, selectedLineColor, this.textColor, false, false);
+                }
 
-		onScrollV(_firstIndexDisplayed);
-	}
+                glDisable(GL_STENCIL_TEST);
+                if (getContentTop() + heightDrawn <= mouseY && getContentTop() + heightDrawn + getElementHeight(nextElement) >= mouseY &&
+                        mouseX >= getContentLeft() && mouseX <= getContentLeft() + getElementWidth(nextElement)) {
+                    drawElementTooltip(nextElement, mouseX, mouseY);
+                }
+                glEnable(GL_STENCIL_TEST);
+                heightDrawn += getElementHeight(nextElement);
+            }
+            nextElement++;
+        }
 
-	public void scrollUp() {
+        RenderUtils.endStencil();
 
-		if (_firstIndexDisplayed > 0) {
-			_firstIndexDisplayed--;
-		}
-		onScrollV(_firstIndexDisplayed);
-	}
+        glPopMatrix();
+    }
 
-	public void scrollLeft() {
+    @Override
+    public boolean onMousePressed(int mouseX, int mouseY, int mouseButton) {
+        int heightChecked = 0;
+        for (int i = _firstIndexDisplayed; i < getElementCount(); i++) {
+            if (heightChecked > getContentHeight()) {
+                break;
+            }
+            if (shouldBeDisplayed(getElement(i))) {
+                int elementHeight = getElementHeight(i);
+                if (getContentTop() + heightChecked <= mouseY && getContentTop() + heightChecked + elementHeight >= mouseY) {
+                    setSelectedIndex(i);
+                    onElementClicked(i, mouseX - getContentLeft(), mouseY - (getContentTop() + heightChecked));
+                    break;
+                }
+                heightChecked += elementHeight;
+            }
+        }
+        return true;
+    }
 
-		scrollHoriz = Math.max(scrollHoriz - 15, 0);
-		onScrollH(scrollHoriz);
-	}
+    @Override
+    public boolean onMouseWheel(int mouseX, int mouseY, int movement) {
+        if (MOStringHelper.isControlKeyDown()) {
+            if (movement > 0) {
+                scrollLeft();
+            } else if (movement < 0) {
+                scrollRight();
+            }
+        } else {
+            if (movement > 0) {
+                scrollUp();
+            } else if (movement < 0) {
+                scrollDown();
+            }
+        }
+        return true;
+    }
 
-	public void scrollRight() {
+    public void scrollDown() {
 
-		scrollHoriz = Math.min(scrollHoriz + 15, getLastScrollPositionH());
-		onScrollH(scrollHoriz);
-	}
+        int heightDisplayed = 0;
+        int elementsDisplayed = 0;
+        for (int i = _firstIndexDisplayed; i < getElementCount(); i++) {
+            if (heightDisplayed + getElementHeight(i) > sizeY) {
+                break;
+            }
+            heightDisplayed += getElementHeight(i);
+            elementsDisplayed++;
+        }
 
-	public int getLastScrollPosition() {
+        if (_firstIndexDisplayed + elementsDisplayed < getElementCount()) {
+            _firstIndexDisplayed++;
+        }
 
-		int position = getElementCount() - 1;
-		int heightUsed = getElementHeight(position);
+        onScrollV(_firstIndexDisplayed);
+    }
 
-		while (position > 0 && heightUsed < sizeY) {
-			position--;
-			heightUsed += getElementHeight(position);
-		}
+    public void scrollUp() {
 
-		return position + 1;
-	}
+        if (_firstIndexDisplayed > 0) {
+            _firstIndexDisplayed--;
+        }
+        onScrollV(_firstIndexDisplayed);
+    }
 
-	public int getLastScrollPositionH() {
+    public void scrollLeft() {
 
-		return Math.max(getInternalWidth() - getContentWidth(), 0);
-	}
+        scrollHoriz = Math.max(scrollHoriz - 15, 0);
+        onScrollH(scrollHoriz);
+    }
 
-	public int getSelectedIndex() {
+    public void scrollRight() {
 
-		return _selectedIndex;
-	}
+        scrollHoriz = Math.min(scrollHoriz + 15, getLastScrollPositionH());
+        onScrollH(scrollHoriz);
+    }
 
-	public int getIndexOf(Object value) {
+    public int getLastScrollPosition() {
 
-		for (int i = 0; i < _elements.size(); i++) {
-			if (getElement(i).getValue().equals(value)) {
-				return i;
-			}
-		}
-		return -1;
-	}
+        int position = getElementCount() - 1;
+        int heightUsed = getElementHeight(position);
 
-	public IMOListBoxElement getSelectedElement()
-	{
-		if(_selectedIndex < getElementCount())
-			return getElement(MathHelper.clamp_int(_selectedIndex, 0, _elements.size()));
-		else
-			return null;
-	}
+        while (position > 0 && heightUsed < sizeY) {
+            position--;
+            heightUsed += getElementHeight(position);
+        }
 
-	public void setSelectedIndex(int index) {
+        return position + 1;
+    }
 
-		if (index >= 0 && index < getElementCount() && index != _selectedIndex) {
-			_selectedIndex = index;
-			onSelectionChanged(_selectedIndex, getSelectedElement());
-		}
-	}
+    public int getLastScrollPositionH() {
 
-	public void scrollToV(int index) {
+        return Math.max(getInternalWidth() - getContentWidth(), 0);
+    }
 
-		if (index >= 0 && index < getElementCount()) {
-			_firstIndexDisplayed = index;
-		}
-	}
+    public int getSelectedIndex() {
 
-	public void scrollToH(int index) {
+        return _selectedIndex;
+    }
 
-		if (index >= 0 && index <= getLastScrollPositionH()) {
-			scrollHoriz = index;
-		}
-	}
+    public int getIndexOf(Object value) {
 
-	//region indirect Element Access
-	public void DrawElement(int i,int x,int y,int selectedLineColor,int selectedTextColor, boolean selected,boolean BG)
-	{
-		getElement(i).draw(this, x, y, selectedLineColor, selectedTextColor, selected, BG);
-	}
+        for (int i = 0; i < _elements.size(); i++) {
+            if (getElement(i).getValue().equals(value)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 
-	public void drawElementTooltip(int index,int mouseX,int mouseY)
-	{
-		getElement(index).drawToolTop(this, mouseX, mouseY);
-	}
+    public IMOListBoxElement getSelectedElement() {
+        if (_selectedIndex < getElementCount())
+            return getElement(MathHelper.clamp_int(_selectedIndex, 0, _elements.size()));
+        else
+            return null;
+    }
 
-	public int getElementHeight(int id)
-	{
-		return _elements.get(id).getHeight();
-	}
+    public void setSelectedIndex(int index) {
 
-	public int getElementWidth(int id)
-	{
-		return  _elements.get(id).getWidth();
-	}
+        if (index >= 0 && index < getElementCount() && index != _selectedIndex) {
+            _selectedIndex = index;
+            onSelectionChanged(_selectedIndex, getSelectedElement());
+        }
+    }
 
-	protected boolean shouldBeDisplayed(IMOListBoxElement element)
-	{
-		return true;
-	}
+    public void scrollToV(int index) {
 
-	public IMOListBoxElement getElement(int index) {
+        if (index >= 0 && index < getElementCount()) {
+            _firstIndexDisplayed = index;
+        }
+    }
 
-		return _elements.get(index);
-	}
+    public void scrollToH(int index) {
 
-	public int getElementCount() {
+        if (index >= 0 && index <= getLastScrollPositionH()) {
+            scrollHoriz = index;
+        }
+    }
 
-		return _elements.size();
-	}
-	//endregion
+    //region indirect Element Access
+    public void DrawElement(int i, int x, int y, int selectedLineColor, int selectedTextColor, boolean selected, boolean BG) {
+        getElement(i).draw(this, x, y, selectedLineColor, selectedTextColor, selected, BG);
+    }
 
-	//region events
-	protected void onElementClicked(int index,int mousX,int mouseY) {
+    public void drawElementTooltip(int index, int mouseX, int mouseY) {
+        getElement(index).drawToolTop(this, mouseX, mouseY);
+    }
 
-	}
+    public int getElementHeight(int id) {
+        return _elements.get(id).getHeight();
+    }
 
-	protected void onScrollV(int newStartIndex) {
+    public int getElementWidth(int id) {
+        return _elements.get(id).getWidth();
+    }
 
-	}
+    protected boolean shouldBeDisplayed(IMOListBoxElement element) {
+        return true;
+    }
 
-	protected void onScrollH(int newStartIndex) {
+    public IMOListBoxElement getElement(int index) {
 
-	}
+        return _elements.get(index);
+    }
 
-	protected void onSelectionChanged(int newIndex, IMOListBoxElement imoListBoxElement)
-	{
-        listHandler.ListSelectionChange(getName(),newIndex);
-	}
-	//endregion
+    public int getElementCount() {
+
+        return _elements.size();
+    }
+    //endregion
+
+    //region events
+    protected void onElementClicked(int index, int mousX, int mouseY) {
+
+    }
+
+    protected void onScrollV(int newStartIndex) {
+
+    }
+
+    protected void onScrollH(int newStartIndex) {
+
+    }
+
+    protected void onSelectionChanged(int newIndex, IMOListBoxElement imoListBoxElement) {
+        listHandler.ListSelectionChange(getName(), newIndex);
+    }
+    //endregion
 }

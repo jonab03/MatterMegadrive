@@ -30,25 +30,21 @@ import net.minecraftforge.fluids.IFluidTank;
 /**
  * Created by Simeon on 8/7/2015.
  */
-public class MatterStorage implements IMatterStorage, IFluidTank
-{
+public class MatterStorage implements IMatterStorage, IFluidTank {
     protected int capacity;
     protected int maxExtract;
     protected int maxReceive;
     private FluidStack fluidStack;
 
-    public MatterStorage(int capacity)
-    {
+    public MatterStorage(int capacity) {
         this(capacity, capacity, capacity);
     }
 
-    public MatterStorage(int capacity, int maxExtract)
-    {
+    public MatterStorage(int capacity, int maxExtract) {
         this(capacity, maxExtract, maxExtract);
     }
 
-    public MatterStorage(int capacity, int maxExtract, int maxReceive)
-    {
+    public MatterStorage(int capacity, int maxExtract, int maxReceive) {
         fluidStack = new FluidStack(MatterOverdriveFluids.matterPlasma, 0);
         this.maxExtract = maxExtract;
         this.maxReceive = maxReceive;
@@ -66,17 +62,14 @@ public class MatterStorage implements IMatterStorage, IFluidTank
     }
 
     @Override
-    public int extractMatter(ForgeDirection direction, int amount, boolean simulate)
-    {
+    public int extractMatter(ForgeDirection direction, int amount, boolean simulate) {
         return extractMatter(amount, simulate);
     }
 
-    public int extractMatter(int amount, boolean simulate)
-    {
+    public int extractMatter(int amount, boolean simulate) {
         int maxDrain = MathHelper.clamp_int(Math.min(amount, getMaxExtract()), 0, getFluid().amount);
 
-        if(!simulate)
-        {
+        if (!simulate) {
             getFluid().amount -= maxDrain;
         }
 
@@ -84,42 +77,36 @@ public class MatterStorage implements IMatterStorage, IFluidTank
     }
 
     @Override
-    public int receiveMatter(ForgeDirection side, int amount, boolean simulate)
-    {
+    public int receiveMatter(ForgeDirection side, int amount, boolean simulate) {
         int maxFill = MathHelper.clamp_int(Math.min(amount, getMaxReceive()), 0, getCapacity() - getFluid().amount);
 
-        if(!simulate)
-        {
+        if (!simulate) {
             getFluid().amount += maxFill;
         }
 
         return maxFill;
     }
 
-    public int modifyMatterStored(int amount)
-    {
+    public int modifyMatterStored(int amount) {
         int lastAmount = getFluid().amount;
         getFluid().amount += amount;
-        getFluid().amount = net.minecraft.util.MathHelper.clamp_int(getFluid().amount,0,getCapacity());
+        getFluid().amount = net.minecraft.util.MathHelper.clamp_int(getFluid().amount, 0, getCapacity());
         return lastAmount - amount;
     }
 
 
     @Override
-    public FluidStack getFluid()
-    {
+    public FluidStack getFluid() {
         return fluidStack;
     }
 
     @Override
-    public int getFluidAmount()
-    {
+    public int getFluidAmount() {
         return getFluid().amount;
     }
 
     @Override
-    public int getCapacity()
-    {
+    public int getCapacity() {
         return this.capacity;
     }
 
@@ -129,20 +116,16 @@ public class MatterStorage implements IMatterStorage, IFluidTank
     }
 
     @Override
-    public int fill(FluidStack resource, boolean doFill)
-    {
-        if (resource == null)
-        {
+    public int fill(FluidStack resource, boolean doFill) {
+        if (resource == null) {
             return 0;
         }
 
-        if (getFluid() == null)
-        {
+        if (getFluid() == null) {
             return Math.min(capacity, resource.amount);
         }
 
-        if (!getFluid().isFluidEqual(resource))
-        {
+        if (!getFluid().isFluidEqual(resource)) {
             return 0;
         }
 
@@ -150,10 +133,8 @@ public class MatterStorage implements IMatterStorage, IFluidTank
     }
 
     @Override
-    public FluidStack drain(int maxDrain, boolean doDrain)
-    {
-        if (getFluid() == null)
-        {
+    public FluidStack drain(int maxDrain, boolean doDrain) {
+        if (getFluid() == null) {
             return null;
         }
 
@@ -164,14 +145,12 @@ public class MatterStorage implements IMatterStorage, IFluidTank
             return new FluidStack(MatterOverdriveFluids.matterPlasma, drained);
     }
 
-    public void writeToNBT(NBTTagCompound nbt)
-    {
+    public void writeToNBT(NBTTagCompound nbt) {
         nbt.setInteger("Matter", getMatterStored());
     }
 
 
-    public void readFromNBT(NBTTagCompound nbt)
-    {
+    public void readFromNBT(NBTTagCompound nbt) {
         setMatterStored(nbt.getInteger("Matter"));
     }
 
@@ -187,8 +166,7 @@ public class MatterStorage implements IMatterStorage, IFluidTank
         this.maxExtract = maxExtract;
     }
 
-    public int getMaxExtract()
-    {
+    public int getMaxExtract() {
         return maxExtract;
     }
 

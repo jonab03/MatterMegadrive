@@ -24,12 +24,11 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 8/9/2015.
  */
-public class DialogMessageQuit extends DialogMessageRandom
-{
-    public DialogMessageQuit()
-    {
+public class DialogMessageQuit extends DialogMessageRandom {
+    public DialogMessageQuit() {
         super();
     }
+
     public DialogMessageQuit(String message, String question) {
         super(message, question);
     }
@@ -39,14 +38,12 @@ public class DialogMessageQuit extends DialogMessageRandom
     }
 
     @Override
-    public void onInteract(IDialogNpc npc,EntityPlayer player)
-    {
+    public void onInteract(IDialogNpc npc, EntityPlayer player) {
         player.closeScreen();
     }
 
     @Override
-    public boolean canInteract(IDialogNpc npc,EntityPlayer player)
-    {
+    public boolean canInteract(IDialogNpc npc, EntityPlayer player) {
         return true;
     }
 }

@@ -9,21 +9,18 @@ import net.minecraft.entity.player.InventoryPlayer;
 /**
  * Created by Simeon on 4/9/2015.
  */
-public class GuiSolarPanel extends MOGuiMachine<TileEntityMachineSolarPanel>
-{
+public class GuiSolarPanel extends MOGuiMachine<TileEntityMachineSolarPanel> {
     MOElementEnergy energy;
 
-    public GuiSolarPanel(InventoryPlayer inventoryPlayer,TileEntityMachineSolarPanel solarPanel)
-    {
-        super(new ContainerSolarPanel(inventoryPlayer,solarPanel),solarPanel);
+    public GuiSolarPanel(InventoryPlayer inventoryPlayer, TileEntityMachineSolarPanel solarPanel) {
+        super(new ContainerSolarPanel(inventoryPlayer, solarPanel), solarPanel);
         name = "solar_panel";
-        energy = new MOElementEnergy(this,117,35,solarPanel.getEnergyStorage());
+        energy = new MOElementEnergy(this, 117, 35, solarPanel.getEnergyStorage());
         energy.setTexture(Reference.TEXTURE_ENERGY_METER, 32, 64);
     }
 
     @Override
-    public void initGui()
-    {
+    public void initGui() {
         super.initGui();
         AddMainPlayerSlots(inventorySlots, pages.get(0));
         AddHotbarPlayerSlots(inventorySlots, this);
@@ -32,8 +29,7 @@ public class GuiSolarPanel extends MOGuiMachine<TileEntityMachineSolarPanel>
     }
 
     @Override
-    protected void updateElementInformation()
-    {
+    protected void updateElementInformation() {
         super.updateElementInformation();
         energy.setEnergyRequired(machine.getChargeAmount());
     }

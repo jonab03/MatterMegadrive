@@ -30,36 +30,36 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 11/22/2015.
  */
-public class DialogMessageQuestGive extends DialogMessage
-{
+public class DialogMessageQuestGive extends DialogMessage {
     QuestStack questStack;
     boolean returnToMain;
 
-    public DialogMessageQuestGive(){super();}
-    public DialogMessageQuestGive(QuestStack questStack){super(); this.questStack = questStack;}
+    public DialogMessageQuestGive() {
+        super();
+    }
+
+    public DialogMessageQuestGive(QuestStack questStack) {
+        super();
+        this.questStack = questStack;
+    }
 
     @Override
-    public void onInteract(IDialogNpc npc, EntityPlayer player)
-    {
-        super.onInteract(npc,player);
-        if (npc != null && npc instanceof IDialogQuestGiver && player != null && !player.worldObj.isRemote)
-        {
-            ((IDialogQuestGiver) npc).giveQuest(this,questStack,player);
+    public void onInteract(IDialogNpc npc, EntityPlayer player) {
+        super.onInteract(npc, player);
+        if (npc != null && npc instanceof IDialogQuestGiver && player != null && !player.worldObj.isRemote) {
+            ((IDialogQuestGiver) npc).giveQuest(this, questStack, player);
         }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    protected void setAsGuiActiveMessage(IDialogNpc npc, EntityPlayer player)
-    {
-        if (Minecraft.getMinecraft().currentScreen instanceof GuiDialog)
-        {
+    protected void setAsGuiActiveMessage(IDialogNpc npc, EntityPlayer player) {
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiDialog) {
             ((GuiDialog) Minecraft.getMinecraft().currentScreen).setCurrentMessage(returnToMain ? npc.getStartDialogMessage(player) : this);
         }
     }
 
-    public DialogMessageQuestGive setReturnToMain(boolean returnToMain)
-    {
+    public DialogMessageQuestGive setReturnToMain(boolean returnToMain) {
         this.returnToMain = returnToMain;
         return this;
     }

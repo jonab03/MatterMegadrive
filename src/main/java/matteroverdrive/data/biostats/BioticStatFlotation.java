@@ -25,25 +25,21 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 /**
  * Created by Simeon on 5/30/2015.
  */
-public class BioticStatFlotation extends AbstractBioticStat
-{
-    public BioticStatFlotation(String name, int xp)
-    {
+public class BioticStatFlotation extends AbstractBioticStat {
+    public BioticStatFlotation(String name, int xp) {
         super(name, xp);
         setShowOnHud(true);
     }
 
     @Override
-    public void onAndroidUpdate(AndroidPlayer android, int level)
-    {
+    public void onAndroidUpdate(AndroidPlayer android, int level) {
         if (android.getPlayer().isInWater()) {
             android.getPlayer().motionY = android.getPlayer().motionY + 0.007;
         }
     }
 
     @Override
-    public void onActionKeyPress(AndroidPlayer androidPlayer, int level, boolean server)
-    {
+    public void onActionKeyPress(AndroidPlayer androidPlayer, int level, boolean server) {
 
     }
 
@@ -58,8 +54,7 @@ public class BioticStatFlotation extends AbstractBioticStat
     }
 
     @Override
-    public void changeAndroidStats(AndroidPlayer androidPlayer, int level, boolean enabled)
-    {
+    public void changeAndroidStats(AndroidPlayer androidPlayer, int level, boolean enabled) {
 
     }
 
@@ -69,14 +64,12 @@ public class BioticStatFlotation extends AbstractBioticStat
     }
 
     @Override
-    public boolean isActive(AndroidPlayer androidPlayer, int level)
-    {
+    public boolean isActive(AndroidPlayer androidPlayer, int level) {
         return false;
     }
 
     @Override
-    public int getDelay(AndroidPlayer androidPlayer, int level)
-    {
+    public int getDelay(AndroidPlayer androidPlayer, int level) {
         return 0;
     }
 }

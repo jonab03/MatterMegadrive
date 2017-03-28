@@ -37,19 +37,16 @@ import java.util.Map;
 /**
  * Created by Simeon on 8/16/2015.
  */
-public class ComponentConfigs extends MachineComponentAbstract<MOTileEntityMachine> implements IConfigurable
-{
-    private Map<String,IConfigProperty> propertyMap;
+public class ComponentConfigs extends MachineComponentAbstract<MOTileEntityMachine> implements IConfigurable {
+    private Map<String, IConfigProperty> propertyMap;
 
-    public ComponentConfigs(MOTileEntityMachine machine)
-    {
+    public ComponentConfigs(MOTileEntityMachine machine) {
         super(machine);
         propertyMap = new HashMap<>();
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories)
-    {
+    public void readFromNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories) {
         if (categories.contains(MachineNBTCategory.CONFIGS)) {
             for (IConfigProperty property : propertyMap.values()) {
                 property.readFromNBT(nbt);
@@ -58,12 +55,9 @@ public class ComponentConfigs extends MachineComponentAbstract<MOTileEntityMachi
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk)
-    {
-        if (categories.contains(MachineNBTCategory.CONFIGS))
-        {
-            for (IConfigProperty property : propertyMap.values())
-            {
+    public void writeToNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
+        if (categories.contains(MachineNBTCategory.CONFIGS)) {
+            for (IConfigProperty property : propertyMap.values()) {
                 property.writeToNBT(nbt);
             }
         }
@@ -105,57 +99,46 @@ public class ComponentConfigs extends MachineComponentAbstract<MOTileEntityMachi
     }
 
     @Override
-    public Map<String, IConfigProperty> getValues()
-    {
+    public Map<String, IConfigProperty> getValues() {
         return propertyMap;
     }
 
     @Override
-    public IConfigProperty getProperty(String name)
-    {
+    public IConfigProperty getProperty(String name) {
         return propertyMap.get(name);
     }
 
-    public void addProperty(IConfigProperty property)
-    {
-        propertyMap.put(property.getKey(),property);
+    public void addProperty(IConfigProperty property) {
+        propertyMap.put(property.getKey(), property);
     }
 
-    public boolean getBoolean(String key,boolean def)
-    {
+    public boolean getBoolean(String key, boolean def) {
         IConfigProperty property = propertyMap.get(key);
-        if (property != null && property.getType() == Boolean.class)
-        {
-            return (Boolean)property.getValue();
+        if (property != null && property.getType() == Boolean.class) {
+            return (Boolean) property.getValue();
         }
         return def;
     }
 
-    public Integer getInteger(String key, int def)
-    {
+    public Integer getInteger(String key, int def) {
         IConfigProperty property = propertyMap.get(key);
-        if (property != null && property.getType().equals(Integer.class))
-        {
-            return (Integer)property.getValue();
+        if (property != null && property.getType().equals(Integer.class)) {
+            return (Integer) property.getValue();
         }
         return def;
     }
 
-    public Integer getEnum(String key,int def)
-    {
+    public Integer getEnum(String key, int def) {
         IConfigProperty property = propertyMap.get(key);
-        if (property != null && property.getType().equals(Enum.class))
-        {
-            return (Integer)property.getValue();
+        if (property != null && property.getType().equals(Enum.class)) {
+            return (Integer) property.getValue();
         }
         return def;
     }
 
-    public String getString(String key,String def)
-    {
+    public String getString(String key, String def) {
         IConfigProperty property = propertyMap.get(key);
-        if (property != null && property.getType().equals(String.class))
-        {
+        if (property != null && property.getType().equals(String.class)) {
             return (String) property.getValue();
         }
         return def;

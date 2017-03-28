@@ -35,23 +35,20 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 11/1/2015.
  */
-public class TritaniumArmor extends ItemArmor
-{
+public class TritaniumArmor extends ItemArmor {
     public TritaniumArmor(ArmorMaterial armorMaterial, int renderIndex, int renderType) {
         super(armorMaterial, renderIndex, renderType);
     }
 
     @Override
-    public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type)
-    {
-        return String.format(Reference.PATH_ARMOR + "Tritanium_Armor2_layer_%d.png",slot == 3 ? 2 : 1);
+    public String getArmorTexture(ItemStack stack, Entity entity, int slot, String type) {
+        return String.format(Reference.PATH_ARMOR + "Tritanium_Armor2_layer_%d.png", slot == 3 ? 2 : 1);
         //return String.format(Reference.PATH_ARMOR + "tritanium_layer_%d%s.png",(slot == 2 ? 2 : 1),type == null ? "" : String.format("_%s", type));
     }
 
     @SideOnly(Side.CLIENT)
     @Override
-    public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot)
-    {
+    public ModelBiped getArmorModel(EntityLivingBase entityLiving, ItemStack itemStack, int armorSlot) {
         ModelTritaniumArmor armorModel = armorSlot == 3 ? ClientProxy.renderHandler.modelTritaniumArmorFeet : ClientProxy.renderHandler.modelTritaniumArmor;
         armorModel.bipedHead.showModel = armorSlot == 0;
         armorModel.bipedHeadwear.showModel = armorSlot == 0;
@@ -64,9 +61,8 @@ public class TritaniumArmor extends ItemArmor
 
         Render render = RenderManager.instance.getEntityRenderObject(entityLiving);
 
-        if (render instanceof RenderPlayer)
-        {
-            RenderPlayer renderPlayer = (RenderPlayer)render;
+        if (render instanceof RenderPlayer) {
+            RenderPlayer renderPlayer = (RenderPlayer) render;
             armorModel.isSneak = entityLiving.isSneaking();
             armorModel.heldItemRight = renderPlayer.modelArmor.heldItemRight;
             armorModel.heldItemLeft = renderPlayer.modelArmor.heldItemLeft;

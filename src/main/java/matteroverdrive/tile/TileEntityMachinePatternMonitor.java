@@ -53,8 +53,7 @@ import static matteroverdrive.util.MOBlockHelper.getOppositeSide;
 /**
  * Created by Simeon on 4/26/2015.
  */
-public class TileEntityMachinePatternMonitor extends MOTileEntityMachine implements IMatterNetworkDispatcher, IMatterNetworkClient, IMatterNetworkBroadcaster
-{
+public class TileEntityMachinePatternMonitor extends MOTileEntityMachine implements IMatterNetworkDispatcher, IMatterNetworkClient, IMatterNetworkBroadcaster {
     public static final int BROADCAST_WEATING_DELAY = 80;
     public static final int SEARCH_DELAY = 20;
     public static final int VALIDATE_DELAY = 120;
@@ -66,10 +65,9 @@ public class TileEntityMachinePatternMonitor extends MOTileEntityMachine impleme
     private MatterNetworkComponentPatternMonitor networkComponent;
     private ComponentMatterNetworkConfigs componentMatterNetworkConfigs;
 
-    public TileEntityMachinePatternMonitor()
-    {
+    public TileEntityMachinePatternMonitor() {
         super(4);
-        taskQueue = new MatterNetworkTaskQueue<>(this,TASK_QUEUE_SIZE);
+        taskQueue = new MatterNetworkTaskQueue<>(this, TASK_QUEUE_SIZE);
         databases = new HashSet<>();
         searchDelayTracker = new TimeTracker();
         playerSlotsHotbar = true;
@@ -96,8 +94,7 @@ public class TileEntityMachinePatternMonitor extends MOTileEntityMachine impleme
     }
 
     @Override
-    public boolean getServerActive()
-    {
+    public boolean getServerActive() {
         return false;
     }
 
@@ -106,22 +103,19 @@ public class TileEntityMachinePatternMonitor extends MOTileEntityMachine impleme
         return 0;
     }
 
-    public boolean isAffectedByUpgrade(UpgradeTypes type)
-    {
+    public boolean isAffectedByUpgrade(UpgradeTypes type) {
         return false;
     }
 
     //region Matter Network Functions
 
     @Override
-    public int onNetworkTick(World world, TickEvent.Phase phase)
-    {
-        return networkComponent.onNetworkTick(world,phase);
+    public int onNetworkTick(World world, TickEvent.Phase phase) {
+        return networkComponent.onNetworkTick(world, phase);
     }
 
     @Override
-    public MatterNetworkTaskQueue<MatterNetworkTaskReplicatePattern> getTaskQueue(int id)
-    {
+    public MatterNetworkTaskQueue<MatterNetworkTaskReplicatePattern> getTaskQueue(int id) {
         return taskQueue;
     }
 
@@ -130,14 +124,12 @@ public class TileEntityMachinePatternMonitor extends MOTileEntityMachine impleme
         return 1;
     }
 
-    public void SyncDatabasesWithClient()
-    {
+    public void SyncDatabasesWithClient() {
         MatterOverdrive.packetPipeline.sendToAllAround(new PacketPatternMonitorSync(this), this, 64);
     }
 
     @Override
-    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk)
-    {
+    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
         super.writeCustomNBT(nbt, categories, toDisk);
         if (categories.contains(MachineNBTCategory.DATA) && toDisk) {
             taskQueue.writeToNBT(nbt);
@@ -150,11 +142,9 @@ public class TileEntityMachinePatternMonitor extends MOTileEntityMachine impleme
     }
 
     @Override
-    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories)
-    {
+    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories) {
         super.readCustomNBT(nbt, categories);
-        if (categories.contains(MachineNBTCategory.DATA))
-        {
+        if (categories.contains(MachineNBTCategory.DATA)) {
             taskQueue.readFromNBT(nbt);
         }
     }
@@ -170,62 +160,51 @@ public class TileEntityMachinePatternMonitor extends MOTileEntityMachine impleme
     }
 
     @Override
-    public boolean canConnectFromSide(ForgeDirection side)
-    {
-        int meta = worldObj.getBlockMetadata(xCoord,yCoord,zCoord);
+    public boolean canConnectFromSide(ForgeDirection side) {
+        int meta = worldObj.getBlockMetadata(xCoord, yCoord, zCoord);
         return getOppositeSide(meta) == side.ordinal();
     }
 
     //endregion
 
-    public void queuePatternRequest(List<ItemPattern> request)
-    {
+    public void queuePatternRequest(List<ItemPattern> request) {
         networkComponent.queuePatternRequest(request);
     }
 
-    public HashSet<BlockPos> getDatabases()
-    {
+    public HashSet<BlockPos> getDatabases() {
         return databases;
     }
 
-    public void setDatabases(HashSet<BlockPos> blockPositions)
-    {
+    public void setDatabases(HashSet<BlockPos> blockPositions) {
         databases = blockPositions;
     }
 
-    public void forceSearch(boolean refresh)
-    {
+    public void forceSearch(boolean refresh) {
         networkComponent.setNeedsSearchRefresh(refresh);
     }
 
-    public void queueSearch()
-    {
-        if (searchDelayTracker.hasDelayPassed(worldObj,SEARCH_DELAY))
-        {
+    public void queueSearch() {
+        if (searchDelayTracker.hasDelayPassed(worldObj, SEARCH_DELAY)) {
             forceSearch(true);
         }
     }
 
-    public boolean needsRefresh()
-    {
+    public boolean needsRefresh() {
         return networkComponent.getNeedsSearchRefresh();
     }
 
     @Override
-    public boolean canPreform(MatterNetworkPacket packet)
-    {
+    public boolean canPreform(MatterNetworkPacket packet) {
         return networkComponent.canPreform(packet);
     }
 
     @Override
-    public void queuePacket(MatterNetworkPacket packet, ForgeDirection from)
-    {
-        networkComponent.queuePacket(packet,from);
+    public void queuePacket(MatterNetworkPacket packet, ForgeDirection from) {
+        networkComponent.queuePacket(packet, from);
     }
 
     @Override
-    public MatterNetworkPacketQueue getPacketQueue(int queueID)
-    {
+    public MatterNetworkPacketQueue getPacketQueue(int queueID) {
         return networkComponent.getPacketQueue(queueID);
     }
 
@@ -235,8 +214,7 @@ public class TileEntityMachinePatternMonitor extends MOTileEntityMachine impleme
     }
 
     @Override
-    public boolean shouldRenderInPass(int pass)
-    {
+    public boolean shouldRenderInPass(int pass) {
         return pass == 1;
     }
 
@@ -256,24 +234,20 @@ public class TileEntityMachinePatternMonitor extends MOTileEntityMachine impleme
     }
 
     @Override
-    public NBTTagCompound getFilter()
-    {
+    public NBTTagCompound getFilter() {
         return componentMatterNetworkConfigs.getFilter();
     }
 
-    public ComponentMatterNetworkConfigs getComponentMatterNetworkConfigs()
-    {
+    public ComponentMatterNetworkConfigs getComponentMatterNetworkConfigs() {
         return componentMatterNetworkConfigs;
     }
 
     @SideOnly(Side.CLIENT)
-    public List<ItemPattern> getGuiPatterns()
-    {
+    public List<ItemPattern> getGuiPatterns() {
         return guiPatterns;
     }
 
-    public void setGuiPatterns(List<ItemPattern> patterns)
-    {
+    public void setGuiPatterns(List<ItemPattern> patterns) {
         this.guiPatterns = patterns;
     }
 }

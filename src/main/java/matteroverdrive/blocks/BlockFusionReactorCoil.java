@@ -16,8 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by Simeon on 5/14/2015.
  */
-public class BlockFusionReactorCoil extends MOBlock implements IDismantleable
-{
+public class BlockFusionReactorCoil extends MOBlock implements IDismantleable {
 
     public BlockFusionReactorCoil(Material material, String name) {
         super(material, name);
@@ -27,16 +26,13 @@ public class BlockFusionReactorCoil extends MOBlock implements IDismantleable
     }
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int p_149691_1_, int p_149691_2_)
-    {
+    public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
         return MatterOverdriveIcons.YellowStripes;
     }
 
     @Override
-    public ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x, int y, int z, boolean returnDrops)
-    {
-        if (!returnDrops)
-        {
+    public ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x, int y, int z, boolean returnDrops) {
+        if (!returnDrops) {
             world.setBlockToAir(x, y, z);
             dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
         }

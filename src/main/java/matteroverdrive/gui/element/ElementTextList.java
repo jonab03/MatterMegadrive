@@ -29,8 +29,7 @@ import java.util.List;
 /**
  * Created by Simeon on 11/21/2015.
  */
-public class ElementTextList extends MOElementBase
-{
+public class ElementTextList extends MOElementBase {
     boolean isUnicode;
     List<String> lines;
     int textColor;
@@ -43,75 +42,62 @@ public class ElementTextList extends MOElementBase
     }
 
     @Override
-    public void updateInfo()
-    {
+    public void updateInfo() {
 
     }
 
     @Override
-    public void init()
-    {
+    public void init() {
 
     }
 
     @Override
-    public void addTooltip(List<String> var1, int mouseX, int mouseY)
-    {
+    public void addTooltip(List<String> var1, int mouseX, int mouseY) {
 
     }
 
     @Override
-    public void drawBackground(int i, int i1, float v)
-    {
+    public void drawBackground(int i, int i1, float v) {
 
     }
 
     @Override
-    public FontRenderer getFontRenderer()
-    {
+    public FontRenderer getFontRenderer() {
         return Minecraft.getMinecraft().fontRenderer;
     }
 
     @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
+    public void drawForeground(int mouseX, int mouseY) {
         boolean unicode = getFontRenderer().getUnicodeFlag();
         getFontRenderer().setUnicodeFlag(isUnicode);
-        for (int i = 0;i < lines.size();i++)
-        {
+        for (int i = 0; i < lines.size(); i++) {
             getFontRenderer().drawString(lines.get(i), posX, posY + i * getLineHeight(), textColor);
         }
         getFontRenderer().setUnicodeFlag(unicode);
         sizeY = lines.size() * getFontRenderer().FONT_HEIGHT;
     }
 
-    public int getLinesHeight()
-    {
-        return lines.size()*getLineHeight();
+    public int getLinesHeight() {
+        return lines.size() * getLineHeight();
     }
 
-    public int getLineHeight()
-    {
+    public int getLineHeight() {
         return getFontRenderer().FONT_HEIGHT;
     }
 
-    public void addLine(String line)
-    {
+    public void addLine(String line) {
         lines.add(line);
     }
 
-    public void addLines(Collection<String> lines)
-    {
+    public void addLines(Collection<String> lines) {
         this.lines.addAll(lines);
     }
 
-    public void setLines(List<String> lines)
-    {
+    public void setLines(List<String> lines) {
         this.lines = lines;
     }
 
-    public void clearLines()
-    {
+    public void clearLines() {
         this.lines.clear();
     }
 }

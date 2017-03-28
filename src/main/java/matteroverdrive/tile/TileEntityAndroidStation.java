@@ -37,8 +37,7 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 5/27/2015.
  */
-public class TileEntityAndroidStation extends MOTileEntityMachine
-{
+public class TileEntityAndroidStation extends MOTileEntityMachine {
     public int HEAD_SLOT;
     public int ARMS_SLOT;
     public int LEGS_SLOT;
@@ -46,8 +45,7 @@ public class TileEntityAndroidStation extends MOTileEntityMachine
     public int OTHER_SLOT;
     public int BATTERY_SLOT;
 
-    public TileEntityAndroidStation()
-    {
+    public TileEntityAndroidStation() {
         super(0);
     }
 
@@ -57,19 +55,17 @@ public class TileEntityAndroidStation extends MOTileEntityMachine
     }
 
     @Override
-    protected void RegisterSlots(Inventory inventory)
-    {
+    protected void RegisterSlots(Inventory inventory) {
         HEAD_SLOT = inventory.AddSlot(new BionicSlot(false, Reference.BIONIC_HEAD));
-        ARMS_SLOT = inventory.AddSlot(new BionicSlot(false,Reference.BIONIC_ARMS));
-        LEGS_SLOT = inventory.AddSlot(new BionicSlot(false,Reference.BIONIC_LEGS));
-        CHEST_SLOT = inventory.AddSlot(new BionicSlot(false,Reference.BIONIC_CHEST));
-        OTHER_SLOT = inventory.AddSlot(new BionicSlot(false,Reference.BIONIC_OTHER));
+        ARMS_SLOT = inventory.AddSlot(new BionicSlot(false, Reference.BIONIC_ARMS));
+        LEGS_SLOT = inventory.AddSlot(new BionicSlot(false, Reference.BIONIC_LEGS));
+        CHEST_SLOT = inventory.AddSlot(new BionicSlot(false, Reference.BIONIC_CHEST));
+        OTHER_SLOT = inventory.AddSlot(new BionicSlot(false, Reference.BIONIC_OTHER));
         BATTERY_SLOT = inventory.AddSlot(new EnergySlot(false));
         super.RegisterSlots(inventory);
     }
 
-    public IInventory getActiveInventory()
-    {
+    public IInventory getActiveInventory() {
         return inventory;
     }
 
@@ -99,55 +95,47 @@ public class TileEntityAndroidStation extends MOTileEntityMachine
     }
 
     @Override
-    public boolean shouldRenderInPass(int pass)
-    {
+    public boolean shouldRenderInPass(int pass) {
         return pass == 1;
     }
 
     //region Inventory Functions
     @Override
-    public ItemStack getStackInSlot(int slot)
-    {
+    public ItemStack getStackInSlot(int slot) {
         return super.getStackInSlot(slot);
     }
 
     @Override
-    public ItemStack decrStackSize(int slot, int size)
-    {
+    public ItemStack decrStackSize(int slot, int size) {
         return super.decrStackSize(slot, size);
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int slot)
-    {
+    public ItemStack getStackInSlotOnClosing(int slot) {
         return super.getStackInSlotOnClosing(slot);
     }
 
     @Override
-    public void setInventorySlotContents(int slot, ItemStack itemStack)
-    {
-        super.setInventorySlotContents(slot,itemStack);
+    public void setInventorySlotContents(int slot, ItemStack itemStack) {
+        super.setInventorySlotContents(slot, itemStack);
     }
     //endregion
 
     //region Upgrades
     @Override
-    public boolean isAffectedByUpgrade(UpgradeTypes type)
-    {
+    public boolean isAffectedByUpgrade(UpgradeTypes type) {
         return false;
     }
     //endregion
 
     @Override
     @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getRenderBoundingBox()
-    {
-        return AxisAlignedBB.getBoundingBox(xCoord,yCoord,zCoord,xCoord + 1,yCoord + 3,zCoord + 1);
+    public AxisAlignedBB getRenderBoundingBox() {
+        return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 3, zCoord + 1);
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer player)
-    {
+    public boolean isUseableByPlayer(EntityPlayer player) {
         return AndroidPlayer.get(player) != null && AndroidPlayer.get(player).isAndroid() && super.isUseableByPlayer(player);
     }
 

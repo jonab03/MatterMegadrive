@@ -28,14 +28,12 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 4/8/2015.
  */
-public class MOSlot extends Slot
-{
+public class MOSlot extends Slot {
     boolean isVisible = true;
     protected String unlocalizedTooltip;
 
     @SideOnly(Side.CLIENT)
-    public boolean func_111238_b()
-    {
+    public boolean func_111238_b() {
         return isVisible;
     }
 
@@ -47,29 +45,24 @@ public class MOSlot extends Slot
      * Check if the stack is a valid item for this slot. Always true beside for the armor slots.
      */
     @Override
-    public boolean isItemValid(ItemStack itemStack)
-    {
+    public boolean isItemValid(ItemStack itemStack) {
         return isValid(itemStack);
     }
 
-    public boolean isValid(ItemStack itemStack)
-    {
+    public boolean isValid(ItemStack itemStack) {
         return true;
     }
 
-    public void setVisible(boolean visible)
-    {
+    public void setVisible(boolean visible) {
         this.isVisible = visible;
     }
 
     @SideOnly(Side.CLIENT)
-    public HoloIcon getHoloIcon()
-    {
+    public HoloIcon getHoloIcon() {
         return null;
     }
 
-    public String getUnlocalizedTooltip()
-    {
+    public String getUnlocalizedTooltip() {
         return unlocalizedTooltip;
     }
 }

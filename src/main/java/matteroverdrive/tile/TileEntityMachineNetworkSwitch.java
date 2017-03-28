@@ -21,8 +21,7 @@ package matteroverdrive.tile;
 /**
  * Created by Simeon on 4/30/2015.
  */
-public class TileEntityMachineNetworkSwitch extends TileEntityMachinePacketQueue
-{
+public class TileEntityMachineNetworkSwitch extends TileEntityMachinePacketQueue {
 
     public TileEntityMachineNetworkSwitch() {
         super(0);

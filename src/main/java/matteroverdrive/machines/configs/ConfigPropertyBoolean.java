@@ -27,15 +27,13 @@ public class ConfigPropertyBoolean extends ConfigPropertyAbstract {
 
     private boolean value;
 
-    public ConfigPropertyBoolean(String key,String unlocalizedName,boolean def)
-    {
-        super(key,unlocalizedName);
+    public ConfigPropertyBoolean(String key, String unlocalizedName, boolean def) {
+        super(key, unlocalizedName);
         value = def;
     }
 
-    public ConfigPropertyBoolean(String name,String unlocalizedName)
-    {
-        super(name,unlocalizedName);
+    public ConfigPropertyBoolean(String name, String unlocalizedName) {
+        super(name, unlocalizedName);
     }
 
     @Override
@@ -44,14 +42,13 @@ public class ConfigPropertyBoolean extends ConfigPropertyAbstract {
     }
 
     @Override
-    public void setValue(Object value)
-    {
-        this.value = (boolean)value;
+    public void setValue(Object value) {
+        this.value = (boolean) value;
     }
 
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
-        nbt.setBoolean(getUnlocalizedName(),value);
+        nbt.setBoolean(getUnlocalizedName(), value);
     }
 
     @Override

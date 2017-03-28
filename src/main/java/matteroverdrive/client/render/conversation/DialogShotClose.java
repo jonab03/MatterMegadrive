@@ -27,20 +27,17 @@ import net.minecraft.util.Vec3;
 /**
  * Created by Simeon on 8/9/2015.
  */
-public class DialogShotClose extends DialogShot
-{
+public class DialogShotClose extends DialogShot {
     private float maxZoom;
     private float minZoom;
 
-    public DialogShotClose(float maxZoom, float minZoom)
-    {
+    public DialogShotClose(float maxZoom, float minZoom) {
         this.maxZoom = maxZoom;
         this.minZoom = minZoom;
     }
 
     @Override
-    public boolean positionCamera(EntityLivingBase active, EntityLivingBase other, float ticks, EntityRendererConversation rendererConversation)
-    {
+    public boolean positionCamera(EntityLivingBase active, EntityLivingBase other, float ticks, EntityRendererConversation rendererConversation) {
         Vec3 look = rendererConversation.getLook(other, active, ticks);
         double distance = look.lengthVector();
         double clammpedDistance = MathHelper.clamp_double(distance, minZoom, maxZoom);
@@ -49,8 +46,7 @@ public class DialogShotClose extends DialogShot
 
         Vec3 pos = rendererConversation.getPosition(active, ticks, false).addVector(0, active.getEyeHeight() - 0.1, 0).addVector(look.xCoord * clammpedDistance, look.yCoord * clammpedDistance, look.zCoord * clammpedDistance);
         MovingObjectPosition movingObjectPosition = MOPhysicsHelper.rayTrace(rendererConversation.getPosition(active, ticks, false), active.worldObj, maxZoom, ticks, Vec3.createVectorHelper(0, active.getEyeHeight(), 0), true, true, look.normalize(), active);
-        if (movingObjectPosition != null)
-        {
+        if (movingObjectPosition != null) {
             pos = movingObjectPosition.hitVec;
         }
         Vec3 left = look.crossProduct(Vec3.createVectorHelper(0, 1, 0));

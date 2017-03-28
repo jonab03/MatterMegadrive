@@ -1,6 +1,5 @@
 package mekanism.api.reactor;
 
-public interface INeutronCapture extends IReactorBlock
-{
-	public int absorbNeutrons(int neutrons);
+public interface INeutronCapture extends IReactorBlock {
+    int absorbNeutrons(int neutrons);
 }

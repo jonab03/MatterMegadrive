@@ -53,8 +53,7 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 5/30/2015.
  */
-public class EntityVillagerMadScientist extends EntityVillager implements IDialogNpc, IDialogQuestGiver
-{
+public class EntityVillagerMadScientist extends EntityVillager implements IDialogNpc, IDialogQuestGiver {
     private static DialogMessageQuestOnObjectivesCompleted convertMe;
     private static DialogMessage canYouConvert;
     private static DialogMessage whatDidYouDo;
@@ -63,53 +62,45 @@ public class EntityVillagerMadScientist extends EntityVillager implements IDialo
     private EntityPlayer dialogPlayer;
     private IDialogMessage startMessage;
 
-    public EntityVillagerMadScientist(World world)
-    {
+    public EntityVillagerMadScientist(World world) {
         super(world, 666);
-        this.tasks.addTask(1,new EntityAITalkToPlayer(this));
+        this.tasks.addTask(1, new EntityAITalkToPlayer(this));
         this.tasks.addTask(1, new EntityAIWatchDialogPlayer(this));
         setJunkie(rand.nextBoolean());
     }
 
     @Override
-    protected void entityInit()
-    {
+    protected void entityInit() {
         super.entityInit();
         this.dataWatcher.addObject(13, new Byte((byte) 0));
     }
 
     @Override
-    public IEntityLivingData onSpawnWithEgg(IEntityLivingData data)
-    {
+    public IEntityLivingData onSpawnWithEgg(IEntityLivingData data) {
         this.getEntityAttribute(SharedMonsterAttributes.followRange).applyModifier(new AttributeModifier("Random spawn bonus", this.rand.nextGaussian() * 0.05D, 1));
         return data;
     }
 
-    public void writeEntityToNBT(NBTTagCompound nbtTagCompound)
-    {
+    public void writeEntityToNBT(NBTTagCompound nbtTagCompound) {
         super.writeEntityToNBT(nbtTagCompound);
         nbtTagCompound.setBoolean("junkie", getJunkie());
     }
 
-    public void readEntityFromNBT(NBTTagCompound nbtTagCompound)
-    {
+    public void readEntityFromNBT(NBTTagCompound nbtTagCompound) {
         super.readEntityFromNBT(nbtTagCompound);
         setJunkie(nbtTagCompound.getBoolean("junkie"));
     }
 
     @Override
-    public EntityVillager createChild(EntityAgeable entity)
-    {
+    public EntityVillager createChild(EntityAgeable entity) {
         EntityVillagerMadScientist villager = new EntityVillagerMadScientist(this.worldObj);
         villager.onSpawnWithEgg(null);
         return villager;
     }
 
     @Override
-    public boolean interact(EntityPlayer player)
-    {
-        if (worldObj.isRemote)
-        {
+    public boolean interact(EntityPlayer player) {
+        if (worldObj.isRemote) {
             MatterOverdrive.packetPipeline.sendToServer(new PacketManageConversation(this, true));
             return true;
         }
@@ -117,16 +108,14 @@ public class EntityVillagerMadScientist extends EntityVillager implements IDialo
         return false;
     }
 
-    public MerchantRecipeList getRecipes(EntityPlayer player)
-    {
+    public MerchantRecipeList getRecipes(EntityPlayer player) {
         return super.getRecipes(player);
     }
 
     //region Dialog Functions
-    public static void registerDialogMessages(IDialogRegistry registry, Side side)
-    {
+    public static void registerDialogMessages(IDialogRegistry registry, Side side) {
         //region Human
-        convertMe = new DialogMessageQuestOnObjectivesCompleted(new QuestStack(MatterOverdriveQuests.punyHumans),new int[]{0});
+        convertMe = new DialogMessageQuestOnObjectivesCompleted(new QuestStack(MatterOverdriveQuests.punyHumans), new int[]{0});
         registry.registerMessage(convertMe);
         convertMe.loadQuestionFromLocalization("dialog.mad_scientist.convert.question");
 
@@ -159,70 +148,59 @@ public class EntityVillagerMadScientist extends EntityVillager implements IDialo
         registry.registerMessage(acceptCocktail);
         DialogMessage declineCocktail = new DialogMessageBackToMain().loadQuestionFromLocalization("dialog.mad_scientist.junkie.cocktail_quest.question.decline");
         registry.registerMessage(declineCocktail);
-        DialogMessage[] cocktailQuest = MatterOverdrive.dialogFactory.constructMultipleLineDialog(DialogMessageQuestStart.class,"dialog.mad_scientist.junkie.cocktail_quest",8,". . . . . .");
-        ((DialogMessageQuestStart)cocktailQuest[0]).setQuest(new QuestStack(MatterOverdriveQuests.cocktailOfAscension));
+        DialogMessage[] cocktailQuest = MatterOverdrive.dialogFactory.constructMultipleLineDialog(DialogMessageQuestStart.class, "dialog.mad_scientist.junkie.cocktail_quest", 8, ". . . . . .");
+        ((DialogMessageQuestStart) cocktailQuest[0]).setQuest(new QuestStack(MatterOverdriveQuests.cocktailOfAscension));
         cocktailOfAscension = cocktailQuest[0];
-        DialogMessage lastLine = cocktailQuest[cocktailQuest.length-1];
+        DialogMessage lastLine = cocktailQuest[cocktailQuest.length - 1];
         lastLine.addOption(acceptCocktail);
         lastLine.addOption(declineCocktail);
 
-        cocktailOfAscensionComplete = new DialogMessageQuestOnObjectivesCompleted(new QuestStack(MatterOverdriveQuests.cocktailOfAscension),new int[]{0,1,2});
+        cocktailOfAscensionComplete = new DialogMessageQuestOnObjectivesCompleted(new QuestStack(MatterOverdriveQuests.cocktailOfAscension), new int[]{0, 1, 2});
         cocktailOfAscensionComplete.loadMessageFromLocalization("dialog.mad_scientist.junkie.cocktail_quest.line");
         cocktailOfAscensionComplete.loadQuestionFromLocalization("dialog.mad_scientist.junkie.cocktail_quest.complete.question");
         DialogMessage areYouOk = new DialogMessageQuit().loadQuestionFromLocalization("dialog.mad_scientist.junkie.cocktail_quest.are_you_ok.question");
         cocktailOfAscensionComplete.addOption(areYouOk);
         //endregion
 
-        if (side == Side.CLIENT)
-        {
+        if (side == Side.CLIENT) {
             canYouConvert.setShots(DialogShot.closeUp);
             undo.setShots(DialogShot.closeUp);
             whatDidYouDo.setShots(DialogShot.fromBehindLeftClose);
-            for (int i = 0;i < cocktailQuest.length;i++)
-            {
+            for (int i = 0; i < cocktailQuest.length; i++) {
                 MatterOverdrive.dialogFactory.addRandomShots(cocktailQuest[i]);
             }
         }
     }
 
     @Override
-    public IDialogMessage getStartDialogMessage(EntityPlayer player)
-    {
+    public IDialogMessage getStartDialogMessage(EntityPlayer player) {
         return this.startMessage;
     }
 
     @Override
-    public void setDialogPlayer(EntityPlayer player)
-    {
+    public void setDialogPlayer(EntityPlayer player) {
         dialogPlayer = player;
         if (player != null) {
             startMessage = assembleStartingMessage(player);
-        }else
-        {
+        } else {
             startMessage = null;
         }
     }
 
-    private IDialogMessage assembleStartingMessage(EntityPlayer player)
-    {
-        if (getJunkie())
-        {
+    private IDialogMessage assembleStartingMessage(EntityPlayer player) {
+        if (getJunkie()) {
             DialogMessage mainJunkieMessage = new DialogMessageRandom().loadMessageFromLocalization("dialog.mad_scientist.junkie.main.line");
-            MatterOverdrive.dialogFactory.addOnlyVisibleOptions(player,this,mainJunkieMessage,canYouConvert,MatterOverdriveDialogs.trade,cocktailOfAscension,cocktailOfAscensionComplete,MatterOverdriveDialogs.quitMessage);
+            MatterOverdrive.dialogFactory.addOnlyVisibleOptions(player, this, mainJunkieMessage, canYouConvert, MatterOverdriveDialogs.trade, cocktailOfAscension, cocktailOfAscensionComplete, MatterOverdriveDialogs.quitMessage);
             return mainJunkieMessage;
-        }else
-        {
-            if (AndroidPlayer.get(player).isAndroid())
-            {
+        } else {
+            if (AndroidPlayer.get(player).isAndroid()) {
                 DialogMessage mainAndroidMessage = new DialogMessageRandom();
                 mainAndroidMessage.loadMessageFromLocalization("dialog.mad_scientist.main.line.android");
                 mainAndroidMessage.addOption(whatDidYouDo);
                 mainAndroidMessage.addOption(MatterOverdriveDialogs.trade);
                 mainAndroidMessage.addOption(MatterOverdriveDialogs.quitMessage);
                 return mainAndroidMessage;
-            }
-            else
-            {
+            } else {
                 DialogMessage mainHumanMessage = new DialogMessageRandom();
                 mainHumanMessage.loadMessageFromLocalization("dialog.mad_scientist.main.line.human");
                 mainHumanMessage.addOption(canYouConvert);
@@ -238,8 +216,7 @@ public class EntityVillagerMadScientist extends EntityVillager implements IDialo
     }
 
     @Override
-    public boolean canTalkTo(EntityPlayer player)
-    {
+    public boolean canTalkTo(EntityPlayer player) {
         return AndroidPlayer.get(player) == null || !AndroidPlayer.get(player).isTurning();
     }
 
@@ -249,28 +226,22 @@ public class EntityVillagerMadScientist extends EntityVillager implements IDialo
     }
 
     @Override
-    public void onPlayerInteract(EntityPlayer player,DialogMessage dialogMessage)
-    {
-        if (dialogMessage == cocktailOfAscensionComplete)
-        {
-            this.addPotionEffect(new PotionEffect(Potion.wither.id,1000,1));
-            worldObj.playSoundAtEntity(this, Reference.MOD_ID + ":" + "failed_animal_die_0",1,1);
+    public void onPlayerInteract(EntityPlayer player, DialogMessage dialogMessage) {
+        if (dialogMessage == cocktailOfAscensionComplete) {
+            this.addPotionEffect(new PotionEffect(Potion.wither.id, 1000, 1));
+            worldObj.playSoundAtEntity(this, Reference.MOD_ID + ":" + "failed_animal_die_0", 1, 1);
             //worldObj.createExplosion(this,posX,posY,posZ,3,false);
             this.setDead();
             EntityMutantScientist mutantScientist = new EntityMutantScientist(worldObj);
             mutantScientist.spawnExplosionParticle();
-            mutantScientist.setPosition(posX,posY,posZ);
+            mutantScientist.setPosition(posX, posY, posZ);
             mutantScientist.onSpawnWithEgg(null);
             worldObj.spawnEntityInWorld(mutantScientist);
-        }
-        else if (dialogMessage == convertMe)
-        {
+        } else if (dialogMessage == convertMe) {
             MOExtendedProperties extendedProperties = MOExtendedProperties.get(player);
-            for (QuestStack questStack : extendedProperties.getQuestData().getActiveQuests())
-            {
-                if (questStack.getQuest() == MatterOverdriveQuests.punyHumans)
-                {
-                    questStack.markComplited(player,false);
+            for (QuestStack questStack : extendedProperties.getQuestData().getActiveQuests()) {
+                if (questStack.getQuest() == MatterOverdriveQuests.punyHumans) {
+                    questStack.markComplited(player, false);
                     AndroidPlayer.get(player).startConversion();
                 }
             }
@@ -278,13 +249,10 @@ public class EntityVillagerMadScientist extends EntityVillager implements IDialo
     }
 
     @Override
-    public void giveQuest(IDialogMessage message,QuestStack questStack,EntityPlayer entityPlayer)
-    {
-        if (questStack != null)
-        {
+    public void giveQuest(IDialogMessage message, QuestStack questStack, EntityPlayer entityPlayer) {
+        if (questStack != null) {
             MOExtendedProperties extendedProperties = MOExtendedProperties.get(entityPlayer);
-            if (extendedProperties != null && questStack.getQuest().canBeAccepted(questStack,entityPlayer))
-            {
+            if (extendedProperties != null && questStack.getQuest().canBeAccepted(questStack, entityPlayer)) {
                 QuestStack newQuestStack = questStack.copy();
                 newQuestStack.setGiver(this);
                 extendedProperties.addQuest(newQuestStack);
@@ -292,18 +260,15 @@ public class EntityVillagerMadScientist extends EntityVillager implements IDialo
         }
     }
 
-    public void setJunkie(boolean junkie)
-    {
-        this.dataWatcher.updateObject(13, junkie ? (byte)1 : (byte)0);
-        if (junkie)
-        {
+    public void setJunkie(boolean junkie) {
+        this.dataWatcher.updateObject(13, junkie ? (byte) 1 : (byte) 0);
+        if (junkie) {
             this.setCustomNameTag(MOStringHelper.translateToLocal("entity.mad_scientist.junkie.name"));
         }
     }
 
-    public boolean getJunkie()
-    {
-        return this.dataWatcher.getWatchableObjectByte(13) == (byte)1;
+    public boolean getJunkie() {
+        return this.dataWatcher.getWatchableObjectByte(13) == (byte) 1;
     }
     //endregion
 }

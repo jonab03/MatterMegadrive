@@ -31,8 +31,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 4/29/2015.
  */
-public class TileEntityRendererPatternMonitor extends TileEntityRendererMonitor
-{
+public class TileEntityRendererPatternMonitor extends TileEntityRendererMonitor {
     public static ResourceLocation screenTexture = new ResourceLocation(Reference.PATH_BLOCKS + "pattern_monitor_holo.png");
 
     @Override
@@ -45,12 +44,12 @@ public class TileEntityRendererPatternMonitor extends TileEntityRendererMonitor
         if (tileEntity instanceof TileEntityMachinePatternMonitor) {
             TileEntityMachinePatternMonitor monitor = (TileEntityMachinePatternMonitor) tileEntity;
             glPushMatrix();
-            int countWitdth = Minecraft.getMinecraft().fontRenderer.getStringWidth(MOStringHelper.formatNumber(monitor.getGuiPatterns().size(),"0"));
-            double scale = ((double) Minecraft.getMinecraft().fontRenderer.getStringWidth(MOStringHelper.formatNumber(10,"0")) / (double)countWitdth);
-            scale = Math.min(scale,1);
-            glTranslated(0.47, 0.33 + (Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * 0.03) * (1-scale) * 0.5, 0);
+            int countWitdth = Minecraft.getMinecraft().fontRenderer.getStringWidth(MOStringHelper.formatNumber(monitor.getGuiPatterns().size(), "0"));
+            double scale = ((double) Minecraft.getMinecraft().fontRenderer.getStringWidth(MOStringHelper.formatNumber(10, "0")) / (double) countWitdth);
+            scale = Math.min(scale, 1);
+            glTranslated(0.47, 0.33 + (Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * 0.03) * (1 - scale) * 0.5, 0);
             glScaled(scale * 0.03, scale * 0.03, scale * 0.03);
-            Minecraft.getMinecraft().fontRenderer.drawString(MOStringHelper.formatNumber(monitor.getGuiPatterns().size(),"0"), 0, 0, 0x78a1b3);
+            Minecraft.getMinecraft().fontRenderer.drawString(MOStringHelper.formatNumber(monitor.getGuiPatterns().size(), "0"), 0, 0, 0x78a1b3);
             glPopMatrix();
         }
     }

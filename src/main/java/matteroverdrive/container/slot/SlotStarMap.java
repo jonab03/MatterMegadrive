@@ -25,8 +25,7 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 6/23/2015.
  */
-public class SlotStarMap extends MOSlot
-{
+public class SlotStarMap extends MOSlot {
     EntityPlayer player;
     TileEntityMachineStarMap starMap;
 
@@ -37,27 +36,23 @@ public class SlotStarMap extends MOSlot
     }
 
     @Override
-    public boolean isValid(ItemStack itemStack)
-    {
+    public boolean isValid(ItemStack itemStack) {
         return starMap.isItemValidForSlot(getSlotIndex(), itemStack, player);
     }
 
     @Override
-    public void onPickupFromSlot(EntityPlayer player, ItemStack itemStack)
-    {
+    public void onPickupFromSlot(EntityPlayer player, ItemStack itemStack) {
         starMap.onItemPickup(player, itemStack);
         super.onPickupFromSlot(player, itemStack);
     }
 
     @Override
-    public boolean canTakeStack(EntityPlayer player)
-    {
+    public boolean canTakeStack(EntityPlayer player) {
         return starMap.getPlanet() == null || starMap.getPlanet().isOwner(player);
     }
 
     @Override
-    public void putStack(ItemStack itemStack)
-    {
+    public void putStack(ItemStack itemStack) {
         starMap.onItemPlaced(itemStack);
         super.putStack(itemStack);
     }

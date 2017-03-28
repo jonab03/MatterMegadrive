@@ -29,37 +29,30 @@ import java.util.List;
 /**
  * Created by Simeon on 9/10/2015.
  */
-public class GuideElementDetails extends GuideElementAbstract
-{
+public class GuideElementDetails extends GuideElementAbstract {
     List<String> details;
 
 
     @Override
-    protected void loadContent(MOGuideEntry entry, Element element, int width, int height)
-    {
-        if(element.hasAttribute("item"))
-        {
+    protected void loadContent(MOGuideEntry entry, Element element, int width, int height) {
+        if (element.hasAttribute("item")) {
             ItemStack stack = shortCodeToStack(decodeShortcode(element.getAttribute("item")));
-            if (stack != null && stack.getItem() != null && stack.getItem() instanceof MOBaseItem)
-            {
+            if (stack != null && stack.getItem() != null && stack.getItem() instanceof MOBaseItem) {
                 List<String> details = new ArrayList<>();
                 ((MOBaseItem) stack.getItem()).addDetails(stack, Minecraft.getMinecraft().thePlayer, details);
                 this.details = details;
-                for (int i = 0;i < details.size();i++)
-                {
-                    width = Math.max(getFontRenderer().getStringWidth(details.get(i)),width);
+                for (int i = 0; i < details.size(); i++) {
+                    width = Math.max(getFontRenderer().getStringWidth(details.get(i)), width);
                 }
-                this.height = details.size()*getFontRenderer().FONT_HEIGHT;
+                this.height = details.size() * getFontRenderer().FONT_HEIGHT;
             }
         }
     }
 
     @Override
-    public void drawElement(int width, int mouseX, int mouseY)
-    {
-        for (int i = 0;i < details.size();i++)
-        {
-            getFontRenderer().drawString(details.get(i),marginLeft,marginTop + i * getFontRenderer().FONT_HEIGHT,color.getColor());
+    public void drawElement(int width, int mouseX, int mouseY) {
+        for (int i = 0; i < details.size(); i++) {
+            getFontRenderer().drawString(details.get(i), marginLeft, marginTop + i * getFontRenderer().FONT_HEIGHT, color.getColor());
         }
     }
 }

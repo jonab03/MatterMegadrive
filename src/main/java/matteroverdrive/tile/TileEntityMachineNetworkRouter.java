@@ -21,8 +21,7 @@ package matteroverdrive.tile;
 /**
  * Created by Simeon on 3/11/2015.
  */
-public class TileEntityMachineNetworkRouter extends TileEntityMachinePacketQueue
-{
+public class TileEntityMachineNetworkRouter extends TileEntityMachinePacketQueue {
 
     public TileEntityMachineNetworkRouter() {
         super(4);

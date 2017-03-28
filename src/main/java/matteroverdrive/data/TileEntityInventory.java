@@ -10,8 +10,7 @@ import java.util.Collection;
 /**
  * Created by Simeon on 5/26/2015.
  */
-public class TileEntityInventory extends Inventory
-{
+public class TileEntityInventory extends Inventory {
     TileEntity entity;
 
     public TileEntityInventory(TileEntity entity, String name) {
@@ -19,7 +18,7 @@ public class TileEntityInventory extends Inventory
     }
 
     public TileEntityInventory(TileEntity entity, String name, Collection<Slot> slots) {
-        this(entity,name, slots,null);
+        this(entity, name, slots, null);
     }
 
     public TileEntityInventory(TileEntity entity, String name, Collection<Slot> slots, IUsableCondition usableCondition) {
@@ -29,21 +28,17 @@ public class TileEntityInventory extends Inventory
 
 
     @Override
-    public void markDirty()
-    {
-        if(this.entity != null)
-        {
+    public void markDirty() {
+        if (this.entity != null) {
             this.entity.markDirty();
         }
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer player)
-    {
-        if(usableCondition != null)
-        {
+    public boolean isUseableByPlayer(EntityPlayer player) {
+        if (usableCondition != null) {
             return usableCondition.usableByPlayer(player);
         }
-        return entity.getWorldObj().getTileEntity(entity.xCoord, entity.yCoord, entity.zCoord) != entity ? false : player.getDistanceSq((double)entity.xCoord + 0.5D, (double)entity.yCoord + 0.5D, (double)entity.zCoord + 0.5D) <= 64.0D;
+        return entity.getWorldObj().getTileEntity(entity.xCoord, entity.yCoord, entity.zCoord) == entity && player.getDistanceSq((double) entity.xCoord + 0.5D, (double) entity.yCoord + 0.5D, (double) entity.zCoord + 0.5D) <= 64.0D;
     }
 }

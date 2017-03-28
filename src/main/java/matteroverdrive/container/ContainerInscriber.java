@@ -30,31 +30,23 @@ import net.minecraft.inventory.IInventory;
 /**
  * Created by Simeon on 11/12/2015.
  */
-public class ContainerInscriber extends ContainerMachine<TileEntityInscriber>
-{
-    public ContainerInscriber()
-    {
+public class ContainerInscriber extends ContainerMachine<TileEntityInscriber> {
+    public ContainerInscriber() {
         super();
     }
 
-    public ContainerInscriber(InventoryPlayer inventory, TileEntityInscriber machine)
-    {
-        super(inventory,machine);
+    public ContainerInscriber(InventoryPlayer inventory, TileEntityInscriber machine) {
+        super(inventory, machine);
         onCraftMatrixChanged(machine);
     }
 
     @Override
-    public void init(InventoryPlayer inventory)
-    {
+    public void init(InventoryPlayer inventory) {
         Inventory machineInventory = machine.getInventoryContainer();
-        for (matteroverdrive.data.inventory.Slot slot : machineInventory.getSlots())
-        {
-            if (slot instanceof InscriberSlot)
-            {
+        for (matteroverdrive.data.inventory.Slot slot : machineInventory.getSlots()) {
+            if (slot instanceof InscriberSlot) {
                 addSlotToContainer(new InputSlot(machineInventory, slot, 0, 0));
-            }
-            else
-            {
+            } else {
                 addSlotToContainer(new SlotInventory(machineInventory, slot, 0, 0));
             }
         }
@@ -62,20 +54,17 @@ public class ContainerInscriber extends ContainerMachine<TileEntityInscriber>
     }
 
     @Override
-    public void onCraftMatrixChanged(IInventory inventory)
-    {
+    public void onCraftMatrixChanged(IInventory inventory) {
         machine.calculateRecipe();
     }
 
-    private class InputSlot extends SlotInventory
-    {
+    private class InputSlot extends SlotInventory {
         public InputSlot(IInventory inventory, Slot slot, int x, int y) {
             super(inventory, slot, x, y);
         }
 
         @Override
-        public void onSlotChanged()
-        {
+        public void onSlotChanged() {
             machine.calculateRecipe();
         }
     }

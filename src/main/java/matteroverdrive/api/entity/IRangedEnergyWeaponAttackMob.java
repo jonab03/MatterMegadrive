@@ -25,8 +25,8 @@ import net.minecraft.util.Vec3;
 /**
  * Created by Simeon on 11/15/2015.
  */
-public interface IRangedEnergyWeaponAttackMob
-{
+public interface IRangedEnergyWeaponAttackMob {
     ItemStack getWeapon();
+
     void attackEntityWithRangedAttack(EntityLivingBase target, Vec3 lastSeenPosition, boolean canSee);
 }

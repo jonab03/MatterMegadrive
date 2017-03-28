@@ -37,10 +37,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 /**
  * Created by Simeon on 5/12/2015.
  */
-public class BlockGravitationalStabilizer extends MOBlockMachine
-{
-    public BlockGravitationalStabilizer(Material material, String name)
-    {
+public class BlockGravitationalStabilizer extends MOBlockMachine {
+    public BlockGravitationalStabilizer(Material material, String name) {
         super(material, name);
         setHardness(20.0F);
         this.setResistance(10.0f);
@@ -50,18 +48,12 @@ public class BlockGravitationalStabilizer extends MOBlockMachine
     }
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta)
-    {
-        if (side == meta)
-        {
+    public IIcon getIcon(int side, int meta) {
+        if (side == meta) {
             return MatterOverdriveIcons.Network_port_square;
-        }
-        else if (side == MOBlockHelper.getOppositeSide(meta))
-        {
+        } else if (side == MOBlockHelper.getOppositeSide(meta)) {
             return MatterOverdriveIcons.Monitor_back;
-        }
-        else if (side == MOBlockHelper.getLeftSide(meta) || side == MOBlockHelper.getRightSide(meta))
-        {
+        } else if (side == MOBlockHelper.getLeftSide(meta) || side == MOBlockHelper.getRightSide(meta)) {
             return MatterOverdriveIcons.Vent2;
         }
 
@@ -69,31 +61,25 @@ public class BlockGravitationalStabilizer extends MOBlockMachine
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int meta)
-    {
+    public TileEntity createNewTileEntity(World world, int meta) {
         return new TileEntityMachineGravitationalStabilizer();
 
     }
 
     @Override
-    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack item)
-    {
+    public void onBlockPlacedBy(World world, int x, int y, int z, EntityLivingBase player, ItemStack item) {
         int l = BlockPistonBase.determineOrientation(world, x, y, z, player);
 
-        if (player.isSneaking())
-        {
+        if (player.isSneaking()) {
             world.setBlockMetadataWithNotify(x, y, z, ForgeDirection.OPPOSITES[l], 2);
-        }
-        else
-        {
+        } else {
             world.setBlockMetadataWithNotify(x, y, z, l, 2);
         }
 
     }
 
     @Override
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return RendererBlockGravitationalStabilizer.renderID;
     }
 }

@@ -12,25 +12,18 @@ public class TileEntityRendererWeaponStation extends TileEntityRendererStation<T
 
     EntityItem itemEntity;
 
-    public TileEntityRendererWeaponStation()
-    {
+    public TileEntityRendererWeaponStation() {
         super();
     }
 
     @Override
-    protected void renderHologram(TileEntityWeaponStation weaponStation, double x, double y, double z, float partialTicks, double noise)
-    {
-        if (isUsable(weaponStation))
-        {
+    protected void renderHologram(TileEntityWeaponStation weaponStation, double x, double y, double z, float partialTicks, double noise) {
+        if (isUsable(weaponStation)) {
             ItemStack stack = weaponStation.getStackInSlot(weaponStation.INPUT_SLOT);
-            if (stack != null)
-            {
-                if (itemEntity == null)
-                {
+            if (stack != null) {
+                if (itemEntity == null) {
                     itemEntity = new EntityItem(weaponStation.getWorldObj(), weaponStation.xCoord, weaponStation.yCoord, weaponStation.zCoord, stack);
-                }
-                else if (!ItemStack.areItemStacksEqual(itemEntity.getEntityItem(), stack))
-                {
+                } else if (!ItemStack.areItemStacksEqual(itemEntity.getEntityItem(), stack)) {
                     itemEntity.setEntityItemStack(stack);
                 }
 
@@ -39,8 +32,7 @@ public class TileEntityRendererWeaponStation extends TileEntityRendererStation<T
                 RenderManager.instance.func_147939_a(itemEntity, x + 0.5f, y + 0.8f, z + 0.5f, 0, 0, true);
                 endHolo();
             }
-        }else
-        {
+        } else {
             super.renderHologram(weaponStation, x, y, z, partialTicks, noise);
         }
     }

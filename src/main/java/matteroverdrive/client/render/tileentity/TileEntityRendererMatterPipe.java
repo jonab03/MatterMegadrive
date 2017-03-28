@@ -10,22 +10,18 @@ import javax.vecmath.Vector2f;
 /**
  * Created by Simeon on 3/7/2015.
  */
-public class TileEntityRendererMatterPipe extends TileEntityRendererPipe
-{
-    public TileEntityRendererMatterPipe()
-    {
+public class TileEntityRendererMatterPipe extends TileEntityRendererPipe {
+    public TileEntityRendererMatterPipe() {
         texture = new ResourceLocation(Reference.PATH_BLOCKS + "matter_pipe.png");
     }
 
     @Override
-    protected  Vector2f getCoreUV(TileEntity entity)
-    {
-        return  new Vector2f(0, 0);
+    protected Vector2f getCoreUV(TileEntity entity) {
+        return new Vector2f(0, 0);
     }
 
     @Override
-    protected  Vector2f getSidesUV(TileEntity entity, ForgeDirection dir)
-    {
-        return  new Vector2f(1, 0);
+    protected Vector2f getSidesUV(TileEntity entity, ForgeDirection dir) {
+        return new Vector2f(1, 0);
     }
 }

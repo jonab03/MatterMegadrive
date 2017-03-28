@@ -27,21 +27,17 @@ import net.minecraft.world.IBlockAccess;
 /**
  * Created by Simeon on 11/27/2015.
  */
-public class RendererBlockDecorativeVertical extends MOBlockRenderer
-{
+public class RendererBlockDecorativeVertical extends MOBlockRenderer {
     public static int renderID;
 
-    public RendererBlockDecorativeVertical()
-    {
+    public RendererBlockDecorativeVertical() {
         renderID = RenderingRegistry.getNextAvailableRenderId();
     }
 
     @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer)
-    {
-        int meta = world.getBlockMetadata(x,y,z);
-        if (block instanceof BlockDecorative)
-        {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
+        int meta = world.getBlockMetadata(x, y, z);
+        if (block instanceof BlockDecorative) {
             if (((BlockDecorative) block).canBeRotated()) {
                 renderer.uvRotateBottom = meta;
                 renderer.uvRotateTop = meta;
@@ -49,9 +45,7 @@ public class RendererBlockDecorativeVertical extends MOBlockRenderer
                 renderer.uvRotateWest = meta;
                 renderer.uvRotateNorth = meta;
                 renderer.uvRotateSouth = meta;
-            }
-            else
-            {
+            } else {
                 //GuiColor color = new GuiColor(block.getRenderColor(meta));
                 //renderer.colorRedTopRight = renderer.colorRedTopLeft = renderer.colorRedBottomLeft = renderer.colorRedBottomRight = color.getFloatR();
             }
@@ -67,8 +61,7 @@ public class RendererBlockDecorativeVertical extends MOBlockRenderer
     }
 
     @Override
-    public int getRenderId()
-    {
+    public int getRenderId() {
         return renderID;
     }
 }

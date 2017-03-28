@@ -44,8 +44,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 
-public class ClientProxy extends CommonProxy
-{
+public class ClientProxy extends CommonProxy {
     private static ClientProxy clientProxy;
     public static RenderHandler renderHandler;
     public static KeyHandler keyHandler;
@@ -55,18 +54,16 @@ public class ClientProxy extends CommonProxy
     private ClientWeaponHandler weaponHandler;
     public static GuiQuestHud questHud;
 
-    public ClientProxy()
-    {
+    public ClientProxy() {
         weaponHandler = new ClientWeaponHandler();
         googleAnalyticsCommon = new GoogleAnalyticsClient();
     }
 
     @Override
-	public void registerProxies()
-	{
+    public void registerProxies() {
         super.registerProxies();
 
-        renderHandler = new RenderHandler(Minecraft.getMinecraft().theWorld,Minecraft.getMinecraft().getTextureManager());
+        renderHandler = new RenderHandler(Minecraft.getMinecraft().theWorld, Minecraft.getMinecraft().getTextureManager());
         androidHud = new GuiAndroidHud(Minecraft.getMinecraft());
         keyHandler = new KeyHandler();
         mouseHandler = new MouseHandler();
@@ -101,10 +98,9 @@ public class ClientProxy extends CommonProxy
         //endregion
 
         MatterOverdrive.configHandler.subscribe(androidHud);
-	}
+    }
 
-    private void registerSubscribtions()
-    {
+    private void registerSubscribtions() {
         FMLCommonHandler.instance().bus().register(keyHandler);
         FMLCommonHandler.instance().bus().register(mouseHandler);
         MinecraftForge.EVENT_BUS.register(GalaxyClient.getInstance());
@@ -121,21 +117,18 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void registerCompatModules()
-    {
+    public void registerCompatModules() {
         super.registerCompatModules();
         MatterOverdriveCompat.registerClientModules();
     }
 
     @Override
-    public EntityPlayer getPlayerEntity(MessageContext ctx)
-    {
+    public EntityPlayer getPlayerEntity(MessageContext ctx) {
         return (ctx.side.isClient() ? Minecraft.getMinecraft().thePlayer : super.getPlayerEntity(ctx));
     }
 
     @Override
-    public void init(FMLInitializationEvent event)
-    {
+    public void init(FMLInitializationEvent event) {
         super.init(event);
         weaponHandler.registerWeapon(MatterOverdriveItems.phaserRifle);
         weaponHandler.registerWeapon(MatterOverdriveItems.phaser);
@@ -147,24 +140,22 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
-    public void postInit(FMLPostInitializationEvent event)
-    {
+    public void postInit(FMLPostInitializationEvent event) {
         MatterOverdriveGuides.registerGuides(event);
     }
 
-    public ClientWeaponHandler getClientWeaponHandler()
-    {
+    public ClientWeaponHandler getClientWeaponHandler() {
         return weaponHandler;
     }
 
     @Override
-    public CommonWeaponHandler getWeaponHandler(){return weaponHandler;}
+    public CommonWeaponHandler getWeaponHandler() {
+        return weaponHandler;
+    }
 
-    public static ClientProxy instance()
-    {
-        if (clientProxy == null)
-        {
-            clientProxy = (ClientProxy)MatterOverdrive.proxy;
+    public static ClientProxy instance() {
+        if (clientProxy == null) {
+            clientProxy = (ClientProxy) MatterOverdrive.proxy;
         }
         return clientProxy;
     }

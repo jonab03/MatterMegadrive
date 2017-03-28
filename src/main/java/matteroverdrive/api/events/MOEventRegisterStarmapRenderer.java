@@ -26,8 +26,7 @@ import matteroverdrive.starmap.data.SpaceBody;
  * Created by Simeon on 7/25/2015.
  * Triggered when a Starmap zoom renderer is being rendered.
  */
-public class MOEventRegisterStarmapRenderer extends Event
-{
+public class MOEventRegisterStarmapRenderer extends Event {
     /**
      * The type of space body being displayed.
      */
@@ -36,14 +35,14 @@ public class MOEventRegisterStarmapRenderer extends Event
      * The Space body render itself.
      */
     public final ISpaceBodyHoloRenderer renderer;
-    public MOEventRegisterStarmapRenderer(Class<? extends SpaceBody> spaceBodyType, ISpaceBodyHoloRenderer renderer)
-    {
+
+    public MOEventRegisterStarmapRenderer(Class<? extends SpaceBody> spaceBodyType, ISpaceBodyHoloRenderer renderer) {
         this.spaceBodyType = spaceBodyType;
         this.renderer = renderer;
     }
+
     @Override
-    public boolean isCancelable()
-    {
+    public boolean isCancelable() {
         return true;
     }
 }

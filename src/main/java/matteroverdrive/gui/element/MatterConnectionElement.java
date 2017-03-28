@@ -32,55 +32,48 @@ import java.util.List;
 /**
  * Created by Simeon on 3/14/2015.
  */
-public class MatterConnectionElement extends MOElementBase
-{
+public class MatterConnectionElement extends MOElementBase {
     public static final ResourceLocation texture = new ResourceLocation(Reference.PATH_ELEMENTS + "side_slot_bg.png");
 
     int id;
     int count;
 
     @Override
-    public void addTooltip(List<String> list,int mouseX,int mouseY)
-    {
+    public void addTooltip(List<String> list, int mouseX, int mouseY) {
         list.add(StatCollector.translateToLocal(Item.getItemById(id).getUnlocalizedName() + ".name") + " [" + count + "]");
     }
 
-    public MatterConnectionElement(MOGuiBase gui,int id,int count)
-    {
+    public MatterConnectionElement(MOGuiBase gui, int id, int count) {
         this(gui, 22, 22, id, count);
     }
 
     public MatterConnectionElement(MOGuiBase gui, int width, int height, int id, int count) {
-        super(gui,0,0, width, height);
+        super(gui, 0, 0, width, height);
 
         this.id = id;
         this.count = count;
     }
 
     @Override
-    public void updateInfo()
-    {
+    public void updateInfo() {
 
     }
 
     @Override
-    public void init()
-    {
+    public void init() {
 
     }
 
     @Override
-    public void drawBackground(int mouseX, int mouseY, float gameTicks)
-    {
+    public void drawBackground(int mouseX, int mouseY, float gameTicks) {
         GL11.glColor3f(1, 1, 1);
         RenderUtils.bindTexture(texture);
         gui.drawSizedTexturedModalRect(posX, posY, 0, 0, 22, 22, 22, 22);
     }
 
     @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
+    public void drawForeground(int mouseX, int mouseY) {
         RenderUtils.renderStack(posX + 2, posY + 2, new ItemStack(Item.getItemById(id)));
-        gui.getFontRenderer().drawStringWithShadow(Integer.toString(count),posX + 8,posY + 24, 0xFFFFFF);
+        gui.getFontRenderer().drawStringWithShadow(Integer.toString(count), posX + 8, posY + 24, 0xFFFFFF);
     }
 }

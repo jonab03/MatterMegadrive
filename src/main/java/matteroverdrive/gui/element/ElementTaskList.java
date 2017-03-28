@@ -31,18 +31,16 @@ import java.util.List;
 /**
  * Created by Simeon on 4/21/2015.
  */
-public class ElementTaskList extends MOElementListBox
-{
+public class ElementTaskList extends MOElementListBox {
     MatterNetworkTaskQueue<? extends MatterNetworkTask> taskQueue;
     List<String> lastTooltip;
     IButtonHandler buttonHandler;
 
-    public ElementTaskList(MOGuiBase gui,IButtonHandler buttonHandler, int posX, int posY,MatterNetworkTaskQueue<? extends MatterNetworkTask> taskQueue)
-    {
-        this(gui,buttonHandler,posX,posY,0,0,taskQueue);
+    public ElementTaskList(MOGuiBase gui, IButtonHandler buttonHandler, int posX, int posY, MatterNetworkTaskQueue<? extends MatterNetworkTask> taskQueue) {
+        this(gui, buttonHandler, posX, posY, 0, 0, taskQueue);
     }
 
-    public ElementTaskList(MOGuiBase gui,IButtonHandler buttonHandler, int posX, int posY, int width, int height,MatterNetworkTaskQueue<? extends MatterNetworkTask> taskQueue) {
+    public ElementTaskList(MOGuiBase gui, IButtonHandler buttonHandler, int posX, int posY, int width, int height, MatterNetworkTaskQueue<? extends MatterNetworkTask> taskQueue) {
         super(gui, posX, posY, width, height);
         this.taskQueue = taskQueue;
         lastTooltip = new ArrayList<String>();
@@ -56,19 +54,16 @@ public class ElementTaskList extends MOElementListBox
     }
 
     @Override
-    public int getElementHeight(int id)
-    {
-        if (getSelectedIndex() == id)
-        {
+    public int getElementHeight(int id) {
+        if (getSelectedIndex() == id) {
             return 44;
         }
         return 22;
     }
 
     @Override
-    public int getElementWidth(int id)
-    {
-        return  132;
+    public int getElementWidth(int id) {
+        return 132;
     }
 
     public IMOListBoxElement getElement(int index) {
@@ -77,8 +72,7 @@ public class ElementTaskList extends MOElementListBox
     }
 
     @Override
-    public void DrawElement(int i,int x,int y,int selectedLineColor,int selectedTextColor, boolean selected,boolean BG)
-    {
+    public void DrawElement(int i, int x, int y, int selectedLineColor, int selectedTextColor, boolean selected, boolean BG) {
         GL11.glColor3f(1, 1, 1);
 
         if (selected) {
@@ -93,9 +87,7 @@ public class ElementTaskList extends MOElementListBox
 
             MOElementButton.HOVER_TEXTURE_DARK.render(x + 6, y + (getElementHeight(i) / 2) - 2, 50, (getElementHeight(i) / 2) - 4);
             Minecraft.getMinecraft().fontRenderer.drawStringWithShadow("remove", x + 13, y + 24, 0xFFFFFF);
-        }
-        else
-        {
+        } else {
             if (i == 0)
                 MOElementButton.NORMAL_TEXTURE.render(x, y, getElementWidth(i), getElementHeight(i));
             else
@@ -107,31 +99,26 @@ public class ElementTaskList extends MOElementListBox
     }
 
     @Override
-    public void drawElementTooltip(int index,int mouseX,int mouseY)
-    {
+    public void drawElementTooltip(int index, int mouseX, int mouseY) {
         GL11.glPushMatrix();
         GL11.glTranslatef(-posX, 0, 0);
         List tooltip = new ArrayList();
         taskQueue.getAt(index).addInfo(tooltip);
-        ((MOGuiBase)gui).setTooltip(tooltip);
+        gui.setTooltip(tooltip);
         GL11.glPopMatrix();
     }
 
     @Override
-    protected void onElementClicked(int index,int mouseX,int mouseY)
-    {
-        if (index != 0)
-        {
-            if (mouseY > 22 && mouseX > 60 && mouseX < 110)
-            {
+    protected void onElementClicked(int index, int mouseX, int mouseY) {
+        if (index != 0) {
+            if (mouseY > 22 && mouseX > 60 && mouseX < 110) {
                 System.out.println("Top");
                 return;
             }
         }
 
-        if (mouseY > 22 && mouseX < 50)
-        {
-            buttonHandler.handleElementButtonClick(null,"DropTask",index);
+        if (mouseY > 22 && mouseX < 50) {
+            buttonHandler.handleElementButtonClick(null, "DropTask", index);
             System.out.println("Remove");
         }
     }

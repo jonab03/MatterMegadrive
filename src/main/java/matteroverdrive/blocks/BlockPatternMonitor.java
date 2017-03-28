@@ -26,17 +26,14 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 4/26/2015.
  */
-public class BlockPatternMonitor extends BlockMonitor
-{
-    public BlockPatternMonitor(Material material, String name)
-    {
+public class BlockPatternMonitor extends BlockMonitor {
+    public BlockPatternMonitor(Material material, String name) {
         super(material, name);
         setHasGui(true);
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int meta)
-    {
+    public TileEntity createNewTileEntity(World world, int meta) {
         return new TileEntityMachinePatternMonitor();
     }
 }

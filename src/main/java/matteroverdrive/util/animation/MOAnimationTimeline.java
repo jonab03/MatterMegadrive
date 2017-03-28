@@ -27,8 +27,7 @@ import java.util.List;
 /**
  * Created by Simeon on 11/20/2015.
  */
-public class MOAnimationTimeline
-{
+public class MOAnimationTimeline {
     boolean autoLength;
     boolean isPlaying;
     List<Slice> slices = new ArrayList<>();
@@ -37,60 +36,47 @@ public class MOAnimationTimeline
     private float time;
     private float defaultValue;
 
-    public MOAnimationTimeline(float maxTime, boolean repeat,boolean autoPlay,float defaultValue)
-    {
+    public MOAnimationTimeline(float maxTime, boolean repeat, boolean autoPlay, float defaultValue) {
         this.maxTime = maxTime;
         this.repeat = repeat;
         isPlaying = autoPlay;
         this.defaultValue = defaultValue;
     }
 
-    public void addSlice(Slice slice)
-    {
+    public void addSlice(Slice slice) {
         slices.add(slice);
     }
 
-    public void getActiveSlices(int time,List<Slice> list)
-    {
-        for (Slice slice : this.slices)
-        {
-            if (time <= slice.from + slice.length && time >= slice.from)
-            {
+    public void getActiveSlices(int time, List<Slice> list) {
+        for (Slice slice : this.slices) {
+            if (time <= slice.from + slice.length && time >= slice.from) {
                 list.add(slice);
             }
         }
     }
 
-    public List<Slice> getActiveSlices(int time)
-    {
+    public List<Slice> getActiveSlices(int time) {
         List<Slice> slices = new ArrayList<>();
-        getActiveSlices(time,slices);
+        getActiveSlices(time, slices);
         return slices;
     }
 
-    public float getValueAt(float time)
-    {
+    public float getValueAt(float time) {
         float value = defaultValue;
-        for (Slice slice : this.slices)
-        {
-            if (time <= slice.from + slice.length && time >= slice.from)
-            {
+        for (Slice slice : this.slices) {
+            if (time <= slice.from + slice.length && time >= slice.from) {
                 float localTime = slice.getLocalTime(time);
-                value = slice.valueFrom + localTime*(slice.valueTo-slice.valueFrom);
+                value = slice.valueFrom + localTime * (slice.valueTo - slice.valueFrom);
             }
         }
         return value;
     }
 
-    public void recalculateTime()
-    {
-        if (autoLength)
-        {
+    public void recalculateTime() {
+        if (autoLength) {
             float maxTime = 0;
-            for (Slice slice : slices)
-            {
-                if (slice.from + slice.length > time)
-                {
+            for (Slice slice : slices) {
+                if (slice.from + slice.length > time) {
                     maxTime = slice.from + slice.length;
                 }
             }
@@ -98,95 +84,88 @@ public class MOAnimationTimeline
         }
     }
 
-    public float getCurrentValue()
-    {
+    public float getCurrentValue() {
         return getValueAt(time);
     }
 
-    public void play()
-    {
+    public void play() {
         recalculateTime();
         isPlaying = true;
-        if (time >= maxTime)
-        {
+        if (time >= maxTime) {
             time = 0;
         }
     }
 
-    public void replay()
-    {
+    public void replay() {
         time = 0;
         play();
     }
 
-    public void stop()
-    {
+    public void stop() {
         recalculateTime();
         isPlaying = false;
         time = 0;
     }
 
-    public void pause()
-    {
+    public void pause() {
         isPlaying = false;
     }
 
-    public void tick()
-    {
+    public void tick() {
         tick(1);
     }
 
-    public void tick(float tick)
-    {
+    public void tick(float tick) {
         if (isPlaying) {
             if (time < maxTime) {
-                time = MathHelper.clamp_float(time+tick,0,maxTime);
-            }
-            else if (repeat)
-            {
+                time = MathHelper.clamp_float(time + tick, 0, maxTime);
+            } else if (repeat) {
                 time = 0;
-            }else
-            {
+            } else {
                 pause();
             }
         }
     }
 
-    public void sort()
-    {
+    public void sort() {
         float lastFinish = 0;
-        for (Slice slice : slices)
-        {
+        for (Slice slice : slices) {
             slice.from = lastFinish;
             lastFinish += slice.length;
         }
     }
 
-    public void setTime(float time)
-    {
+    public void setTime(float time) {
         this.time = time;
     }
 
-    public boolean isPlaying()
-    {
+    public boolean isPlaying() {
         return isPlaying;
     }
-    public void setAutoLength(boolean autoLength){this.autoLength = true;}
-    public boolean isAutoLength(){return this.autoLength;}
-    public float getTime()
-    {
+
+    public void setAutoLength(boolean autoLength) {
+        this.autoLength = true;
+    }
+
+    public boolean isAutoLength() {
+        return this.autoLength;
+    }
+
+    public float getTime() {
         return time;
     }
-    public float getMaxTime(){return maxTime;}
-    public Slice getSlice(int index)
-    {
+
+    public float getMaxTime() {
+        return maxTime;
+    }
+
+    public Slice getSlice(int index) {
         return slices.get(index);
     }
 
-    public static class Slice
-    {
-        private float valueFrom,valueTo;
-        private float from,length;
+    public static class Slice {
+        private float valueFrom, valueTo;
+        private float from, length;
 
         public Easing getEasing() {
             return easing;
@@ -230,8 +209,7 @@ public class MOAnimationTimeline
 
         private Easing easing;
 
-        public Slice(float valueFrom,float valueTo,float from,float length,Easing easing)
-        {
+        public Slice(float valueFrom, float valueTo, float from, float length, Easing easing) {
             this.valueFrom = valueFrom;
             this.valueTo = valueTo;
             this.from = from;
@@ -239,43 +217,37 @@ public class MOAnimationTimeline
             this.easing = easing;
         }
 
-        public float getLocalTime(float time)
-        {
-            if(easing != null) {
+        public float getLocalTime(float time) {
+            if (easing != null) {
                 return MathHelper.clamp_float(easing.calculate(time - from, 0, 1, length), 0, 1);
-            }else
-            {
-                return MOMathHelper.Lerp(0,1,(time - from)/length);
+            } else {
+                return MOMathHelper.Lerp(0, 1, (time - from) / length);
             }
         }
     }
 
-    public abstract static class Easing
-    {
-        public abstract float calculate(float t,float b , float c, float d);
+    public abstract static class Easing {
+        public abstract float calculate(float t, float b, float c, float d);
 
-        public static class QuadEaseIn extends Easing
-        {
+        public static class QuadEaseIn extends Easing {
             @Override
-            public float calculate(float t,float b , float c, float d) {
-                return c*(t/=d)*t + b;
+            public float calculate(float t, float b, float c, float d) {
+                return c * (t /= d) * t + b;
             }
         }
 
-        public static class QuadEaseOut extends Easing
-        {
+        public static class QuadEaseOut extends Easing {
             @Override
-            public float calculate(float t,float b , float c, float d) {
-                return -c *(t/=d)*(t-2) + b;
+            public float calculate(float t, float b, float c, float d) {
+                return -c * (t /= d) * (t - 2) + b;
             }
         }
 
-        public static class QuadEaseInOut extends Easing
-        {
+        public static class QuadEaseInOut extends Easing {
             @Override
-            public float calculate(float t,float b , float c, float d) {
-                if ((t/=d/2) < 1) return c/2*t*t + b;
-                return -c/2 * ((--t)*(t-2) - 1) + b;
+            public float calculate(float t, float b, float c, float d) {
+                if ((t /= d / 2) < 1) return c / 2 * t * t + b;
+                return -c / 2 * ((--t) * (t - 2) - 1) + b;
             }
         }
     }

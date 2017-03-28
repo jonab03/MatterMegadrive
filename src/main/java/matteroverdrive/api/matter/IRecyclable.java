@@ -24,8 +24,7 @@ import net.minecraft.item.ItemStack;
  * Created by Simeon on 5/15/2015.
  * Used by items that can be recycled at a Recycler.
  */
-public interface IRecyclable
-{
+public interface IRecyclable {
     /**
      * @param from the original stack being recycled.
      * @return the recycled output stack.
@@ -34,6 +33,7 @@ public interface IRecyclable
 
     /**
      * This is manly used to calculated power and speed requirements.
+     *
      * @param stack the stack being recycled.
      * @return the amount of matter the recycled output has.
      */

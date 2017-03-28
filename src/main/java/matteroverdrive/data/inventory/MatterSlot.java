@@ -28,27 +28,24 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 3/16/2015.
  */
-public class MatterSlot extends Slot
-{
+public class MatterSlot extends Slot {
     public MatterSlot(boolean isMainSlot) {
         super(isMainSlot);
     }
 
     @Override
-    public boolean isValidForSlot(ItemStack itemStack)
-    {
+    public boolean isValidForSlot(ItemStack itemStack) {
         return MatterHelper.containsMatter(itemStack);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public HoloIcon getHoloIcon()
-    {
+    public HoloIcon getHoloIcon() {
         return ClientProxy.holoIcons.getIcon("decompose");
     }
 
     @Override
-    public String getUnlocalizedTooltip(){
+    public String getUnlocalizedTooltip() {
         return "gui.tooltip.slot.matter";
     }
 }

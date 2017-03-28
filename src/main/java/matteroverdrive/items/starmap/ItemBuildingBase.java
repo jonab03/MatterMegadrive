@@ -34,8 +34,7 @@ import java.util.List;
 /**
  * Created by Simeon on 7/2/2015.
  */
-public class ItemBuildingBase extends ItemBuildingAbstract implements IPlanetStatChange
-{
+public class ItemBuildingBase extends ItemBuildingAbstract implements IPlanetStatChange {
     private static final int BUILDING_SIZE_INCREASE = 2;
 
     public ItemBuildingBase(String name) {
@@ -48,21 +47,17 @@ public class ItemBuildingBase extends ItemBuildingAbstract implements IPlanetSta
     }
 
     @SideOnly(Side.CLIENT)
-    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos)
-    {
-        super.addDetails(itemstack,player,infos);
-        if (infos.size() >= 2)
-        {
+    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos) {
+        super.addDetails(itemstack, player, infos);
+        if (infos.size() >= 2) {
             infos.set(1, String.format((String) infos.get(1), BUILDING_SIZE_INCREASE));
         }
     }
 
     @Override
-    public boolean canBuild(ItemStack building, Planet planet,List<String> info) {
-        for (ItemStack buildingStack : planet.getBuildings())
-        {
-            if (buildingStack.getItem() instanceof IBuilding && ((IBuilding)buildingStack.getItem()).getType(buildingStack) == BuildingType.BASE)
-            {
+    public boolean canBuild(ItemStack building, Planet planet, List<String> info) {
+        for (ItemStack buildingStack : planet.getBuildings()) {
+            if (buildingStack.getItem() instanceof IBuilding && ((IBuilding) buildingStack.getItem()).getType(buildingStack) == BuildingType.BASE) {
                 info.add(MOStringHelper.translateToLocal("gui.tooltip.starmap.has_base"));
                 return false;
             }
@@ -76,10 +71,8 @@ public class ItemBuildingBase extends ItemBuildingAbstract implements IPlanetSta
     }
 
     @Override
-    public float changeStat(ItemStack stack, Planet planet, PlanetStatType statType, float original)
-    {
-        if (statType == PlanetStatType.BUILDINGS_SIZE)
-        {
+    public float changeStat(ItemStack stack, Planet planet, PlanetStatType statType, float original) {
+        if (statType == PlanetStatType.BUILDINGS_SIZE) {
             return original + BUILDING_SIZE_INCREASE;
         }
         return original;

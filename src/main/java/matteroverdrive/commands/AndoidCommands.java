@@ -36,34 +36,29 @@ import java.util.stream.Collectors;
 /**
  * Created by Simeon on 5/26/2015.
  */
-public class AndoidCommands extends CommandBase
-{
+public class AndoidCommands extends CommandBase {
     @Override
     public String getCommandName() {
         return "android";
     }
 
-    public int getRequiredPermissionLevel()
-    {
+    public int getRequiredPermissionLevel() {
         return 2;
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender)
-    {
+    public String getCommandUsage(ICommandSender sender) {
         return "android <command> <value> <player>";
     }
 
     @Override
-    public List getCommandAliases()
-    {
+    public List getCommandAliases() {
         return new ArrayList();
     }
 
     @Override
     public void processCommand(ICommandSender sender, String[] parameters) {
-        if (parameters.length == 0)
-        {
+        if (parameters.length == 0) {
             sender.addChatMessage(new ChatComponentText("Invalid Parameters"));
             return;
         }
@@ -76,8 +71,7 @@ public class AndoidCommands extends CommandBase
                 player = getCommandSenderAsPlayer(sender);
             }
 
-            if (player != null)
-            {
+            if (player != null) {
                 AndroidPlayer androidPlayer = AndroidPlayer.get(player);
                 if (androidPlayer != null) {
 
@@ -88,46 +82,36 @@ public class AndoidCommands extends CommandBase
                         boolean android = parseBoolean(sender, parameters[1]);
                         androidPlayer.setAndroid(android);
                         validCommand = true;
-                        if (android)
-                        {
+                        if (android) {
                             commandInfo = sender.getCommandSenderName() + " is now an Android";
-                        }else
-                        {
+                        } else {
                             commandInfo = sender.getCommandSenderName() + " is no longer an Android";
                         }
-                    }
-                    else if (parameters[0].equalsIgnoreCase("stats"))
-                    {
-                        if (parameters[1].equalsIgnoreCase("reset"))
-                        {
+                    } else if (parameters[0].equalsIgnoreCase("stats")) {
+                        if (parameters[1].equalsIgnoreCase("reset")) {
                             androidPlayer.resetUnlocked();
                             validCommand = true;
                             commandInfo = sender.getCommandSenderName() + " stats are now Reset";
                         }
-                    }else if (parameters[0].equalsIgnoreCase("unlock"))
-                    {
-                        if (MatterOverdrive.statRegistry.hasStat(parameters[1]))
-                        {
+                    } else if (parameters[0].equalsIgnoreCase("unlock")) {
+                        if (MatterOverdrive.statRegistry.hasStat(parameters[1])) {
                             IBionicStat stat = MatterOverdrive.statRegistry.getStat(parameters[1]);
                             androidPlayer.unlock(stat, stat.maxLevel());
                             validCommand = true;
-                            commandInfo = sender.getCommandSenderName() + " now has the ability " + EnumChatFormatting.GREEN + "[" + stat.getDisplayName(androidPlayer,stat.maxLevel()) + "]";
+                            commandInfo = sender.getCommandSenderName() + " now has the ability " + EnumChatFormatting.GREEN + "[" + stat.getDisplayName(androidPlayer, stat.maxLevel()) + "]";
                         }
-                    }else if (parameters[0].equalsIgnoreCase("forget"))
-                    {
-                        if (MatterOverdrive.statRegistry.hasStat(parameters[1]))
-                        {
+                    } else if (parameters[0].equalsIgnoreCase("forget")) {
+                        if (MatterOverdrive.statRegistry.hasStat(parameters[1])) {
                             IBionicStat stat = MatterOverdrive.statRegistry.getStat(parameters[1]);
                             androidPlayer.reset(stat);
                             validCommand = true;
-                            commandInfo = EnumChatFormatting.GREEN + "[" + stat.getDisplayName(androidPlayer,stat.maxLevel()) + "]" + EnumChatFormatting.RESET + " removed from " + sender.getCommandSenderName();
+                            commandInfo = EnumChatFormatting.GREEN + "[" + stat.getDisplayName(androidPlayer, stat.maxLevel()) + "]" + EnumChatFormatting.RESET + " removed from " + sender.getCommandSenderName();
                         }
                     }
 
-                    if (validCommand)
-                    {
+                    if (validCommand) {
                         androidPlayer.sync(EnumSet.allOf(AndroidPlayer.DataType.class), false);
-                        sender.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "["+ Reference.MOD_NAME+"] " + EnumChatFormatting.RESET + commandInfo));
+                        sender.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "[" + Reference.MOD_NAME + "] " + EnumChatFormatting.RESET + commandInfo));
                         return;
                     }
                 }
@@ -138,31 +122,21 @@ public class AndoidCommands extends CommandBase
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender commandSender, String[] parameters)
-    {
+    public List addTabCompletionOptions(ICommandSender commandSender, String[] parameters) {
         List<String> commands = new ArrayList<>();
 
-        if (parameters.length == 2)
-        {
-            if (parameters[0].equalsIgnoreCase("set"))
-            {
+        if (parameters.length == 2) {
+            if (parameters[0].equalsIgnoreCase("set")) {
                 commands.add("true");
                 commands.add("false");
-            }
-            else if (parameters[0].equalsIgnoreCase("stats"))
-            {
+            } else if (parameters[0].equalsIgnoreCase("stats")) {
                 commands.add("reset");
-            }
-            else if (parameters[0].equalsIgnoreCase("unlock"))
-            {
+            } else if (parameters[0].equalsIgnoreCase("unlock")) {
+                commands.addAll(MatterOverdrive.statRegistry.getStats().stream().map(IBionicStat::getUnlocalizedName).collect(Collectors.toList()));
+            } else if (parameters[0].equalsIgnoreCase("forget")) {
                 commands.addAll(MatterOverdrive.statRegistry.getStats().stream().map(IBionicStat::getUnlocalizedName).collect(Collectors.toList()));
             }
-            else if (parameters[0].equalsIgnoreCase("forget"))
-            {
-                commands.addAll(MatterOverdrive.statRegistry.getStats().stream().map(IBionicStat::getUnlocalizedName).collect(Collectors.toList()));
-            }
-        }else
-        {
+        } else {
             commands.add("set");
             commands.add("stats");
             commands.add("unlock");
@@ -172,8 +146,7 @@ public class AndoidCommands extends CommandBase
     }
 
     @Override
-    public boolean isUsernameIndex(String[] params, int index)
-    {
+    public boolean isUsernameIndex(String[] params, int index) {
         return index == 2;
     }
 }

@@ -25,21 +25,18 @@ import net.minecraftforge.fluids.Fluid;
 /**
  * Created by Simeon on 8/20/2015.
  */
-public class FluidMatterPlasma extends Fluid
-{
+public class FluidMatterPlasma extends Fluid {
     public FluidMatterPlasma(String fluidName) {
         super(fluidName);
     }
 
     @Override
-    public IIcon getStillIcon()
-    {
+    public IIcon getStillIcon() {
         return MatterOverdriveIcons.matter_plasma_still;
     }
 
     @Override
-    public IIcon getFlowingIcon()
-    {
+    public IIcon getFlowingIcon() {
         return MatterOverdriveIcons.matter_plasma_flowing;
     }
 }

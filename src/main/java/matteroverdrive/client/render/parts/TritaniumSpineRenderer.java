@@ -31,20 +31,18 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 9/10/2015.
  */
-public class TritaniumSpineRenderer extends BionicPartRenderer
-{
+public class TritaniumSpineRenderer extends BionicPartRenderer {
     public static ResourceLocation texture = new ResourceLocation(Reference.PATH_ARMOR + "tritanium_spine.png");
 
     @Override
-    public void renderPart(ItemStack partStack,AndroidPlayer androidPlayer, RenderPlayer renderPlayer,float ticks)
-    {
-        translateFromPlayer(androidPlayer.getPlayer(),ticks);
+    public void renderPart(ItemStack partStack, AndroidPlayer androidPlayer, RenderPlayer renderPlayer, float ticks) {
+        translateFromPlayer(androidPlayer.getPlayer(), ticks);
         Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
 
         for (int i = 0; i < 4; i++) {
             glPushMatrix();
             glRotated(androidPlayer.getPlayer().renderYawOffset, 0, -1, 0);
-            glTranslated(-0.05, -0.75 + i * 0.15, -0.2 - Math.sin(((i+1) / 5d) * Math.PI) * 0.05);
+            glTranslated(-0.05, -0.75 + i * 0.15, -0.2 - Math.sin(((i + 1) / 5d) * Math.PI) * 0.05);
             glRotated(25, 1, 0, 0);
             renderSpline(0, 0, 0);
             glPopMatrix();
@@ -53,13 +51,11 @@ public class TritaniumSpineRenderer extends BionicPartRenderer
     }
 
     @Override
-    public void affectPlayerRenderer(ItemStack partStack, AndroidPlayer androidPlayer, RenderPlayer renderPlayer, float ticks)
-    {
-        
+    public void affectPlayerRenderer(ItemStack partStack, AndroidPlayer androidPlayer, RenderPlayer renderPlayer, float ticks) {
+
     }
 
-    private void renderSpline(double x, double y, double z)
-    {
+    private void renderSpline(double x, double y, double z) {
         double minU = 0;
         double maxU = 1;
         double minV = 0;

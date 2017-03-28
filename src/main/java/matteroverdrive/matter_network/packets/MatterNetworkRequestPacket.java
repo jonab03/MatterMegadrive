@@ -27,32 +27,31 @@ import net.minecraftforge.common.util.ForgeDirection;
 /**
  * Created by Simeon on 4/27/2015.
  */
-public class MatterNetworkRequestPacket extends MatterNetworkPacket
-{
+public class MatterNetworkRequestPacket extends MatterNetworkPacket {
     int requestType;
     Object request;
 
-    public MatterNetworkRequestPacket(){super();}
-    public MatterNetworkRequestPacket(IMatterNetworkConnection sender,int requestType,ForgeDirection port,Object request)
-    {
-        this(sender,requestType,port,null,request);
+    public MatterNetworkRequestPacket() {
+        super();
     }
-    public MatterNetworkRequestPacket(IMatterNetworkConnection sender,int requestType,ForgeDirection port,NBTTagCompound filter,Object request)
-    {
-        super(sender.getPosition(),port,filter);
+
+    public MatterNetworkRequestPacket(IMatterNetworkConnection sender, int requestType, ForgeDirection port, Object request) {
+        this(sender, requestType, port, null, request);
+    }
+
+    public MatterNetworkRequestPacket(IMatterNetworkConnection sender, int requestType, ForgeDirection port, NBTTagCompound filter, Object request) {
+        super(sender.getPosition(), port, filter);
         this.requestType = requestType;
         this.request = request;
     }
 
     @Override
-    public boolean isValid(World world)
-    {
+    public boolean isValid(World world) {
         return true;
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return "Request Packet";
     }
 

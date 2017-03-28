@@ -42,10 +42,9 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.EnumSet;
 import java.util.Random;
 
-public class TileEntityMachineDecomposer extends MOTileEntityMachineMatter implements ISidedInventory
-{
-	public static int MATTER_STORAGE = 1024;
-	public static int ENERGY_STORAGE = 512000;
+public class TileEntityMachineDecomposer extends MOTileEntityMachineMatter implements ISidedInventory {
+    public static int MATTER_STORAGE = 1024;
+    public static int ENERGY_STORAGE = 512000;
     public static final int MATTER_EXTRACT_SPEED = 32;
     public static final float FAIL_CHANGE = 0.005f;
 
@@ -57,11 +56,10 @@ public class TileEntityMachineDecomposer extends MOTileEntityMachineMatter imple
 
     private TimeTracker time;
     private static Random random = new Random();
-	public int decomposeTime;
+    public int decomposeTime;
 
-	public TileEntityMachineDecomposer()
-	{
-		super(4);
+    public TileEntityMachineDecomposer() {
+        super(4);
         this.energyStorage.setCapacity(ENERGY_STORAGE);
         this.energyStorage.setMaxExtract(ENERGY_STORAGE);
         this.energyStorage.setMaxReceive(ENERGY_STORAGE);
@@ -72,23 +70,21 @@ public class TileEntityMachineDecomposer extends MOTileEntityMachineMatter imple
         time = new TimeTracker();
         playerSlotsMain = true;
         playerSlotsHotbar = true;
-	}
+    }
 
     @Override
-    protected void RegisterSlots(Inventory inventory)
-    {
+    protected void RegisterSlots(Inventory inventory) {
         INPUT_SLOT_ID = inventory.AddSlot(new MatterSlot(true));
         OUTPUT_SLOT_ID = inventory.AddSlot(new RemoveOnlySlot(false));
         super.RegisterSlots(inventory);
     }
 
     @Override
-	public void updateEntity()
-	{
-		super.updateEntity();
-		this.manageDecompose();
+    public void updateEntity() {
+        super.updateEntity();
+        this.manageDecompose();
         this.manageExtract();
-	}
+    }
 
     @Override
     public String getSound() {
@@ -101,30 +97,26 @@ public class TileEntityMachineDecomposer extends MOTileEntityMachineMatter imple
     }
 
     @Override
-    public float soundVolume() { return 1;}
+    public float soundVolume() {
+        return 1;
+    }
 
     @Override
     public void onContainerOpen(Side side) {
 
     }
 
-    private void  manageExtract()
-    {
-        if(!worldObj.isRemote)
-        {
-            if(time.hasDelayPassed(worldObj,MATTER_EXTRACT_SPEED))
-            {
-                for (int i = 0; i < 6; i++)
-                {
+    private void manageExtract() {
+        if (!worldObj.isRemote) {
+            if (time.hasDelayPassed(worldObj, MATTER_EXTRACT_SPEED)) {
+                for (int i = 0; i < 6; i++) {
                     ForgeDirection dir = ForgeDirection.values()[i];
-                    TileEntity e = worldObj.getTileEntity(this.xCoord + dir.offsetX,this.yCoord + dir.offsetY,this.zCoord + dir.offsetZ);
-                    if(e instanceof IMatterHandler)
-                    {
+                    TileEntity e = worldObj.getTileEntity(this.xCoord + dir.offsetX, this.yCoord + dir.offsetY, this.zCoord + dir.offsetZ);
+                    if (e instanceof IMatterHandler) {
                         ForgeDirection oposite = dir.getOpposite();
-                        int recived = ((IMatterHandler)e).fill(oposite, new FluidStack(MatterOverdriveFluids.matterPlasma,matterStorage.getFluidAmount()), true);
-                        if(recived != 0)
-                        {
-                            matterStorage.setMatterStored(Math.max(0,matterStorage.getMatterStored()-recived));
+                        int recived = ((IMatterHandler) e).fill(oposite, new FluidStack(MatterOverdriveFluids.matterPlasma, matterStorage.getFluidAmount()), true);
+                        if (recived != 0) {
+                            matterStorage.setMatterStored(Math.max(0, matterStorage.getMatterStored() - recived));
                             updateClientMatter();
                         }
                     }
@@ -133,19 +125,14 @@ public class TileEntityMachineDecomposer extends MOTileEntityMachineMatter imple
         }
     }
 
-	protected void manageDecompose()
-	{
-        if(!worldObj.isRemote)
-        {
-            if (this.isDecomposing())
-            {
-                if(this.energyStorage.getEnergyStored() >= getEnergyDrainPerTick())
-                {
+    protected void manageDecompose() {
+        if (!worldObj.isRemote) {
+            if (this.isDecomposing()) {
+                if (this.energyStorage.getEnergyStored() >= getEnergyDrainPerTick()) {
                     this.decomposeTime++;
                     extractEnergy(ForgeDirection.DOWN, getEnergyDrainPerTick(), false);
 
-                    if (this.decomposeTime >= getSpeed())
-                    {
+                    if (this.decomposeTime >= getSpeed()) {
                         this.decomposeTime = 0;
                         this.decomposeItem();
                     }
@@ -153,14 +140,12 @@ public class TileEntityMachineDecomposer extends MOTileEntityMachineMatter imple
             }
         }
 
-        if (!this.isDecomposing())
-        {
-			this.decomposeTime = 0;
-		}
-	}
+        if (!this.isDecomposing()) {
+            this.decomposeTime = 0;
+        }
+    }
 
-	public boolean isDecomposing()
-    {
+    public boolean isDecomposing() {
         int matter = MatterHelper.getMatterAmountFromItem(this.getStackInSlot(INPUT_SLOT_ID));
         return getRedstoneActive()
                 && this.getStackInSlot(INPUT_SLOT_ID) != null
@@ -171,27 +156,23 @@ public class TileEntityMachineDecomposer extends MOTileEntityMachineMatter imple
     }
 
     @Override
-    public boolean getServerActive()
-    {
+    public boolean getServerActive() {
         return isDecomposing() && this.energyStorage.getEnergyStored() >= getEnergyDrainPerTick();
     }
 
-    public double getFailChance()
-    {
+    public double getFailChance() {
         double upgradeMultiply = getUpgradeMultiply(UpgradeTypes.Fail);
         //this does not nagate all fail chance if item is not fully scanned
         return FAIL_CHANGE * upgradeMultiply * upgradeMultiply;
     }
 
-    public int getSpeed()
-    {
+    public int getSpeed() {
         double matter = Math.log1p(MatterHelper.getMatterAmountFromItem(inventory.getStackInSlot(INPUT_SLOT_ID)));
-        matter*=matter;
-        return (int)Math.round(DECEOPOSE_SPEED_PER_MATTER * matter * getUpgradeMultiply(UpgradeTypes.Speed));
+        matter *= matter;
+        return (int) Math.round(DECEOPOSE_SPEED_PER_MATTER * matter * getUpgradeMultiply(UpgradeTypes.Speed));
     }
 
-    public int getEnergyDrainPerTick()
-    {
+    public int getEnergyDrainPerTick() {
         int maxEnergy = getEnergyDrainMax();
         int speed = getSpeed();
         if (speed > 0) {
@@ -200,26 +181,19 @@ public class TileEntityMachineDecomposer extends MOTileEntityMachineMatter imple
         return 0;
     }
 
-    public int getEnergyDrainMax()
-    {
+    public int getEnergyDrainMax() {
         int matter = MatterHelper.getMatterAmountFromItem(inventory.getStackInSlot(INPUT_SLOT_ID));
         double upgradeMultiply = getUpgradeMultiply(UpgradeTypes.PowerUsage);
-        return (int)Math.round((matter * DECOMPOSE_ENERGY_PER_MATTER) * upgradeMultiply);
+        return (int) Math.round((matter * DECOMPOSE_ENERGY_PER_MATTER) * upgradeMultiply);
     }
 
-    private boolean canPutInOutput(int matter)
-    {
+    private boolean canPutInOutput(int matter) {
         ItemStack stack = getStackInSlot(OUTPUT_SLOT_ID);
-        if(stack == null)
-        {
+        if (stack == null) {
             return true;
-        }
-        else
-        {
-            if(stack.getItem() == MatterOverdriveItems.matter_dust)
-            {
-                if (stack.getItemDamage() == matter && stack.stackSize < stack.getMaxStackSize())
-                {
+        } else {
+            if (stack.getItem() == MatterOverdriveItems.matter_dust) {
+                if (stack.getItemDamage() == matter && stack.stackSize < stack.getMaxStackSize()) {
                     return true;
                 }
             }
@@ -228,38 +202,28 @@ public class TileEntityMachineDecomposer extends MOTileEntityMachineMatter imple
         return false;
     }
 
-    private void failDecompose()
-    {
+    private void failDecompose() {
         ItemStack stack = getStackInSlot(OUTPUT_SLOT_ID);
-        int matter =MatterHelper.getMatterAmountFromItem(getStackInSlot(INPUT_SLOT_ID));
+        int matter = MatterHelper.getMatterAmountFromItem(getStackInSlot(INPUT_SLOT_ID));
 
-        if (stack != null)
-        {
-            if (stack.getItem() == MatterOverdriveItems.matter_dust && stack.getItemDamage() == matter && stack.stackSize < stack.getMaxStackSize())
-            {
+        if (stack != null) {
+            if (stack.getItem() == MatterOverdriveItems.matter_dust && stack.getItemDamage() == matter && stack.stackSize < stack.getMaxStackSize()) {
                 stack.stackSize++;
             }
-        }
-        else
-        {
+        } else {
             stack = new ItemStack(MatterOverdriveItems.matter_dust);
             MatterOverdriveItems.matter_dust.setMatter(stack, matter);
             setInventorySlotContents(OUTPUT_SLOT_ID, stack);
         }
     }
 
-	private void decomposeItem()
-	{
+    private void decomposeItem() {
         int matterAmount = MatterHelper.getMatterAmountFromItem(getStackInSlot(INPUT_SLOT_ID));
 
-		if(getStackInSlot(INPUT_SLOT_ID) != null && canPutInOutput(matterAmount))
-		{
-            if(random.nextFloat() < getFailChance())
-            {
+        if (getStackInSlot(INPUT_SLOT_ID) != null && canPutInOutput(matterAmount)) {
+            if (random.nextFloat() < getFailChance()) {
                 failDecompose();
-            }
-            else
-            {
+            } else {
                 int matter = this.matterStorage.getMatterStored();
                 this.matterStorage.setMatterStored(matterAmount + matter);
                 updateClientMatter();
@@ -267,12 +231,11 @@ public class TileEntityMachineDecomposer extends MOTileEntityMachineMatter imple
 
             this.decrStackSize(INPUT_SLOT_ID, 1);
             forceSync();
-		}
-	}
+        }
+    }
 
     @Override
-	public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories)
-    {
+    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories) {
         super.readCustomNBT(nbt, categories);
         if (categories.contains(MachineNBTCategory.DATA)) {
             this.decomposeTime = nbt.getShort("DecomposeTime");
@@ -285,8 +248,7 @@ public class TileEntityMachineDecomposer extends MOTileEntityMachineMatter imple
     }
 
     @Override
-	public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk)
-    {
+    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
         super.writeCustomNBT(nbt, categories, toDisk);
         if (categories.contains(MachineNBTCategory.DATA)) {
             nbt.setShort("DecomposeTime", (short) this.decomposeTime);
@@ -299,27 +261,23 @@ public class TileEntityMachineDecomposer extends MOTileEntityMachineMatter imple
     }
 
     @Override
-	public int[] getAccessibleSlotsFromSide(int side)
-	{
-        return new int[]{INPUT_SLOT_ID,OUTPUT_SLOT_ID};
-	}
-
-	@Override
-	public boolean canExtractItem(int i, ItemStack item,
-			int j)
-	{
-		return i != INPUT_SLOT_ID;
-	}
+    public int[] getAccessibleSlotsFromSide(int side) {
+        return new int[]{INPUT_SLOT_ID, OUTPUT_SLOT_ID};
+    }
 
     @Override
-    public int receiveMatter(ForgeDirection side, int amount, boolean simulate)
-    {
+    public boolean canExtractItem(int i, ItemStack item,
+                                  int j) {
+        return i != INPUT_SLOT_ID;
+    }
+
+    @Override
+    public int receiveMatter(ForgeDirection side, int amount, boolean simulate) {
         return 0;
     }
 
     @Override
-    public boolean isAffectedByUpgrade(UpgradeTypes type)
-    {
+    public boolean isAffectedByUpgrade(UpgradeTypes type) {
         return type != UpgradeTypes.Range && type != UpgradeTypes.SecondOutput;
     }
 
@@ -339,8 +297,7 @@ public class TileEntityMachineDecomposer extends MOTileEntityMachineMatter imple
     }
 
     @Override
-    public float getProgress()
-    {
+    public float getProgress() {
         float speed = (float) getSpeed();
         if (speed > 0) {
             return (float) (decomposeTime) / speed;
@@ -349,8 +306,7 @@ public class TileEntityMachineDecomposer extends MOTileEntityMachineMatter imple
     }
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid)
-    {
+    public boolean canFill(ForgeDirection from, Fluid fluid) {
         return false;
     }
 }

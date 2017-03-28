@@ -36,8 +36,7 @@ import java.util.*;
 /**
  * Created by Simeon on 3/23/2015.
  */
-public class MOWorldGen implements IWorldGenerator, IConfigSubscriber
-{
+public class MOWorldGen implements IWorldGenerator, IConfigSubscriber {
     Random oreRandom;
     Random anomaliesRandom;
     Random buildingsRandom;
@@ -61,22 +60,21 @@ public class MOWorldGen implements IWorldGenerator, IConfigSubscriber
     boolean generateAnomalies;
     boolean generateBuildings;
 
-    public MOWorldGen(ConfigurationHandler configurationHandler)
-    {
+    public MOWorldGen(ConfigurationHandler configurationHandler) {
         oreRandom = new Random();
         anomaliesRandom = new Random();
         buildingsRandom = new Random();
         buildings = new ArrayList<>();
         worldGenBuildingQueue = new ArrayDeque<>();
 
-        tritaniumGen = new WorldGenMinable(MatterOverdriveBlocks.tritaniumOre,TRITANIUM_VEIN_SIZE);
-        dilithiumGen = new WorldGenMinable(MatterOverdriveBlocks.dilithium_ore,DILITHIUM_VEIN_SIZE);
-        buildings.add(new WeightedRandomMOWorldGenBuilding(new MOAndroidHouseBuilding("android_house"),20));
-        buildings.add(new WeightedRandomMOWorldGenBuilding(new MOSandPit("sand_pit_house",3),100));
-        buildings.add(new WeightedRandomMOWorldGenBuilding(new MOWorldGenCrashedSpaceShip("crashed_ship"),60));
-        buildings.add(new WeightedRandomMOWorldGenBuilding(new MOWorldGenUnderwaterBase("underwater_base"),20));
-        buildings.add(new WeightedRandomMOWorldGenBuilding(new MOWorldGenCargoShip("cargo_ship"),5));
-        anomalyGen = new WorldGenGravitationalAnomaly("gravitational_anomaly",0.005f,2048,2048 + 8192);
+        tritaniumGen = new WorldGenMinable(MatterOverdriveBlocks.tritaniumOre, TRITANIUM_VEIN_SIZE);
+        dilithiumGen = new WorldGenMinable(MatterOverdriveBlocks.dilithium_ore, DILITHIUM_VEIN_SIZE);
+        buildings.add(new WeightedRandomMOWorldGenBuilding(new MOAndroidHouseBuilding("android_house"), 20));
+        buildings.add(new WeightedRandomMOWorldGenBuilding(new MOSandPit("sand_pit_house", 3), 100));
+        buildings.add(new WeightedRandomMOWorldGenBuilding(new MOWorldGenCrashedSpaceShip("crashed_ship"), 60));
+        buildings.add(new WeightedRandomMOWorldGenBuilding(new MOWorldGenUnderwaterBase("underwater_base"), 20));
+        buildings.add(new WeightedRandomMOWorldGenBuilding(new MOWorldGenCargoShip("cargo_ship"), 5));
+        anomalyGen = new WorldGenGravitationalAnomaly("gravitational_anomaly", 0.005f, 2048, 2048 + 8192);
         oreDimentionsBlacklist = new HashSet<>();
 
         configurationHandler.subscribe(anomalyGen);
@@ -84,10 +82,9 @@ public class MOWorldGen implements IWorldGenerator, IConfigSubscriber
 
     @Override
     public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-        switch (world.provider.dimensionId)
-        {
+        switch (world.provider.dimensionId) {
             case -1:
-                generateNether(world,random,chunkX * 16,chunkZ * 16);
+                generateNether(world, random, chunkX * 16, chunkZ * 16);
                 break;
             case 0:
                 generateOverworld(world, random, chunkX * 16, chunkZ * 16);
@@ -96,7 +93,7 @@ public class MOWorldGen implements IWorldGenerator, IConfigSubscriber
                 generateEnd(world, random, chunkX * 16, chunkZ * 16);
                 break;
             default:
-                generateOther(world,random,chunkX * 16,chunkZ * 16);
+                generateOther(world, random, chunkX * 16, chunkZ * 16);
         }
 
         long worldSeed = world.getSeed();
@@ -109,30 +106,27 @@ public class MOWorldGen implements IWorldGenerator, IConfigSubscriber
         buildingsRandom.setSeed(chunkSeed);
         generateGravitationalAnomalies(world, anomaliesRandom, chunkX * 16, chunkZ * 16, world.provider.dimensionId);
         generateOres(world, oreRandom, chunkX * 16, chunkZ * 16, world.provider.dimensionId);
-        startGenerateBuildings(world,buildingsRandom,chunkX,chunkZ,chunkGenerator,chunkProvider);
+        startGenerateBuildings(world, buildingsRandom, chunkX, chunkZ, chunkGenerator, chunkProvider);
     }
 
-    public void generateOverworld(World world,Random random,int chunkX, int chunkZ)
-    {
-
-    }
-    public void generateNether(World world,Random random,int chunkX, int chunkZ)
-    {
-
-    }
-    public void generateEnd(World world,Random random,int chunkX, int chunkZ)
-    {
-
-    }
-    public void generateOther(World world,Random random,int chunkX, int chunkZ)
-    {
+    public void generateOverworld(World world, Random random, int chunkX, int chunkZ) {
 
     }
 
-    public void generateOres(World world,Random random,int chunkX,int chunkZ,int dimentionID)
-    {
-        if (!oreDimentionsBlacklist.contains(dimentionID))
-        {
+    public void generateNether(World world, Random random, int chunkX, int chunkZ) {
+
+    }
+
+    public void generateEnd(World world, Random random, int chunkX, int chunkZ) {
+
+    }
+
+    public void generateOther(World world, Random random, int chunkX, int chunkZ) {
+
+    }
+
+    public void generateOres(World world, Random random, int chunkX, int chunkZ, int dimentionID) {
+        if (!oreDimentionsBlacklist.contains(dimentionID)) {
             if (generateDilithium) {
                 for (int i = 0; i < DILITHIUM_VEINS_PER_CHUNK; i++) {
                     int x = chunkX + random.nextInt(16);
@@ -158,10 +152,9 @@ public class MOWorldGen implements IWorldGenerator, IConfigSubscriber
             }
         }
     }
-    private void generateGravitationalAnomalies(World world,Random random,int chunkX, int chunkZ,int dimention)
-    {
-        if (generateAnomalies)
-        {
+
+    private void generateGravitationalAnomalies(World world, Random random, int chunkX, int chunkZ, int dimention) {
+        if (generateAnomalies) {
             int x = chunkX + random.nextInt(16);
             int z = chunkZ + random.nextInt(16);
             int y = random.nextInt(60) + 4;
@@ -171,31 +164,27 @@ public class MOWorldGen implements IWorldGenerator, IConfigSubscriber
             }
         }
     }
-    private boolean shouldGenerate(Block block,ConfigurationHandler config)
-    {
+
+    private boolean shouldGenerate(Block block, ConfigurationHandler config) {
         Property p = config.config.get(ConfigurationHandler.CATEGORY_WORLD_GEN, ConfigurationHandler.CATEGORY_WORLD_SPAWN + "." + block.getUnlocalizedName(), true);
         p.setLanguageKey(block.getUnlocalizedName() + ".name");
         return p.getBoolean(true);
     }
 
-    private void startGenerateBuildings(World world, Random random, int chunkX, int chunkZ, IChunkProvider chunkGenerator, IChunkProvider chunkProvider)
-    {
-        if (generateBuildings && random.nextDouble() < BUILDING_SPAWN_CHANCE)
-        {
-            int XCoord = chunkX*16 + random.nextInt(16);
-            int ZCoord = chunkZ*16 + random.nextInt(16);
-            int YCoord = world.getHeightValue(XCoord,ZCoord)-2;
+    private void startGenerateBuildings(World world, Random random, int chunkX, int chunkZ, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+        if (generateBuildings && random.nextDouble() < BUILDING_SPAWN_CHANCE) {
+            int XCoord = chunkX * 16 + random.nextInt(16);
+            int ZCoord = chunkZ * 16 + random.nextInt(16);
+            int YCoord = world.getHeightValue(XCoord, ZCoord) - 2;
 
-            WeightedRandomMOWorldGenBuilding building = getRandomBuilding(world,XCoord,YCoord,ZCoord,random);
+            WeightedRandomMOWorldGenBuilding building = getRandomBuilding(world, XCoord, YCoord, ZCoord, random);
             if (building != null)
-                startBuildingGeneration(building.worldGenBuilding,XCoord,YCoord,ZCoord,random,world,chunkGenerator,chunkProvider,false);
+                startBuildingGeneration(building.worldGenBuilding, XCoord, YCoord, ZCoord, random, world, chunkGenerator, chunkProvider, false);
         }
     }
 
-    public MOWorldGenBuilding.WorldGenBuildingWorker startBuildingGeneration(MOWorldGenBuilding building, int x, int y, int z, Random random, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider, boolean forceGeneration)
-    {
-        if (building != null && (forceGeneration || (building.shouldGenerate(random,world,x,y,z) && building.isLocationValid(world,x,y,z))))
-        {
+    public MOWorldGenBuilding.WorldGenBuildingWorker startBuildingGeneration(MOWorldGenBuilding building, int x, int y, int z, Random random, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider, boolean forceGeneration) {
+        if (building != null && (forceGeneration || (building.shouldGenerate(random, world, x, y, z) && building.isLocationValid(world, x, y, z)))) {
             MOWorldGenBuilding.WorldGenBuildingWorker worker = building.createWorker(random, x, y, z, world, chunkGenerator, chunkProvider);
             worldGenBuildingQueue.add(worker);
             return worker;
@@ -203,52 +192,43 @@ public class MOWorldGen implements IWorldGenerator, IConfigSubscriber
         return null;
     }
 
-    public void manageBuildingGeneration(TickEvent.WorldTickEvent worldTickEvent)
-    {
+    public void manageBuildingGeneration(TickEvent.WorldTickEvent worldTickEvent) {
         MOWorldGenBuilding.WorldGenBuildingWorker worker = worldGenBuildingQueue.peek();
-        if (worker != null)
-        {
-            if(worker.generate())
-            {
+        if (worker != null) {
+            if (worker.generate()) {
                 worldGenBuildingQueue.remove();
                 return;
             }
         }
     }
 
-    public WeightedRandomMOWorldGenBuilding getRandomBuilding(World world,int x,int y,int z,Random random)
-    {
-        return getBuilding(random,world,x,y,z,buildings,random.nextInt(getTotalBuildingsWeight(random,world,x,y,z,buildings)));
+    public WeightedRandomMOWorldGenBuilding getRandomBuilding(World world, int x, int y, int z, Random random) {
+        return getBuilding(random, world, x, y, z, buildings, random.nextInt(getTotalBuildingsWeight(random, world, x, y, z, buildings)));
     }
 
-    public int getTotalBuildingsWeight(Random random,World world,int x,int y,int z,Collection p_76272_0_)
-    {
+    public int getTotalBuildingsWeight(Random random, World world, int x, int y, int z, Collection p_76272_0_) {
         int i = 0;
         WeightedRandomMOWorldGenBuilding building;
 
-        for (Iterator iterator = p_76272_0_.iterator(); iterator.hasNext(); i += building.getWeight(random,world,x,y,z))
-        {
-            building = (WeightedRandomMOWorldGenBuilding)iterator.next();
+        for (Iterator iterator = p_76272_0_.iterator(); iterator.hasNext(); i += building.getWeight(random, world, x, y, z)) {
+            building = (WeightedRandomMOWorldGenBuilding) iterator.next();
         }
 
         return i;
     }
 
-    public WeightedRandomMOWorldGenBuilding getBuilding(Random random,World world,int x,int y,int z,Collection par1Collection, int weight)
-    {
+    public WeightedRandomMOWorldGenBuilding getBuilding(Random random, World world, int x, int y, int z, Collection par1Collection, int weight) {
         int j = weight;
         Iterator iterator = par1Collection.iterator();
         WeightedRandomMOWorldGenBuilding building;
 
-        do
-        {
-            if (!iterator.hasNext())
-            {
+        do {
+            if (!iterator.hasNext()) {
                 return null;
             }
 
-            building = (WeightedRandomMOWorldGenBuilding)iterator.next();
-            j -= building.getWeight(random,world,x,y,z);
+            building = (WeightedRandomMOWorldGenBuilding) iterator.next();
+            j -= building.getWeight(random, world, x, y, z);
         }
         while (j >= 0);
 
@@ -256,8 +236,7 @@ public class MOWorldGen implements IWorldGenerator, IConfigSubscriber
     }
 
     @Override
-    public void onConfigChanged(ConfigurationHandler config)
-    {
+    public void onConfigChanged(ConfigurationHandler config) {
         Property shouldGenerateOres = config.config.get(ConfigurationHandler.CATEGORY_WORLD_GEN, ConfigurationHandler.CATEGORY_WORLD_SPAWN_ORES, true);
         shouldGenerateOres.comment = "Should Matter Overdrive Ore Blocks be Generated ?";
         generateTritanium = shouldGenerate(MatterOverdriveBlocks.tritaniumOre, config) && shouldGenerateOres.getBoolean(true);
@@ -266,24 +245,21 @@ public class MOWorldGen implements IWorldGenerator, IConfigSubscriber
         shouldGenerateOthers.comment = "Should other Matter Overdrive World Blocks be Generated?";
         generateAnomalies = shouldGenerate(MatterOverdriveBlocks.gravitational_anomaly, config) && shouldGenerateOthers.getBoolean(true);
         this.oreDimentionsBlacklist.clear();
-        Property oreDimentionBlacklistProp = config.config.get(config.CATEGORY_WORLD_GEN,"ore_gen_blacklist",new int[]{-1,2});
+        Property oreDimentionBlacklistProp = config.config.get(ConfigurationHandler.CATEGORY_WORLD_GEN, "ore_gen_blacklist", new int[]{-1, 2});
         oreDimentionBlacklistProp.comment = "A blacklist of all the Dimensions ores shouldn't spawn in";
         oreDimentionBlacklistProp.setLanguageKey("config.ore_gen_blacklist.name");
         int[] oreDimentionBlacklist = oreDimentionBlacklistProp.getIntList();
-        for (int i = 0;i < oreDimentionBlacklist.length;i++)
-        {
+        for (int i = 0; i < oreDimentionBlacklist.length; i++) {
             this.oreDimentionsBlacklist.add(oreDimentionBlacklist[i]);
         }
-        generateBuildings = config.getBool("generate buildings",ConfigurationHandler.CATEGORY_WORLD_GEN,true,"Should Matter Overdrive Buildings Generate aka ImageGen");
+        generateBuildings = config.getBool("generate buildings", ConfigurationHandler.CATEGORY_WORLD_GEN, true, "Should Matter Overdrive Buildings Generate aka ImageGen");
     }
 
-    public static GenPositionWorldData getWorldPositionData(World world)
-    {
-        GenPositionWorldData data = (GenPositionWorldData)world.loadItemData(GenPositionWorldData.class,Reference.WORLD_DATA_MO_GEN_POSITIONS);
-        if (data == null)
-        {
+    public static GenPositionWorldData getWorldPositionData(World world) {
+        GenPositionWorldData data = (GenPositionWorldData) world.loadItemData(GenPositionWorldData.class, Reference.WORLD_DATA_MO_GEN_POSITIONS);
+        if (data == null) {
             data = new GenPositionWorldData(Reference.WORLD_DATA_MO_GEN_POSITIONS);
-            world.setItemData(Reference.WORLD_DATA_MO_GEN_POSITIONS,data);
+            world.setItemData(Reference.WORLD_DATA_MO_GEN_POSITIONS, data);
         }
         return data;
     }

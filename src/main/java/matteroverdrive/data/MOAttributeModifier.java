@@ -7,8 +7,7 @@ import java.util.UUID;
 /**
  * Created by Simeon on 6/4/2015.
  */
-public class MOAttributeModifier extends AttributeModifier
-{
+public class MOAttributeModifier extends AttributeModifier {
     double value;
 
     public MOAttributeModifier(String name, double value, int operation) {
@@ -21,10 +20,11 @@ public class MOAttributeModifier extends AttributeModifier
         this.value = value;
     }
 
-    public double getAmount()
-    {
+    public double getAmount() {
         return this.value;
     }
 
-    public void setAmount(double value){this.value = value;}
+    public void setAmount(double value) {
+        this.value = value;
+    }
 }

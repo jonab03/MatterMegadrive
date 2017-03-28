@@ -13,15 +13,16 @@ import net.minecraft.tileentity.TileEntity;
 /**
  * Created by Simeon on 4/28/2015.
  */
-public class PacketRemoveTask extends TileEntityUpdatePacket
-{
+public class PacketRemoveTask extends TileEntityUpdatePacket {
     int taskIndex;
     byte queueID;
     MatterNetworkTaskState task_state;
 
-    public PacketRemoveTask(){super();}
-    public PacketRemoveTask(TileEntity dispatcher,int taskIndex,byte queueID,MatterNetworkTaskState task_state)
-    {
+    public PacketRemoveTask() {
+        super();
+    }
+
+    public PacketRemoveTask(TileEntity dispatcher, int taskIndex, byte queueID, MatterNetworkTaskState task_state) {
         super(dispatcher);
         this.taskIndex = taskIndex;
         this.queueID = queueID;
@@ -29,8 +30,7 @@ public class PacketRemoveTask extends TileEntityUpdatePacket
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         super.fromBytes(buf);
         taskIndex = buf.readInt();
         queueID = buf.readByte();
@@ -38,8 +38,7 @@ public class PacketRemoveTask extends TileEntityUpdatePacket
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         super.toBytes(buf);
         buf.writeInt(taskIndex);
         buf.writeByte(queueID);
@@ -49,13 +48,11 @@ public class PacketRemoveTask extends TileEntityUpdatePacket
     public static class ServerHandler extends AbstractServerPacketHandler<PacketRemoveTask> {
 
         @Override
-        public IMessage handleServerMessage(EntityPlayer player, PacketRemoveTask message, MessageContext ctx)
-        {
+        public IMessage handleServerMessage(EntityPlayer player, PacketRemoveTask message, MessageContext ctx) {
             TileEntity entity = message.getTileEntity(player.worldObj);
 
-            if (entity instanceof IMatterNetworkDispatcher)
-            {
-                IMatterNetworkDispatcher<MatterNetworkTask> dispatcher = (IMatterNetworkDispatcher<MatterNetworkTask>)entity;
+            if (entity instanceof IMatterNetworkDispatcher) {
+                IMatterNetworkDispatcher<MatterNetworkTask> dispatcher = (IMatterNetworkDispatcher<MatterNetworkTask>) entity;
                 dispatcher.getTaskQueue(message.queueID).dropAt(message.taskIndex).setState(message.task_state);
                 player.worldObj.markBlockForUpdate(entity.xCoord, entity.yCoord, entity.zCoord);
                 entity.markDirty();

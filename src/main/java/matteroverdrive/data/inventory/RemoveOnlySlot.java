@@ -23,15 +23,13 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 3/17/2015.
  */
-public class RemoveOnlySlot extends Slot
-{
+public class RemoveOnlySlot extends Slot {
     public RemoveOnlySlot(boolean isMainSlot) {
         super(isMainSlot);
     }
 
     @Override
-    public boolean isValidForSlot(ItemStack itemStack)
-    {
+    public boolean isValidForSlot(ItemStack itemStack) {
         return false;
     }
 }

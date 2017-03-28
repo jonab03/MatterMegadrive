@@ -27,35 +27,29 @@ import java.util.List;
 /**
  * Created by Simeon on 4/27/2015.
  */
-public class ElementPatternsGrid extends ElementGrid
-{
+public class ElementPatternsGrid extends ElementGrid {
     String filter = "";
 
-    public ElementPatternsGrid(MOGuiBase guiBase, int x, int y, int width, int height)
-    {
+    public ElementPatternsGrid(MOGuiBase guiBase, int x, int y, int width, int height) {
         super(guiBase, x, y, width, height, width);
-        setMargins(0,0,4,0);
+        setMargins(0, 0, 4, 0);
     }
 
 
-    public void updateStackList(List<ItemPattern> patterns)
-    {
+    public void updateStackList(List<ItemPattern> patterns) {
         ItemStack stack;
         elements.clear();
 
-        for (ItemPattern pattern : patterns)
-        {
+        for (ItemPattern pattern : patterns) {
             addElement(new ElementMonitorItemPattern(gui, pattern, gui));
         }
     }
 
-    public void setFilter(String filter)
-    {
+    public void setFilter(String filter) {
         this.filter = filter;
     }
 
-    public boolean shouldBeDisplayed(MOElementBase element)
-    {
+    public boolean shouldBeDisplayed(MOElementBase element) {
         if (element.getName() != null) {
             return element.getName().toLowerCase().contains(filter.toLowerCase());
         }

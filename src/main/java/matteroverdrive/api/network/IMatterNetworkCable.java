@@ -25,8 +25,7 @@ import net.minecraftforge.common.util.ForgeDirection;
  * Created by Simeon on 4/19/2015.
  * Used by Matter Network Cables
  */
-public interface IMatterNetworkCable extends IMatterNetworkConnection
-{
+public interface IMatterNetworkCable extends IMatterNetworkConnection {
     /**
      * @return is the cable valid.
      */
@@ -34,8 +33,9 @@ public interface IMatterNetworkCable extends IMatterNetworkConnection
 
     /**
      * Called when the cable needs to broadcast a packet.
+     *
      * @param packet the packet being broadcasted.
-     * @param from the direction of the broadcast.
+     * @param from   the direction of the broadcast.
      */
-    void broadcast(MatterNetworkPacket packet,ForgeDirection from);
+    void broadcast(MatterNetworkPacket packet, ForgeDirection from);
 }

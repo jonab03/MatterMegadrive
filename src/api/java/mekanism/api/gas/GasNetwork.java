@@ -15,343 +15,286 @@ import java.util.*;
 /**
  * A DynamicNetwork extension created specifically for the transfer of Gasses. By default this is server-only, but if ticked on
  * the client side and if it's posted events are handled properly, it has the capability to visually display gasses network-wide.
- * @author aidancbrady
  *
+ * @author aidancbrady
  */
-public class GasNetwork extends DynamicNetwork<IGasHandler, GasNetwork>
-{
-	public int transferDelay = 0;
+public class GasNetwork extends DynamicNetwork<IGasHandler, GasNetwork> {
+    public int transferDelay = 0;
 
-	public boolean didTransfer;
-	public boolean prevTransfer;
+    public boolean didTransfer;
+    public boolean prevTransfer;
 
-	public float gasScale;
+    public float gasScale;
 
-	public Gas refGas;
+    public Gas refGas;
 
-	public GasStack buffer;
-	public int prevStored;
+    public GasStack buffer;
+    public int prevStored;
 
-	public int prevTransferAmount = 0;
+    public int prevTransferAmount = 0;
 
-	public GasNetwork() {}
+    public GasNetwork() {
+    }
 
-	public GasNetwork(Collection<GasNetwork> networks)
-	{
-		for(GasNetwork net : networks)
-		{
-			if(net != null)
-			{
-				if(FMLCommonHandler.instance().getEffectiveSide().isClient())
-				{
-					if(net.refGas != null && net.gasScale > gasScale)
-					{
-						gasScale = net.gasScale;
-						refGas = net.refGas;
-						buffer = net.buffer;
+    public GasNetwork(Collection<GasNetwork> networks) {
+        for (GasNetwork net : networks) {
+            if (net != null) {
+                if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+                    if (net.refGas != null && net.gasScale > gasScale) {
+                        gasScale = net.gasScale;
+                        refGas = net.refGas;
+                        buffer = net.buffer;
 
-						net.gasScale = 0;
-						net.refGas = null;
-						net.buffer = null;
-					}
-				} else
-				{
-					if(net.buffer != null)
-					{
-						if(buffer == null)
-						{
-							buffer = net.buffer.copy();
-						} else
-						{
-							if(buffer.isGasEqual(net.buffer))
-							{
-								buffer.amount += net.buffer.amount;
-							}
-							else if(net.buffer.amount > buffer.amount)
-							{
-								buffer = net.buffer.copy();
-							}
+                        net.gasScale = 0;
+                        net.refGas = null;
+                        net.buffer = null;
+                    }
+                } else {
+                    if (net.buffer != null) {
+                        if (buffer == null) {
+                            buffer = net.buffer.copy();
+                        } else {
+                            if (buffer.isGasEqual(net.buffer)) {
+                                buffer.amount += net.buffer.amount;
+                            } else if (net.buffer.amount > buffer.amount) {
+                                buffer = net.buffer.copy();
+                            }
 
-						}
+                        }
 
-						net.buffer = null;
-					}
-				}
+                        net.buffer = null;
+                    }
+                }
 
-				adoptTransmittersAndAcceptorsFrom(net);
-				net.deregister();
-			}
-		}
+                adoptTransmittersAndAcceptorsFrom(net);
+                net.deregister();
+            }
+        }
 
-		gasScale = getScale();
+        gasScale = getScale();
 
-		register();
-	}
+        register();
+    }
 
-	@Override
-	public void absorbBuffer(IGridTransmitter<IGasHandler, GasNetwork> transmitter)
-	{
-		Object b = transmitter.getBuffer();
-		
-		if(!(b instanceof GasStack) || ((GasStack)b).getGas() == null || ((GasStack)b).amount == 0)
-		{
-			return;
-		}
+    @Override
+    public void absorbBuffer(IGridTransmitter<IGasHandler, GasNetwork> transmitter) {
+        Object b = transmitter.getBuffer();
 
-		GasStack gas = (GasStack)b;
+        if (!(b instanceof GasStack) || ((GasStack) b).getGas() == null || ((GasStack) b).amount == 0) {
+            return;
+        }
 
-		if(buffer == null || buffer.getGas() == null || buffer.amount == 0)
-		{
-			buffer = gas.copy();
-			return;
-		}
+        GasStack gas = (GasStack) b;
 
-		//TODO better multiple buffer impl
-		if(buffer.isGasEqual(gas))
-		{
-			buffer.amount += gas.amount;
-		}
-		
-		gas.amount = 0;
-	}
+        if (buffer == null || buffer.getGas() == null || buffer.amount == 0) {
+            buffer = gas.copy();
+            return;
+        }
 
-	@Override
-	public void clampBuffer()
-	{
-		if(buffer != null && buffer.amount > getCapacity())
-		{
-			buffer.amount = capacity;
-		}
-	}
+        //TODO better multiple buffer impl
+        if (buffer.isGasEqual(gas)) {
+            buffer.amount += gas.amount;
+        }
 
-	public int getGasNeeded()
-	{
-		return getCapacity()-(buffer != null ? buffer.amount : 0);
-	}
+        gas.amount = 0;
+    }
 
-	public int tickEmit(GasStack stack)
-	{
-		List<IGasHandler> availableAcceptors = Lists.newArrayList();
+    @Override
+    public void clampBuffer() {
+        if (buffer != null && buffer.amount > getCapacity()) {
+            buffer.amount = capacity;
+        }
+    }
 
-		availableAcceptors.addAll(getAcceptors(stack.getGas()));
+    public int getGasNeeded() {
+        return getCapacity() - (buffer != null ? buffer.amount : 0);
+    }
 
-		Collections.shuffle(availableAcceptors);
+    public int tickEmit(GasStack stack) {
+        List<IGasHandler> availableAcceptors = Lists.newArrayList();
 
-		int toSend = stack.amount;
-		int prevSending = toSend;
+        availableAcceptors.addAll(getAcceptors(stack.getGas()));
 
-		if(!availableAcceptors.isEmpty())
-		{
-			int divider = availableAcceptors.size();
-			int remaining = toSend % divider;
-			int sending = (toSend-remaining)/divider;
+        Collections.shuffle(availableAcceptors);
 
-			for(IGasHandler acceptor : availableAcceptors)
-			{
-				int currentSending = sending;
-				EnumSet<ForgeDirection> sides = acceptorDirections.get(Coord4D.get((TileEntity)acceptor));
+        int toSend = stack.amount;
+        int prevSending = toSend;
 
-				if(remaining > 0)
-				{
-					currentSending++;
-					remaining--;
-				}
+        if (!availableAcceptors.isEmpty()) {
+            int divider = availableAcceptors.size();
+            int remaining = toSend % divider;
+            int sending = (toSend - remaining) / divider;
 
-				for(ForgeDirection side : sides)
-				{
-					int prev = toSend;
+            for (IGasHandler acceptor : availableAcceptors) {
+                int currentSending = sending;
+                EnumSet<ForgeDirection> sides = acceptorDirections.get(Coord4D.get((TileEntity) acceptor));
 
-					toSend -= acceptor.receiveGas(side, new GasStack(stack.getGas(), currentSending), true);
+                if (remaining > 0) {
+                    currentSending++;
+                    remaining--;
+                }
 
-					if(toSend < prev)
-					{
-						break;
-					}
-				}
-			}
-		}
+                for (ForgeDirection side : sides) {
+                    int prev = toSend;
 
-		int sent = prevSending-toSend;
+                    toSend -= acceptor.receiveGas(side, new GasStack(stack.getGas(), currentSending), true);
 
-		if(sent > 0 && FMLCommonHandler.instance().getEffectiveSide().isServer())
-		{
-			didTransfer = true;
-			transferDelay = 2;
-		}
+                    if (toSend < prev) {
+                        break;
+                    }
+                }
+            }
+        }
 
-		return sent;
-	}
+        int sent = prevSending - toSend;
 
-	public int emit(GasStack stack, boolean doTransfer)
-	{
-		if(buffer != null && buffer.getGas() != stack.getGas())
-		{
-			return 0;
-		}
+        if (sent > 0 && FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+            didTransfer = true;
+            transferDelay = 2;
+        }
 
-		int toUse = Math.min(getGasNeeded(), stack.amount);
+        return sent;
+    }
 
-		if(doTransfer)
-		{
-			if(buffer == null)
-			{
-				buffer = stack.copy();
-				buffer.amount = toUse;
-			}
-			else {
-				buffer.amount += toUse;
-			}
-		}
+    public int emit(GasStack stack, boolean doTransfer) {
+        if (buffer != null && buffer.getGas() != stack.getGas()) {
+            return 0;
+        }
 
-		return toUse;
-	}
+        int toUse = Math.min(getGasNeeded(), stack.amount);
 
-	@Override
-	public void onUpdate()
-	{
-		super.onUpdate();
+        if (doTransfer) {
+            if (buffer == null) {
+                buffer = stack.copy();
+                buffer.amount = toUse;
+            } else {
+                buffer.amount += toUse;
+            }
+        }
 
-		if(FMLCommonHandler.instance().getEffectiveSide().isServer())
-		{
-			prevTransferAmount = 0;
+        return toUse;
+    }
 
-			if(transferDelay == 0)
-			{
-				didTransfer = false;
-			}
-			else {
-				transferDelay--;
-			}
+    @Override
+    public void onUpdate() {
+        super.onUpdate();
 
-			int stored = buffer != null ? buffer.amount : 0;
+        if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
+            prevTransferAmount = 0;
 
-			if(stored != prevStored)
-			{
-				needsUpdate = true;
-			}
+            if (transferDelay == 0) {
+                didTransfer = false;
+            } else {
+                transferDelay--;
+            }
 
-			prevStored = stored;
+            int stored = buffer != null ? buffer.amount : 0;
 
-			if(didTransfer != prevTransfer || needsUpdate)
-			{
-				MinecraftForge.EVENT_BUS.post(new GasTransferEvent(this, buffer, didTransfer));
-				needsUpdate = false;
-			}
+            if (stored != prevStored) {
+                needsUpdate = true;
+            }
 
-			prevTransfer = didTransfer;
+            prevStored = stored;
 
-			if(buffer != null)
-			{
-				prevTransferAmount = tickEmit(buffer);
-				buffer.amount -= prevTransferAmount;
+            if (didTransfer != prevTransfer || needsUpdate) {
+                MinecraftForge.EVENT_BUS.post(new GasTransferEvent(this, buffer, didTransfer));
+                needsUpdate = false;
+            }
 
-				if(buffer.amount <= 0)
-				{
-					buffer = null;
-				}
-			}
-		}
-	}
+            prevTransfer = didTransfer;
 
-	@Override
-	public void clientTick()
-	{
-		super.clientTick();
+            if (buffer != null) {
+                prevTransferAmount = tickEmit(buffer);
+                buffer.amount -= prevTransferAmount;
 
-		gasScale = Math.max(gasScale, getScale());
+                if (buffer.amount <= 0) {
+                    buffer = null;
+                }
+            }
+        }
+    }
 
-		if(didTransfer && gasScale < 1)
-		{
-			gasScale = Math.max(getScale(), Math.min(1, gasScale+0.02F));
-		}
-		else if(!didTransfer && gasScale > 0)
-		{
-			gasScale = Math.max(getScale(), Math.max(0, gasScale-0.02F));
+    @Override
+    public void clientTick() {
+        super.clientTick();
 
-			if(gasScale == 0)
-			{
-				buffer = null;
-			}
-		}
-	}
+        gasScale = Math.max(gasScale, getScale());
 
-	@Override
-	public Set<IGasHandler> getAcceptors(Object data)
-	{
-		Gas type = (Gas)data;
-		Set<IGasHandler> toReturn = new HashSet<IGasHandler>();
-		
-		if(FMLCommonHandler.instance().getEffectiveSide().isClient())
-		{
-			return toReturn;
-		}
+        if (didTransfer && gasScale < 1) {
+            gasScale = Math.max(getScale(), Math.min(1, gasScale + 0.02F));
+        } else if (!didTransfer && gasScale > 0) {
+            gasScale = Math.max(getScale(), Math.max(0, gasScale - 0.02F));
 
-		for(Coord4D coord : possibleAcceptors.keySet())
-		{
-			EnumSet<ForgeDirection> sides = acceptorDirections.get(coord);
-			TileEntity tile = coord.getTileEntity(getWorld());
-			
-			if(!(tile instanceof IGasHandler) || sides == null || sides.isEmpty())
-			{
-				continue;
-			}
-			
-			IGasHandler acceptor = (IGasHandler)tile;
+            if (gasScale == 0) {
+                buffer = null;
+            }
+        }
+    }
 
-			for(ForgeDirection side : sides)
-			{
-				if(acceptor != null && acceptor.canReceiveGas(side, type))
-				{
-					toReturn.add(acceptor);
-					break;
-				}
-			}
-		}
+    @Override
+    public Set<IGasHandler> getAcceptors(Object data) {
+        Gas type = (Gas) data;
+        Set<IGasHandler> toReturn = new HashSet<IGasHandler>();
 
-		return toReturn;
-	}
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+            return toReturn;
+        }
 
-	public static class GasTransferEvent extends Event
-	{
-		public final GasNetwork gasNetwork;
+        for (Coord4D coord : possibleAcceptors.keySet()) {
+            EnumSet<ForgeDirection> sides = acceptorDirections.get(coord);
+            TileEntity tile = coord.getTileEntity(getWorld());
 
-		public final GasStack transferType;
-		public final boolean didTransfer;
+            if (!(tile instanceof IGasHandler) || sides == null || sides.isEmpty()) {
+                continue;
+            }
 
-		public GasTransferEvent(GasNetwork network, GasStack type, boolean did)
-		{
-			gasNetwork = network;
-			transferType = type;
-			didTransfer = did;
-		}
-	}
+            IGasHandler acceptor = (IGasHandler) tile;
 
-	public float getScale()
-	{
-		return Math.min(1, (buffer == null || getCapacity() == 0 ? 0 : (float)buffer.amount/getCapacity()));
-	}
+            for (ForgeDirection side : sides) {
+                if (acceptor != null && acceptor.canReceiveGas(side, type)) {
+                    toReturn.add(acceptor);
+                    break;
+                }
+            }
+        }
 
-	@Override
-	public String toString()
-	{
-		return "[GasNetwork] " + transmitters.size() + " transmitters, " + possibleAcceptors.size() + " acceptors.";
-	}
+        return toReturn;
+    }
 
-	@Override
-	public String getNeededInfo()
-	{
-		return Integer.toString(getGasNeeded());
-	}
+    public static class GasTransferEvent extends Event {
+        public final GasNetwork gasNetwork;
 
-	@Override
-	public String getStoredInfo()
-	{
-		return buffer != null ? buffer.getGas().getLocalizedName() + " (" + buffer.amount + ")" : "None";
-	}
+        public final GasStack transferType;
+        public final boolean didTransfer;
 
-	@Override
-	public String getFlowInfo()
-	{
-		return Integer.toString(prevTransferAmount) + "/t";
-	}
+        public GasTransferEvent(GasNetwork network, GasStack type, boolean did) {
+            gasNetwork = network;
+            transferType = type;
+            didTransfer = did;
+        }
+    }
+
+    public float getScale() {
+        return Math.min(1, (buffer == null || getCapacity() == 0 ? 0 : (float) buffer.amount / getCapacity()));
+    }
+
+    @Override
+    public String toString() {
+        return "[GasNetwork] " + transmitters.size() + " transmitters, " + possibleAcceptors.size() + " acceptors.";
+    }
+
+    @Override
+    public String getNeededInfo() {
+        return Integer.toString(getGasNeeded());
+    }
+
+    @Override
+    public String getStoredInfo() {
+        return buffer != null ? buffer.getGas().getLocalizedName() + " (" + buffer.amount + ")" : "None";
+    }
+
+    @Override
+    public String getFlowInfo() {
+        return Integer.toString(prevTransferAmount) + "/t";
+    }
 }

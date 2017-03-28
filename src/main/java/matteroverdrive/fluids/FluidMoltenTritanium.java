@@ -25,22 +25,18 @@ import net.minecraftforge.fluids.Fluid;
 /**
  * Created by Simeon on 11/1/2015.
  */
-public class FluidMoltenTritanium extends Fluid
-{
-    public FluidMoltenTritanium(String fluidName)
-    {
+public class FluidMoltenTritanium extends Fluid {
+    public FluidMoltenTritanium(String fluidName) {
         super(fluidName);
     }
 
     @Override
-    public IIcon getStillIcon()
-    {
+    public IIcon getStillIcon() {
         return MatterOverdriveIcons.molten_tritanium_still;
     }
 
     @Override
-    public IIcon getFlowingIcon()
-    {
+    public IIcon getFlowingIcon() {
         return MatterOverdriveIcons.molten_tritanium_flowing;
     }
 }

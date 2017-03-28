@@ -10,30 +10,25 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 12/24/2015.
  */
-public class PacketAndroidTransformation extends PacketAbstract
-{
-    public PacketAndroidTransformation(){}
+public class PacketAndroidTransformation extends PacketAbstract {
+    public PacketAndroidTransformation() {
+    }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
 
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
 
     }
 
-    public static class ClientHandler extends AbstractClientPacketHandler<PacketAndroidTransformation>
-    {
+    public static class ClientHandler extends AbstractClientPacketHandler<PacketAndroidTransformation> {
         @Override
-        public IMessage handleClientMessage(EntityPlayer player, PacketAndroidTransformation message, MessageContext ctx)
-        {
+        public IMessage handleClientMessage(EntityPlayer player, PacketAndroidTransformation message, MessageContext ctx) {
             AndroidPlayer androidPlayer = AndroidPlayer.get(player);
-            if (androidPlayer != null)
-            {
+            if (androidPlayer != null) {
                 androidPlayer.startConversion();
             }
             return null;

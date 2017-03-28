@@ -10,19 +10,20 @@ import net.minecraft.tileentity.TileEntity;
 /**
  * Created by Simeon on 4/28/2015.
  */
-public class PacketReplicationComplete extends TileEntityUpdatePacket
-{
-    public PacketReplicationComplete(){super();}
-    public PacketReplicationComplete(TileEntity entity){super(entity);}
+public class PacketReplicationComplete extends TileEntityUpdatePacket {
+    public PacketReplicationComplete() {
+        super();
+    }
 
-    public static class ClientHandler extends AbstractClientPacketHandler<PacketReplicationComplete>
-    {
+    public PacketReplicationComplete(TileEntity entity) {
+        super(entity);
+    }
+
+    public static class ClientHandler extends AbstractClientPacketHandler<PacketReplicationComplete> {
         @Override
-        public IMessage handleClientMessage(EntityPlayer player, PacketReplicationComplete message, MessageContext ctx)
-        {
+        public IMessage handleClientMessage(EntityPlayer player, PacketReplicationComplete message, MessageContext ctx) {
             TileEntity entity = message.getTileEntity(player.worldObj);
-            if (entity instanceof TileEntityMachineReplicator)
-            {
+            if (entity instanceof TileEntityMachineReplicator) {
                 ((TileEntityMachineReplicator) entity).beginSpawnParticles();
             }
             return null;

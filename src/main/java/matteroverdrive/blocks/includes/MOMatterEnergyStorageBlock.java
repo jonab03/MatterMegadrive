@@ -12,50 +12,44 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public abstract class MOMatterEnergyStorageBlock extends MOBlockMachine
-{
-	private boolean keepsMatter;
-	private boolean keepsEnergy;
-	protected boolean dropsItself;
+public abstract class MOMatterEnergyStorageBlock extends MOBlockMachine {
+    private boolean keepsMatter;
+    private boolean keepsEnergy;
+    protected boolean dropsItself;
 
-	public MOMatterEnergyStorageBlock(Material material, String name,boolean keepsEnergy,boolean keepsMatter)
-	{
-		super(material, name);
-		this.keepsEnergy = keepsEnergy;
-		this.keepsMatter = keepsMatter;
-	}
+    public MOMatterEnergyStorageBlock(Material material, String name, boolean keepsEnergy, boolean keepsMatter) {
+        super(material, name);
+        this.keepsEnergy = keepsEnergy;
+        this.keepsMatter = keepsMatter;
+    }
 
-    protected IIcon GetIconBasedOnMatter(IBlockAccess world, int x, int y, int z)
-    {
-        TileEntity entity = world.getTileEntity(x,y,z);
+    protected IIcon GetIconBasedOnMatter(IBlockAccess world, int x, int y, int z) {
+        TileEntity entity = world.getTileEntity(x, y, z);
 
-        if (entity != null && entity instanceof IMatterHandler)
-        {
-            if(((IMatterHandler) entity).getMatterStored() > 0)
-            {
+        if (entity != null && entity instanceof IMatterHandler) {
+            if (((IMatterHandler) entity).getMatterStored() > 0) {
                 return MatterOverdriveIcons.matter_tank_full;
             }
         }
         return MatterOverdriveIcons.matter_tank_empty;
     }
 
-	@Override
-	 public void onBlockPlacedBy(World World, int x, int y, int z, EntityLivingBase player, ItemStack item)
-	    {
-	    	super.onBlockPlacedBy(World, x, y, z, player, item);
-            if(item.hasTagCompound()) {
-                TileEntity entity = World.getTileEntity(x, y, z);
+    @Override
+    public void onBlockPlacedBy(World World, int x, int y, int z, EntityLivingBase player, ItemStack item) {
+        super.onBlockPlacedBy(World, x, y, z, player, item);
+        if (item.hasTagCompound()) {
+            TileEntity entity = World.getTileEntity(x, y, z);
 
-                if (entity instanceof MOTileEntityMachineEnergy) {
-                    if(this.keepsEnergy)
-                        ((MOTileEntityMachineEnergy)entity).setEnergyStored(item.getTagCompound().getInteger("Energy"));
-                }
-                if (entity instanceof MOTileEntityMachineMatter) {
-                    if(this.keepsMatter)
-                        ((MOTileEntityMachineMatter)entity).setMatterStored(item.getTagCompound().getInteger("Matter"));
-                }
+            if (entity instanceof MOTileEntityMachineEnergy) {
+                if (this.keepsEnergy)
+                    ((MOTileEntityMachineEnergy) entity).setEnergyStored(item.getTagCompound().getInteger("Energy"));
             }
-	    }
+            if (entity instanceof MOTileEntityMachineMatter) {
+                if (this.keepsMatter)
+                    ((MOTileEntityMachineMatter) entity).setMatterStored(item.getTagCompound().getInteger("Matter"));
+            }
+        }
+    }
 
     /*@Override
     public boolean removedByPlayer(World world, EntityPlayer player, int x, int y, int z)

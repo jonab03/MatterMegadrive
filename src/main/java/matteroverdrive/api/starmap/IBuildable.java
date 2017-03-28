@@ -29,8 +29,7 @@ import java.util.UUID;
 /**
  * Created by Simeon on 6/24/2015.
  */
-public interface IBuildable
-{
+public interface IBuildable {
     boolean canBuild(ItemStack building, Planet planet, List<String> info);
 
     int getBuildLength(ItemStack building, Planet planet);
@@ -48,8 +47,7 @@ public interface IBuildable
     void setOwner(ItemStack ship, UUID ownerID);
 
 
-    default long getRemainingBuildTimeTicks(ItemStack stack, Planet planet, World world)
-    {
+    default long getRemainingBuildTimeTicks(ItemStack stack, Planet planet, World world) {
         return (getBuildStart(stack) + getBuildLength(stack, planet)) - world.getTotalWorldTime();
     }
 }

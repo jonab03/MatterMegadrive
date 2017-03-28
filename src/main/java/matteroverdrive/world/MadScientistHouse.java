@@ -39,35 +39,31 @@ import java.util.Random;
 /**
  * Created by Simeon on 5/30/2015.
  */
-public class MadScientistHouse extends StructureVillagePieces.Village
-{
+public class MadScientistHouse extends StructureVillagePieces.Village {
     private boolean hasMadeChest;
     int villagersSpawned;
     private static final String __OBFID = "CL_00000517";
 
-    public MadScientistHouse() {}
+    public MadScientistHouse() {
+    }
 
-    public MadScientistHouse(StructureVillagePieces.Start start, int p_i2094_2_, Random random, StructureBoundingBox boundingBox, int coordBaseMode)
-    {
+    public MadScientistHouse(StructureVillagePieces.Start start, int p_i2094_2_, Random random, StructureBoundingBox boundingBox, int coordBaseMode) {
         super(start, p_i2094_2_);
         this.coordBaseMode = coordBaseMode;
         this.boundingBox = boundingBox;
     }
 
-    public static MadScientistHouse func_74898_a(StructureVillagePieces.Start start, List list, Random p_74898_2_, int x, int y, int z, int p_74898_6_, int p_74898_7_)
-    {
+    public static MadScientistHouse func_74898_a(StructureVillagePieces.Start start, List list, Random p_74898_2_, int x, int y, int z, int p_74898_6_, int p_74898_7_) {
         StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(x, y, z, 0, 0, 0, 9, 9, 6, p_74898_6_);
         return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(list, structureboundingbox) == null ? new MadScientistHouse(start, p_74898_7_, p_74898_2_, structureboundingbox, p_74898_6_) : null;
     }
 
-    protected void func_143012_a(NBTTagCompound p_143012_1_)
-    {
+    protected void func_143012_a(NBTTagCompound p_143012_1_) {
         super.func_143012_a(p_143012_1_);
         p_143012_1_.setBoolean("Chest", this.hasMadeChest);
     }
 
-    protected void func_143011_b(NBTTagCompound p_143011_1_)
-    {
+    protected void func_143011_b(NBTTagCompound p_143011_1_) {
         super.func_143011_b(p_143011_1_);
         this.hasMadeChest = p_143011_1_.getBoolean("Chest");
     }
@@ -76,14 +72,11 @@ public class MadScientistHouse extends StructureVillagePieces.Village
      * second Part of Structure generating, this for example places Spiderwebs, Mob Spawners, it closes
      * Mineshafts at the end, it adds Fences..
      */
-    public boolean addComponentParts(World world, Random random, StructureBoundingBox boundingBox)
-    {
-        if (this.field_143015_k < 0)
-        {
+    public boolean addComponentParts(World world, Random random, StructureBoundingBox boundingBox) {
+        if (this.field_143015_k < 0) {
             this.field_143015_k = this.getAverageGroundLevel(world, boundingBox);
 
-            if (this.field_143015_k < 0)
-            {
+            if (this.field_143015_k < 0) {
                 return true;
             }
 
@@ -100,10 +93,8 @@ public class MadScientistHouse extends StructureVillagePieces.Village
         int k;
         int l;
 
-        for (k = -1; k <= 2; ++k)
-        {
-            for (l = 0; l <= 8; ++l)
-            {
+        for (k = -1; k <= 2; ++k) {
+            for (l = 0; l <= 8; ++l) {
                 this.placeBlockAtCurrentPosition(world, Blocks.oak_stairs, i, l, 6 + k, k, boundingBox);
                 this.placeBlockAtCurrentPosition(world, Blocks.oak_stairs, j, l, 6 + k, 5 - k, boundingBox);
             }
@@ -155,30 +146,26 @@ public class MadScientistHouse extends StructureVillagePieces.Village
         this.placeBlockAtCurrentPosition(world, Blocks.wooden_pressure_plate, 0, 4, 2, 3, boundingBox);
         this.placeBlockAtCurrentPosition(world, MatterOverdriveBlocks.inscriber, 0, 7, 1, 1, boundingBox);
 
-        if (!this.hasMadeChest)
-        {
+        if (!this.hasMadeChest) {
             this.hasMadeChest = true;
             int i1 = this.getXWithOffset(1, 4);
             int j1 = this.getYWithOffset(1);
             int k1 = this.getZWithOffset(1, 4);
 
-            if (boundingBox.isVecInside(i1, j1, k1))
-            {
+            if (boundingBox.isVecInside(i1, j1, k1)) {
                 world.setBlock(i1, j1, k1, MatterOverdriveBlocks.tritaniumCrate[random.nextInt(MatterOverdriveBlocks.tritaniumCrate.length)], 0, 2);
-                TileEntityTritaniumCrate tileentitycrate = (TileEntityTritaniumCrate)world.getTileEntity(i1, j1, k1);
+                TileEntityTritaniumCrate tileentitycrate = (TileEntityTritaniumCrate) world.getTileEntity(i1, j1, k1);
                 tileentitycrate.getInventory().addItem(MatterOverdrive.questFactory.generateQuestStack(random, MatterOverdriveQuests.gmo).getContract());
                 ItemStack scanner = new ItemStack(MatterOverdriveItems.dataPad);
                 scanner.setStackDisplayName("Mad Scientist's Data Pad");
-                MatterOverdriveItems.dataPad.addToScanWhitelist(scanner,Blocks.carrots);
-                MatterOverdriveItems.dataPad.addToScanWhitelist(scanner,Blocks.potatoes);
-                MatterOverdriveItems.dataPad.addToScanWhitelist(scanner,Blocks.wheat);
-                scanner.getTagCompound().setBoolean("Destroys",true);
-                scanner.getTagCompound().setBoolean("nogui",true);
+                MatterOverdriveItems.dataPad.addToScanWhitelist(scanner, Blocks.carrots);
+                MatterOverdriveItems.dataPad.addToScanWhitelist(scanner, Blocks.potatoes);
+                MatterOverdriveItems.dataPad.addToScanWhitelist(scanner, Blocks.wheat);
+                scanner.getTagCompound().setBoolean("Destroys", true);
+                scanner.getTagCompound().setBoolean("nogui", true);
                 tileentitycrate.getInventory().addItem(scanner);
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
         }
@@ -187,15 +174,12 @@ public class MadScientistHouse extends StructureVillagePieces.Village
         this.placeBlockAtCurrentPosition(world, Blocks.air, 0, 1, 2, 0, boundingBox);
         this.placeDoorAtCurrentPosition(world, boundingBox, random, 1, 1, 0, this.getMetadataWithOffset(Blocks.wooden_door, 1));
 
-        if (this.getBlockAtCurrentPosition(world, 1, 0, -1, boundingBox).getMaterial() == Material.air && this.getBlockAtCurrentPosition(world, 1, -1, -1, boundingBox).getMaterial() != Material.air)
-        {
+        if (this.getBlockAtCurrentPosition(world, 1, 0, -1, boundingBox).getMaterial() == Material.air && this.getBlockAtCurrentPosition(world, 1, -1, -1, boundingBox).getMaterial() != Material.air) {
             this.placeBlockAtCurrentPosition(world, Blocks.stone_stairs, this.getMetadataWithOffset(Blocks.stone_stairs, 3), 1, 0, -1, boundingBox);
         }
 
-        for (l = 0; l < 6; ++l)
-        {
-            for (int i1 = 0; i1 < 9; ++i1)
-            {
+        for (l = 0; l < 6; ++l) {
+            for (int i1 = 0; i1 < 9; ++i1) {
                 this.clearCurrentPositionBlocksUpwards(world, i1, 9, l, boundingBox);
                 this.func_151554_b(world, Blocks.cobblestone, 0, i1, -1, l, boundingBox);
             }
@@ -206,18 +190,14 @@ public class MadScientistHouse extends StructureVillagePieces.Village
     }
 
     @Override
-    protected void spawnVillagers(World world, StructureBoundingBox structureBoundingBox, int x, int y, int z, int count)
-    {
-        if (this.villagersSpawned < count)
-        {
-            for (int i1 = this.villagersSpawned; i1 < count; ++i1)
-            {
+    protected void spawnVillagers(World world, StructureBoundingBox structureBoundingBox, int x, int y, int z, int count) {
+        if (this.villagersSpawned < count) {
+            for (int i1 = this.villagersSpawned; i1 < count; ++i1) {
                 int j1 = this.getXWithOffset(x + i1, z);
                 int k1 = this.getYWithOffset(y);
                 int l1 = this.getZWithOffset(x + i1, z);
 
-                if (!structureBoundingBox.isVecInside(j1, k1, l1))
-                {
+                if (!structureBoundingBox.isVecInside(j1, k1, l1)) {
                     break;
                 }
 
@@ -232,8 +212,7 @@ public class MadScientistHouse extends StructureVillagePieces.Village
     /**
      * Returns the villager type to spawn in this component, based on the number of villagers already spawned.
      */
-    protected int getVillagerType(int p_74888_1_)
-    {
+    protected int getVillagerType(int p_74888_1_) {
         return 666;
     }
 }

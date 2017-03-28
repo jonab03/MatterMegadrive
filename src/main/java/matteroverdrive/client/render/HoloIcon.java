@@ -23,36 +23,30 @@ import net.minecraft.util.IIcon;
 /**
  * Created by Simeon on 8/28/2015.
  */
-public class HoloIcon
-{
+public class HoloIcon {
     private IIcon icon;
     private int originalWidth;
     private int originalHeight;
 
-    public HoloIcon(IIcon icon, int originalX, int originalY)
-    {
+    public HoloIcon(IIcon icon, int originalX, int originalY) {
         this.icon = icon;
         setOriginalSize(originalX, originalY);
     }
 
-    public void setOriginalSize(int originalX, int originalY)
-    {
+    public void setOriginalSize(int originalX, int originalY) {
         this.originalWidth = originalX;
         this.originalHeight = originalY;
     }
 
-    public int getOriginalWidth()
-    {
+    public int getOriginalWidth() {
         return originalWidth;
     }
 
-    public int getOriginalHeight()
-    {
+    public int getOriginalHeight() {
         return originalHeight;
     }
 
-    public IIcon getIcon()
-    {
+    public IIcon getIcon() {
         return icon;
     }
 }

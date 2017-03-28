@@ -28,18 +28,15 @@ import java.util.List;
 /**
  * Created by Simeon on 11/19/2015.
  */
-public class MOEventQuest extends PlayerEvent
-{
+public class MOEventQuest extends PlayerEvent {
     public final QuestStack questStack;
 
-    public MOEventQuest(QuestStack questStack, EntityPlayer entityPlayer)
-    {
+    public MOEventQuest(QuestStack questStack, EntityPlayer entityPlayer) {
         super(entityPlayer);
         this.questStack = questStack;
     }
 
-    public static class Completed extends MOEventQuest
-    {
+    public static class Completed extends MOEventQuest {
         public int xp;
         public List<IQuestReward> rewards;
 
@@ -48,20 +45,18 @@ public class MOEventQuest extends PlayerEvent
             this.xp = xp;
             this.rewards = rewards;
         }
-        public boolean isCancelable()
-        {
+
+        public boolean isCancelable() {
             return true;
         }
     }
 
-    public static class Added extends MOEventQuest
-    {
+    public static class Added extends MOEventQuest {
         public Added(QuestStack questStack, EntityPlayer entityPlayer) {
             super(questStack, entityPlayer);
         }
 
-        public boolean isCancelable()
-        {
+        public boolean isCancelable() {
             return true;
         }
     }

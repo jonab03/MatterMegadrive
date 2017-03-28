@@ -25,17 +25,14 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 10/16/2015.
  */
-public abstract class AbstractMatterNetworkPacketHandler
-{
-    public abstract void processPacket(MatterNetworkPacket packet,Context context);
+public abstract class AbstractMatterNetworkPacketHandler {
+    public abstract void processPacket(MatterNetworkPacket packet, Context context);
 
-    public static class Context
-    {
+    public static class Context {
         public final World world;
         public final IMatterNetworkConnection connection;
 
-        public Context(World world,IMatterNetworkConnection connection)
-        {
+        public Context(World world, IMatterNetworkConnection connection) {
             this.world = world;
             this.connection = connection;
         }

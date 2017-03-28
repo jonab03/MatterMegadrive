@@ -27,34 +27,34 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 7/19/2015.
  */
-public class DestinationFilterSlot extends Slot
-{
-    public DestinationFilterSlot(boolean isMainSlot)
-    {
+public class DestinationFilterSlot extends Slot {
+    public DestinationFilterSlot(boolean isMainSlot) {
         super(isMainSlot);
     }
 
     @Override
-    public boolean isValidForSlot(ItemStack item)
-    {
+    public boolean isValidForSlot(ItemStack item) {
         return true;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public HoloIcon getHoloIcon()
-    {
+    public HoloIcon getHoloIcon() {
         return ClientProxy.holoIcons.getIcon("connections");
     }
 
     @Override
-    public int getMaxStackSize(){return 1;}
+    public int getMaxStackSize() {
+        return 1;
+    }
 
     @Override
-    public boolean keepOnDismantle(){return true;}
+    public boolean keepOnDismantle() {
+        return true;
+    }
 
     @Override
-    public String getUnlocalizedTooltip(){
+    public String getUnlocalizedTooltip() {
         return "gui.tooltip.slot.filter";
     }
 }

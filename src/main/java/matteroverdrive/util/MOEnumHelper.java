@@ -24,8 +24,7 @@ import java.util.EnumSet;
 /**
  * Created by Simeon on 11/20/2015.
  */
-public class MOEnumHelper
-{
+public class MOEnumHelper {
     public static <E extends Enum<E>> int encode(EnumSet<E> set) {
         int ret = 0;
 

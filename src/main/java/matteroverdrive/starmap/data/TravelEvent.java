@@ -22,6 +22,7 @@ import cpw.mods.fml.common.network.ByteBufUtils;
 import io.netty.buffer.ByteBuf;
 import matteroverdrive.MatterOverdrive;
 import matteroverdrive.api.starmap.GalacticPosition;
+import matteroverdrive.util.MOLog;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -30,81 +31,70 @@ import net.minecraftforge.common.util.Constants;
 /**
  * Created by Simeon on 6/28/2015.
  */
-public class TravelEvent
-{
+public class TravelEvent {
     //region Private Vars
     private long timeStart;
     private int timeLength;
-    private GalacticPosition from,to;
+    private GalacticPosition from, to;
     private ItemStack ship;
     //endregion
 
     //region Constructors
-    public TravelEvent()
-    {
+    public TravelEvent() {
 
     }
 
-    public TravelEvent(NBTTagCompound tagCompound)
-    {
+    public TravelEvent(NBTTagCompound tagCompound) {
         readFromNBT(tagCompound);
     }
 
-    public TravelEvent(ByteBuf buf)
-    {
+    public TravelEvent(ByteBuf buf) {
         readFromBuffer(buf);
     }
 
-    public TravelEvent(World world,GalacticPosition from,GalacticPosition to,ItemStack shipStack,Galaxy galaxy)
-    {
+    public TravelEvent(World world, GalacticPosition from, GalacticPosition to, ItemStack shipStack, Galaxy galaxy) {
         timeStart = world.getTotalWorldTime();
         this.from = from;
         this.to = to;
         this.ship = shipStack;
-        calculateTravelTime(galaxy,from,to);
+        calculateTravelTime(galaxy, from, to);
     }
     //endregion
 
-    private void calculateTravelTime(Galaxy galaxy,GalacticPosition from,GalacticPosition to)
-    {
-        this.timeLength = (int)(from.distanceToLY(galaxy,to) * Galaxy.LY_TO_TICKS);
+    private void calculateTravelTime(Galaxy galaxy, GalacticPosition from, GalacticPosition to) {
+        this.timeLength = (int) (from.distanceToLY(galaxy, to) * Galaxy.LY_TO_TICKS);
         if (this.timeLength == 0)
-            this.timeLength = (int)(from.distanceToAU(galaxy, to) * Galaxy.AU_TO_TICKS);
+            this.timeLength = (int) (from.distanceToAU(galaxy, to) * Galaxy.AU_TO_TICKS);
     }
 
     //region Read - Write
-    public void writeToNBT(NBTTagCompound tagCompound)
-    {
+    public void writeToNBT(NBTTagCompound tagCompound) {
         NBTTagCompound shipStackNBT = new NBTTagCompound();
         if (ship != null) {
             ship.writeToNBT(shipStackNBT);
-            tagCompound.setTag("Ship",shipStackNBT);
+            tagCompound.setTag("Ship", shipStackNBT);
         }
         tagCompound.setInteger("TimeLength", timeLength);
-        tagCompound.setLong("TimeStart",timeStart);
+        tagCompound.setLong("TimeStart", timeStart);
         tagCompound.setTag("From", from.toNBT());
-        tagCompound.setTag("To",to.toNBT());
+        tagCompound.setTag("To", to.toNBT());
     }
 
-    public void readFromNBT(NBTTagCompound tagCompound)
-    {
+    public void readFromNBT(NBTTagCompound tagCompound) {
         from = new GalacticPosition(tagCompound.getCompoundTag("From"));
         to = new GalacticPosition(tagCompound.getCompoundTag("To"));
-        if (tagCompound.hasKey("Ship", Constants.NBT.TAG_COMPOUND))
-        {
+        if (tagCompound.hasKey("Ship", Constants.NBT.TAG_COMPOUND)) {
             try {
                 ship = ItemStack.loadItemStackFromNBT(tagCompound.getCompoundTag("Ship"));
-            }catch (Exception e)
-            {
-				MatterOverdrive.log.warn("Could not load ship from NBT in travel event", e);
+            } catch (Exception e) {
+                MOLog.warn("Could not load ship from NBT in travel event", e);
             }
         }
         timeLength = tagCompound.getInteger("TimeLength");
         timeStart = tagCompound.getLong("TimeStart");
     }
 
-    public void readFromBuffer(ByteBuf buf)
-    {
+    public void readFromBuffer(ByteBuf buf) {
         from = new GalacticPosition(buf);
         to = new GalacticPosition(buf);
         ship = ByteBufUtils.readItemStack(buf);
@@ -112,46 +102,71 @@ public class TravelEvent
         timeStart = buf.readLong();
     }
 
-    public void writeToBuffer(ByteBuf buf)
-    {
+    public void writeToBuffer(ByteBuf buf) {
         from.writeToBuffer(buf);
         to.writeToBuffer(buf);
-        ByteBufUtils.writeItemStack(buf,ship);
+        ByteBufUtils.writeItemStack(buf, ship);
         buf.writeInt(timeLength);
         buf.writeLong(timeStart);
     }
     //endregion
 
     //region Getters and Setters
-    public int getTimeLength() {return (int) Math.ceil(timeLength * Galaxy.GALAXY_TRAVEL_TIME_MULTIPLY);}
-    public void setTimeLength(int timeLength) {this.timeLength = timeLength;}
-    public long getTimeStart() {return timeStart;}
-    public long getTimeRemainning(World world)
-    {
+    public int getTimeLength() {
+        return (int) Math.ceil(timeLength * Galaxy.GALAXY_TRAVEL_TIME_MULTIPLY);
+    }
+
+    public void setTimeLength(int timeLength) {
+        this.timeLength = timeLength;
+    }
+
+    public long getTimeStart() {
+        return timeStart;
+    }
+
+    public long getTimeRemainning(World world) {
         return (timeStart + getTimeLength()) - world.getTotalWorldTime();
     }
-    public double getPercent(World world) {return 1d - (double)((timeStart + timeLength) - world.getTotalWorldTime()) / (double)timeLength;}
-    public void setTimeStart(long timeStart) {this.timeStart = timeStart;}
-    public ItemStack getShip() {return ship;}
-    public void setShip(ItemStack ship) {this.ship = ship;}
+
+    public double getPercent(World world) {
+        return 1d - (double) ((timeStart + timeLength) - world.getTotalWorldTime()) / (double) timeLength;
+    }
+
+    public void setTimeStart(long timeStart) {
+        this.timeStart = timeStart;
+    }
+
+    public ItemStack getShip() {
+        return ship;
+    }
+
+    public void setShip(ItemStack ship) {
+        this.ship = ship;
+    }
+
     public GalacticPosition getTo() {
         return to;
     }
+
     public void setTo(GalacticPosition to) {
         this.to = to;
     }
+
     public GalacticPosition getFrom() {
         return from;
     }
-    public void setFrom(GalacticPosition from) {this.from = from;}
-    public NBTTagCompound toNBT()
-    {
+
+    public void setFrom(GalacticPosition from) {
+        this.from = from;
+    }
+
+    public NBTTagCompound toNBT() {
         NBTTagCompound tagCompound = new NBTTagCompound();
         writeToNBT(tagCompound);
         return tagCompound;
     }
-    public boolean isValid(Galaxy galaxy)
-    {
+
+    public boolean isValid(Galaxy galaxy) {
         if (this.from != null && this.to != null) {
             Planet from = galaxy.getPlanet(this.from);
             Planet to = galaxy.getPlanet(this.to);
@@ -161,6 +176,7 @@ public class TravelEvent
         }
         return false;
     }
+
     public boolean isComplete(World world) {
         return getTimeRemainning(world) <= 0;
     }

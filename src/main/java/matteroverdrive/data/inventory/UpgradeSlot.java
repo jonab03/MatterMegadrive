@@ -32,8 +32,7 @@ import java.util.Map;
 /**
  * Created by Simeon on 4/9/2015.
  */
-public class UpgradeSlot extends Slot
-{
+public class UpgradeSlot extends Slot {
     private IUpgradeable upgradeable;
 
     public UpgradeSlot(boolean isMainSlot, IUpgradeable upgradeable) {
@@ -42,18 +41,13 @@ public class UpgradeSlot extends Slot
     }
 
     @Override
-    public boolean isValidForSlot(ItemStack item)
-    {
-        if (item.getItem() instanceof IUpgrade)
-        {
-            IUpgrade upgrade = (IUpgrade)item.getItem();
+    public boolean isValidForSlot(ItemStack item) {
+        if (item.getItem() instanceof IUpgrade) {
+            IUpgrade upgrade = (IUpgrade) item.getItem();
             UpgradeTypes mainUpgradeType = upgrade.getMainUpgrade(item);
-            if (mainUpgradeType != null)
-            {
+            if (mainUpgradeType != null) {
                 return upgradeable.isAffectedByUpgrade(mainUpgradeType);
-            }
-            else
-            {
+            } else {
                 Map<UpgradeTypes, Double> upgradeMap = upgrade.getUpgrades(item);
                 for (final Map.Entry<UpgradeTypes, Double> entry : upgradeMap.entrySet()) {
                     if (upgradeable.isAffectedByUpgrade(entry.getKey())) {
@@ -67,25 +61,22 @@ public class UpgradeSlot extends Slot
 
     @Override
     @SideOnly(Side.CLIENT)
-    public HoloIcon getHoloIcon()
-    {
+    public HoloIcon getHoloIcon() {
         return ClientProxy.holoIcons.getIcon("upgrade");
     }
 
     @Override
-    public int getMaxStackSize()
-    {
+    public int getMaxStackSize() {
         return 1;
     }
 
     @Override
-    public boolean keepOnDismantle()
-    {
+    public boolean keepOnDismantle() {
         return true;
     }
 
     @Override
-    public String getUnlocalizedTooltip(){
+    public String getUnlocalizedTooltip() {
         return "gui.tooltip.slot.upgrade";
     }
 }

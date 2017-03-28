@@ -9,31 +9,28 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 /**
  * Created by Simeon on 1/5/2016.
  */
-public class MOEventScan extends PlayerEvent
-{
+public class MOEventScan extends PlayerEvent {
     public final ItemStack scannerStack;
     public final MovingObjectPosition position;
     private final Side side;
 
-    public MOEventScan(EntityPlayer player, ItemStack scannetStack,MovingObjectPosition position)
-    {
+    public MOEventScan(EntityPlayer player, ItemStack scannetStack, MovingObjectPosition position) {
         super(player);
-        if (player.worldObj.isRemote)
-        {
+        if (player.worldObj.isRemote) {
             side = Side.CLIENT;
-        }else
-        {
+        } else {
             side = Side.SERVER;
         }
         this.scannerStack = scannetStack;
         this.position = position;
     }
 
-    public Side getSide(){return side;}
+    public Side getSide() {
+        return side;
+    }
 
     @Override
-    public boolean isCancelable()
-    {
+    public boolean isCancelable() {
         return true;
     }
 }

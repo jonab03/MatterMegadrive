@@ -26,8 +26,7 @@ import net.minecraft.util.Vec3;
 /**
  * Created by Simeon on 12/10/2015.
  */
-public class EntityAIMoveAlongPath extends EntityAIBase
-{
+public class EntityAIMoveAlongPath extends EntityAIBase {
     private IPathableMob pathableMob;
     private double movePosX;
     private double movePosY;
@@ -35,8 +34,7 @@ public class EntityAIMoveAlongPath extends EntityAIBase
     private double movementSpeed;
     private static final String __OBFID = "CL_00001598";
 
-    public EntityAIMoveAlongPath(IPathableMob pathableMob, double moveSpeedMultiply)
-    {
+    public EntityAIMoveAlongPath(IPathableMob pathableMob, double moveSpeedMultiply) {
         this.pathableMob = pathableMob;
         this.movementSpeed = moveSpeedMultiply;
         this.setMutexBits(1);
@@ -45,39 +43,29 @@ public class EntityAIMoveAlongPath extends EntityAIBase
     /**
      * Returns whether the EntityAIBase should begin execution.
      */
-    public boolean shouldExecute()
-    {
-        if (pathableMob.getEntity().getAttackTarget() != null)
-        {
+    public boolean shouldExecute() {
+        if (pathableMob.getEntity().getAttackTarget() != null) {
             return false;
-        }
-        else if (pathableMob.getCurrentTarget() != null)
-        {
+        } else if (pathableMob.getCurrentTarget() != null) {
             if (!pathableMob.getEntity().getNavigator().noPath())
                 return true;
 
-            if (pathableMob.isNearTarget(pathableMob.getCurrentTarget()))
-            {
+            if (pathableMob.isNearTarget(pathableMob.getCurrentTarget())) {
                 pathableMob.onTargetReached(pathableMob.getCurrentTarget());
-            }else
-            {
-                if (!pathableMob.getEntity().getNavigator().tryMoveToXYZ(pathableMob.getCurrentTarget().xCoord,pathableMob.getCurrentTarget().yCoord,pathableMob.getCurrentTarget().zCoord,this.movementSpeed))
-                {
+            } else {
+                if (!pathableMob.getEntity().getNavigator().tryMoveToXYZ(pathableMob.getCurrentTarget().xCoord, pathableMob.getCurrentTarget().yCoord, pathableMob.getCurrentTarget().zCoord, this.movementSpeed)) {
                     Vec3 vec3 = RandomPositionGenerator.findRandomTargetBlockTowards(pathableMob.getEntity(), 8, 2, pathableMob.getCurrentTarget());
 
-                    if (vec3 == null)
-                    {
+                    if (vec3 == null) {
                         return false;
-                    } else
-                    {
+                    } else {
                         this.movePosX = vec3.xCoord;
                         this.movePosY = vec3.yCoord;
                         this.movePosZ = vec3.zCoord;
-                        pathableMob.getEntity().getNavigator().tryMoveToXYZ(this.movePosX, this.movePosY, this.movePosZ,this.movementSpeed);
+                        pathableMob.getEntity().getNavigator().tryMoveToXYZ(this.movePosX, this.movePosY, this.movePosZ, this.movementSpeed);
                         return true;
                     }
-                }else
-                {
+                } else {
                     return true;
                 }
             }
@@ -88,16 +76,14 @@ public class EntityAIMoveAlongPath extends EntityAIBase
     /**
      * Returns whether an in-progress EntityAIBase should continue executing
      */
-    public boolean continueExecuting()
-    {
+    public boolean continueExecuting() {
         return !pathableMob.getEntity().getNavigator().noPath();
     }
 
     /**
      * Execute a one shot task or start executing a continuous task
      */
-    public void startExecuting()
-    {
+    public void startExecuting() {
 
     }
 }

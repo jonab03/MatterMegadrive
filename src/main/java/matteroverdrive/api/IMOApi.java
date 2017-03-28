@@ -30,8 +30,7 @@ import matteroverdrive.api.starmap.IStarmapRenderRegistry;
 /**
  * Created by Simeon on 7/20/2015.
  */
-public interface IMOApi
-{
+public interface IMOApi {
     IMatterRegistry getMatterRegistry();
 
     IAndroidStatRegistry getAndroidStatRegistry();

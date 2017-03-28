@@ -33,44 +33,35 @@ import java.util.EnumSet;
 /**
  * Created by Simeon on 7/9/2015.
  */
-public class PacketAndroidChangeAbility extends PacketAbstract
-{
+public class PacketAndroidChangeAbility extends PacketAbstract {
     String ability;
 
-    public PacketAndroidChangeAbility()
-    {
+    public PacketAndroidChangeAbility() {
 
     }
 
-    public PacketAndroidChangeAbility(String ability)
-    {
+    public PacketAndroidChangeAbility(String ability) {
         this.ability = ability;
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         ability = ByteBufUtils.readUTF8String(buf);
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
-        ByteBufUtils.writeUTF8String(buf,ability);
+    public void toBytes(ByteBuf buf) {
+        ByteBufUtils.writeUTF8String(buf, ability);
     }
 
-    public static class ServerHandler extends AbstractServerPacketHandler<PacketAndroidChangeAbility>
-    {
+    public static class ServerHandler extends AbstractServerPacketHandler<PacketAndroidChangeAbility> {
 
         @Override
-        public IMessage handleServerMessage(EntityPlayer player, PacketAndroidChangeAbility message, MessageContext ctx)
-        {
+        public IMessage handleServerMessage(EntityPlayer player, PacketAndroidChangeAbility message, MessageContext ctx) {
             IBionicStat stat = MatterOverdrive.statRegistry.getStat(message.ability);
-            if (stat != null)
-            {
+            if (stat != null) {
                 AndroidPlayer androidPlayer = AndroidPlayer.get(player);
-                if (androidPlayer.isUnlocked(stat,0) && stat.showOnWheel(androidPlayer,androidPlayer.getUnlockedLevel(stat)))
-                {
+                if (androidPlayer.isUnlocked(stat, 0) && stat.showOnWheel(androidPlayer, androidPlayer.getUnlockedLevel(stat))) {
                     androidPlayer.setActiveStat(stat);
                     androidPlayer.sync(EnumSet.of(AndroidPlayer.DataType.STATS));
                 }

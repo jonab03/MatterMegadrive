@@ -36,10 +36,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 /**
  * Created by Simeon on 11/22/2015.
  */
-public abstract class BlockMonitor extends MOBlockMachine
-{
-    public BlockMonitor(Material material, String name)
-    {
+public abstract class BlockMonitor extends MOBlockMachine {
+    public BlockMonitor(Material material, String name) {
         super(material, name);
         setHardness(20.0F);
         this.setResistance(9.0f);
@@ -49,44 +47,30 @@ public abstract class BlockMonitor extends MOBlockMachine
     }
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta)
-    {
-        if (side == meta)
-        {
+    public IIcon getIcon(int side, int meta) {
+        if (side == meta) {
             MatterOverdriveIcons.Monitor_back.setType(0);
             return MatterOverdriveIcons.Monitor_back;
-        }
-        else if (side == MOBlockHelper.getOppositeSide(meta))
-        {
+        } else if (side == MOBlockHelper.getOppositeSide(meta)) {
             return MatterOverdriveIcons.Network_port_square;
         }
         return MatterOverdriveIcons.Base;
     }
 
-    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
-    {
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
         int meta = world.getBlockMetadata(x, y, z);
         ForgeDirection direction = ForgeDirection.getOrientation(meta);
         float pixel = 1f / 16f;
 
-        if (direction == ForgeDirection.EAST)
-        {
+        if (direction == ForgeDirection.EAST) {
             this.setBlockBounds(0, 0, 0, 5 * pixel, 1, 1);
-        }
-        else if (direction == ForgeDirection.WEST)
-        {
+        } else if (direction == ForgeDirection.WEST) {
             this.setBlockBounds(1 - 5 * pixel, 0, 0, 1, 1, 1);
-        }
-        else if (direction == ForgeDirection.SOUTH)
-        {
+        } else if (direction == ForgeDirection.SOUTH) {
             this.setBlockBounds(0, 0, 0, 1, 1, 5 * pixel);
-        }
-        else if (direction == ForgeDirection.NORTH)
-        {
+        } else if (direction == ForgeDirection.NORTH) {
             this.setBlockBounds(0, 0, 1 - 5 * pixel, 1, 1, 1);
-        }
-        else
-        {
+        } else {
             this.setBlockBounds(0, 0, 0, 1, 1, 5 * pixel);
         }
     }
@@ -98,41 +82,35 @@ public abstract class BlockMonitor extends MOBlockMachine
 
     @Override
     @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z)
-    {
+    public AxisAlignedBB getSelectedBoundingBoxFromPool(World world, int x, int y, int z) {
         this.setBlockBoundsBasedOnState(world, x, y, z);
         return super.getSelectedBoundingBoxFromPool(world, x, y, z);
     }
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-    {
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
         this.setBlockBoundsBasedOnState(world, x, y, z);
         return super.getCollisionBoundingBoxFromPool(world, x, y, z);
     }
 
     @Override
-    public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 vector1, Vec3 vector2)
-    {
+    public MovingObjectPosition collisionRayTrace(World world, int x, int y, int z, Vec3 vector1, Vec3 vector2) {
         this.setBlockBoundsBasedOnState(world, x, y, z);
         return super.collisionRayTrace(world, x, y, z, vector1, vector2);
     }
 
     @Override
-    public boolean renderAsNormalBlock()
-    {
+    public boolean renderAsNormalBlock() {
         return false;
     }
 
     @Override
-    public boolean isOpaqueCube()
-    {
+    public boolean isOpaqueCube() {
         return false;
     }
 
     @Override
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return MOBlockRenderer.renderID;
     }
 }

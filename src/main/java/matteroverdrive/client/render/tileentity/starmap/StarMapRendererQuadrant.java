@@ -43,14 +43,12 @@ import static org.lwjgl.opengl.GL11.*;
 public class StarMapRendererQuadrant extends StarMapRendererStars {
 
     @Override
-    public void renderBody(Galaxy galaxy, SpaceBody spaceBody, TileEntityMachineStarMap starMap, float partialTicks,float viewerDistance)
-    {
-        if (spaceBody instanceof Quadrant)
-        {
+    public void renderBody(Galaxy galaxy, SpaceBody spaceBody, TileEntityMachineStarMap starMap, float partialTicks, float viewerDistance) {
+        if (spaceBody instanceof Quadrant) {
             glLineWidth(1);
             glDepthMask(false);
 
-            Quadrant quadrant = (Quadrant)spaceBody;
+            Quadrant quadrant = (Quadrant) spaceBody;
             double distanceMultiply = 5;
             double halfQuadrantSize = quadrant.getSize() * 1.5;
             double x = ((-quadrant.getX()) - quadrant.getSize() / 2) * distanceMultiply;
@@ -62,8 +60,7 @@ public class StarMapRendererQuadrant extends StarMapRendererStars {
     }
 
     @Override
-    public void renderGUIInfo(Galaxy galaxy, SpaceBody spaceBody,TileEntityMachineStarMap starMap, float partialTicks, float opacity)
-    {
+    public void renderGUIInfo(Galaxy galaxy, SpaceBody spaceBody, TileEntityMachineStarMap starMap, float partialTicks, float opacity) {
         glEnable(GL_ALPHA_TEST);
         Star star = galaxy.getStar(starMap.getDestination());
         Star origin = galaxy.getStar(starMap.getGalaxyPosition());
@@ -86,7 +83,7 @@ public class StarMapRendererQuadrant extends StarMapRendererStars {
             }
 
             ClientProxy.holoIcons.renderIcon("icon_size", 48, -28);
-            RenderUtils.drawString(DecimalFormat.getPercentInstance().format(star.getSize()), 68, -23, Reference.COLOR_HOLO,opacity);
+            RenderUtils.drawString(DecimalFormat.getPercentInstance().format(star.getSize()), 68, -23, Reference.COLOR_HOLO, opacity);
 
             if (origin != null)
                 RenderUtils.drawString(String.format("Distance: %s LY", format.format(origin.getPosition().distanceTo(star.getPosition()) * Galaxy.GALAXY_SIZE_TO_LY)), 0, -42, Reference.COLOR_HOLO, opacity);

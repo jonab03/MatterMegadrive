@@ -78,8 +78,7 @@ import java.util.Random;
 /**
  * Created by Simeon on 4/17/2015.
  */
-public class RenderHandler
-{
+public class RenderHandler {
     private Random random = new Random();
     private RenderMatterScannerInfoHandler matterScannerInfoHandler;
     private RenderParticlesHandler renderParticlesHandler;
@@ -158,8 +157,7 @@ public class RenderHandler
     public ModelBiped modelRangedRogueAndroidParts;
     //endregion
 
-    public RenderHandler(World world, TextureManager textureManager)
-    {
+    public RenderHandler(World world, TextureManager textureManager) {
         customRenderers = new ArrayList<>();
         matterScannerInfoHandler = new RenderMatterScannerInfoHandler();
         renderParticlesHandler = new RenderParticlesHandler(world, textureManager);
@@ -177,18 +175,14 @@ public class RenderHandler
     }
 
     @SubscribeEvent
-    public void onRenderWorldLast(RenderWorldLastEvent event)
-    {
+    public void onRenderWorldLast(RenderWorldLastEvent event) {
         for (IWorldLastRenderer renderer : customRenderers) {
             renderer.onRenderWorldLast(this, event);
         }
-        for (IBionicStat stat : MatterOverdrive.statRegistry.getStats())
-        {
+        for (IBionicStat stat : MatterOverdrive.statRegistry.getStats()) {
             Collection<IBioticStatRenderer> statRendererCollection = statRenderRegistry.getRendererCollection(stat.getClass());
-            if (statRendererCollection != null)
-            {
-                for (IBioticStatRenderer renderer : statRendererCollection)
-                {
+            if (statRendererCollection != null) {
+                for (IBioticStatRenderer renderer : statRendererCollection) {
                     renderer.onWorldRender(stat, AndroidPlayer.get(Minecraft.getMinecraft().thePlayer).getUnlockedLevel(stat), event);
                 }
             }
@@ -197,13 +191,11 @@ public class RenderHandler
 
     //Called when the client ticks.
     @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event)
-    {
+    public void onClientTick(TickEvent.ClientTickEvent event) {
         renderParticlesHandler.onClientTick(event);
     }
 
-    public void createTileEntityRenderers(ConfigurationHandler configHandler)
-    {
+    public void createTileEntityRenderers(ConfigurationHandler configHandler) {
         tileEntityRendererReplicator = new TileEntityRendererReplicator();
         tileEntityRendererPipe = new TileEntityRendererPipe();
         tileEntityRendererMatterPipe = new TileEntityRendererMatterPipe();
@@ -227,28 +219,23 @@ public class RenderHandler
     }
 
     @SubscribeEvent
-    public void onPlayerRenderPost(RenderPlayerEvent.Post event)
-    {
+    public void onPlayerRenderPost(RenderPlayerEvent.Post event) {
         //GL11.glEnable(GL11.GL_LIGHTING);
         //GL11.glColor3f(1, 1, 1);
 
         AndroidPlayer androidPlayer = AndroidPlayer.get(event.entityPlayer);
         if (androidPlayer != null && androidPlayer.isAndroid() && !event.entityPlayer.isInvisible()) {
-            for (int i = 0; i < 5; i++)
-            {
+            for (int i = 0; i < 5; i++) {
                 ItemStack part = androidPlayer.getStackInSlot(i);
-                if (part != null && part.getItem() instanceof IBionicPart)
-                {
+                if (part != null && part.getItem() instanceof IBionicPart) {
                     IBionicPartRenderer renderer = bionicPartRenderRegistry.getRenderer(((IBionicPart) part.getItem()).getClass());
                     if (renderer != null) {
                         try {
                             GL11.glPushMatrix();
                             renderer.renderPart(part, androidPlayer, event.renderer, event.partialRenderTick);
                             GL11.glPopMatrix();
-                        }
-                        catch (Exception e)
-                        {
-                            MOLog.log(Level.ERROR,e,"An Error occurred while rendering bionic part");
+                        } catch (Exception e) {
+                            MOLog.log(Level.ERROR, e, "An Error occurred while rendering bionic part");
                         }
                     }
                 }
@@ -257,18 +244,15 @@ public class RenderHandler
     }
 
     @SubscribeEvent
-    public void onPlayerRenderPre(RenderPlayerEvent.Pre event)
-    {
+    public void onPlayerRenderPre(RenderPlayerEvent.Pre event) {
         //GL11.glEnable(GL11.GL_LIGHTING);
         //GL11.glColor3f(1, 1, 1);
 
         AndroidPlayer androidPlayer = AndroidPlayer.get(event.entityPlayer);
         if (androidPlayer != null && androidPlayer.isAndroid() && !event.entityPlayer.isInvisible()) {
-            for (int i = 0; i < 5; i++)
-            {
+            for (int i = 0; i < 5; i++) {
                 ItemStack part = androidPlayer.getStackInSlot(i);
-                if (part != null && part.getItem() instanceof IBionicPart)
-                {
+                if (part != null && part.getItem() instanceof IBionicPart) {
                     IBionicPartRenderer renderer = bionicPartRenderRegistry.getRenderer(((IBionicPart) part.getItem()).getClass());
                     if (renderer != null) {
                         renderer.affectPlayerRenderer(part, androidPlayer, event.renderer, event.partialRenderTick);
@@ -278,8 +262,7 @@ public class RenderHandler
         }
     }
 
-    public void createBlockRenderers()
-    {
+    public void createBlockRenderers() {
         blockRenderer = new MOBlockRenderer();
         rendererBlockGravitationalStabilizer = new RendererBlockGravitationalStabilizer();
         rendererBlockPipe = new RendererBlockPipe();
@@ -291,8 +274,7 @@ public class RenderHandler
         rendererBlockDecorativeVertical = new RendererBlockDecorativeVertical();
     }
 
-    public void registerBlockRenderers()
-    {
+    public void registerBlockRenderers() {
         RenderingRegistry.registerBlockHandler(blockRenderer);
         RenderingRegistry.registerBlockHandler(rendererBlockGravitationalStabilizer);
         RenderingRegistry.registerBlockHandler(rendererBlockPipe);
@@ -304,8 +286,7 @@ public class RenderHandler
         RenderingRegistry.registerBlockHandler(rendererBlockDecorativeVertical);
     }
 
-    public void registerTileEntitySpecialRenderers()
-    {
+    public void registerTileEntitySpecialRenderers() {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineReplicator.class, tileEntityRendererReplicator);
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachinePatternStorage.class, tileEntityRendererPatterStorage);
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityWeaponStation.class, tileEntityRendererWeaponStation);
@@ -318,12 +299,11 @@ public class RenderHandler
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineChargingStation.class, tileEntityRendererChargingStation);
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHoloSign.class, tileEntityRendererHoloSign);
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachinePacketQueue.class, tileEntityRendererPacketQueue);
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityInscriber.class,tileEntityRendererInscriber);
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineContractMarket.class,tileEntityRendererContractMarket);
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityInscriber.class, tileEntityRendererInscriber);
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityMachineContractMarket.class, tileEntityRendererContractMarket);
     }
 
-    public void createItemRenderers()
-    {
+    public void createItemRenderers() {
         rendererPhaser = new ItemRendererPhaser();
         rendererPhaserRifle = new ItemRendererPhaserRifle();
         rendererOmniTool = new ItemRendererOmniTool();
@@ -331,67 +311,59 @@ public class RenderHandler
         rendererIonSniper = new ItemRendererIonSniper();
     }
 
-    public void registerItemRenderers()
-    {
+    public void registerItemRenderers() {
         MinecraftForgeClient.registerItemRenderer(MatterOverdriveItems.phaser, rendererPhaser);
-        MinecraftForgeClient.registerItemRenderer(MatterOverdriveItems.phaserRifle,rendererPhaserRifle);
-        MinecraftForgeClient.registerItemRenderer(MatterOverdriveItems.omniTool,rendererOmniTool);
-        MinecraftForgeClient.registerItemRenderer(MatterOverdriveItems.plasmaShotgun,renderPlasmaShotgun);
-        MinecraftForgeClient.registerItemRenderer(MatterOverdriveItems.ionSniper,rendererIonSniper);
+        MinecraftForgeClient.registerItemRenderer(MatterOverdriveItems.phaserRifle, rendererPhaserRifle);
+        MinecraftForgeClient.registerItemRenderer(MatterOverdriveItems.omniTool, rendererOmniTool);
+        MinecraftForgeClient.registerItemRenderer(MatterOverdriveItems.plasmaShotgun, renderPlasmaShotgun);
+        MinecraftForgeClient.registerItemRenderer(MatterOverdriveItems.ionSniper, rendererIonSniper);
     }
 
-    public void createEntityRenderers()
-    {
-        rendererRougeAndroid = new EntityRendererRougeAndroid(new ModelBiped(), 0,false);
+    public void createEntityRenderers() {
+        rendererRougeAndroid = new EntityRendererRougeAndroid(new ModelBiped(), 0, false);
         rendererMadScientist = new EntityRendererMadScientist();
-        rendererFailedPig = new EntityRendererFailedPig(new ModelPig(),new ModelPig(0.5f), 0.7F);
+        rendererFailedPig = new EntityRendererFailedPig(new ModelPig(), new ModelPig(0.5f), 0.7F);
         rendererFailedCow = new EntityRendererFailedCow(new ModelCow(), 0.7f);
         rendererFailedChicken = new EntityRendererFailedChicken(new ModelChicken(), 0.3f);
         rendererFailedSheep = new EntityRendererFailedSheep(new ModelSheep2(), new ModelSheep1(), 0.7f);
         rendererPhaserFire = new EntityRendererPhaserFire();
         rendererRangedRougeAndroid = new EntityRendererRangedRougeAndroid(0);
-        rendererRougeAndroidHologram = new EntityRendererRougeAndroid(new ModelBiped(),0,true);
-        rendererMutantScientist = new EntityRendererMutantScientist(new ModelHulkingScientist(),0,1);
+        rendererRougeAndroidHologram = new EntityRendererRougeAndroid(new ModelBiped(), 0, true);
+        rendererMutantScientist = new EntityRendererMutantScientist(new ModelHulkingScientist(), 0, 1);
     }
 
-    public void registerEntityRenderers()
-    {
+    public void registerEntityRenderers() {
         RenderingRegistry.registerEntityRenderingHandler(EntityMeleeRougeAndroidMob.class, rendererRougeAndroid);
-        RenderingRegistry.registerEntityRenderingHandler(EntityFailedPig.class,rendererFailedPig);
+        RenderingRegistry.registerEntityRenderingHandler(EntityFailedPig.class, rendererFailedPig);
         RenderingRegistry.registerEntityRenderingHandler(EntityFailedCow.class, rendererFailedCow);
-        RenderingRegistry.registerEntityRenderingHandler(EntityFailedChicken.class,rendererFailedChicken);
-        RenderingRegistry.registerEntityRenderingHandler(EntityFailedSheep.class,rendererFailedSheep);
+        RenderingRegistry.registerEntityRenderingHandler(EntityFailedChicken.class, rendererFailedChicken);
+        RenderingRegistry.registerEntityRenderingHandler(EntityFailedSheep.class, rendererFailedSheep);
         RenderingRegistry.registerEntityRenderingHandler(EntityVillagerMadScientist.class, rendererMadScientist);
         RenderingRegistry.registerEntityRenderingHandler(PlasmaBolt.class, rendererPhaserFire);
-        RenderingRegistry.registerEntityRenderingHandler(EntityRangedRogueAndroidMob.class,rendererRangedRougeAndroid);
-        RenderingRegistry.registerEntityRenderingHandler(EntityMutantScientist.class,rendererMutantScientist);
+        RenderingRegistry.registerEntityRenderingHandler(EntityRangedRogueAndroidMob.class, rendererRangedRougeAndroid);
+        RenderingRegistry.registerEntityRenderingHandler(EntityMutantScientist.class, rendererMutantScientist);
     }
 
-    public void createBioticStatRenderers()
-    {
+    public void createBioticStatRenderers() {
         rendererTeleporter = new BioticStatRendererTeleporter();
         biostatRendererShield = new BioticStatRendererShield();
     }
 
-    public void registerBioticStatRenderers()
-    {
-        statRenderRegistry.registerRenderer(MatterOverdriveBioticStats.shield.getClass(),biostatRendererShield);
-        statRenderRegistry.registerRenderer(MatterOverdriveBioticStats.teleport.getClass(),rendererTeleporter);
+    public void registerBioticStatRenderers() {
+        statRenderRegistry.registerRenderer(MatterOverdriveBioticStats.shield.getClass(), biostatRendererShield);
+        statRenderRegistry.registerRenderer(MatterOverdriveBioticStats.teleport.getClass(), rendererTeleporter);
     }
 
-    public void registerBionicPartRenderers()
-    {
-        bionicPartRenderRegistry.register(TritaniumSpine.class,new TritaniumSpineRenderer());
+    public void registerBionicPartRenderers() {
+        bionicPartRenderRegistry.register(TritaniumSpine.class, new TritaniumSpineRenderer());
         bionicPartRenderRegistry.register(RougeAndroidParts.class, new RougeAndroidPartsRender());
     }
 
-    public void registerWeaponModuleModels()
-    {
+    public void registerWeaponModuleModels() {
         weaponModuleModelRegistry.registerModule(MatterOverdriveItems.sniperScope);
     }
 
-    public void createStarmapRenderers()
-    {
+    public void createStarmapRenderers() {
         starMapRendererPlanet = new StarMapRendererPlanet();
         starMapRendererQuadrant = new StarMapRendererQuadrant();
         starMapRendererStar = new StarMapRendererStar();
@@ -399,8 +371,7 @@ public class RenderHandler
         starMapRenderPlanetStats = new StarMapRenderPlanetStats();
     }
 
-    public void registerStarmapRenderers()
-    {
+    public void registerStarmapRenderers() {
         starmapRenderRegistry.registerRenderer(Planet.class, starMapRendererPlanet);
         starmapRenderRegistry.registerRenderer(Quadrant.class, starMapRendererQuadrant);
         starmapRenderRegistry.registerRenderer(Star.class, starMapRendererStar);
@@ -408,50 +379,46 @@ public class RenderHandler
         starmapRenderRegistry.registerRenderer(Planet.class, starMapRenderPlanetStats);
     }
 
-    public void createModels()
-    {
+    public void createModels() {
         modelTritaniumArmor = new ModelTritaniumArmor(0);
         modelTritaniumArmorFeet = new ModelTritaniumArmor(0.5f);
         modelMeleeRogueAndroidParts = new ModelBiped(0);
-        modelRangedRogueAndroidParts = new ModelBiped(0,0,96,64);
+        modelRangedRogueAndroidParts = new ModelBiped(0, 0, 96, 64);
     }
 
-    public RenderParticlesHandler getRenderParticlesHandler()
-    {
+    public RenderParticlesHandler getRenderParticlesHandler() {
         return renderParticlesHandler;
     }
 
-    public TileEntityRendererStarMap getTileEntityRendererStarMap()
-    {
+    public TileEntityRendererStarMap getTileEntityRendererStarMap() {
         return tileEntityRendererStarMap;
     }
 
-    public IAndroidStatRenderRegistry getStatRenderRegistry()
-    {
+    public IAndroidStatRenderRegistry getStatRenderRegistry() {
         return statRenderRegistry;
     }
 
-    public IStarmapRenderRegistry getStarmapRenderRegistry()
-    {
+    public IStarmapRenderRegistry getStarmapRenderRegistry() {
         return starmapRenderRegistry;
     }
 
-    public ItemRendererOmniTool getRendererOmniTool(){return rendererOmniTool;}
+    public ItemRendererOmniTool getRendererOmniTool() {
+        return rendererOmniTool;
+    }
 
-    public AndroidBionicPartRenderRegistry getBionicPartRenderRegistry()
-    {
+    public AndroidBionicPartRenderRegistry getBionicPartRenderRegistry() {
         return bionicPartRenderRegistry;
     }
 
-    public WeaponModuleModelRegistry getWeaponModuleModelRegistry(){return weaponModuleModelRegistry;}
+    public WeaponModuleModelRegistry getWeaponModuleModelRegistry() {
+        return weaponModuleModelRegistry;
+    }
 
-    public Random getRandom()
-    {
+    public Random getRandom() {
         return random;
     }
 
-    public void addCustomRenderer(IWorldLastRenderer renderer)
-    {
+    public void addCustomRenderer(IWorldLastRenderer renderer) {
         customRenderers.add(renderer);
     }
 }

@@ -38,20 +38,17 @@ import net.minecraftforge.common.util.ForgeDirection;
 /**
  * Created by Simeon on 7/13/2015.
  */
-public class MatterNetworkComponentReplicator extends MatterNetworkComponentClientDispatcher<MatterNetworkTaskReplicatePattern,TileEntityMachineReplicator>
-{
+public class MatterNetworkComponentReplicator extends MatterNetworkComponentClientDispatcher<MatterNetworkTaskReplicatePattern, TileEntityMachineReplicator> {
     private TimeTracker patternSearchTracker;
 
-    public MatterNetworkComponentReplicator(TileEntityMachineReplicator replicator)
-    {
+    public MatterNetworkComponentReplicator(TileEntityMachineReplicator replicator) {
         super(replicator, TickEvent.Phase.END);
         patternSearchTracker = new TimeTracker();
         handlers.add(BASIC_CONNECTIONS_HANDLER);
     }
 
     @Override
-    public boolean canPreform(MatterNetworkPacket packet)
-    {
+    public boolean canPreform(MatterNetworkPacket packet) {
         if (super.canPreform(packet)) {
             if (packet instanceof MatterNetworkTaskPacket) {
                 if (((MatterNetworkTaskPacket) packet).getTask(rootClient.getWorldObj()) instanceof MatterNetworkTaskReplicatePattern) {
@@ -59,32 +56,25 @@ public class MatterNetworkComponentReplicator extends MatterNetworkComponentClie
                 }
             }
             return true;
-        }else
-        {
+        } else {
             return false;
         }
     }
 
     @Override
-    protected void executePacket(MatterNetworkPacket packet)
-    {
+    protected void executePacket(MatterNetworkPacket packet) {
         super.executePacket(packet);
 
-        if (packet instanceof MatterNetworkTaskPacket)
-        {
-            executeTasks((MatterNetworkTaskPacket)packet,((MatterNetworkTaskPacket)packet).getTask(getWorldObj()));
-        }else if (packet instanceof MatterNetworkResponsePacket)
-        {
-            executeResponses((MatterNetworkResponsePacket)packet);
+        if (packet instanceof MatterNetworkTaskPacket) {
+            executeTasks((MatterNetworkTaskPacket) packet, ((MatterNetworkTaskPacket) packet).getTask(getWorldObj()));
+        } else if (packet instanceof MatterNetworkResponsePacket) {
+            executeResponses((MatterNetworkResponsePacket) packet);
         }
     }
 
-    protected void executeTasks(MatterNetworkTaskPacket packet,MatterNetworkTask task)
-    {
-        if (task instanceof MatterNetworkTaskReplicatePattern)
-        {
-            if (rootClient.getTaskQueue(0).queue((MatterNetworkTaskReplicatePattern)task))
-            {
+    protected void executeTasks(MatterNetworkTaskPacket packet, MatterNetworkTask task) {
+        if (task instanceof MatterNetworkTaskReplicatePattern) {
+            if (rootClient.getTaskQueue(0).queue((MatterNetworkTaskReplicatePattern) task)) {
                 task.setSender(rootClient);
                 task.setState(MatterNetworkTaskState.PROCESSING);
                 task.setAlive(true);
@@ -93,21 +83,16 @@ public class MatterNetworkComponentReplicator extends MatterNetworkComponentClie
         }
     }
 
-    protected void executeResponses(MatterNetworkResponsePacket packet)
-    {
+    protected void executeResponses(MatterNetworkResponsePacket packet) {
         //Request pattern search response
-        if (packet.getRequestType() == Reference.PACKET_REQUEST_PATTERN_SEARCH && packet.getResponseType() == Reference.PACKET_RESPONCE_VALID)
-        {
+        if (packet.getRequestType() == Reference.PACKET_REQUEST_PATTERN_SEARCH && packet.getResponseType() == Reference.PACKET_RESPONCE_VALID) {
             NBTTagCompound responseTag = packet.getResponse();
             ItemPattern responsePattern = new ItemPattern(responseTag);
             MatterNetworkTaskReplicatePattern task = rootClient.getTaskQueue(0).peek();
-            if (responseTag != null && responsePattern.equals(task.getPattern()))
-            {
-                if (rootClient.getInternalPatternStorage() != null)
-                {
+            if (responseTag != null && responsePattern.equals(task.getPattern())) {
+                if (rootClient.getInternalPatternStorage() != null) {
                     //if the previous tag is the same but has a higher progress, then continue
-                    if (rootClient.getInternalPatternStorage().equals(responsePattern) && rootClient.getInternalPatternStorage().getProgress() > responsePattern.getProgress())
-                    {
+                    if (rootClient.getInternalPatternStorage().equals(responsePattern) && rootClient.getInternalPatternStorage().getProgress() > responsePattern.getProgress()) {
                         return;
                     }
                 }
@@ -120,16 +105,14 @@ public class MatterNetworkComponentReplicator extends MatterNetworkComponentClie
     }
 
     @Override
-    public int manageTopQueue(World world,int queueID,MatterNetworkTaskReplicatePattern task)
-    {
+    public int manageTopQueue(World world, int queueID, MatterNetworkTaskReplicatePattern task) {
         int broadcasts = 0;
 
-        if (rootClient.getRedstoneActive() && !rootClient.canCompleteTask(task) && patternSearchTracker.hasDelayPassed(world,rootClient.PATTERN_SEARCH_DELAY)) {
+        if (rootClient.getRedstoneActive() && !rootClient.canCompleteTask(task) && patternSearchTracker.hasDelayPassed(world, TileEntityMachineReplicator.PATTERN_SEARCH_DELAY)) {
             if (task != null) {
                 for (int i = 0; i < 6; i++) {
-                    MatterNetworkRequestPacket requestPacket = new MatterNetworkRequestPacket(rootClient, Reference.PACKET_REQUEST_PATTERN_SEARCH,ForgeDirection.getOrientation(i),rootClient.getFilter(), task.getPattern());
-                    if (MatterNetworkHelper.broadcastPacketInDirection(world, requestPacket, rootClient, ForgeDirection.getOrientation(i)))
-                    {
+                    MatterNetworkRequestPacket requestPacket = new MatterNetworkRequestPacket(rootClient, Reference.PACKET_REQUEST_PATTERN_SEARCH, ForgeDirection.getOrientation(i), rootClient.getFilter(), task.getPattern());
+                    if (MatterNetworkHelper.broadcastPacketInDirection(world, requestPacket, rootClient, ForgeDirection.getOrientation(i))) {
                         broadcasts++;
                     }
                 }

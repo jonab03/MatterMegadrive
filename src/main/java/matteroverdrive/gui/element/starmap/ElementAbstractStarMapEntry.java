@@ -23,6 +23,7 @@ import matteroverdrive.client.data.Color;
 import matteroverdrive.client.render.HoloIcon;
 import matteroverdrive.data.ScaleTexture;
 import matteroverdrive.gui.GuiStarMap;
+import matteroverdrive.gui.MOGuiBase;
 import matteroverdrive.gui.element.ElementGroupList;
 import matteroverdrive.gui.element.MOElementButton;
 import matteroverdrive.proxy.ClientProxy;
@@ -39,20 +40,18 @@ import java.util.Map;
 /**
  * Created by Simeon on 6/21/2015.
  */
-public abstract class ElementAbstractStarMapEntry<T extends SpaceBody> extends MOElementButton
-{
-    public static ScaleTexture BG = new ScaleTexture(new ResourceLocation(Reference.PATH_ELEMENTS + "holo_list_entry.png"),32,32).setOffsets(18,12,15,15);
-    public static ScaleTexture BG_FLIPPED = new ScaleTexture(new ResourceLocation(Reference.PATH_ELEMENTS + "holo_list_entry_flipped.png"),32,32).setOffsets(12,18,15,15);
-    public static ScaleTexture BG_MIDDLE_NORMAL = new ScaleTexture(new ResourceLocation(Reference.PATH_ELEMENTS + "holo_list_entry_middle.png"),32,32).setOffsets(15,15,15,15).setTextureSize(96, 32);
-    public static ScaleTexture BG_MIDDLE_OVER = new ScaleTexture(new ResourceLocation(Reference.PATH_ELEMENTS + "holo_list_entry_middle.png"),32,32).setOffsets(15,15,15,15).setTextureSize(96, 32).setUV(32, 0);
-    public static ScaleTexture BG_MIDDLE_DOWN = new ScaleTexture(new ResourceLocation(Reference.PATH_ELEMENTS + "holo_list_entry_middle.png"),32,32).setOffsets(15,15,15,15).setTextureSize(96,32).setUV(64,0);
-    public static ScaleTexture BG_CIRCLE = new ScaleTexture(new ResourceLocation(Reference.PATH_ELEMENTS + "holo_list_entry_circle.png"),32,32).setOffsets(15,15,15,15);
+public abstract class ElementAbstractStarMapEntry<T extends SpaceBody> extends MOElementButton {
+    public static ScaleTexture BG = new ScaleTexture(new ResourceLocation(Reference.PATH_ELEMENTS + "holo_list_entry.png"), 32, 32).setOffsets(18, 12, 15, 15);
+    public static ScaleTexture BG_FLIPPED = new ScaleTexture(new ResourceLocation(Reference.PATH_ELEMENTS + "holo_list_entry_flipped.png"), 32, 32).setOffsets(12, 18, 15, 15);
+    public static ScaleTexture BG_MIDDLE_NORMAL = new ScaleTexture(new ResourceLocation(Reference.PATH_ELEMENTS + "holo_list_entry_middle.png"), 32, 32).setOffsets(15, 15, 15, 15).setTextureSize(96, 32);
+    public static ScaleTexture BG_MIDDLE_OVER = new ScaleTexture(new ResourceLocation(Reference.PATH_ELEMENTS + "holo_list_entry_middle.png"), 32, 32).setOffsets(15, 15, 15, 15).setTextureSize(96, 32).setUV(32, 0);
+    public static ScaleTexture BG_MIDDLE_DOWN = new ScaleTexture(new ResourceLocation(Reference.PATH_ELEMENTS + "holo_list_entry_middle.png"), 32, 32).setOffsets(15, 15, 15, 15).setTextureSize(96, 32).setUV(64, 0);
+    public static ScaleTexture BG_CIRCLE = new ScaleTexture(new ResourceLocation(Reference.PATH_ELEMENTS + "holo_list_entry_circle.png"), 32, 32).setOffsets(15, 15, 15, 15);
     protected T spaceBody;
     protected ElementGroupList groupList;
-    protected HoloIcon travelIcon,searchIcon;
+    protected HoloIcon travelIcon, searchIcon;
 
-    public ElementAbstractStarMapEntry(GuiStarMap gui, ElementGroupList groupList, int width, int height, T spaceBody)
-    {
+    public ElementAbstractStarMapEntry(GuiStarMap gui, ElementGroupList groupList, int width, int height, T spaceBody) {
         super(gui, groupList, 0, 0, spaceBody.getName(), 0, 0, 0, 0, width, height, "");
         this.spaceBody = spaceBody;
         this.groupList = groupList;
@@ -61,30 +60,26 @@ public abstract class ElementAbstractStarMapEntry<T extends SpaceBody> extends M
     }
 
     @Override
-    public void drawBackground(int mouseX, int mouseY, float gameTicks)
-    {
+    public void drawBackground(int mouseX, int mouseY, float gameTicks) {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDisable(GL11.GL_ALPHA_TEST);
         float multiply = getMultiply(spaceBody);
 
         RenderUtils.applyColorWithMultipy(getSpaceBodyColor(spaceBody), multiply);
-        if (isSelected(spaceBody))
-        {
+        if (isSelected(spaceBody)) {
             getBG(spaceBody).render(posX, posY, sizeX - 64, sizeY);
-            if (canView(spaceBody,Minecraft.getMinecraft().thePlayer)) {
-                this.BG_MIDDLE_NORMAL.render(posX + sizeX - 64, posY, 32, sizeY);
+            if (canView(spaceBody, Minecraft.getMinecraft().thePlayer)) {
+                BG_MIDDLE_NORMAL.render(posX + sizeX - 64, posY, 32, sizeY);
             }
             if (canTravelTo(spaceBody, Minecraft.getMinecraft().thePlayer))
-                this.BG_FLIPPED.render(posX + sizeX - 32, posY, 32, sizeY);
+                BG_FLIPPED.render(posX + sizeX - 32, posY, 32, sizeY);
             RenderUtils.applyColorWithMultipy(getSpaceBodyColor(spaceBody), multiply * 0.75f);
 
-        }else
-        {
-            if (intersectsWith(mouseX,mouseY))
-            {
+        } else {
+            if (intersectsWith(mouseX, mouseY)) {
                 getBG(spaceBody).render(posX, posY, sizeX - 64, sizeY);
-            }else {
+            } else {
                 getBG(spaceBody).render(posX, posY, sizeX - 64, sizeY);
             }
         }
@@ -92,29 +87,24 @@ public abstract class ElementAbstractStarMapEntry<T extends SpaceBody> extends M
         GL11.glDisable(GL11.GL_BLEND);
     }
 
-    protected ScaleTexture getBG(T spaceBody)
-    {
+    protected ScaleTexture getBG(T spaceBody) {
         return BG;
     }
 
-    float getMultiply(T spaceBody)
-    {
+    float getMultiply(T spaceBody) {
         return 0.1f;
     }
 
-    boolean isSelected(T spaceBody)
-    {
+    boolean isSelected(T spaceBody) {
         return groupList.isSelected(this);
     }
 
     @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
-        if (isSelected(spaceBody))
-        {
+    public void drawForeground(int mouseX, int mouseY) {
+        if (isSelected(spaceBody)) {
             float multiply = 1f;
             Color color = getSpaceBodyColor(spaceBody);
-            drawElementName(spaceBody,color,multiply);
+            drawElementName(spaceBody, color, multiply);
             int iconsX = 0;
 
             if (canTravelTo(spaceBody, Minecraft.getMinecraft().thePlayer)) {
@@ -125,11 +115,11 @@ public abstract class ElementAbstractStarMapEntry<T extends SpaceBody> extends M
 
                 RenderUtils.applyColorWithMultipy(color, multiply);
                 ClientProxy.holoIcons.bindSheet();
-                ClientProxy.holoIcons.renderIcon(travelIcon,posX + sizeX - 32 + 6, posY + 5);
-                iconsX +=32;
+                ClientProxy.holoIcons.renderIcon(travelIcon, posX + sizeX - 32 + 6, posY + 5);
+                iconsX += 32;
             }
 
-            if (canView(spaceBody,Minecraft.getMinecraft().thePlayer)) {
+            if (canView(spaceBody, Minecraft.getMinecraft().thePlayer)) {
                 multiply = 0.5f;
                 if (intersectsWith(mouseX, mouseY) && mouseX > sizeX - 64 && mouseX < sizeX - 32) {
                     multiply = 1f;
@@ -138,38 +128,37 @@ public abstract class ElementAbstractStarMapEntry<T extends SpaceBody> extends M
                 RenderUtils.applyColorWithMultipy(color, multiply);
                 ClientProxy.holoIcons.bindSheet();
                 ClientProxy.holoIcons.renderIcon(searchIcon, posX + sizeX - 64 + searchIcon.getOriginalWidth() / 2, posY + searchIcon.getOriginalHeight() / 2);
-                iconsX+=32;
+                iconsX += 32;
             }
 
             multiply = 0.8f;
-            Map<HoloIcon,Integer> icons = getIcons(spaceBody);
+            Map<HoloIcon, Integer> icons = getIcons(spaceBody);
             if (icons != null) {
-                for (Map.Entry<HoloIcon,Integer> entry : icons.entrySet()) {
+                for (Map.Entry<HoloIcon, Integer> entry : icons.entrySet()) {
                     if (entry.getValue() != 0) {
                         GL11.glEnable(GL11.GL_BLEND);
                         RenderUtils.applyColorWithMultipy(getSpaceBodyColor(spaceBody), multiply);
                         BG_CIRCLE.render(posX + 128 + iconsX, posY, 32, 32);
-                        ClientProxy.holoIcons.renderIcon(entry.getKey(),posX + iconsX + 128 + 16 - entry.getKey().getOriginalWidth() / 2, posY + 16 - entry.getKey().getOriginalHeight() / 2);
+                        ClientProxy.holoIcons.renderIcon(entry.getKey(), posX + iconsX + 128 + 16 - entry.getKey().getOriginalWidth() / 2, posY + 16 - entry.getKey().getOriginalHeight() / 2);
                         if (entry.getValue() > 0)
-                            RenderUtils.drawString(String.valueOf(entry.getValue()), posX + iconsX + 128 + 16 + 3, posY + 16 + 3, Reference.COLOR_HOLO,1);
+                            RenderUtils.drawString(String.valueOf(entry.getValue()), posX + iconsX + 128 + 16 + 3, posY + 16 + 3, Reference.COLOR_HOLO, 1);
                         iconsX += 32;
                     }
                 }
             }
-        }else
-        {
-            drawElementName(spaceBody,getSpaceBodyColor(spaceBody),0.3f);
+        } else {
+            drawElementName(spaceBody, getSpaceBodyColor(spaceBody), 0.3f);
             int x = 0;
-            Map<HoloIcon,Integer> icons = getIcons(spaceBody);
+            Map<HoloIcon, Integer> icons = getIcons(spaceBody);
             if (icons != null) {
-                for (Map.Entry<HoloIcon,Integer> entry : icons.entrySet()) {
+                for (Map.Entry<HoloIcon, Integer> entry : icons.entrySet()) {
                     if (entry.getValue() != 0) {
                         GL11.glEnable(GL11.GL_BLEND);
                         RenderUtils.applyColorWithMultipy(getSpaceBodyColor(spaceBody), 0.3f);
                         BG_CIRCLE.render(posX + 128 + x, posY, 32, 32);
-                        ClientProxy.holoIcons.renderIcon(entry.getKey(),posX + x + 128 + 16 - entry.getKey().getOriginalWidth() / 2, posY + 16 - entry.getKey().getOriginalHeight() / 2);
+                        ClientProxy.holoIcons.renderIcon(entry.getKey(), posX + x + 128 + 16 - entry.getKey().getOriginalWidth() / 2, posY + 16 - entry.getKey().getOriginalHeight() / 2);
                         if (entry.getValue() > 0)
-                            RenderUtils.drawString(String.valueOf(entry.getValue()), posX + x + 128 + 16 + 3, posY + 16 + 3, getSpaceBodyColor(spaceBody),0.6f);
+                            RenderUtils.drawString(String.valueOf(entry.getValue()), posX + x + 128 + 16 + 3, posY + 16 + 3, getSpaceBodyColor(spaceBody), 0.6f);
                         x += 32;
                     }
                 }
@@ -177,19 +166,16 @@ public abstract class ElementAbstractStarMapEntry<T extends SpaceBody> extends M
         }
     }
 
-    protected abstract void drawElementName(T spaceBody,Color color,float multiply);
-    protected abstract Map<HoloIcon,Integer> getIcons(T spaceBody);
+    protected abstract void drawElementName(T spaceBody, Color color, float multiply);
+
+    protected abstract Map<HoloIcon, Integer> getIcons(T spaceBody);
 
     @Override
-    public void addTooltip(List<String> var1, int mouseX, int mouseY)
-    {
-        if(isSelected(spaceBody))
-        {
-            if (canTravelTo(spaceBody, Minecraft.getMinecraft().thePlayer) && mouseX > sizeX - 32 && mouseX < sizeX)
-            {
+    public void addTooltip(List<String> var1, int mouseX, int mouseY) {
+        if (isSelected(spaceBody)) {
+            if (canTravelTo(spaceBody, Minecraft.getMinecraft().thePlayer) && mouseX > sizeX - 32 && mouseX < sizeX) {
                 var1.add("Travel To");
-            } else if (canView(spaceBody, Minecraft.getMinecraft().thePlayer) && mouseX > sizeX - 64 && mouseX < sizeX - 32)
-            {
+            } else if (canView(spaceBody, Minecraft.getMinecraft().thePlayer) && mouseX > sizeX - 64 && mouseX < sizeX - 32) {
                 var1.add("Enter");
             }
         }
@@ -200,24 +186,19 @@ public abstract class ElementAbstractStarMapEntry<T extends SpaceBody> extends M
 
         if (isSelected(spaceBody)) {
             if (mouseX > sizeX - 32 && mouseX < sizeX) {
-                if (canTravelTo(spaceBody,Minecraft.getMinecraft().thePlayer))
-                {
+                if (canTravelTo(spaceBody, Minecraft.getMinecraft().thePlayer)) {
                     onTravelPress();
-                }else
-                {
+                } else {
                     return false;
                 }
             } else if (mouseX > sizeX - 64 && mouseX < sizeX - 32) {
-                if (canView(spaceBody,Minecraft.getMinecraft().thePlayer)) {
+                if (canView(spaceBody, Minecraft.getMinecraft().thePlayer)) {
                     onViewPress();
                 }
             }
             playSound();
-        }
-        else
-        {
-            if (mouseX < sizeX - 64)
-            {
+        } else {
+            if (mouseX < sizeX - 64) {
                 playSound();
                 onSelectPress();
                 return true;
@@ -226,28 +207,28 @@ public abstract class ElementAbstractStarMapEntry<T extends SpaceBody> extends M
         return false;
     }
 
-    protected abstract boolean canTravelTo(T spaceBody,EntityPlayer player);
-    protected abstract boolean canView(T spaceBody,EntityPlayer player);
+    protected abstract boolean canTravelTo(T spaceBody, EntityPlayer player);
 
-    protected void playSound()
-    {
+    protected abstract boolean canView(T spaceBody, EntityPlayer player);
+
+    protected void playSound() {
         String sound = getSound();
         if (sound != null && !sound.isEmpty()) {
-            gui.playSound(Reference.MOD_ID + ":gui." + sound, getSoundVolume(), 0.9f + rand.nextFloat() * 0.2f);
+            MOGuiBase.playSound(Reference.MOD_ID + ":gui." + sound, getSoundVolume(), 0.9f + rand.nextFloat() * 0.2f);
         }
     }
 
     protected abstract void onViewPress();
+
     protected abstract void onTravelPress();
+
     protected abstract void onSelectPress();
 
-    protected Color getSpaceBodyColor(T spaceBody)
-    {
+    protected Color getSpaceBodyColor(T spaceBody) {
         return Reference.COLOR_HOLO;
     }
 
-    public T getSpaceBody()
-    {
+    public T getSpaceBody() {
         return spaceBody;
     }
 }

@@ -6,55 +6,45 @@ import net.minecraft.block.Block;
 /**
  * Created by Simeon on 12/24/2015.
  */
-public class QuestBlock
-{
+public class QuestBlock {
     Block block;
     String blockName;
     String mod;
 
-    public QuestBlock(Block block)
-    {
+    public QuestBlock(Block block) {
         this.block = block;
     }
 
-    public QuestBlock(String blockName,String mod)
-    {
+    public QuestBlock(String blockName, String mod) {
         this.blockName = blockName;
         this.mod = mod;
     }
 
-    public boolean isModded()
-    {
+    public boolean isModded() {
         return mod != null && !mod.isEmpty();
     }
 
-    public boolean isModPresent()
-    {
+    public boolean isModPresent() {
         return Loader.isModLoaded(mod);
     }
 
-    public boolean canBlockExist()
-    {
-        if (isModded())
-        {
+    public boolean canBlockExist() {
+        if (isModded()) {
             return isModPresent();
-        }return true;
+        }
+        return true;
     }
 
-    public Block getBlock()
-    {
-        if (isModded())
-        {
+    public Block getBlock() {
+        if (isModded()) {
             return (Block) Block.blockRegistry.getObject(blockName);
 
-        }else
-        {
+        } else {
             return block;
         }
     }
 
-    public static QuestBlock fromBlock(Block block)
-    {
+    public static QuestBlock fromBlock(Block block) {
         return new QuestBlock(block);
     }
 }

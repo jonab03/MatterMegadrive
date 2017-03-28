@@ -32,41 +32,34 @@ import net.minecraftforge.common.util.ForgeDirection;
  */
 public class MatterNetworkComponentQueue extends MatterNetworkComponentClient<TileEntityMachinePacketQueue> {
 
-    public static int[] directions = {0,1,2,3,4,5};
+    public static int[] directions = {0, 1, 2, 3, 4, 5};
 
-    public MatterNetworkComponentQueue(TileEntityMachinePacketQueue queue)
-    {
+    public MatterNetworkComponentQueue(TileEntityMachinePacketQueue queue) {
         super(queue);
     }
 
     @Override
-    public boolean canPreform(MatterNetworkPacket packet)
-    {
+    public boolean canPreform(MatterNetworkPacket packet) {
         return rootClient.getRedstoneActive();
     }
 
     @Override
-    public void queuePacket(MatterNetworkPacket packet, ForgeDirection from)
-    {
-        if (canPreform(packet) && packet.isValid(getWorldObj()))
-        {
-            if (getPacketQueue(0).queue(packet))
-            {
+    public void queuePacket(MatterNetworkPacket packet, ForgeDirection from) {
+        if (canPreform(packet) && packet.isValid(getWorldObj())) {
+            if (getPacketQueue(0).queue(packet)) {
                 packet.addToPath(rootClient, from);
-                packet.tickAlive(getWorldObj(),true);
+                packet.tickAlive(getWorldObj(), true);
                 MatterOverdrive.packetPipeline.sendToAllAround(new PacketSendQueueFlash(rootClient), rootClient, 32);
             }
         }
     }
 
     @Override
-    protected void executePacket(MatterNetworkPacket packet)
-    {
+    protected void executePacket(MatterNetworkPacket packet) {
 
     }
 
-    protected int handlePacketBroadcast(World world,MatterNetworkPacket packet)
-    {
+    protected int handlePacketBroadcast(World world, MatterNetworkPacket packet) {
         int broadcastCount = 0;
         for (int i = 0; i < directions.length; i++) {
             if (MatterNetworkHelper.broadcastPacketInDirection(world, packet, rootClient, ForgeDirection.getOrientation(directions[i]))) {
@@ -77,12 +70,10 @@ public class MatterNetworkComponentQueue extends MatterNetworkComponentClient<Ti
     }
 
     @Override
-    public int onNetworkTick(World world, TickEvent.Phase phase)
-    {
+    public int onNetworkTick(World world, TickEvent.Phase phase) {
         int broadcastCount = 0;
-        if (phase == TickEvent.Phase.END)
-        {
-            for (int i = 0;i < getPacketQueueCount();i++) {
+        if (phase == TickEvent.Phase.END) {
+            for (int i = 0; i < getPacketQueueCount(); i++) {
                 getPacketQueue(i).tickAllAlive(world, true);
 
                 MatterNetworkPacket packet = getPacketQueue(i).dequeue();

@@ -28,10 +28,8 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 3/7/2015.
  */
-public class BlockMatterPipe extends BlockPipe
-{
-    public BlockMatterPipe(Material material, String name)
-    {
+public class BlockMatterPipe extends BlockPipe {
+    public BlockMatterPipe(Material material, String name) {
         super(material, name);
         setHardness(10.0F);
         this.setResistance(5.0f);
@@ -39,14 +37,12 @@ public class BlockMatterPipe extends BlockPipe
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int meta)
-    {
+    public TileEntity createNewTileEntity(World world, int meta) {
         return new TileEntityMatterPipe();
     }
 
     @Override
-    public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_)
-    {
-        super.onNeighborBlockChange(p_149695_1_,p_149695_2_,p_149695_3_,p_149695_4_,p_149695_5_);
+    public void onNeighborBlockChange(World p_149695_1_, int p_149695_2_, int p_149695_3_, int p_149695_4_, Block p_149695_5_) {
+        super.onNeighborBlockChange(p_149695_1_, p_149695_2_, p_149695_3_, p_149695_4_, p_149695_5_);
     }
 }

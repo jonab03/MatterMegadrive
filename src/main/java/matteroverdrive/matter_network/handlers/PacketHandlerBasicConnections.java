@@ -26,13 +26,11 @@ import matteroverdrive.util.MatterNetworkHelper;
 /**
  * Created by Simeon on 10/16/2015.
  */
-public class PacketHandlerBasicConnections extends AbstractMatterNetworkPacketHandler
-{
+public class PacketHandlerBasicConnections extends AbstractMatterNetworkPacketHandler {
     @Override
-    public void processPacket(MatterNetworkPacket packet, AbstractMatterNetworkPacketHandler.Context context)
-    {
+    public void processPacket(MatterNetworkPacket packet, AbstractMatterNetworkPacketHandler.Context context) {
         if (packet instanceof MatterNetworkRequestPacket) {
-            MatterNetworkRequestPacket requestPacket = (MatterNetworkRequestPacket)packet;
+            MatterNetworkRequestPacket requestPacket = (MatterNetworkRequestPacket) packet;
             if (requestPacket.getRequestType() == Reference.PACKET_REQUEST_NEIGHBOR_CONNECTION || requestPacket.getRequestType() == Reference.PACKET_REQUEST_CONNECTION) {
 
                 if (requestPacket.getRequest() instanceof Class) {

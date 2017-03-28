@@ -34,8 +34,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 /**
  * Created by Simeon on 8/19/2015.
  */
-public abstract class BlockCT extends MOBlock
-{
+public abstract class BlockCT extends MOBlock {
     protected IconConnectedTexture iconConnectedTexture;
 
     public BlockCT(Material material, String name) {
@@ -45,24 +44,21 @@ public abstract class BlockCT extends MOBlock
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister)
-    {
+    public void registerBlockIcons(IIconRegister iconRegister) {
         super.registerBlockIcons(iconRegister);
         this.iconConnectedTexture = new IconConnectedTexture(this.blockIcon);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta)
-    {
+    public IIcon getIcon(int side, int meta) {
         iconConnectedTexture.setType(0);
         return iconConnectedTexture;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int sideId)
-    {
+    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int sideId) {
         int type = 0;
         if (isSideCT(world, x, y, z, sideId)) {
             ForgeDirection side = ForgeDirection.getOrientation(sideId);
@@ -79,8 +75,7 @@ public abstract class BlockCT extends MOBlock
                 direction = ForgeDirection.getOrientation(MOBlockHelper.getRightSide(sideId));
                 if (canConnect(world, world.getBlock(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ), x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ))
                     type = MOMathHelper.setBoolean(type, 3, true);
-            }else
-            {
+            } else {
                 ForgeDirection direction = ForgeDirection.NORTH;
                 if (canConnect(world, world.getBlock(x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ), x + direction.offsetX, y + direction.offsetY, z + direction.offsetZ))
                     type = MOMathHelper.setBoolean(type, 0, true);
@@ -102,13 +97,12 @@ public abstract class BlockCT extends MOBlock
         return icon;
     }
 
-    public abstract boolean canConnect(IBlockAccess world,Block block,int x,int y,int z);
+    public abstract boolean canConnect(IBlockAccess world, Block block, int x, int y, int z);
 
-    public abstract boolean isSideCT(IBlockAccess world,int x,int y,int z,int side);
+    public abstract boolean isSideCT(IBlockAccess world, int x, int y, int z, int side);
 
     @SideOnly(Side.CLIENT)
-    public IconConnectedTexture getIconConnectedTexture(int meta,int side)
-    {
+    public IconConnectedTexture getIconConnectedTexture(int meta, int side) {
         return iconConnectedTexture;
     }
 

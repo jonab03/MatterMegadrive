@@ -31,30 +31,27 @@ import java.text.DecimalFormat;
 /**
  * Created by Simeon on 5/17/2015.
  */
-public class GuiFusionReactor extends MOGuiMachine<TileEntityMachineFusionReactorController>
-{
+public class GuiFusionReactor extends MOGuiMachine<TileEntityMachineFusionReactorController> {
     ElementDoubleCircleBar powerBar;
     DecimalFormat format;
 
     public GuiFusionReactor(InventoryPlayer inventoryPlayer, TileEntityMachineFusionReactorController machine) {
-        super(new ContainerFusionReactor(inventoryPlayer,machine), machine,256,230);
+        super(new ContainerFusionReactor(inventoryPlayer, machine), machine, 256, 230);
         format = new DecimalFormat("#.###");
         name = "fusion_reactor";
-        powerBar = new ElementDoubleCircleBar(this,70,40,135,135, Reference.COLOR_GUI_ENERGY);
+        powerBar = new ElementDoubleCircleBar(this, 70, 40, 135, 135, Reference.COLOR_GUI_ENERGY);
         powerBar.setColorRight(Reference.COLOR_HOLO);
     }
 
     @Override
-    public void initGui()
-    {
+    public void initGui() {
         super.initGui();
         pages.get(0).addElement(powerBar);
-        AddHotbarPlayerSlots(this.inventorySlots,this);
+        AddHotbarPlayerSlots(this.inventorySlots, this);
     }
 
     @Override
-    protected void updateElementInformation()
-    {
+    protected void updateElementInformation() {
         super.updateElementInformation();
 
         powerBar.setProgressRight((float) machine.getMatterStorage().getMatterStored() / (float) machine.getMatterStorage().getCapacity());
@@ -64,11 +61,9 @@ public class GuiFusionReactor extends MOGuiMachine<TileEntityMachineFusionReacto
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
-    {
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
-        if (pages.get(0).isVisible())
-        {
+        if (pages.get(0).isVisible()) {
             String info = "Efficiency";
             int width = fontRendererObj.getStringWidth(info);
             fontRendererObj.drawString(info, 140 - width / 2, 132, Reference.COLOR_GUI_DARKER.getColor());
@@ -77,16 +72,16 @@ public class GuiFusionReactor extends MOGuiMachine<TileEntityMachineFusionReacto
             fontRendererObj.drawString(info, 140 - width / 2, 142, Reference.COLOR_GUI_DARKER.getColor());
 
             double angle = -(Math.PI * 0.87) * powerBar.getProgressLeft() - ((Math.PI * 2) * 0.03);
-            int xPos = 137 + (int)Math.round(Math.sin(angle) * 76);
-            int yPos = 104 + (int)Math.round(Math.cos(angle) * 74);
+            int xPos = 137 + (int) Math.round(Math.sin(angle) * 76);
+            int yPos = 104 + (int) Math.round(Math.cos(angle) * 74);
             drawCenteredString(fontRendererObj, format.format(powerBar.getProgressLeft() * 100) + "%", xPos, yPos, Reference.COLOR_HOLO_RED.getColor());
 
             angle = (Math.PI * 0.87) * powerBar.getProgressRight() + ((Math.PI * 2) * 0.03);
-            xPos = 137 + (int)Math.round(Math.sin(angle) * 76);
-            yPos = 104 + (int)Math.round(Math.cos(angle) * 74);
+            xPos = 137 + (int) Math.round(Math.sin(angle) * 76);
+            yPos = 104 + (int) Math.round(Math.cos(angle) * 74);
             drawCenteredString(fontRendererObj, format.format(powerBar.getProgressRight() * 100) + "%", xPos, yPos, Reference.COLOR_MATTER.getColor());
 
-            info = "+" + ((ContainerFusionReactor)getContainer()).getEnergyPerTick() + MOEnergyHelper.ENERGY_UNIT + "/t";
+            info = "+" + ((ContainerFusionReactor) getContainer()).getEnergyPerTick() + MOEnergyHelper.ENERGY_UNIT + "/t";
             width = fontRendererObj.getStringWidth(info);
             xPos = 140 - width / 2;
             yPos = 110;
@@ -100,8 +95,7 @@ public class GuiFusionReactor extends MOGuiMachine<TileEntityMachineFusionReacto
         }
     }
 
-    void ManageReqiremnetsTooltips()
-    {
+    void ManageReqiremnetsTooltips() {
 
     }
 }

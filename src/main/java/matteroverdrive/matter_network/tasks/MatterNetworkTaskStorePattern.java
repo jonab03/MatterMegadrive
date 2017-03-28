@@ -29,60 +29,51 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 4/20/2015.
  */
-public class MatterNetworkTaskStorePattern extends MatterNetworkTask
-{
+public class MatterNetworkTaskStorePattern extends MatterNetworkTask {
     ItemStack itemStack;
     int progress;
 
-    public MatterNetworkTaskStorePattern()
-    {
+    public MatterNetworkTaskStorePattern() {
         super();
 
     }
 
-    public MatterNetworkTaskStorePattern(IMatterNetworkConnection sender,ItemStack itemStack,int progress)
-    {
+    public MatterNetworkTaskStorePattern(IMatterNetworkConnection sender, ItemStack itemStack, int progress) {
         super(sender);
         this.itemStack = itemStack;
         this.progress = progress;
     }
 
     @Override
-    protected void init()
-    {
+    protected void init() {
         setUnlocalizedName("store_pattern");
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound)
-    {
+    public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        if (compound != null)
-        {
+        if (compound != null) {
             itemStack = ItemStack.loadItemStackFromNBT(compound.getCompoundTag("Item"));
             progress = compound.getInteger(MatterDatabaseHelper.PROGRESS_TAG_NAME);
         }
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound compound)
-    {
+    public void writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        if (compound != null)
-        {
+        if (compound != null) {
             NBTTagCompound itemComp = new NBTTagCompound();
             if (itemStack != null)
                 itemStack.writeToNBT(itemComp);
-            compound.setTag("Item",itemComp);
-            compound.setInteger(MatterDatabaseHelper.PROGRESS_TAG_NAME,progress);
+            compound.setTag("Item", itemComp);
+            compound.setInteger(MatterDatabaseHelper.PROGRESS_TAG_NAME, progress);
         }
     }
 
 
     //region Getters and Setters
     @Override
-    public String getName()
-    {
+    public String getName() {
         return itemStack.getDisplayName();
     }
 
@@ -102,8 +93,7 @@ public class MatterNetworkTaskStorePattern extends MatterNetworkTask
         this.progress = progress;
     }
 
-    public boolean isValid(World world)
-    {
+    public boolean isValid(World world) {
         if (!super.isValid(world))
             return false;
 

@@ -7,46 +7,40 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 3/6/2015.
  */
-public class TileEntityUpdatePacket extends PacketAbstract
-{
+public class TileEntityUpdatePacket extends PacketAbstract {
     public int x;
     public int y;
     public int z;
 
-    public TileEntityUpdatePacket()
-    {
+    public TileEntityUpdatePacket() {
         super();
     }
 
-    public TileEntityUpdatePacket(int x,int y,int z)
-    {
+    public TileEntityUpdatePacket(int x, int y, int z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
-    public TileEntityUpdatePacket(TileEntity entity)
-    {
-        this(entity.xCoord,entity.yCoord,entity.zCoord);
+
+    public TileEntityUpdatePacket(TileEntity entity) {
+        this(entity.xCoord, entity.yCoord, entity.zCoord);
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         x = buf.readInt();
         y = buf.readInt();
         z = buf.readInt();
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         buf.writeInt(x);
         buf.writeInt(y);
         buf.writeInt(z);
     }
 
-    public TileEntity getTileEntity(World world)
-    {
-        return world.getTileEntity(x,y,z);
+    public TileEntity getTileEntity(World world) {
+        return world.getTileEntity(x, y, z);
     }
 }

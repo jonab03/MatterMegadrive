@@ -23,14 +23,12 @@ import net.minecraft.nbt.NBTTagCompound;
 /**
  * Created by Simeon on 8/16/2015.
  */
-public class ConfigPropertyInteger extends ConfigPropertyAbstract
-{
-    private int min,max;
+public class ConfigPropertyInteger extends ConfigPropertyAbstract {
+    private int min, max;
     private int value;
 
-    public ConfigPropertyInteger(String name,String unlocalizedName,int min,int max,int def)
-    {
-        super(name,unlocalizedName);
+    public ConfigPropertyInteger(String name, String unlocalizedName, int min, int max, int def) {
+        super(name, unlocalizedName);
         this.min = min;
         this.max = max;
         this.value = def;
@@ -42,15 +40,13 @@ public class ConfigPropertyInteger extends ConfigPropertyAbstract
     }
 
     @Override
-    public void setValue(Object value)
-    {
-        this.value = (int)value;
+    public void setValue(Object value) {
+        this.value = (int) value;
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
-    {
-        nbt.setInteger(getUnlocalizedName(),value);
+    public void writeToNBT(NBTTagCompound nbt) {
+        nbt.setInteger(getUnlocalizedName(), value);
     }
 
     @Override
@@ -59,18 +55,15 @@ public class ConfigPropertyInteger extends ConfigPropertyAbstract
     }
 
     @Override
-    public Class getType()
-    {
+    public Class getType() {
         return Integer.class;
     }
 
-    public int getMin()
-    {
+    public int getMin() {
         return min;
     }
 
-    public int getMax()
-    {
+    public int getMax() {
         return max;
     }
 }

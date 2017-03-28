@@ -31,10 +31,8 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 10/30/2015.
  */
-public class BlockFusionReactorIO extends MOBlockMachine
-{
-    public BlockFusionReactorIO(Material material, String name)
-    {
+public class BlockFusionReactorIO extends MOBlockMachine {
+    public BlockFusionReactorIO(Material material, String name) {
         super(material, name);
         setHardness(30.0F);
         this.setResistance(10.0f);
@@ -47,8 +45,7 @@ public class BlockFusionReactorIO extends MOBlockMachine
     }
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta)
-    {
+    public IIcon getIcon(int side, int meta) {
         return MatterOverdriveIcons.Network_port_square;
     }
 }

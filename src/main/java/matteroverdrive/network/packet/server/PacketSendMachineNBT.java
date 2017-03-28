@@ -36,25 +36,24 @@ import java.util.EnumSet;
 /**
  * Created by Simeon on 8/15/2015.
  */
-public class PacketSendMachineNBT extends TileEntityUpdatePacket
-{
+public class PacketSendMachineNBT extends TileEntityUpdatePacket {
     NBTTagCompound data;
     int cattegories;
     boolean forceUpdate;
 
-    public PacketSendMachineNBT(){}
-    public PacketSendMachineNBT(EnumSet<MachineNBTCategory> categories,MOTileEntity tileEntity,boolean forceUpdate,boolean toDisk)
-    {
+    public PacketSendMachineNBT() {
+    }
+
+    public PacketSendMachineNBT(EnumSet<MachineNBTCategory> categories, MOTileEntity tileEntity, boolean forceUpdate, boolean toDisk) {
         super(tileEntity);
         data = new NBTTagCompound();
         this.forceUpdate = forceUpdate;
-        tileEntity.writeCustomNBT(data,categories, toDisk);
+        tileEntity.writeCustomNBT(data, categories, toDisk);
         this.cattegories = MachineNBTCategory.encode(categories);
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         super.fromBytes(buf);
         data = ByteBufUtils.readTag(buf);
         cattegories = buf.readInt();
@@ -62,41 +61,33 @@ public class PacketSendMachineNBT extends TileEntityUpdatePacket
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         super.toBytes(buf);
         ByteBufUtils.writeTag(buf, data);
         buf.writeInt(cattegories);
         buf.writeBoolean(forceUpdate);
     }
 
-    public static class BiHandler extends AbstractBiPacketHandler<PacketSendMachineNBT>
-    {
+    public static class BiHandler extends AbstractBiPacketHandler<PacketSendMachineNBT> {
         @Override
-        public IMessage handleClientMessage(EntityPlayer player, PacketSendMachineNBT message, MessageContext ctx)
-        {
+        public IMessage handleClientMessage(EntityPlayer player, PacketSendMachineNBT message, MessageContext ctx) {
             TileEntity tileEntity = message.getTileEntity(player.worldObj);
-            if (tileEntity instanceof MOTileEntity)
-            {
-                ((MOTileEntity) tileEntity).readCustomNBT(message.data,MachineNBTCategory.decode(message.cattegories));
+            if (tileEntity instanceof MOTileEntity) {
+                ((MOTileEntity) tileEntity).readCustomNBT(message.data, MachineNBTCategory.decode(message.cattegories));
             }
             return null;
         }
 
         @Override
-        public IMessage handleServerMessage(EntityPlayer player, PacketSendMachineNBT message, MessageContext ctx)
-        {
+        public IMessage handleServerMessage(EntityPlayer player, PacketSendMachineNBT message, MessageContext ctx) {
             TileEntity tileEntity = message.getTileEntity(player.worldObj);
-            if (tileEntity instanceof MOTileEntity)
-            {
-                ((MOTileEntity) tileEntity).readCustomNBT(message.data,MachineNBTCategory.decode(message.cattegories));
-                if (message.forceUpdate)
-                {
+            if (tileEntity instanceof MOTileEntity) {
+                ((MOTileEntity) tileEntity).readCustomNBT(message.data, MachineNBTCategory.decode(message.cattegories));
+                if (message.forceUpdate) {
                     if (tileEntity instanceof MOTileEntityMachine) {
                         ((MOTileEntityMachine) tileEntity).forceSync();
-                    }else
-                    {
-                        player.worldObj.markBlockForUpdate(tileEntity.xCoord,tileEntity.yCoord,tileEntity.zCoord);
+                    } else {
+                        player.worldObj.markBlockForUpdate(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
                     }
                 }
             }

@@ -27,20 +27,18 @@ import net.minecraft.entity.player.InventoryPlayer;
 /**
  * Created by Simeon on 11/8/2015.
  */
-public class GuiChargingStation extends MOGuiMachine<TileEntityMachineChargingStation>
-{
+public class GuiChargingStation extends MOGuiMachine<TileEntityMachineChargingStation> {
     MOElementEnergy energy;
 
     public GuiChargingStation(InventoryPlayer inventoryPlayer, TileEntityMachineChargingStation chargingStation) {
-        super(ContainerFactory.createMachineContainer(chargingStation,inventoryPlayer), chargingStation);
+        super(ContainerFactory.createMachineContainer(chargingStation, inventoryPlayer), chargingStation);
         name = "charging_station";
-        energy = new MOElementEnergy(this,80,40,chargingStation.getEnergyStorage());
+        energy = new MOElementEnergy(this, 80, 40, chargingStation.getEnergyStorage());
         energy.setTexture(Reference.TEXTURE_ENERGY_METER, 32, 64);
     }
 
     @Override
-    public void initGui()
-    {
+    public void initGui() {
         super.initGui();
         pages.get(0).addElement(energy);
         AddMainPlayerSlots(inventorySlots, pages.get(0));
@@ -48,8 +46,7 @@ public class GuiChargingStation extends MOGuiMachine<TileEntityMachineChargingSt
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
-    {
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
         if (pages.get(0).isVisible()) {
             fontRendererObj.drawString(String.format("Range: %s", machine.getRage()), 100, 50, Reference.COLOR_HOLO.getColor());

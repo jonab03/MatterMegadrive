@@ -33,33 +33,25 @@ import java.util.UUID;
 /**
  * Created by Simeon on 7/6/2015.
  */
-public abstract class ItemBuildableAbstract extends MOBaseItem implements IBuildable
-{
-    public ItemBuildableAbstract(String name)
-    {
+public abstract class ItemBuildableAbstract extends MOBaseItem implements IBuildable {
+    public ItemBuildableAbstract(String name) {
         super(name);
     }
 
     protected abstract int getBuildLengthUnscaled(ItemStack buildableStack, Planet planet);
 
     @Override
-    public long getBuildStart(ItemStack building)
-    {
-        if (building.hasTagCompound())
-        {
+    public long getBuildStart(ItemStack building) {
+        if (building.hasTagCompound()) {
             return building.getTagCompound().getLong("BuildStart");
-        }
-        else
-        {
+        } else {
             return 0;
         }
     }
 
     @Override
-    public void setBuildStart(ItemStack building,long buildStart)
-    {
-        if (!building.hasTagCompound())
-        {
+    public void setBuildStart(ItemStack building, long buildStart) {
+        if (!building.hasTagCompound()) {
             building.setTagCompound(new NBTTagCompound());
         }
 
@@ -67,12 +59,9 @@ public abstract class ItemBuildableAbstract extends MOBaseItem implements IBuild
     }
 
     @Override
-    public boolean isReadyToBuild(World world,ItemStack stack,Planet planet)
-    {
-        if (stack.hasTagCompound())
-        {
-            if (getBuildStart(stack) + getBuildLength(stack,planet) < world.getTotalWorldTime())
-            {
+    public boolean isReadyToBuild(World world, ItemStack stack, Planet planet) {
+        if (stack.hasTagCompound()) {
+            if (getBuildStart(stack) + getBuildLength(stack, planet) < world.getTotalWorldTime()) {
                 return true;
             }
         }
@@ -80,16 +69,12 @@ public abstract class ItemBuildableAbstract extends MOBaseItem implements IBuild
     }
 
     @Override
-    public boolean isOwner(ItemStack ship, EntityPlayer player)
-    {
-        if (ship.hasTagCompound())
-        {
+    public boolean isOwner(ItemStack ship, EntityPlayer player) {
+        if (ship.hasTagCompound()) {
             if (ship.getTagCompound().hasKey("Owner") && !ship.getTagCompound().getString("Owner").isEmpty()) {
                 try {
                     return UUID.fromString(ship.getTagCompound().getString("Owner")).equals(EntityPlayer.func_146094_a(player.getGameProfile()));
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     return false;
                 }
             }
@@ -98,14 +83,11 @@ public abstract class ItemBuildableAbstract extends MOBaseItem implements IBuild
     }
 
     @Override
-    public UUID getOwnerID(ItemStack stack)
-    {
-        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("Owner",8))
-        {
+    public UUID getOwnerID(ItemStack stack) {
+        if (stack.hasTagCompound() && stack.getTagCompound().hasKey("Owner", 8)) {
             try {
                 return UUID.fromString(stack.getTagCompound().getString("Owner"));
-            }catch (Exception e)
-            {
+            } catch (Exception e) {
                 return null;
             }
         }
@@ -113,19 +95,16 @@ public abstract class ItemBuildableAbstract extends MOBaseItem implements IBuild
     }
 
     @Override
-    public void setOwner(ItemStack ship, UUID playerId)
-    {
-        if (!ship.hasTagCompound())
-        {
+    public void setOwner(ItemStack ship, UUID playerId) {
+        if (!ship.hasTagCompound()) {
             ship.setTagCompound(new NBTTagCompound());
         }
 
-        ship.getTagCompound().setString("Owner",playerId.toString());
+        ship.getTagCompound().setString("Owner", playerId.toString());
     }
 
     @Override
-    public int getBuildLength(ItemStack buildableStack, Planet planet)
-    {
+    public int getBuildLength(ItemStack buildableStack, Planet planet) {
         return MathHelper.ceiling_double_int(getBuildLengthUnscaled(buildableStack, planet) * Galaxy.GALAXY_BUILD_TIME_MULTIPLY);
     }
 }

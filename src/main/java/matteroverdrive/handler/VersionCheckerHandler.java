@@ -25,6 +25,7 @@ import matteroverdrive.MatterOverdrive;
 import matteroverdrive.Reference;
 import matteroverdrive.handler.thread.VersionCheckThread;
 import matteroverdrive.util.IConfigSubscriber;
+import matteroverdrive.util.MOLog;
 import matteroverdrive.util.MOStringHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.event.ClickEvent;
@@ -85,17 +86,15 @@ public class VersionCheckerHandler implements IConfigSubscriber {
             try {
                 result = download.get();
             } catch (InterruptedException e) {
-				MatterOverdrive.log.log(Level.ERROR,e,"Version checking from '%1$s' was interrupted", mirrors[currentMirror - 1]);
+                MOLog.log(Level.ERROR, e, "Version checking from '%1$s' was interrupted", mirrors[currentMirror - 1]);
             } catch (ExecutionException e) {
-				MatterOverdrive.log.log(Level.ERROR,e,"Version checking from '%1$s' has failed", mirrors[currentMirror - 1]);
+                MOLog.log(Level.ERROR, e, "Version checking from '%1$s' has failed", mirrors[currentMirror - 1]);
             } finally {
-                if (result != null)
-                {
+                if (result != null) {
                     try {
                         updateInfoDisplayed = constructVersionAndCheck(result, event.player);
-                    }catch (Exception e)
-                    {
-                        MatterOverdrive.log.log(Level.ERROR,e,"There was a problem while decoding the update info from website.");
+                    } catch (Exception e) {
+                        MOLog.log(Level.ERROR, e, "There was a problem while decoding the update info from website.");
                     }
                 }
 
@@ -105,8 +104,7 @@ public class VersionCheckerHandler implements IConfigSubscriber {
         }
     }
 
-    private boolean constructVersionAndCheck(String jsonText,EntityPlayer player)
-    {
+    private boolean constructVersionAndCheck(String jsonText, EntityPlayer player) {
         JsonParser parser = new JsonParser();
         JsonObject root = parser.parse(jsonText).getAsJsonArray().get(0).getAsJsonObject();
         SimpleDateFormat websiteDatePraser = new SimpleDateFormat("y-M-d");
@@ -117,20 +115,18 @@ public class VersionCheckerHandler implements IConfigSubscriber {
         Date modDate = null;
         try {
             websiteDate = websiteDatePraser.parse(websiteDateString);
-        } catch (ParseException e)
-        {
-			MatterOverdrive.log.warn("Website date was incorrect", e);
+        } catch (ParseException e) {
+            MOLog.warn("Website date was incorrect", e);
         }
         try {
             modDate = modDateFormat.parse(Reference.VERSION_DATE);
         } catch (ParseException e) {
-			MatterOverdrive.log.warn("Mod version date was incorrect", e);
+            MOLog.warn("Mod version date was incorrect", e);
         }
 
-        if (modDate != null && websiteDate != null ) {
+        if (modDate != null && websiteDate != null) {
 
-            if (modDate.before(websiteDate))
-            {
+            if (modDate.before(websiteDate)) {
                 ChatComponentText chat = new ChatComponentText(EnumChatFormatting.GOLD + "[Matter Overdrive] " + EnumChatFormatting.WHITE + MOStringHelper.translateToLocal("alert.new_update"));
                 ChatStyle style = new ChatStyle();
                 player.addChatMessage(chat);
@@ -153,19 +149,17 @@ public class VersionCheckerHandler implements IConfigSubscriber {
                 player.addChatMessage(chat);
                 return true;
 
-            } else
-            {
-				MatterOverdrive.log.info("Matter Overdrive Version %1$s is up to date. From '%2$s'", root.get("title").getAsString(), mirrors[currentMirror - 1]);
+            } else {
+                MOLog.info("Matter Overdrive Version %1$s is up to date. From '%2$s'", root.get("title").getAsString(), mirrors[currentMirror - 1]);
             }
         }
         return false;
     }
 
     @Override
-    public void onConfigChanged(ConfigurationHandler config)
-    {
+    public void onConfigChanged(ConfigurationHandler config) {
         String comment = "Should Matter Overdrive check for newer versions, every time the world starts";
-        checkForUpdates = config.getBool(ConfigurationHandler.KEY_VERSION_CHECK, ConfigurationHandler.CATEGORY_CLIENT,true,comment);
-        config.config.get(ConfigurationHandler.CATEGORY_CLIENT, ConfigurationHandler.KEY_VERSION_CHECK,true).comment = comment;
+        checkForUpdates = config.getBool(ConfigurationHandler.KEY_VERSION_CHECK, ConfigurationHandler.CATEGORY_CLIENT, true, comment);
+        config.config.get(ConfigurationHandler.CATEGORY_CLIENT, ConfigurationHandler.KEY_VERSION_CHECK, true).comment = comment;
     }
 }

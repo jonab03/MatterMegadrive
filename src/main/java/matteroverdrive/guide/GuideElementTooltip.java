@@ -28,37 +28,31 @@ import java.util.List;
 /**
  * Created by Simeon on 12/4/2015.
  */
-public class GuideElementTooltip extends GuideElementAbstract
-{
+public class GuideElementTooltip extends GuideElementAbstract {
     ItemStack itemStack;
     List<String> lines;
 
-    public GuideElementTooltip()
-    {
+    public GuideElementTooltip() {
         lines = new ArrayList<>();
 
     }
 
     @Override
     protected void loadContent(MOGuideEntry entry, Element element, int width, int height) {
-        if (element.hasAttribute("item"))
-        {
+        if (element.hasAttribute("item")) {
             itemStack = shortCodeToStack(decodeShortcode(element.getAttribute("item")));
-        }else
-        {
+        } else {
             itemStack = entry.getStackIcons()[0];
         }
 
-        itemStack.getItem().addInformation(itemStack, Minecraft.getMinecraft().thePlayer,lines,true);
+        itemStack.getItem().addInformation(itemStack, Minecraft.getMinecraft().thePlayer, lines, true);
         this.height = lines.size() * getFontRenderer().FONT_HEIGHT;
     }
 
     @Override
-    public void drawElement(int width, int mouseX, int mouseY)
-    {
-        for (int i = 0; i < lines.size();i++)
-        {
-            getFontRenderer().drawString(lines.get(i),x,y+i*getFontRenderer().FONT_HEIGHT,color.getColor());
+    public void drawElement(int width, int mouseX, int mouseY) {
+        for (int i = 0; i < lines.size(); i++) {
+            getFontRenderer().drawString(lines.get(i), x, y + i * getFontRenderer().FONT_HEIGHT, color.getColor());
         }
     }
 }

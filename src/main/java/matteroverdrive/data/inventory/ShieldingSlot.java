@@ -28,19 +28,15 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 4/6/2015.
  */
-public class ShieldingSlot extends Slot
-{
+public class ShieldingSlot extends Slot {
     public ShieldingSlot(boolean isMainSlot) {
         super(isMainSlot);
     }
 
     @Override
-    public boolean isValidForSlot(ItemStack itemStack)
-    {
-        if(this.getItem() == null || this.getItem().stackSize < 4)
-		{
-            if (itemStack != null && itemStack.getItem() != null)
-			{
+    public boolean isValidForSlot(ItemStack itemStack) {
+        if (this.getItem() == null || this.getItem().stackSize < 4) {
+            if (itemStack != null && itemStack.getItem() != null) {
                 return itemStack.getItem() == MatterOverdriveItems.tritanium_plate;
             }
         }
@@ -49,22 +45,22 @@ public class ShieldingSlot extends Slot
 
     @Override
     @SideOnly(Side.CLIENT)
-    public HoloIcon getHoloIcon()
-    {
+    public HoloIcon getHoloIcon() {
         return ClientProxy.holoIcons.getIcon("shielding");
     }
 
     @Override
-    public int getMaxStackSize(){return 5;}
+    public int getMaxStackSize() {
+        return 5;
+    }
 
     @Override
-    public boolean keepOnDismantle()
-    {
+    public boolean keepOnDismantle() {
         return true;
     }
 
     @Override
-    public String getUnlocalizedTooltip(){
+    public String getUnlocalizedTooltip() {
         return "gui.tooltip.slot.shielding";
     }
 }

@@ -35,74 +35,62 @@ import net.minecraftforge.common.util.ForgeDirection;
 /**
  * Created by Simeon on 4/30/2015.
  */
-public abstract class TileEntityMachinePacketQueue extends MOTileEntityMachine implements IMatterNetworkClient
-{
+public abstract class TileEntityMachinePacketQueue extends MOTileEntityMachine implements IMatterNetworkClient {
     public static int BROADCAST_DELAY = 2;
     public static int TASK_QUEUE_SIZE = 16;
     protected MatterNetworkComponentQueue networkComponent;
     @SideOnly(Side.CLIENT)
     public int flashTime;
 
-    public TileEntityMachinePacketQueue(int upgradeCount)
-    {
+    public TileEntityMachinePacketQueue(int upgradeCount) {
         super(upgradeCount);
     }
 
-    protected void registerComponents()
-    {
+    protected void registerComponents() {
         super.registerComponents();
         networkComponent = new MatterNetworkComponentQueue(this);
         addComponent(networkComponent);
     }
 
     @Override
-    public void updateEntity()
-    {
+    public void updateEntity() {
         super.updateEntity();
-        if (worldObj.isRemote)
-        {
-            if (flashTime > 0)
-            {
+        if (worldObj.isRemote) {
+            if (flashTime > 0) {
                 flashTime--;
             }
         }
     }
 
     @Override
-    public boolean canConnectFromSide(ForgeDirection side)
-    {
+    public boolean canConnectFromSide(ForgeDirection side) {
         return true;
     }
 
     @Override
-    public boolean isAffectedByUpgrade(UpgradeTypes type)
-    {
+    public boolean isAffectedByUpgrade(UpgradeTypes type) {
         return type.equals(UpgradeTypes.Speed);
     }
 
 
     //region Matter Network
     @Override
-    public int onNetworkTick(World world,TickEvent.Phase phase)
-    {
+    public int onNetworkTick(World world, TickEvent.Phase phase) {
         return networkComponent.onNetworkTick(world, phase);
     }
 
     @Override
-    public boolean canPreform(MatterNetworkPacket packet)
-    {
+    public boolean canPreform(MatterNetworkPacket packet) {
         return networkComponent.canPreform(packet);
     }
 
     @Override
-    public void queuePacket(MatterNetworkPacket packet,ForgeDirection from)
-    {
+    public void queuePacket(MatterNetworkPacket packet, ForgeDirection from) {
         networkComponent.queuePacket(packet, from);
     }
 
     @Override
-    public BlockPos getPosition()
-    {
+    public BlockPos getPosition() {
         return new BlockPos(xCoord, yCoord, zCoord);
     }
 
@@ -129,8 +117,7 @@ public abstract class TileEntityMachinePacketQueue extends MOTileEntityMachine i
     }
 
     @Override
-    protected void onAwake(Side side)
-    {
+    protected void onAwake(Side side) {
 
     }
     //endregion
@@ -147,18 +134,18 @@ public abstract class TileEntityMachinePacketQueue extends MOTileEntityMachine i
     }
 
     @Override
-    public boolean getServerActive()
-    {
+    public boolean getServerActive() {
         return false;
     }
 
     @Override
-    public float soundVolume() { return 0;}
+    public float soundVolume() {
+        return 0;
+    }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public double getMaxRenderDistanceSquared()
-    {
+    public double getMaxRenderDistanceSquared() {
         return 1024.0D;
     }
 

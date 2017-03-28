@@ -44,23 +44,20 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 11/8/2015.
  */
-public abstract class WeaponItemRenderer implements IItemRenderer
-{
+public abstract class WeaponItemRenderer implements IItemRenderer {
     protected ResourceLocation weaponTexture;
     protected ResourceLocation weaponModelLocation;
     protected WavefrontObject weaponModel;
     protected Vec3 scopePosition;
 
-    public WeaponItemRenderer(ResourceLocation weaponModelLocation,ResourceLocation weaponTexture)
-    {
+    public WeaponItemRenderer(ResourceLocation weaponModelLocation, ResourceLocation weaponTexture) {
         this.weaponModelLocation = weaponModelLocation;
         this.weaponTexture = weaponTexture;
         weaponModel = (WavefrontObject) AdvancedModelLoader.loadModel(weaponModelLocation);
         loadWeaponMetadata();
     }
 
-    protected void loadWeaponMetadata()
-    {
+    protected void loadWeaponMetadata() {
         try {
             IResource metadataResource = Minecraft.getMinecraft().getResourceManager().getResource(weaponModelLocation);
             if (metadataResource.hasMetadata()) {
@@ -74,13 +71,11 @@ public abstract class WeaponItemRenderer implements IItemRenderer
         }
     }
 
-    protected void renderBarrel(ItemStack weaponStack)
-    {
+    protected void renderBarrel(ItemStack weaponStack) {
         bindTexture(weaponTexture);
-        ItemStack barrelStack = WeaponHelper.getModuleAtSlot(Reference.MODULE_BARREL,weaponStack);
-        if (barrelStack != null)
-        {
-            GroupObject object = getModelPart(barrelStack.getUnlocalizedName().substring(5).replace('.','_'));
+        ItemStack barrelStack = WeaponHelper.getModuleAtSlot(Reference.MODULE_BARREL, weaponStack);
+        if (barrelStack != null) {
+            GroupObject object = getModelPart(barrelStack.getUnlocalizedName().substring(5).replace('.', '_'));
             if (object != null) {
                 object.render();
                 return;
@@ -90,15 +85,13 @@ public abstract class WeaponItemRenderer implements IItemRenderer
         renderDefaultBarrel(weaponStack);
     }
 
-    protected void renderScope(ItemStack weapon)
-    {
-        ItemStack scopeStack = WeaponHelper.getModuleAtSlot(Reference.MODULE_SIGHTS,weapon);
-        if (scopeStack != null && scopeStack.getItem() instanceof IWeaponModule)
-        {
+    protected void renderScope(ItemStack weapon) {
+        ItemStack scopeStack = WeaponHelper.getModuleAtSlot(Reference.MODULE_SIGHTS, weapon);
+        if (scopeStack != null && scopeStack.getItem() instanceof IWeaponModule) {
             glPushMatrix();
-            glTranslated(scopePosition.xCoord,scopePosition.yCoord,scopePosition.zCoord);
-            String moduleObjectName = ((IWeaponModule)scopeStack.getItem()).getModelName(scopeStack);
-            WavefrontObject model = ClientProxy.renderHandler.getWeaponModuleModelRegistry().getModel(((IWeaponModule)scopeStack.getItem()).getModelPath());
+            glTranslated(scopePosition.xCoord, scopePosition.yCoord, scopePosition.zCoord);
+            String moduleObjectName = ((IWeaponModule) scopeStack.getItem()).getModelName(scopeStack);
+            WavefrontObject model = ClientProxy.renderHandler.getWeaponModuleModelRegistry().getModel(((IWeaponModule) scopeStack.getItem()).getModelPath());
             ResourceLocation moduleTexture = ((IWeaponModule) scopeStack.getItem()).getModelTexture(scopeStack);
             if (moduleTexture != null) {
                 bindTexture(moduleTexture);
@@ -129,17 +122,13 @@ public abstract class WeaponItemRenderer implements IItemRenderer
         }
     }
 
-    protected void renderModule(IWeaponModule weaponModule,ItemStack weaponModuleStack,ItemStack weaponStack)
-    {
+    protected void renderModule(IWeaponModule weaponModule, ItemStack weaponModuleStack, ItemStack weaponStack) {
         WavefrontObject model = ClientProxy.renderHandler.getWeaponModuleModelRegistry().getModel(weaponModule.getModelPath());
-        if (model != null)
-        {
+        if (model != null) {
             ResourceLocation moduleTexture = weaponModule.getModelTexture(weaponModuleStack);
-            if (moduleTexture != null)
-            {
+            if (moduleTexture != null) {
                 bindTexture(moduleTexture);
-            }else
-            {
+            } else {
                 bindTexture(weaponTexture);
             }
             String moduleObjectName = weaponModule.getModelName(weaponModuleStack);
@@ -148,47 +137,40 @@ public abstract class WeaponItemRenderer implements IItemRenderer
         }
     }
 
-    public float getScopeOffset(ItemStack weapon)
-    {
-        ItemStack scopeStack = WeaponHelper.getModuleAtSlot(Reference.MODULE_SIGHTS,weapon);
-        if (scopeStack != null && scopeStack.getItem() instanceof IWeaponScope)
-        {
-            return ((IWeaponScope) scopeStack.getItem()).getYOffset(scopeStack,weapon);
+    public float getScopeOffset(ItemStack weapon) {
+        ItemStack scopeStack = WeaponHelper.getModuleAtSlot(Reference.MODULE_SIGHTS, weapon);
+        if (scopeStack != null && scopeStack.getItem() instanceof IWeaponScope) {
+            return ((IWeaponScope) scopeStack.getItem()).getYOffset(scopeStack, weapon);
         }
         return 0;
     }
 
-    protected void renderDefaultBarrel(ItemStack weaponStack)
-    {
+    protected void renderDefaultBarrel(ItemStack weaponStack) {
         weaponModel.renderPart("weapon_module_barrel_none");
     }
 
-    protected void bindTexture(ResourceLocation texture)
-    {
+    protected void bindTexture(ResourceLocation texture) {
         Minecraft.getMinecraft().getTextureManager().bindTexture(texture);
     }
 
-    protected GroupObject getModelPart(String part)
-    {
-        for (GroupObject object : weaponModel.groupObjects)
-        {
-            if (object.name.equalsIgnoreCase(part))
-            {
+    protected GroupObject getModelPart(String part) {
+        for (GroupObject object : weaponModel.groupObjects) {
+            if (object.name.equalsIgnoreCase(part)) {
                 return object;
             }
         }
         return null;
     }
 
-    public ResourceLocation getWeaponTexture(){return weaponTexture;}
+    public ResourceLocation getWeaponTexture() {
+        return weaponTexture;
+    }
 
-    public float getRecoilTime()
-    {
+    public float getRecoilTime() {
         return ClientWeaponHandler.RECOIL_TIME;
     }
 
-    public float getRecoilAmount()
-    {
+    public float getRecoilAmount() {
         return ClientWeaponHandler.RECOIL_AMOUNT;
     }
 }

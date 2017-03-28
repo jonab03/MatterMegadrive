@@ -33,32 +33,25 @@ import java.util.UUID;
 /**
  * Created by Simeon on 7/18/2015.
  */
-public abstract class GalaxyCommon
-{
+public abstract class GalaxyCommon {
     protected Galaxy theGalaxy;
     protected World world;
     protected Random random;
-    protected HashMap<UUID,Planet> homePlanets;
+    protected HashMap<UUID, Planet> homePlanets;
 
-    public GalaxyCommon()
-    {
+    public GalaxyCommon() {
         random = new Random();
         homePlanets = new HashMap<>();
     }
 
-    public void loadClaimedPlanets()
-    {
+    public void loadClaimedPlanets() {
         homePlanets.clear();
 
-        for (Quadrant quadrant : theGalaxy.getQuadrants())
-        {
-            for (Star star : quadrant.getStars())
-            {
-                for (Planet planet : star.getPlanets())
-                {
-                    if (planet.isHomeworld() && planet.hasOwner())
-                    {
-                        homePlanets.put(planet.getOwnerUUID(),planet);
+        for (Quadrant quadrant : theGalaxy.getQuadrants()) {
+            for (Star star : quadrant.getStars()) {
+                for (Planet planet : star.getPlanets()) {
+                    if (planet.isHomeworld() && planet.hasOwner()) {
+                        homePlanets.put(planet.getOwnerUUID(), planet);
                     }
                 }
             }
@@ -66,40 +59,36 @@ public abstract class GalaxyCommon
     }
 
     //region getters and setters
-    public Planet getPlanet(GalacticPosition position)
-    {
-        if (theGalaxy != null)
-        {
+    public Planet getPlanet(GalacticPosition position) {
+        if (theGalaxy != null) {
             return theGalaxy.getPlanet(position);
         }
         return null;
     }
-    public Star getStar(GalacticPosition position)
-    {
-        if (theGalaxy != null)
-        {
+
+    public Star getStar(GalacticPosition position) {
+        if (theGalaxy != null) {
             return theGalaxy.getStar(position);
         }
         return null;
     }
-    public Quadrant getQuadrant(GalacticPosition position)
-    {
-        if (theGalaxy != null)
-        {
+
+    public Quadrant getQuadrant(GalacticPosition position) {
+        if (theGalaxy != null) {
             return theGalaxy.getQuadrant(position);
         }
         return null;
     }
-    public Planet getHomeworld(EntityPlayer player)
-    {
+
+    public Planet getHomeworld(EntityPlayer player) {
         return homePlanets.get(EntityPlayer.func_146094_a(player.getGameProfile()));
     }
-    public Galaxy getTheGalaxy()
-    {
+
+    public Galaxy getTheGalaxy() {
         return theGalaxy;
     }
-    public void setTheGalaxy(Galaxy galaxy)
-    {
+
+    public void setTheGalaxy(Galaxy galaxy) {
         theGalaxy = galaxy;
         if (theGalaxy != null)
             loadClaimedPlanets();

@@ -44,15 +44,13 @@ import java.util.List;
 /**
  * Created by Simeon on 12/2/2015.
  */
-public class CraftingHandlerInscriber extends TemplateRecipeHandler
-{
+public class CraftingHandlerInscriber extends TemplateRecipeHandler {
     ResourceLocation background = new ResourceLocation(Reference.PATH_GUI + "inscriber_nei.png");
     ResourceLocation arrowTexture = new ResourceLocation(Reference.TEXTURE_ARROW_PROGRESS);
 
     @Override
-    public void loadTransferRects()
-    {
-        this.transferRects.add(new RecipeTransferRect(new Rectangle(55,20, 26, 18), "mo_inscriber", new Object[0]));
+    public void loadTransferRects() {
+        this.transferRects.add(new RecipeTransferRect(new Rectangle(55, 20, 26, 18), "mo_inscriber"));
     }
 
     @Override
@@ -61,29 +59,27 @@ public class CraftingHandlerInscriber extends TemplateRecipeHandler
     }
 
     @Override
-    public void drawProgressBar(int x, int y, int tx, int ty, int w, int h, float completion, int direction)
-    {
+    public void drawProgressBar(int x, int y, int tx, int ty, int w, int h, float completion, int direction) {
         GuiDraw.changeTexture(arrowTexture);
         GuiDraw.drawTexturedModalRect(x, y, 24, 0, 48, 16);
     }
 
     @Override
-    public void drawExtras(int recipe)
-    {
+    public void drawExtras(int recipe) {
         GuiDraw.changeTexture(arrowTexture);
-        int ticks = ((CashedInscriberRecipe)arecipes.get(recipe)).getTime();
-        int width = (int)(((float)(this.cycleticks % ticks) / (float)ticks) * 24);
-        RenderUtils.drawPlaneWithUV(57,20,0,width,16,0.5,0,width/48f,1);
+        int ticks = ((CashedInscriberRecipe) arecipes.get(recipe)).getTime();
+        int width = (int) (((float) (this.cycleticks % ticks) / (float) ticks) * 24);
+        RenderUtils.drawPlaneWithUV(57, 20, 0, width, 16, 0.5, 0, width / 48f, 1);
 
-        Minecraft.getMinecraft().fontRenderer.drawString(String.format("-%,d RF",((CashedInscriberRecipe)arecipes.get(recipe)).getEnergy()),72,52,Reference.COLOR_HOLO_RED.getColor());
+        Minecraft.getMinecraft().fontRenderer.drawString(String.format("-%,d RF", ((CashedInscriberRecipe) arecipes.get(recipe)).getEnergy()), 72, 52, Reference.COLOR_HOLO_RED.getColor());
     }
 
     @Override
     public void loadCraftingRecipes(String outputId, Object... results) {
-        if(outputId.equals("mo_inscriber") && this.getClass() == CraftingHandlerInscriber.class) {
+        if (outputId.equals("mo_inscriber") && this.getClass() == CraftingHandlerInscriber.class) {
             Iterator<InscriberRecipe> iterator = InscriberRecipes.getRecipes().iterator();
 
-            while(iterator.hasNext()) {
+            while (iterator.hasNext()) {
                 InscriberRecipe recipe = iterator.next();
                 CashedInscriberRecipe cachedRecipe = new CashedInscriberRecipe(recipe);
                 cachedRecipe.computeVisuals();
@@ -100,7 +96,7 @@ public class CraftingHandlerInscriber extends TemplateRecipeHandler
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
         GuiDraw.changeTexture(this.getGuiTexture());
         //GL11.glDisable(GL11.GL_TEXTURE_2D);
-        RenderUtils.drawPlane(23,5,0,120,72);
+        RenderUtils.drawPlane(23, 5, 0, 120, 72);
     }
 
     @Override
@@ -114,7 +110,7 @@ public class CraftingHandlerInscriber extends TemplateRecipeHandler
 
         while (iterator.hasNext()) {
             InscriberRecipe recipe = iterator.next();
-            if (NEIServerUtils.areStacksIdentical(result,recipe.getRecipeOutput())) {
+            if (NEIServerUtils.areStacksIdentical(result, recipe.getRecipeOutput())) {
                 CashedInscriberRecipe cachedRecipe = new CashedInscriberRecipe(recipe);
                 cachedRecipe.computeVisuals();
                 this.arecipes.add(cachedRecipe);
@@ -128,8 +124,7 @@ public class CraftingHandlerInscriber extends TemplateRecipeHandler
 
         while (iterator.hasNext()) {
             InscriberRecipe recipe = iterator.next();
-            if (NEIServerUtils.areStacksIdentical(ingredient,recipe.getMain()) || NEIServerUtils.areStacksIdentical(ingredient,recipe.getSec()))
-            {
+            if (NEIServerUtils.areStacksIdentical(ingredient, recipe.getMain()) || NEIServerUtils.areStacksIdentical(ingredient, recipe.getSec())) {
                 CashedInscriberRecipe cachedRecipe = new CashedInscriberRecipe(recipe);
                 cachedRecipe.computeVisuals();
                 this.arecipes.add(cachedRecipe);
@@ -162,19 +157,17 @@ public class CraftingHandlerInscriber extends TemplateRecipeHandler
         return "mo_inscriber";
     }
 
-    public class CashedInscriberRecipe extends CachedRecipe
-    {
+    public class CashedInscriberRecipe extends CachedRecipe {
         PositionedStack main;
         PositionedStack sec;
         PositionedStack result;
         int time;
         int energy;
 
-        public CashedInscriberRecipe(InscriberRecipe recipe)
-        {
-            main = new PositionedStack(recipe.getMain(),33,20);
-            sec = new PositionedStack(recipe.getSec(),33,47);
-            result = new PositionedStack(recipe.getRecipeOutput(),91,20);
+        public CashedInscriberRecipe(InscriberRecipe recipe) {
+            main = new PositionedStack(recipe.getMain(), 33, 20);
+            sec = new PositionedStack(recipe.getSec(), 33, 47);
+            result = new PositionedStack(recipe.getRecipeOutput(), 91, 20);
             time = recipe.getTime();
             energy = recipe.getEnergy();
         }
@@ -198,13 +191,11 @@ public class CraftingHandlerInscriber extends TemplateRecipeHandler
             this.result.generatePermutations();
         }
 
-        public int getTime()
-        {
+        public int getTime() {
             return time;
         }
 
-        public int getEnergy()
-        {
+        public int getEnergy() {
             return energy;
         }
     }

@@ -46,8 +46,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 /**
  * Created by Simeon on 11/15/2015.
  */
-public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditionalSpawnData, IPathableMob<EntityRougeAndroidMob>
-{
+public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditionalSpawnData, IPathableMob<EntityRougeAndroidMob> {
     private static ResourceLocation androidNames = new ResourceLocation(Reference.PATH_INFO + "android_names.txt");
     private static String[] names = MOStringHelper.readTextFile(androidNames).split(",");
     boolean fromSpawner;
@@ -60,12 +59,10 @@ public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditiona
     private boolean legendary;
     private int level;
 
-    public EntityRougeAndroidMob(World world)
-    {
+    public EntityRougeAndroidMob(World world) {
         super(world);
-        if (!world.isRemote)
-        {
-            setAndroidLevel((int) (MathHelper.clamp_double(Math.abs(rand.nextGaussian()*(1+world.difficultySetting.getDifficultyId()*0.25)), 0, 3)));
+        if (!world.isRemote) {
+            setAndroidLevel((int) (MathHelper.clamp_double(Math.abs(rand.nextGaussian() * (1 + world.difficultySetting.getDifficultyId() * 0.25)), 0, 3)));
             boolean isLegendary = rand.nextDouble() < 0.05 * getAndroidLevel();
             setLegendary(isLegendary);
             init();
@@ -74,38 +71,31 @@ public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditiona
         }
     }
 
-    public EntityRougeAndroidMob(World world,int level,boolean legendary)
-    {
+    public EntityRougeAndroidMob(World world, int level, boolean legendary) {
         super(world);
         setAndroidLevel(level);
         setLegendary(legendary);
         init();
     }
 
-    private void init()
-    {
-        String name = getIsLegendary() ? EnumChatFormatting.GOLD + String.format("%s %s ",Reference.UNICODE_LEGENDARY,MOStringHelper.translateToLocal("rarity.legendary")) : "";
-        name += String.format("[%s] ",getAndroidLevel());
+    private void init() {
+        String name = getIsLegendary() ? EnumChatFormatting.GOLD + String.format("%s %s ", Reference.UNICODE_LEGENDARY, MOStringHelper.translateToLocal("rarity.legendary")) : "";
+        name += String.format("[%s] ", getAndroidLevel());
         name += names[rand.nextInt(names.length)];
         setCustomNameTag(name);
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(getIsLegendary() ? 128 : getAndroidLevel() * 10 + 32);
         this.setHealth(this.getMaxHealth());
 
-        if (fromSpawner)
-        {
-            if (!addToSpawner(spawnerPosition))
-            {
+        if (fromSpawner) {
+            if (!addToSpawner(spawnerPosition)) {
                 setDead();
             }
         }
 
-        if (getIsLegendary())
-        {
+        if (getIsLegendary()) {
             setVisorColor(Reference.COLOR_HOLO_RED.getColor());
-        }else
-        {
-            switch (getAndroidLevel())
-            {
+        } else {
+            switch (getAndroidLevel()) {
                 case 0:
                     setVisorColor(Reference.COLOR_HOLO.getColor());
                     break;
@@ -121,16 +111,11 @@ public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditiona
         }
     }
 
-    public EnumChatFormatting getNameColor()
-    {
-        if (getIsLegendary())
-        {
-           return EnumChatFormatting.GOLD;
-        }
-        else
-        {
-            switch (getAndroidLevel())
-            {
+    public EnumChatFormatting getNameColor() {
+        if (getIsLegendary()) {
+            return EnumChatFormatting.GOLD;
+        } else {
+            switch (getAndroidLevel()) {
                 case 0:
                     return EnumChatFormatting.GRAY;
                 case 1:
@@ -145,25 +130,20 @@ public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditiona
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound nbtTagCompound)
-    {
+    public void readEntityFromNBT(NBTTagCompound nbtTagCompound) {
         super.readEntityFromNBT(nbtTagCompound);
         setLegendary(nbtTagCompound.getBoolean("Legendary"));
         setAndroidLevel(nbtTagCompound.getByte("Level"));
         setVisorColor(nbtTagCompound.getInteger("VisorColor"));
-        if (nbtTagCompound.hasKey("Team", Constants.NBT.TAG_STRING))
-        {
+        if (nbtTagCompound.hasKey("Team", Constants.NBT.TAG_STRING)) {
             ScorePlayerTeam team = worldObj.getScoreboard().getTeam(nbtTagCompound.getString("Team"));
-            if (team != null)
-            {
+            if (team != null) {
                 setTeam(team);
-            }else
-            {
+            } else {
                 setDead();
             }
         }
-        if (nbtTagCompound.hasKey("SpawnerPos", Constants.NBT.TAG_COMPOUND))
-        {
+        if (nbtTagCompound.hasKey("SpawnerPos", Constants.NBT.TAG_COMPOUND)) {
             spawnerPosition = new BlockPos(nbtTagCompound.getCompoundTag("SpawnerPos"));
             this.fromSpawner = true;
         }
@@ -171,71 +151,57 @@ public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditiona
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound nbtTagCompound)
-    {
+    public void writeEntityToNBT(NBTTagCompound nbtTagCompound) {
         super.writeEntityToNBT(nbtTagCompound);
-        nbtTagCompound.setByte("Level",(byte)getAndroidLevel());
-        nbtTagCompound.setBoolean("Legendary",getIsLegendary());
-        nbtTagCompound.setInteger("VisorColor",getVisorColor());
-        if (getTeam() != null)
-        {
-            nbtTagCompound.setString("Team",getTeam().getRegisteredName());
+        nbtTagCompound.setByte("Level", (byte) getAndroidLevel());
+        nbtTagCompound.setBoolean("Legendary", getIsLegendary());
+        nbtTagCompound.setInteger("VisorColor", getVisorColor());
+        if (getTeam() != null) {
+            nbtTagCompound.setString("Team", getTeam().getRegisteredName());
         }
-        if (spawnerPosition != null)
-        {
+        if (spawnerPosition != null) {
             NBTTagCompound spawnerPos = new NBTTagCompound();
             spawnerPosition.writeToNBT(spawnerPos);
-            nbtTagCompound.setTag("SpawnerPos",spawnerPos);
+            nbtTagCompound.setTag("SpawnerPos", spawnerPos);
         }
-        nbtTagCompound.setInteger("CurrentPathIndex",currentPathIndex);
+        nbtTagCompound.setInteger("CurrentPathIndex", currentPathIndex);
     }
 
-    private boolean addToSpawner(BlockPos position)
-    {
+    private boolean addToSpawner(BlockPos position) {
         this.spawnerPosition = position;
-        TileEntityAndroidSpawner spawnerEntity = position.getTileEntity(worldObj,TileEntityAndroidSpawner.class);
-        if (spawnerEntity != null)
-        {
+        TileEntityAndroidSpawner spawnerEntity = position.getTileEntity(worldObj, TileEntityAndroidSpawner.class);
+        if (spawnerEntity != null) {
             spawnerEntity.addSpawnedAndroid(this);
             return true;
         }
         return false;
     }
 
-    public void setAttackTarget(EntityLivingBase target)
-    {
-        if (target != null && target.getTeam() != null)
-        {
+    public void setAttackTarget(EntityLivingBase target) {
+        if (target != null && target.getTeam() != null) {
             if (!target.getTeam().isSameTeam(getTeam()))
                 super.setAttackTarget(target);
-        }else
-        {
+        } else {
             super.setAttackTarget(target);
         }
     }
 
     @Override
-    public boolean isPotionApplicable(PotionEffect potion)
-    {
+    public boolean isPotionApplicable(PotionEffect potion) {
         return false;
     }
 
     @Override
-    public boolean getCanSpawnHere()
-    {
-        return getCanSpawnHere(false,false,false) && !hasToManyAndroids();
+    public boolean getCanSpawnHere() {
+        return getCanSpawnHere(false, false, false) && !hasToManyAndroids();
     }
 
-    public boolean hasToManyAndroids()
-    {
-        Chunk chunk = worldObj.getChunkFromChunkCoords(chunkCoordX,chunkCoordZ);
+    public boolean hasToManyAndroids() {
+        Chunk chunk = worldObj.getChunkFromChunkCoords(chunkCoordX, chunkCoordZ);
         int androidCount = 0;
-        for (int i = 0;i < chunk.entityLists.length;i++)
-        {
-            for (int c = 0;c < chunk.entityLists[i].size();c++)
-            {
-                if (chunk.entityLists[i].get(c) instanceof EntityRougeAndroidMob)
-                {
+        for (int i = 0; i < chunk.entityLists.length; i++) {
+            for (int c = 0; c < chunk.entityLists[i].size(); c++) {
+                if (chunk.entityLists[i].get(c) instanceof EntityRougeAndroidMob) {
                     androidCount++;
                     if (androidCount > EntityRogueAndroid.MAX_ANDROIDS_PER_CHUNK)
                         return true;
@@ -246,73 +212,57 @@ public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditiona
         return false;
     }
 
-    public boolean getCanSpawnHere(boolean ignoreEntityCollision,boolean ignoreLight,boolean ignoreDimension)
-    {
-        if (!ignoreDimension)
-        {
-            if (EntityRogueAndroid.dimensionWhitelist.size() > 0)
-            {
+    public boolean getCanSpawnHere(boolean ignoreEntityCollision, boolean ignoreLight, boolean ignoreDimension) {
+        if (!ignoreDimension) {
+            if (EntityRogueAndroid.dimensionWhitelist.size() > 0) {
                 return EntityRogueAndroid.dimensionWhitelist.contains(worldObj.provider.dimensionId) && inDimensionBlacklist();
             }
-            if (inDimensionBlacklist())
-            {
+            if (inDimensionBlacklist()) {
                 return false;
             }
         }
-        boolean light = ignoreLight ? true : isValidLightLevel();
-        boolean entityCollison = ignoreEntityCollision ? true : this.worldObj.checkNoEntityCollision(this.boundingBox);
+        boolean light = ignoreLight || isValidLightLevel();
+        boolean entityCollison = ignoreEntityCollision || this.worldObj.checkNoEntityCollision(this.boundingBox);
         return this.worldObj.difficultySetting != EnumDifficulty.PEACEFUL && light && entityCollison && this.worldObj.getCollidingBoundingBoxes(this, this.boundingBox).isEmpty() && !this.worldObj.isAnyLiquid(this.boundingBox);
     }
 
-    public float getBlockPathWeight(int p_70783_1_, int p_70783_2_, int p_70783_3_)
-    {
-        float weight = 1-this.worldObj.getLightBrightness(p_70783_1_, p_70783_2_, p_70783_3_);
-        weight *= this.worldObj.isSideSolid(p_70783_1_,p_70783_2_,p_70783_3_, ForgeDirection.UP) ? 0 : 1;
+    public float getBlockPathWeight(int p_70783_1_, int p_70783_2_, int p_70783_3_) {
+        float weight = 1 - this.worldObj.getLightBrightness(p_70783_1_, p_70783_2_, p_70783_3_);
+        weight *= this.worldObj.isSideSolid(p_70783_1_, p_70783_2_, p_70783_3_, ForgeDirection.UP) ? 0 : 1;
         weight /= Math.abs(p_70783_2_ - posX);
         return weight;
     }
 
-    protected void addRandomArmor()
-    {
-        if (this.rand.nextFloat() < 0.15F)
-        {
+    protected void addRandomArmor() {
+        if (this.rand.nextFloat() < 0.15F) {
             int i = this.rand.nextInt(2);
             float f = this.worldObj.difficultySetting == EnumDifficulty.HARD ? 0.1F : 0.25F;
 
-            if (this.rand.nextFloat() < 0.095F)
-            {
+            if (this.rand.nextFloat() < 0.095F) {
                 ++i;
             }
 
-            if (this.rand.nextFloat() < 0.095F)
-            {
+            if (this.rand.nextFloat() < 0.095F) {
                 ++i;
             }
 
-            if (this.rand.nextFloat() < 0.095F)
-            {
+            if (this.rand.nextFloat() < 0.095F) {
                 ++i;
             }
 
-            for (int j = 3; j >= 0; --j)
-            {
+            for (int j = 3; j >= 0; --j) {
                 ItemStack itemstack = this.func_130225_q(j);
 
-                if (j < 3 && this.rand.nextFloat() < f)
-                {
+                if (j < 3 && this.rand.nextFloat() < f) {
                     break;
                 }
 
-                if (itemstack == null)
-                {
+                if (itemstack == null) {
                     Item item = null;
 
-                    if (i == 3)
-                    {
-                        if (rand.nextBoolean())
-                        {
-                            switch (j + 1)
-                            {
+                    if (i == 3) {
+                        if (rand.nextBoolean()) {
+                            switch (j + 1) {
                                 case 4:
                                     item = MatterOverdriveItems.tritaniumHelemet;
                                     break;
@@ -326,17 +276,14 @@ public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditiona
                                     item = MatterOverdriveItems.tritaniumBoots;
                                     break;
                             }
-                        }else
-                        {
+                        } else {
                             item = getArmorItemForSlot(j + 1, i);
                         }
-                    }else
-                    {
+                    } else {
                         item = getArmorItemForSlot(j + 1, i);
                     }
 
-                    if (item != null)
-                    {
+                    if (item != null) {
                         this.setCurrentItemOrArmor(j + 1, new ItemStack(item));
                     }
                 }
@@ -345,72 +292,58 @@ public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditiona
     }
 
     @Override
-    public boolean isWithinHomeDistance(int p_110176_1_, int p_110176_2_, int p_110176_3_)
-    {
+    public boolean isWithinHomeDistance(int p_110176_1_, int p_110176_2_, int p_110176_3_) {
         return true;
     }
 
     @Override
-    public boolean hasHome()
-    {
+    public boolean hasHome() {
 
         return getCurrentTarget() != null;
     }
 
     @Override
-    public ChunkCoordinates getHomePosition()
-    {
+    public ChunkCoordinates getHomePosition() {
         Vec3 currentTarget = getCurrentTarget();
-        return new ChunkCoordinates((int)currentTarget.xCoord,(int)currentTarget.yCoord,(int)currentTarget.zCoord);
+        return new ChunkCoordinates((int) currentTarget.xCoord, (int) currentTarget.yCoord, (int) currentTarget.zCoord);
     }
 
     private boolean inDimensionBlacklist() {
         return EntityRogueAndroid.dimensionBlacklist.contains(worldObj.provider.dimensionId);
     }
 
-    public void setAndroidLevel(int level)
-    {
+    public void setAndroidLevel(int level) {
         this.level = level;
     }
 
-    public int getAndroidLevel()
-    {
+    public int getAndroidLevel() {
         return this.level;
     }
 
-    public void setLegendary(boolean legendary)
-    {
+    public void setLegendary(boolean legendary) {
         this.legendary = legendary;
-        if (legendary)
-        {
+        if (legendary) {
             this.height = 1.8f * 1.6f;
-        }else
-        {
+        } else {
             this.height = 1.8f;
         }
     }
 
-    public boolean getIsLegendary()
-    {
+    public boolean getIsLegendary() {
         return legendary;
     }
 
-    public void setTeam(ScorePlayerTeam team)
-    {
+    public void setTeam(ScorePlayerTeam team) {
         this.team = team;
     }
 
     @Override
-    public String getCustomNameTag()
-    {
-        if(hasTeam())
-        {
+    public String getCustomNameTag() {
+        if (hasTeam()) {
             return getTeam().formatString(this.dataWatcher.getWatchableObjectString(10));
-        }else
-        {
+        } else {
             EnumChatFormatting color = getNameColor();
-            if (color != null)
-            {
+            if (color != null) {
                 return color + this.dataWatcher.getWatchableObjectString(10);
             }
         }
@@ -418,77 +351,63 @@ public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditiona
     }
 
     @Override
-    public ScorePlayerTeam getTeam()
-    {
+    public ScorePlayerTeam getTeam() {
         return team;
     }
 
-    public boolean hasTeam()
-    {
+    public boolean hasTeam() {
         return getTeam() != null;
     }
 
-    public boolean wasSpawnedFrom(TileEntityAndroidSpawner spawner)
-    {
-        if (spawnerPosition != null)
-        {
+    public boolean wasSpawnedFrom(TileEntityAndroidSpawner spawner) {
+        if (spawnerPosition != null) {
             TileEntity tileEntity = spawnerPosition.getTileEntity(worldObj);
             return tileEntity == spawner;
         }
         return false;
     }
 
-    public void setSpawnerPosition(BlockPos position)
-    {
+    public void setSpawnerPosition(BlockPos position) {
         this.spawnerPosition = position;
         this.fromSpawner = true;
     }
 
     @Override
-    public void setDead()
-    {
-        if (spawnerPosition != null)
-        {
-            TileEntityAndroidSpawner spawner = spawnerPosition.getTileEntity(worldObj,TileEntityAndroidSpawner.class);
-            if (spawner != null)
-            {
+    public void setDead() {
+        if (spawnerPosition != null) {
+            TileEntityAndroidSpawner spawner = spawnerPosition.getTileEntity(worldObj, TileEntityAndroidSpawner.class);
+            if (spawner != null) {
                 spawner.removeAndroid(this);
             }
         }
         this.isDead = true;
     }
 
-    public int getVisorColor()
-    {
+    public int getVisorColor() {
         return visorColor;
     }
 
-    public void setVisorColor(int color)
-    {
+    public void setVisorColor(int color) {
         visorColor = color;
     }
 
     @Override
-    public void writeSpawnData(ByteBuf buffer)
-    {
+    public void writeSpawnData(ByteBuf buffer) {
         buffer.writeByte(level);
         buffer.writeBoolean(legendary);
         buffer.writeInt(visorColor);
         buffer.writeBoolean(hasTeam());
-        if (hasTeam())
-        {
+        if (hasTeam()) {
             ByteBufUtils.writeUTF8String(buffer, getTeam().getRegisteredName());
         }
     }
 
     @Override
-    public void readSpawnData(ByteBuf additionalData)
-    {
+    public void readSpawnData(ByteBuf additionalData) {
         setAndroidLevel(additionalData.readByte());
         setLegendary(additionalData.readBoolean());
         setVisorColor(additionalData.readInt());
-        if (additionalData.readBoolean())
-        {
+        if (additionalData.readBoolean()) {
             String teamName = ByteBufUtils.readUTF8String(additionalData);
             ScorePlayerTeam team = worldObj.getScoreboard().getTeam(teamName);
             if (team != null)
@@ -497,62 +416,51 @@ public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditiona
     }
 
     @Override
-    public Vec3 getCurrentTarget()
-    {
-        if (path != null && currentPathIndex < path.length)
-        {
+    public Vec3 getCurrentTarget() {
+        if (path != null && currentPathIndex < path.length) {
             return path[currentPathIndex];
         }
         return null;
     }
 
     @Override
-    public void onTargetReached(Vec3 pos)
-    {
-        if (currentPathIndex < path.length-1)
-        {
+    public void onTargetReached(Vec3 pos) {
+        if (currentPathIndex < path.length - 1) {
             currentPathIndex++;
         }
     }
 
     @Override
-    public boolean isNearTarget(Vec3 pos)
-    {
+    public boolean isNearTarget(Vec3 pos) {
         return pos.squareDistanceTo(posX, posY, posZ) < maxPathTargetRangeSq;
     }
 
     @Override
-    public EntityRougeAndroidMob getEntity()
-    {
+    public EntityRougeAndroidMob getEntity() {
         return this;
     }
 
-    public void setPath(Vec3[] path,int range)
-    {
+    public void setPath(Vec3[] path, int range) {
         this.path = path;
-        maxPathTargetRangeSq = range*range;
+        maxPathTargetRangeSq = range * range;
     }
 
     @Override
-    protected String getLivingSound()
-    {
+    protected String getLivingSound() {
         return Reference.MOD_ID + ":" + "rogue_android_say";
     }
 
     @Override
-    protected String getDeathSound()
-    {
+    protected String getDeathSound() {
         return Reference.MOD_ID + ":" + "rogue_android_death";
     }
 
     @Override
-    protected float getSoundVolume()
-    {
+    protected float getSoundVolume() {
         return 0.5f;
     }
 
-    public int getTalkInterval()
-    {
-        return 20*24;
+    public int getTalkInterval() {
+        return 20 * 24;
     }
 }

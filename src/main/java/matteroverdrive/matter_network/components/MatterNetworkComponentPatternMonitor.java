@@ -41,14 +41,12 @@ import java.util.List;
 /**
  * Created by Simeon on 7/13/2015.
  */
-public class MatterNetworkComponentPatternMonitor extends MatterNetworkComponentClient<TileEntityMachinePatternMonitor>
-{
+public class MatterNetworkComponentPatternMonitor extends MatterNetworkComponentClient<TileEntityMachinePatternMonitor> {
     private TimeTracker broadcastTracker;
     TimeTracker validateTracker;
     private boolean needsSearchRefresh = true;
 
-    public MatterNetworkComponentPatternMonitor(TileEntityMachinePatternMonitor patternMonitor)
-    {
+    public MatterNetworkComponentPatternMonitor(TileEntityMachinePatternMonitor patternMonitor) {
         super(patternMonitor);
         broadcastTracker = new TimeTracker();
         validateTracker = new TimeTracker();
@@ -56,22 +54,17 @@ public class MatterNetworkComponentPatternMonitor extends MatterNetworkComponent
     }
 
     @Override
-    protected void executePacket(MatterNetworkPacket packet)
-    {
+    protected void executePacket(MatterNetworkPacket packet) {
         super.executePacket(packet);
 
-        if (packet instanceof MatterNetworkResponsePacket)
-        {
-            executeResponses((MatterNetworkResponsePacket)packet);
+        if (packet instanceof MatterNetworkResponsePacket) {
+            executeResponses((MatterNetworkResponsePacket) packet);
         }
     }
 
-    protected void executeResponses(MatterNetworkResponsePacket packet)
-    {
-        if (packet.fits(Reference.PACKET_RESPONCE_VALID,Reference.PACKET_REQUEST_CONNECTION))
-        {
-            if(!rootClient.getDatabases().contains(packet.getSender(getWorldObj()).getPosition()))
-            {
+    protected void executeResponses(MatterNetworkResponsePacket packet) {
+        if (packet.fits(Reference.PACKET_RESPONCE_VALID, Reference.PACKET_REQUEST_CONNECTION)) {
+            if (!rootClient.getDatabases().contains(packet.getSender(getWorldObj()).getPosition())) {
                 rootClient.getDatabases().add(packet.getSender(rootClient.getWorldObj()).getPosition());
                 rootClient.SyncDatabasesWithClient();
             }
@@ -79,24 +72,21 @@ public class MatterNetworkComponentPatternMonitor extends MatterNetworkComponent
     }
 
     @Override
-    public int onNetworkTick(World world, TickEvent.Phase phase)
-    {
-        int broadcasts = super.onNetworkTick(world,phase);
+    public int onNetworkTick(World world, TickEvent.Phase phase) {
+        int broadcasts = super.onNetworkTick(world, phase);
         manageDatabaseValidation(world);
         manageSearch(world, phase);
         return broadcasts + manageTaskBroadcast(world, phase);
     }
 
-    private void manageSearch(World world,TickEvent.Phase phase)
-    {
+    private void manageSearch(World world, TickEvent.Phase phase) {
         if (phase.equals(TickEvent.Phase.END)) {
-            if (needsSearchRefresh)
-            {
+            if (needsSearchRefresh) {
                 rootClient.getDatabases().clear();
                 MatterOverdrive.packetPipeline.sendToAllAround(new PacketPatternMonitorSync(rootClient), rootClient, 64);
 
                 for (int i = 0; i < 6; i++) {
-                    MatterNetworkRequestPacket packet = new MatterNetworkRequestPacket(rootClient, Reference.PACKET_REQUEST_CONNECTION,ForgeDirection.getOrientation(i),rootClient.getFilter(), IMatterDatabase.class);
+                    MatterNetworkRequestPacket packet = new MatterNetworkRequestPacket(rootClient, Reference.PACKET_REQUEST_CONNECTION, ForgeDirection.getOrientation(i), rootClient.getFilter(), IMatterDatabase.class);
                     MatterNetworkHelper.broadcastPacketInDirection(world, packet, rootClient, ForgeDirection.getOrientation(i));
                 }
                 needsSearchRefresh = false;
@@ -106,16 +96,13 @@ public class MatterNetworkComponentPatternMonitor extends MatterNetworkComponent
 
     /**
      * Gets called to validate all connected Databases, if they exist.
+     *
      * @param world
      */
-    private void manageDatabaseValidation(World world)
-    {
-        if (validateTracker.hasDelayPassed(world, TileEntityMachinePatternMonitor.VALIDATE_DELAY))
-        {
-            for (BlockPos blockPosition : rootClient.getDatabases())
-            {
-                if (blockPosition.getBlock(world) == null || blockPosition.getTileEntity(world) == null || !(blockPosition.getTileEntity(world) instanceof IMatterDatabase))
-                {
+    private void manageDatabaseValidation(World world) {
+        if (validateTracker.hasDelayPassed(world, TileEntityMachinePatternMonitor.VALIDATE_DELAY)) {
+            for (BlockPos blockPosition : rootClient.getDatabases()) {
+                if (blockPosition.getBlock(world) == null || blockPosition.getTileEntity(world) == null || !(blockPosition.getTileEntity(world) instanceof IMatterDatabase)) {
                     needsSearchRefresh = true;
                     return;
                 }
@@ -123,8 +110,7 @@ public class MatterNetworkComponentPatternMonitor extends MatterNetworkComponent
         }
     }
 
-    private int manageTaskBroadcast(World world, TickEvent.Phase phase)
-    {
+    private int manageTaskBroadcast(World world, TickEvent.Phase phase) {
         if (phase.equals(TickEvent.Phase.START)) {
             int broadcastCount = 0;
             MatterNetworkTaskReplicatePattern task = rootClient.getTaskQueue(0).peek();
@@ -133,7 +119,7 @@ public class MatterNetworkComponentPatternMonitor extends MatterNetworkComponent
                 if (task.getState() == MatterNetworkTaskState.FINISHED || task.getState() == MatterNetworkTaskState.PROCESSING) {
                     rootClient.getTaskQueue(0).dequeue();
                     rootClient.forceSync();
-                } else{
+                } else {
                     if (!task.isAlive() && broadcastTracker.hasDelayPassed(world, TileEntityMachinePatternMonitor.BROADCAST_WEATING_DELAY)) {
                         for (int i = 0; i < 6; i++) {
                             if (MatterNetworkHelper.broadcastPacketInDirection(world, (byte) 0, task, rootClient, ForgeDirection.getOrientation(i), rootClient.getFilter())) {
@@ -152,25 +138,21 @@ public class MatterNetworkComponentPatternMonitor extends MatterNetworkComponent
         return 0;
     }
 
-    public void queuePatternRequest(List<ItemPattern> patternRequests)
-    {
-        for (int i = 0;i < patternRequests.size();i++)
-        {
+    public void queuePatternRequest(List<ItemPattern> patternRequests) {
+        for (int i = 0; i < patternRequests.size(); i++) {
             MatterNetworkTaskReplicatePattern task = new MatterNetworkTaskReplicatePattern(rootClient, patternRequests.get(i));
             task.setState(MatterNetworkTaskState.WAITING);
-            if (rootClient.getTaskQueue(0).queue(task));
+            if (rootClient.getTaskQueue(0).queue(task)) ;
         }
 
         rootClient.forceSync();
     }
 
-    public boolean getNeedsSearchRefresh()
-    {
+    public boolean getNeedsSearchRefresh() {
         return needsSearchRefresh;
     }
 
-    public void setNeedsSearchRefresh(boolean needsSearchRefresh)
-    {
+    public void setNeedsSearchRefresh(boolean needsSearchRefresh) {
         this.needsSearchRefresh = needsSearchRefresh;
     }
 }

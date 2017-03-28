@@ -9,16 +9,14 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Created by Simeon on 5/28/2015.
  */
-public class EntityRendererFailedChicken extends RenderChicken
-{
+public class EntityRendererFailedChicken extends RenderChicken {
     private static final ResourceLocation chickenTextures = new ResourceLocation(Reference.PATH_ENTITIES + "failed_chicken.png");
 
     public EntityRendererFailedChicken(ModelBase model, float f) {
         super(model, f);
     }
 
-    protected ResourceLocation getEntityTexture(EntityChicken entity)
-    {
+    protected ResourceLocation getEntityTexture(EntityChicken entity) {
         return chickenTextures;
     }
 }

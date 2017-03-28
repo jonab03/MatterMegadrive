@@ -38,45 +38,41 @@ import java.util.List;
  */
 @Compat("NotEnoughItems")
 @Optional.Interface(iface = "codechicken.nei.api.INEIGuiHandler", modid = "NotEnoughItems")
-public class CompatNEI implements INEIGuiHandler
-{
-	@Compat.PreInit
-	public static void preInit(FMLPreInitializationEvent event)
-	{
-		API.registerNEIGuiHandler(new CompatNEI());
-		API.hideItem(new ItemStack(MatterOverdriveBlocks.boundingBox));
-		CraftingHandlerInscriber handlerInscriber = new CraftingHandlerInscriber();
-		API.registerRecipeHandler(handlerInscriber);
-		API.registerUsageHandler(handlerInscriber);
-	}
+public class CompatNEI implements INEIGuiHandler {
+    @Compat.PreInit
+    public static void preInit(FMLPreInitializationEvent event) {
+        API.registerNEIGuiHandler(new CompatNEI());
+        API.hideItem(new ItemStack(MatterOverdriveBlocks.boundingBox));
+        CraftingHandlerInscriber handlerInscriber = new CraftingHandlerInscriber();
+        API.registerRecipeHandler(handlerInscriber);
+        API.registerUsageHandler(handlerInscriber);
+    }
 
-	@Override
-	public VisiblityData modifyVisiblity(GuiContainer guiContainer, VisiblityData visiblityData)
-	{
-		if (guiContainer instanceof GuiStarMap)
-		{
-			visiblityData.showNEI = false;
-		}
-		return visiblityData;
-	}
+    @Override
+    public VisiblityData modifyVisiblity(GuiContainer guiContainer, VisiblityData visiblityData) {
+        if (guiContainer instanceof GuiStarMap) {
+            visiblityData.showNEI = false;
+        }
+        return visiblityData;
+    }
 
-	@Override
-	public Iterable<Integer> getItemSpawnSlots(GuiContainer guiContainer, ItemStack itemStack) {
-		return new ArrayList<Integer>();
-	}
+    @Override
+    public Iterable<Integer> getItemSpawnSlots(GuiContainer guiContainer, ItemStack itemStack) {
+        return new ArrayList<Integer>();
+    }
 
-	@Override
-	public List<TaggedInventoryArea> getInventoryAreas(GuiContainer guiContainer) {
-		return null;
-	}
+    @Override
+    public List<TaggedInventoryArea> getInventoryAreas(GuiContainer guiContainer) {
+        return null;
+    }
 
-	@Override
-	public boolean handleDragNDrop(GuiContainer guiContainer, int i, int i1, ItemStack itemStack, int i2) {
-		return false;
-	}
+    @Override
+    public boolean handleDragNDrop(GuiContainer guiContainer, int i, int i1, ItemStack itemStack, int i2) {
+        return false;
+    }
 
-	@Override
-	public boolean hideItemPanelSlot(GuiContainer guiContainer, int i, int i1, int i2, int i3) {
-		return false;
-	}
+    @Override
+    public boolean hideItemPanelSlot(GuiContainer guiContainer, int i, int i1, int i2, int i3) {
+        return false;
+    }
 }

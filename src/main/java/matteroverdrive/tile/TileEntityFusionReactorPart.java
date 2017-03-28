@@ -35,13 +35,11 @@ import java.util.EnumSet;
 /**
  * Created by Simeon on 10/30/2015.
  */
-public class TileEntityFusionReactorPart extends MOTileEntityMachineMatter implements IMultiBlockTile
-{
+public class TileEntityFusionReactorPart extends MOTileEntityMachineMatter implements IMultiBlockTile {
     private IMultiBlockTileStructure structure;
     private TileEntityMachineFusionReactorController fusionReactorController;
 
-    public TileEntityFusionReactorPart()
-    {
+    public TileEntityFusionReactorPart() {
         super(0);
         energyStorage.setCapacity(0);
         energyStorage.setMaxTransfer(0);
@@ -87,10 +85,8 @@ public class TileEntityFusionReactorPart extends MOTileEntityMachineMatter imple
 
     }
 
-    public MachineMatterStorage getMatterStorage()
-    {
-        if (fusionReactorController != null)
-        {
+    public MachineMatterStorage getMatterStorage() {
+        if (fusionReactorController != null) {
             return fusionReactorController.getMatterStorage();
         }
         return null;
@@ -107,8 +103,7 @@ public class TileEntityFusionReactorPart extends MOTileEntityMachineMatter imple
     }
 
     @Override
-    public boolean canJoinMultiBlockStructure(IMultiBlockTileStructure structure)
-    {
+    public boolean canJoinMultiBlockStructure(IMultiBlockTileStructure structure) {
         return getMultiBlockHandler() == null && structure instanceof MultiBlockTileStructureMachine && ((MultiBlockTileStructureMachine) structure).getMachine() instanceof TileEntityMachineFusionReactorController;
     }
 
@@ -123,27 +118,22 @@ public class TileEntityFusionReactorPart extends MOTileEntityMachineMatter imple
     }
 
     @Override
-    public void setMultiBlockTileStructure(IMultiBlockTileStructure structure)
-    {
+    public void setMultiBlockTileStructure(IMultiBlockTileStructure structure) {
         this.structure = structure;
-        if (structure == null)
-        {
+        if (structure == null) {
             fusionReactorController = null;
-        }else if (structure instanceof MultiBlockTileStructureMachine)
-        {
-            fusionReactorController = (TileEntityMachineFusionReactorController)((MultiBlockTileStructureMachine)structure).getMachine();
+        } else if (structure instanceof MultiBlockTileStructureMachine) {
+            fusionReactorController = (TileEntityMachineFusionReactorController) ((MultiBlockTileStructureMachine) structure).getMachine();
         }
     }
 
     @Override
-    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk)
-    {
+    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
 
     }
 
     @Override
-    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories)
-    {
+    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories) {
 
     }
 }

@@ -36,8 +36,7 @@ import java.util.EnumSet;
 /**
  * Created by Simeon on 11/25/2015.
  */
-public class PacketQuestActions extends PacketAbstract
-{
+public class PacketQuestActions extends PacketAbstract {
     public static final int QUEST_ACTION_ABONDON = 0;
     public static final int QUEST_ACTION_COMPLETE = 1;
     public static final int QUEST_ACTION_ADD = 2;
@@ -45,56 +44,50 @@ public class PacketQuestActions extends PacketAbstract
     int questID;
     int playerID;
 
-    public PacketQuestActions(){}
+    public PacketQuestActions() {
+    }
 
-    public PacketQuestActions(int command,int questID,int playerID)
-    {
+    public PacketQuestActions(int command, int questID, int playerID) {
         this.command = command;
         this.questID = questID;
         this.playerID = playerID;
     }
 
-    public PacketQuestActions(int command,int questID,EntityPlayer entityPlayer)
-    {
+    public PacketQuestActions(int command, int questID, EntityPlayer entityPlayer) {
         this.command = command;
         this.questID = questID;
         this.playerID = entityPlayer.getEntityId();
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         this.command = buf.readInt();
         this.questID = buf.readInt();
         this.playerID = buf.readInt();
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         buf.writeInt(command);
         buf.writeInt(questID);
         buf.writeInt(playerID);
     }
 
-    public static class ServerHandler extends AbstractServerPacketHandler<PacketQuestActions>
-    {
-        public ServerHandler(){}
+    public static class ServerHandler extends AbstractServerPacketHandler<PacketQuestActions> {
+        public ServerHandler() {
+        }
 
         @Override
-        public IMessage handleServerMessage(EntityPlayer player, PacketQuestActions message, MessageContext ctx)
-        {
+        public IMessage handleServerMessage(EntityPlayer player, PacketQuestActions message, MessageContext ctx) {
             Entity entity = player.worldObj.getEntityByID(message.playerID);
-            if (entity instanceof EntityPlayer)
-            {
+            if (entity instanceof EntityPlayer) {
                 MOExtendedProperties extendedProperties = MOExtendedProperties.get((EntityPlayer) entity);
-                if (extendedProperties != null)
-                {
+                if (extendedProperties != null) {
                     if (message.questID < extendedProperties.getQuestData().getActiveQuests().size()) {
                         if (message.command == QUEST_ACTION_COMPLETE) {
                             QuestStack questStack = extendedProperties.getQuestData().getActiveQuests().get(message.questID);
                             if (QuestStack.canComplete((EntityPlayer) entity, questStack)) {
-                                questStack.markComplited(player,true);
+                                questStack.markComplited(player, true);
                             }
                         } else if (message.command == QUEST_ACTION_ABONDON) {
                             QuestStack abandonedQuest = extendedProperties.getQuestData().removeQuest(message.questID);
@@ -105,13 +98,11 @@ public class PacketQuestActions extends PacketAbstract
                             return new PacketSyncQuests(extendedProperties.getQuestData(), EnumSet.of(PlayerQuestData.DataType.ACTIVE_QUESTS));
                         }
                     }
-                    if (message.command == QUEST_ACTION_ADD)
-                    {
+                    if (message.command == QUEST_ACTION_ADD) {
                         ItemStack contract = extendedProperties.getPlayer().inventory.getStackInSlot(message.questID);
-                        if (contract.getItem() instanceof Contract)
-                        {
+                        if (contract.getItem() instanceof Contract) {
                             extendedProperties.addQuest(((Contract) contract.getItem()).getQuest(contract));
-                            extendedProperties.getPlayer().inventory.decrStackSize(message.questID,1);
+                            extendedProperties.getPlayer().inventory.decrStackSize(message.questID, 1);
                         }
 
                     }

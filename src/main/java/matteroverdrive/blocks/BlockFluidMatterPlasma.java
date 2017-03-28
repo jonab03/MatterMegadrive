@@ -31,8 +31,7 @@ import net.minecraftforge.fluids.Fluid;
 /**
  * Created by Simeon on 8/20/2015.
  */
-public class BlockFluidMatterPlasma extends BlockFluidClassic
-{
+public class BlockFluidMatterPlasma extends BlockFluidClassic {
     public BlockFluidMatterPlasma(Fluid fluid, Material material) {
         super(fluid, material);
     }
@@ -44,20 +43,19 @@ public class BlockFluidMatterPlasma extends BlockFluidClassic
 
     @SideOnly(Side.CLIENT)
     @Override
-    public void registerBlockIcons(IIconRegister register)
-    {
+    public void registerBlockIcons(IIconRegister register) {
 
     }
 
     @Override
     public boolean canDisplace(IBlockAccess world, int x, int y, int z) {
-        if (world.getBlock(x,  y,  z).getMaterial().isLiquid()) return false;
+        if (world.getBlock(x, y, z).getMaterial().isLiquid()) return false;
         return super.canDisplace(world, x, y, z);
     }
 
     @Override
     public boolean displaceIfPossible(World world, int x, int y, int z) {
-        if (world.getBlock(x,  y,  z).getMaterial().isLiquid()) return false;
+        if (world.getBlock(x, y, z).getMaterial().isLiquid()) return false;
         return super.displaceIfPossible(world, x, y, z);
     }
 }

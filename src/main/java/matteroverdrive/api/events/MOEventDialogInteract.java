@@ -26,13 +26,11 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 /**
  * Created by Simeon on 11/22/2015.
  */
-public class MOEventDialogInteract extends PlayerEvent
-{
+public class MOEventDialogInteract extends PlayerEvent {
     public final IDialogNpc npc;
     public final IDialogMessage dialogMessage;
 
-    public MOEventDialogInteract(EntityPlayer player, IDialogNpc npc, IDialogMessage dialogMessage)
-    {
+    public MOEventDialogInteract(EntityPlayer player, IDialogNpc npc, IDialogMessage dialogMessage) {
         super(player);
         this.npc = npc;
         this.dialogMessage = dialogMessage;

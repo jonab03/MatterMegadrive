@@ -12,42 +12,32 @@ import java.util.Random;
 /**
  * Created by Simeon on 12/24/2015.
  */
-public abstract class QuestLogicRandomItem extends AbstractQuestLogic
-{
+public abstract class QuestLogicRandomItem extends AbstractQuestLogic {
     QuestItem[] items;
     boolean randomItem;
 
-    protected void init(QuestItem[] questItems)
-    {
+    protected void init(QuestItem[] questItems) {
         this.items = questItems;
         this.randomItem = true;
     }
 
-    protected void initItemType(Random random, QuestStack questStack)
-    {
-        if (randomItem)
-        {
+    protected void initItemType(Random random, QuestStack questStack) {
+        if (randomItem) {
             List<Integer> avalibleBlocks = new ArrayList<>();
-            for (int i = 0;i < items.length;i++)
-            {
+            for (int i = 0; i < items.length; i++) {
                 ItemStack itemStack = items[i].getItemStack();
-                if (itemStack != null)
-                {
+                if (itemStack != null) {
                     avalibleBlocks.add(i);
                 }
             }
-            if (avalibleBlocks.size() > 0)
-            {
-                setItemType(questStack,avalibleBlocks.get(random.nextInt(avalibleBlocks.size())));
+            if (avalibleBlocks.size() > 0) {
+                setItemType(questStack, avalibleBlocks.get(random.nextInt(avalibleBlocks.size())));
             }
-        }else
-        {
-            for (int i = 0;i < items.length;i++)
-            {
+        } else {
+            for (int i = 0; i < items.length; i++) {
                 ItemStack itemStack = items[i].getItemStack();
-                if (itemStack != null)
-                {
-                    setItemType(questStack,i);
+                if (itemStack != null) {
+                    setItemType(questStack, i);
                     return;
                 }
             }
@@ -55,40 +45,32 @@ public abstract class QuestLogicRandomItem extends AbstractQuestLogic
     }
 
     @Override
-    public boolean canAccept(QuestStack questStack, EntityPlayer entityPlayer)
-    {
-        for (QuestItem item : items)
-        {
-            if (!item.canItemExist())
-            {
+    public boolean canAccept(QuestStack questStack, EntityPlayer entityPlayer) {
+        for (QuestItem item : items) {
+            if (!item.canItemExist()) {
                 return false;
             }
         }
         return true;
     }
 
-    public ItemStack getItem(QuestStack questStack)
-    {
+    public ItemStack getItem(QuestStack questStack) {
         return items[getItemType(questStack)].getItemStack();
     }
 
-    public int getItemType(QuestStack questStack)
-    {
-        if (hasTag(questStack))
-        {
+    public int getItemType(QuestStack questStack) {
+        if (hasTag(questStack)) {
             return getTag(questStack).getByte("ItemType");
         }
         return 0;
     }
 
-    public void setItemType(QuestStack questStack,int itemType)
-    {
+    public void setItemType(QuestStack questStack, int itemType) {
         initTag(questStack);
-        getTag(questStack).setByte("ItemType",(byte) itemType);
+        getTag(questStack).setByte("ItemType", (byte) itemType);
     }
 
-    public QuestLogicRandomItem setRandomItem(boolean randomItem)
-    {
+    public QuestLogicRandomItem setRandomItem(boolean randomItem) {
         this.randomItem = randomItem;
         return this;
     }

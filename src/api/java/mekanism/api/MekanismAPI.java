@@ -9,41 +9,37 @@ import net.minecraftforge.oredict.OreDictionary;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MekanismAPI
-{
-	//Add a BlockInfo value here if you don't want a certain block to be picked up by cardboard boxes
-	private static Set<BlockInfo> cardboardBoxIgnore = new HashSet<BlockInfo>();
-	
-	/** Mekanism debug mode */
-	public static boolean debug = false;
+public class MekanismAPI {
+    //Add a BlockInfo value here if you don't want a certain block to be picked up by cardboard boxes
+    private static Set<BlockInfo> cardboardBoxIgnore = new HashSet<BlockInfo>();
 
-	public static boolean isBlockCompatible(Item item, int meta)
-	{
-		for(BlockInfo i : cardboardBoxIgnore)
-		{
-			if(i.block == Block.getBlockFromItem(item) && (i.meta == OreDictionary.WILDCARD_VALUE || i.meta == meta))
-			{
-				return false;
-			}
-		}
+    /**
+     * Mekanism debug mode
+     */
+    public static boolean debug = false;
 
-		return true;
-	}
+    public static boolean isBlockCompatible(Item item, int meta) {
+        for (BlockInfo i : cardboardBoxIgnore) {
+            if (i.block == Block.getBlockFromItem(item) && (i.meta == OreDictionary.WILDCARD_VALUE || i.meta == meta)) {
+                return false;
+            }
+        }
 
-	public static void addBoxBlacklist(Block block, int meta)
-	{
-		cardboardBoxIgnore.add(new BlockInfo(block, meta));
-	}
+        return true;
+    }
 
-	public static void removeBoxBlacklist(Block block, int meta)
-	{
-		cardboardBoxIgnore.remove(new BlockInfo(block, meta));
-	}
+    public static void addBoxBlacklist(Block block, int meta) {
+        cardboardBoxIgnore.add(new BlockInfo(block, meta));
+    }
 
-	public static Set<BlockInfo> getBoxIgnore()
-	{
-		return cardboardBoxIgnore;
-	}
+    public static void removeBoxBlacklist(Block block, int meta) {
+        cardboardBoxIgnore.remove(new BlockInfo(block, meta));
+    }
 
-	public static class BoxBlacklistEvent extends Event {}
+    public static Set<BlockInfo> getBoxIgnore() {
+        return cardboardBoxIgnore;
+    }
+
+    public static class BoxBlacklistEvent extends Event {
+    }
 }

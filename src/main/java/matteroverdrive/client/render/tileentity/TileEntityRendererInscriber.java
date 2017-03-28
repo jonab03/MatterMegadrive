@@ -38,36 +38,31 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 11/9/2015.
  */
-public class TileEntityRendererInscriber extends TileEntitySpecialRenderer
-{
+public class TileEntityRendererInscriber extends TileEntitySpecialRenderer {
     private IModelCustom model;
-    private float nextHeadX,nextHeadY;
-    private float lastHeadX,lastHeadY;
+    private float nextHeadX, nextHeadY;
+    private float lastHeadX, lastHeadY;
     private Random random;
     private EntityItem item;
 
-    public TileEntityRendererInscriber()
-    {
+    public TileEntityRendererInscriber() {
         model = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.MODEL_INSCRIBER));
         random = new Random();
     }
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float ticks)
-    {
-        if (item == null)
-        {
+    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float ticks) {
+        if (item == null) {
             item = new EntityItem(tileEntity.getWorldObj());
-            item.setEntityItemStack(new ItemStack(MatterOverdriveItems.isolinear_circuit,1,2));
+            item.setEntityItemStack(new ItemStack(MatterOverdriveItems.isolinear_circuit, 1, 2));
         }
 
-        if (tileEntity instanceof TileEntityInscriber)
-        {
-            double headX = 0.15*((TileEntityInscriber) tileEntity).geatHeadX()+0.02;
-            double headY = 0.1*((TileEntityInscriber) tileEntity).geatHeadY();
+        if (tileEntity instanceof TileEntityInscriber) {
+            double headX = 0.15 * ((TileEntityInscriber) tileEntity).geatHeadX() + 0.02;
+            double headY = 0.1 * ((TileEntityInscriber) tileEntity).geatHeadY();
 
             //MatterOverdrive.log.info("Time: " + time);
-            glColor3f(1,1,1);
+            glColor3f(1, 1, 1);
             glPushMatrix();
             bindTexture(new ResourceLocation(Reference.PATH_BLOCKS + "inscriber.png"));
             glTranslated(x + 0.5, y, z + 0.5);
@@ -83,8 +78,7 @@ public class TileEntityRendererInscriber extends TileEntitySpecialRenderer
             glPopMatrix();
 
             ItemStack newStack = ((TileEntityInscriber) tileEntity).getStackInSlot(TileEntityInscriber.MAIN_INPUT_SLOT_ID);
-            if (newStack == null)
-            {
+            if (newStack == null) {
                 newStack = ((TileEntityInscriber) tileEntity).getStackInSlot(TileEntityInscriber.OUTPUT_SLOT_ID);
             }
             if (newStack != null) {

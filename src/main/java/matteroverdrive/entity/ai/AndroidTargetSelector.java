@@ -28,40 +28,28 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 5/26/2015.
  */
-public class AndroidTargetSelector implements IEntitySelector
-{
+public class AndroidTargetSelector implements IEntitySelector {
     final EntityRougeAndroidMob mob;
 
-    public AndroidTargetSelector(EntityRougeAndroidMob mob)
-    {
+    public AndroidTargetSelector(EntityRougeAndroidMob mob) {
         this.mob = mob;
     }
 
     @Override
-    public boolean isEntityApplicable(Entity entity)
-    {
-        if (entity instanceof EntityPlayer)
-        {
-            if (mob.hasTeam())
-            {
+    public boolean isEntityApplicable(Entity entity) {
+        if (entity instanceof EntityPlayer) {
+            if (mob.hasTeam()) {
                 return ((EntityPlayer) entity).getTeam() != null && !((EntityPlayer) entity).getTeam().isSameTeam(mob.getTeam());
-            }else
-            {
+            } else {
                 AndroidPlayer androidPlayer = AndroidPlayer.get((EntityPlayer) entity);
-                if (androidPlayer == null || !androidPlayer.isAndroid())
-                {
+                if (androidPlayer == null || !androidPlayer.isAndroid()) {
                     return true;
                 }
             }
-        }
-        else if (entity instanceof EntityMutantScientist)
-        {
+        } else if (entity instanceof EntityMutantScientist) {
             return true;
-        }
-        else if (entity instanceof EntityRougeAndroidMob)
-        {
-            if (mob.hasTeam() && ((EntityRougeAndroidMob) entity).hasTeam())
-            {
+        } else if (entity instanceof EntityRougeAndroidMob) {
+            if (mob.hasTeam() && ((EntityRougeAndroidMob) entity).hasTeam()) {
                 return !((EntityRougeAndroidMob) entity).getTeam().isSameTeam(mob.getTeam());
             }
         }

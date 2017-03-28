@@ -29,32 +29,27 @@ import net.minecraft.inventory.ICrafting;
 /**
  * Created by Simeon on 12/11/2015.
  */
-public class ContainerAndroidSpawner extends ContainerMachine<TileEntityAndroidSpawner>
-{
+public class ContainerAndroidSpawner extends ContainerMachine<TileEntityAndroidSpawner> {
     private int spawnedAndroids;
 
-    public ContainerAndroidSpawner(InventoryPlayer playerInventory, TileEntityAndroidSpawner machine)
-    {
+    public ContainerAndroidSpawner(InventoryPlayer playerInventory, TileEntityAndroidSpawner machine) {
         super(playerInventory, machine);
     }
 
     @Override
-    protected void init(InventoryPlayer inventory)
-    {
+    protected void init(InventoryPlayer inventory) {
         addAllSlotsFromInventory(machine.getInventoryContainer());
         MOContainerHelper.AddPlayerSlots(inventory, this, 45, 150, true, true);
     }
 
     @Override
-    public void addCraftingToCrafters(ICrafting icrafting)
-    {
+    public void addCraftingToCrafters(ICrafting icrafting) {
         super.addCraftingToCrafters(icrafting);
         icrafting.sendProgressBarUpdate(this, 0, spawnedAndroids);
     }
 
     @Override
-    public void detectAndSendChanges()
-    {
+    public void detectAndSendChanges() {
         super.detectAndSendChanges();
         for (Object crafter : this.crafters) {
             ICrafting icrafting = (ICrafting) crafter;
@@ -68,10 +63,8 @@ public class ContainerAndroidSpawner extends ContainerMachine<TileEntityAndroidS
     }
 
     @Override
-    public boolean enchantItem(EntityPlayer entityPlayer, int action)
-    {
-        if (action == 0)
-        {
+    public boolean enchantItem(EntityPlayer entityPlayer, int action) {
+        if (action == 0) {
             machine.removeAllAndroids();
             return true;
         }
@@ -79,14 +72,12 @@ public class ContainerAndroidSpawner extends ContainerMachine<TileEntityAndroidS
     }
 
     @SideOnly(Side.CLIENT)
-    public void updateProgressBar(int slot, int newValue)
-    {
-        if(slot == 0)
+    public void updateProgressBar(int slot, int newValue) {
+        if (slot == 0)
             spawnedAndroids = newValue;
     }
 
-    public int getSpawnedCount()
-    {
+    public int getSpawnedCount() {
         return spawnedAndroids;
     }
 }

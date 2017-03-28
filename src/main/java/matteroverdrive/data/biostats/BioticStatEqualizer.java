@@ -25,10 +25,8 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 /**
  * Created by Simeon on 6/3/2015.
  */
-public class BioticStatEqualizer extends AbstractBioticStat
-{
-    public BioticStatEqualizer(String name, int xp)
-    {
+public class BioticStatEqualizer extends AbstractBioticStat {
+    public BioticStatEqualizer(String name, int xp) {
         super(name, xp);
         setShowOnHud(true);
     }
@@ -39,8 +37,7 @@ public class BioticStatEqualizer extends AbstractBioticStat
     }
 
     @Override
-    public void onActionKeyPress(AndroidPlayer androidPlayer, int level, boolean server)
-    {
+    public void onActionKeyPress(AndroidPlayer androidPlayer, int level, boolean server) {
 
     }
 
@@ -55,8 +52,7 @@ public class BioticStatEqualizer extends AbstractBioticStat
     }
 
     @Override
-    public void changeAndroidStats(AndroidPlayer androidPlayer, int level, boolean enabled)
-    {
+    public void changeAndroidStats(AndroidPlayer androidPlayer, int level, boolean enabled) {
 
     }
 
@@ -66,14 +62,12 @@ public class BioticStatEqualizer extends AbstractBioticStat
     }
 
     @Override
-    public boolean isActive(AndroidPlayer androidPlayer, int level)
-    {
+    public boolean isActive(AndroidPlayer androidPlayer, int level) {
         return false;
     }
 
     @Override
-    public int getDelay(AndroidPlayer androidPlayer, int level)
-    {
+    public int getDelay(AndroidPlayer androidPlayer, int level) {
         return 0;
     }
 }

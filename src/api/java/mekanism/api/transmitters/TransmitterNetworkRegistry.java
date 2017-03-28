@@ -16,271 +16,224 @@ import org.apache.logging.log4j.Logger;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class TransmitterNetworkRegistry
-{
-	private static TransmitterNetworkRegistry INSTANCE = new TransmitterNetworkRegistry();
-	private static boolean loaderRegistered = false;
+public class TransmitterNetworkRegistry {
+    private static TransmitterNetworkRegistry INSTANCE = new TransmitterNetworkRegistry();
+    private static boolean loaderRegistered = false;
 
-	private HashSet<DynamicNetwork> networks = Sets.newHashSet();
-	private HashSet<DynamicNetwork> networksToChange = Sets.newHashSet();
+    private HashSet<DynamicNetwork> networks = Sets.newHashSet();
+    private HashSet<DynamicNetwork> networksToChange = Sets.newHashSet();
 
-	private HashSet<IGridTransmitter> invalidTransmitters = Sets.newHashSet();
-	private HashMap<Coord4D, IGridTransmitter> orphanTransmitters = Maps.newHashMap();
+    private HashSet<IGridTransmitter> invalidTransmitters = Sets.newHashSet();
+    private HashMap<Coord4D, IGridTransmitter> orphanTransmitters = Maps.newHashMap();
 
-	private Logger logger = LogManager.getLogger("MekanismTransmitters");
+    private Logger logger = LogManager.getLogger("MekanismTransmitters");
 
-	public static void initiate()
-	{
-		if(!loaderRegistered)
-		{
-			loaderRegistered = true;
+    public static void initiate() {
+        if (!loaderRegistered) {
+            loaderRegistered = true;
 
-			FMLCommonHandler.instance().bus().register(INSTANCE);
-		}
-	}
+            FMLCommonHandler.instance().bus().register(INSTANCE);
+        }
+    }
 
-	public static void reset()
-	{
-		getInstance().networks.clear();
-		getInstance().networksToChange.clear();
-		getInstance().invalidTransmitters.clear();
-		getInstance().orphanTransmitters.clear();
-	}
+    public static void reset() {
+        getInstance().networks.clear();
+        getInstance().networksToChange.clear();
+        getInstance().invalidTransmitters.clear();
+        getInstance().orphanTransmitters.clear();
+    }
 
-	public static void invalidateTransmitter(IGridTransmitter transmitter)
-	{
-		getInstance().invalidTransmitters.add(transmitter);
-	}
+    public static void invalidateTransmitter(IGridTransmitter transmitter) {
+        getInstance().invalidTransmitters.add(transmitter);
+    }
 
-	public static void registerOrphanTransmitter(IGridTransmitter transmitter)
-	{
-		getInstance().orphanTransmitters.put(transmitter.coord(), transmitter);
-	}
+    public static void registerOrphanTransmitter(IGridTransmitter transmitter) {
+        getInstance().orphanTransmitters.put(transmitter.coord(), transmitter);
+    }
 
-	public static void registerChangedNetwork(DynamicNetwork network)
-	{
-		getInstance().networksToChange.add(network);
-	}
+    public static void registerChangedNetwork(DynamicNetwork network) {
+        getInstance().networksToChange.add(network);
+    }
 
-	public static TransmitterNetworkRegistry getInstance()
-	{
-		return INSTANCE;
-	}
+    public static TransmitterNetworkRegistry getInstance() {
+        return INSTANCE;
+    }
 
-	public void registerNetwork(DynamicNetwork network)
-	{
-		networks.add(network);
-	}
+    public void registerNetwork(DynamicNetwork network) {
+        networks.add(network);
+    }
 
-	public void removeNetwork(DynamicNetwork network)
-	{
-		if(networks.contains(network))
-		{
-			networks.remove(network);
-		}
-	}
+    public void removeNetwork(DynamicNetwork network) {
+        if (networks.contains(network)) {
+            networks.remove(network);
+        }
+    }
 
-	@SubscribeEvent
-	public void onTick(ServerTickEvent event)
-	{
-		if(event.phase == Phase.END && event.side == Side.SERVER)
-		{
-			tickEnd();
-		}
-	}
+    @SubscribeEvent
+    public void onTick(ServerTickEvent event) {
+        if (event.phase == Phase.END && event.side == Side.SERVER) {
+            tickEnd();
+        }
+    }
 
-	public void tickEnd()
-	{
-		removeInvalidTransmitters();
+    public void tickEnd() {
+        removeInvalidTransmitters();
 
-		assignOrphans();
+        assignOrphans();
 
-		commitChanges();
+        commitChanges();
 
-		for(DynamicNetwork net : networks)
-		{
-			net.tick();
-		}
-	}
+        for (DynamicNetwork net : networks) {
+            net.tick();
+        }
+    }
 
-	public void removeInvalidTransmitters()
-	{
-		if(MekanismAPI.debug && !invalidTransmitters.isEmpty())
-		{
-			logger.info("Dealing with " + invalidTransmitters.size() + " invalid Transmitters");
-		}
-		
-		for(IGridTransmitter invalid : invalidTransmitters)
-		{
-			if(!(invalid.isOrphan() && invalid.isValid()))
-			{
-				DynamicNetwork n = invalid.getTransmitterNetwork();
-				
-				if(n != null)
-				{
-					n.invalidate();
-				}
-			}
-		}
-		
-		invalidTransmitters.clear();
-	}
+    public void removeInvalidTransmitters() {
+        if (MekanismAPI.debug && !invalidTransmitters.isEmpty()) {
+            logger.info("Dealing with " + invalidTransmitters.size() + " invalid Transmitters");
+        }
 
-	public void assignOrphans()
-	{
-		if(MekanismAPI.debug && !orphanTransmitters.isEmpty())
-		{
-			logger.info("Dealing with " + orphanTransmitters.size() + " orphan Transmitters");
-		}
-		
-		for(IGridTransmitter orphanTransmitter : orphanTransmitters.values())
-		{
-			DynamicNetwork network = getNetworkFromOrphan(orphanTransmitter);
-			
-			if(network != null)
-			{
-				networksToChange.add(network);
-				network.register();
-			}
-		}
-		
-		orphanTransmitters.clear();
-	}
+        for (IGridTransmitter invalid : invalidTransmitters) {
+            if (!(invalid.isOrphan() && invalid.isValid())) {
+                DynamicNetwork n = invalid.getTransmitterNetwork();
 
-	public <A, N extends DynamicNetwork<A, N>> DynamicNetwork<A, N> getNetworkFromOrphan(IGridTransmitter<A, N> startOrphan)
-	{
-		if(startOrphan.isValid() && startOrphan.isOrphan())
-		{
-			OrphanPathFinder<A, N> finder = new OrphanPathFinder<A, N>(startOrphan);
-			finder.start();
-			N network;
-			
-			switch(finder.networksFound.size())
-			{
-				case 0:
-					if(MekanismAPI.debug)
-					{
-						logger.info("No networks found. Creating new network for " + finder.connectedTransmitters.size() + " transmitters");
-					}
-					
-					network = startOrphan.createEmptyNetwork();
-					
-					break;
-				case 1:
-					if(MekanismAPI.debug)
-					{
-						logger.info("Adding " + finder.connectedTransmitters.size() + " transmitters to single found network");
-					}
-					
-					network = finder.networksFound.iterator().next();
-					
-					break;
-				default:
-					if(MekanismAPI.debug)
-					{
-						logger.info("Merging " + finder.networksFound.size() + " networks with " + finder.connectedTransmitters.size() + " new transmitters");
-					}
-					
-					network = startOrphan.mergeNetworks(finder.networksFound);
-			}
-			
-			network.addNewTransmitters(finder.connectedTransmitters);
-			
-			return network;
-		}
-		
-		return null;
-	}
+                if (n != null) {
+                    n.invalidate();
+                }
+            }
+        }
 
-	public void commitChanges()
-	{
-		for(DynamicNetwork network : networksToChange)
-		{
-			network.commit();
-		}
-		
-		networksToChange.clear();
-	}
+        invalidTransmitters.clear();
+    }
 
-	@Override
-	public String toString()
-	{
-		return "Network Registry:\n" + networks;
-	}
+    public void assignOrphans() {
+        if (MekanismAPI.debug && !orphanTransmitters.isEmpty()) {
+            logger.info("Dealing with " + orphanTransmitters.size() + " orphan Transmitters");
+        }
 
-	public String[] toStrings()
-	{
-		String[] strings = new String[networks.size()];
-		int i = 0;
+        for (IGridTransmitter orphanTransmitter : orphanTransmitters.values()) {
+            DynamicNetwork network = getNetworkFromOrphan(orphanTransmitter);
 
-		for(DynamicNetwork network : networks)
-		{
-			strings[i++] = network.toString();
-		}
+            if (network != null) {
+                networksToChange.add(network);
+                network.register();
+            }
+        }
 
-		return strings;
-	}
+        orphanTransmitters.clear();
+    }
 
-	public class OrphanPathFinder<A, N extends DynamicNetwork<A, N>>
-	{
-		public IGridTransmitter<A, N> startPoint;
+    public <A, N extends DynamicNetwork<A, N>> DynamicNetwork<A, N> getNetworkFromOrphan(IGridTransmitter<A, N> startOrphan) {
+        if (startOrphan.isValid() && startOrphan.isOrphan()) {
+            OrphanPathFinder<A, N> finder = new OrphanPathFinder<A, N>(startOrphan);
+            finder.start();
+            N network;
 
-		public HashSet<Coord4D> iterated = Sets.newHashSet();
+            switch (finder.networksFound.size()) {
+                case 0:
+                    if (MekanismAPI.debug) {
+                        logger.info("No networks found. Creating new network for " + finder.connectedTransmitters.size() + " transmitters");
+                    }
 
-		public HashSet<IGridTransmitter<A, N>> connectedTransmitters = Sets.newHashSet();
-		public HashSet<N> networksFound = Sets.newHashSet();
+                    network = startOrphan.createEmptyNetwork();
 
-		public OrphanPathFinder(IGridTransmitter<A, N> start)
-		{
-			startPoint = start;
-		}
+                    break;
+                case 1:
+                    if (MekanismAPI.debug) {
+                        logger.info("Adding " + finder.connectedTransmitters.size() + " transmitters to single found network");
+                    }
 
-		public void start()
-		{
-			iterate(startPoint.coord(), ForgeDirection.UNKNOWN);
-		}
+                    network = finder.networksFound.iterator().next();
 
-		public void iterate(Coord4D from, ForgeDirection fromDirection)
-		{
-			if(iterated.contains(from))
-			{
-				return;
-			}
+                    break;
+                default:
+                    if (MekanismAPI.debug) {
+                        logger.info("Merging " + finder.networksFound.size() + " networks with " + finder.connectedTransmitters.size() + " new transmitters");
+                    }
 
-			iterated.add(from);
-			
-			if(orphanTransmitters.containsKey(from))
-			{
-				IGridTransmitter<A, N> transmitter = orphanTransmitters.get(from);
-				
-				if(transmitter.isValid() && transmitter.isOrphan())
-				{
-					connectedTransmitters.add(transmitter);
-					transmitter.setOrphan(false);
-					
-					for(ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS)
-					{
-						if(direction != fromDirection)
-						{
-							Coord4D directionCoord = transmitter.getAdjacentConnectableTransmitterCoord(direction);
-							
-							if(!(directionCoord == null || iterated.contains(directionCoord)))
-							{
-								iterate(directionCoord, direction.getOpposite());
-							}
-						}
-					}
-				}
-			} 
-			else {
-				addNetworkToIterated(from);
-			}
-		}
+                    network = startOrphan.mergeNetworks(finder.networksFound);
+            }
 
-		public void addNetworkToIterated(Coord4D from)
-		{
-			N net = startPoint.getExternalNetwork(from);
-			if(net != null) networksFound.add(net);
-		}
-	}
+            network.addNewTransmitters(finder.connectedTransmitters);
+
+            return network;
+        }
+
+        return null;
+    }
+
+    public void commitChanges() {
+        for (DynamicNetwork network : networksToChange) {
+            network.commit();
+        }
+
+        networksToChange.clear();
+    }
+
+    @Override
+    public String toString() {
+        return "Network Registry:\n" + networks;
+    }
+
+    public String[] toStrings() {
+        String[] strings = new String[networks.size()];
+        int i = 0;
+
+        for (DynamicNetwork network : networks) {
+            strings[i++] = network.toString();
+        }
+
+        return strings;
+    }
+
+    public class OrphanPathFinder<A, N extends DynamicNetwork<A, N>> {
+        public IGridTransmitter<A, N> startPoint;
+
+        public HashSet<Coord4D> iterated = Sets.newHashSet();
+
+        public HashSet<IGridTransmitter<A, N>> connectedTransmitters = Sets.newHashSet();
+        public HashSet<N> networksFound = Sets.newHashSet();
+
+        public OrphanPathFinder(IGridTransmitter<A, N> start) {
+            startPoint = start;
+        }
+
+        public void start() {
+            iterate(startPoint.coord(), ForgeDirection.UNKNOWN);
+        }
+
+        public void iterate(Coord4D from, ForgeDirection fromDirection) {
+            if (iterated.contains(from)) {
+                return;
+            }
+
+            iterated.add(from);
+
+            if (orphanTransmitters.containsKey(from)) {
+                IGridTransmitter<A, N> transmitter = orphanTransmitters.get(from);
+
+                if (transmitter.isValid() && transmitter.isOrphan()) {
+                    connectedTransmitters.add(transmitter);
+                    transmitter.setOrphan(false);
+
+                    for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
+                        if (direction != fromDirection) {
+                            Coord4D directionCoord = transmitter.getAdjacentConnectableTransmitterCoord(direction);
+
+                            if (!(directionCoord == null || iterated.contains(directionCoord))) {
+                                iterate(directionCoord, direction.getOpposite());
+                            }
+                        }
+                    }
+                }
+            } else {
+                addNetworkToIterated(from);
+            }
+        }
+
+        public void addNetworkToIterated(Coord4D from) {
+            N net = startPoint.getExternalNetwork(from);
+            if (net != null) networksFound.add(net);
+        }
+    }
 }

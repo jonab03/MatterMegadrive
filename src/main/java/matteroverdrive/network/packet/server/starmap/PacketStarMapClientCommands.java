@@ -31,28 +31,24 @@ import net.minecraft.tileentity.TileEntity;
 /**
  * Created by Simeon on 6/19/2015.
  */
-public class PacketStarMapClientCommands extends TileEntityUpdatePacket
-{
+public class PacketStarMapClientCommands extends TileEntityUpdatePacket {
 
     int zoomLevel;
     GalacticPosition position;
     GalacticPosition destination;
 
-    public PacketStarMapClientCommands()
-    {
+    public PacketStarMapClientCommands() {
 
     }
 
-    public PacketStarMapClientCommands(TileEntityMachineStarMap starMap,int zoomLevel,GalacticPosition position,GalacticPosition destination)
-    {
+    public PacketStarMapClientCommands(TileEntityMachineStarMap starMap, int zoomLevel, GalacticPosition position, GalacticPosition destination) {
         super(starMap);
         this.zoomLevel = zoomLevel;
         this.position = position;
         this.destination = destination;
     }
 
-    public PacketStarMapClientCommands(TileEntityMachineStarMap starMap)
-    {
+    public PacketStarMapClientCommands(TileEntityMachineStarMap starMap) {
         super(starMap);
         zoomLevel = starMap.getZoomLevel();
         position = starMap.getGalaxyPosition();
@@ -68,26 +64,22 @@ public class PacketStarMapClientCommands extends TileEntityUpdatePacket
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         super.toBytes(buf);
         buf.writeByte(zoomLevel);
         position.writeToBuffer(buf);
         destination.writeToBuffer(buf);
     }
 
-    public static class ServerHandler extends AbstractServerPacketHandler<PacketStarMapClientCommands>
-    {
+    public static class ServerHandler extends AbstractServerPacketHandler<PacketStarMapClientCommands> {
 
         @Override
-        public IMessage handleServerMessage(EntityPlayer player, PacketStarMapClientCommands message, MessageContext ctx)
-        {
+        public IMessage handleServerMessage(EntityPlayer player, PacketStarMapClientCommands message, MessageContext ctx) {
             TileEntity tileEntity = message.getTileEntity(player.worldObj);
-            if (tileEntity instanceof TileEntityMachineStarMap)
-            {
+            if (tileEntity instanceof TileEntityMachineStarMap) {
                 ((TileEntityMachineStarMap) tileEntity).setZoomLevel(message.zoomLevel);
                 ((TileEntityMachineStarMap) tileEntity).setGalaxticPosition(message.position);
-                ((TileEntityMachineStarMap)tileEntity).setDestination(message.destination);
+                ((TileEntityMachineStarMap) tileEntity).setDestination(message.destination);
                 ((TileEntityMachineStarMap) tileEntity).forceSync();
             }
             return null;

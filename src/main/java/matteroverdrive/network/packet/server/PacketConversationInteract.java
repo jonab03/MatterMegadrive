@@ -31,54 +31,46 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 8/11/2015.
  */
-public class PacketConversationInteract extends PacketAbstract
-{
+public class PacketConversationInteract extends PacketAbstract {
     int npcID;
     int dialogMessageID;
     int optionId;
 
-    public PacketConversationInteract(){}
+    public PacketConversationInteract() {
+    }
 
-    public PacketConversationInteract(IDialogNpc npc,IDialogMessage dialogMessage,int optionId)
-    {
+    public PacketConversationInteract(IDialogNpc npc, IDialogMessage dialogMessage, int optionId) {
         this.npcID = npc.getEntity().getEntityId();
         this.dialogMessageID = MatterOverdrive.dialogRegistry.getMessageId(dialogMessage);
         this.optionId = optionId;
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         npcID = buf.readInt();
         dialogMessageID = buf.readInt();
         optionId = buf.readInt();
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         buf.writeInt(npcID);
         buf.writeInt(dialogMessageID);
         buf.writeInt(optionId);
     }
 
-    public static class ServerHandler extends AbstractServerPacketHandler<PacketConversationInteract>
-    {
+    public static class ServerHandler extends AbstractServerPacketHandler<PacketConversationInteract> {
         @Override
-        public IMessage handleServerMessage(EntityPlayer player, PacketConversationInteract message, MessageContext ctx)
-        {
+        public IMessage handleServerMessage(EntityPlayer player, PacketConversationInteract message, MessageContext ctx) {
             Entity npcEntity = player.worldObj.getEntityByID(message.npcID);
-            if (npcEntity instanceof IDialogNpc)
-            {
+            if (npcEntity instanceof IDialogNpc) {
                 IDialogMessage m;
                 if (message.dialogMessageID >= 0) {
                     m = MatterOverdrive.dialogRegistry.getMessage(message.dialogMessageID);
-                }else
-                {
+                } else {
                     m = ((IDialogNpc) npcEntity).getStartDialogMessage(player);
                 }
-                if (m != null)
-                {
+                if (m != null) {
                     m.onOptionsInteract((IDialogNpc) npcEntity, player, message.optionId);
                 }
             }

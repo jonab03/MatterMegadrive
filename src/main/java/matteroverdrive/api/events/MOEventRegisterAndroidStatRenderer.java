@@ -26,8 +26,7 @@ import matteroverdrive.api.renderer.IBioticStatRenderer;
  * Created by Simeon on 7/24/2015.
  * Triggered by special Bionic Stats that have custom renderers, such as the Shield ability.
  */
-public class MOEventRegisterAndroidStatRenderer extends Event
-{
+public class MOEventRegisterAndroidStatRenderer extends Event {
     /**
      * The type of bionic stat that is being rendered.
      */
@@ -37,14 +36,12 @@ public class MOEventRegisterAndroidStatRenderer extends Event
      */
     public final IBioticStatRenderer renderer;
 
-    public MOEventRegisterAndroidStatRenderer(Class<? extends IBionicStat> statClass, IBioticStatRenderer renderer)
-    {
+    public MOEventRegisterAndroidStatRenderer(Class<? extends IBionicStat> statClass, IBioticStatRenderer renderer) {
         this.statClass = statClass;
         this.renderer = renderer;
     }
 
-    public boolean isCancelable()
-    {
+    public boolean isCancelable() {
         return true;
     }
 }

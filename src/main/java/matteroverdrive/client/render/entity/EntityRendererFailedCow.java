@@ -13,13 +13,11 @@ public class EntityRendererFailedCow extends RenderCow {
 
     private static final ResourceLocation cowTextures = new ResourceLocation(Reference.PATH_ENTITIES + "failed_cow.png");
 
-    public EntityRendererFailedCow(ModelBase model, float f)
-    {
+    public EntityRendererFailedCow(ModelBase model, float f) {
         super(model, f);
     }
 
-    protected ResourceLocation getEntityTexture(EntityCow entity)
-    {
+    protected ResourceLocation getEntityTexture(EntityCow entity) {
         return cowTextures;
     }
 }

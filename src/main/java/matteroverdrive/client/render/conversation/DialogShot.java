@@ -23,8 +23,7 @@ import matteroverdrive.api.renderer.IDialogShot;
 /**
  * Created by Simeon on 8/10/2015.
  */
-public abstract class DialogShot implements IDialogShot
-{
+public abstract class DialogShot implements IDialogShot {
     public static DialogShotClose closeUp = new DialogShotClose(1.5f, 0.3f);
     public static DialogShotClose dramaticCloseUp = new DialogShotClose(1.2f, 0.3f);
     public static DialogShotWide wideNormal = new DialogShotWide(0.22f, false, 1);

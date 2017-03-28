@@ -29,8 +29,7 @@ import org.lwjgl.opengl.GL11;
 /**
  * Created by Simeon on 6/17/2015.
  */
-public class MOElementIconButton extends MOElementButton
-{
+public class MOElementIconButton extends MOElementButton {
     HoloIcon icon;
     Color iconColor;
 
@@ -39,33 +38,29 @@ public class MOElementIconButton extends MOElementButton
         this.icon = icon;
     }
 
-    public MOElementIconButton(MOGuiBase gui, IButtonHandler handler, int posX, int posY, String name, int sheetX, int sheetY, int hoverX, int hoverY, int sizeX, int sizeY, String texture,HoloIcon icon) {
+    public MOElementIconButton(MOGuiBase gui, IButtonHandler handler, int posX, int posY, String name, int sheetX, int sheetY, int hoverX, int hoverY, int sizeX, int sizeY, String texture, HoloIcon icon) {
         super(gui, handler, posX, posY, name, sheetX, sheetY, hoverX, hoverY, sizeX, sizeY, texture);
         this.icon = icon;
     }
 
     @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
-        if (icon != null)
-        {
+    public void drawForeground(int mouseX, int mouseY) {
+        if (icon != null) {
             GL11.glEnable(GL11.GL_ALPHA_TEST);
             ClientProxy.holoIcons.bindSheet();
             if (iconColor != null)
                 RenderUtils.applyColor(iconColor);
             else
-                GL11.glColor3f(1,1,1);
-            ClientProxy.holoIcons.renderIcon(icon,posX - icon.getOriginalWidth()/2 + sizeX/2,posY - icon.getOriginalHeight()/2 + sizeY/2);
+                GL11.glColor3f(1, 1, 1);
+            ClientProxy.holoIcons.renderIcon(icon, posX - icon.getOriginalWidth() / 2 + sizeX / 2, posY - icon.getOriginalHeight() / 2 + sizeY / 2);
         }
     }
 
-    public void setIconColor(Color iconColor)
-    {
+    public void setIconColor(Color iconColor) {
         this.iconColor = iconColor;
     }
 
-    public void setIcon(HoloIcon icon)
-    {
+    public void setIcon(HoloIcon icon) {
         this.icon = icon;
     }
 }

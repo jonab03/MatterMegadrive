@@ -27,14 +27,12 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 11/19/2015.
  */
-public class ListElementQuest implements IMOListBoxElement
-{
+public class ListElementQuest implements IMOListBoxElement {
     private QuestStack questStack;
     private EntityPlayer entityPlayer;
     private int width;
 
-    public ListElementQuest(EntityPlayer entityPlayer,QuestStack questStack,int width)
-    {
+    public ListElementQuest(EntityPlayer entityPlayer, QuestStack questStack, int width) {
         this.questStack = questStack;
         this.entityPlayer = entityPlayer;
         this.width = width;
@@ -47,7 +45,7 @@ public class ListElementQuest implements IMOListBoxElement
 
     @Override
     public int getHeight() {
-        return Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT+6;
+        return Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT + 6;
     }
 
     @Override
@@ -61,21 +59,18 @@ public class ListElementQuest implements IMOListBoxElement
     }
 
     @Override
-    public void draw(MOElementListBox listBox, int x, int y, int backColor, int textColor, boolean selected, boolean BG)
-    {
+    public void draw(MOElementListBox listBox, int x, int y, int backColor, int textColor, boolean selected, boolean BG) {
 
         int textWidth = Minecraft.getMinecraft().fontRenderer.getStringWidth(getName());
         if (selected) {
             Minecraft.getMinecraft().fontRenderer.drawString("\u2023 " + getName(), x + width / 2 - textWidth / 2 - 8, y, textColor);
-        }else
-        {
+        } else {
             Minecraft.getMinecraft().fontRenderer.drawString(getName(), x + width / 2 - textWidth / 2, y, textColor);
         }
     }
 
     @Override
-    public void drawToolTop(MOElementListBox listBox, int x, int y)
-    {
+    public void drawToolTop(MOElementListBox listBox, int x, int y) {
 
     }
 }

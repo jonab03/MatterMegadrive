@@ -40,15 +40,14 @@ public class PageQuadrant extends ElementBaseGroup implements IListHandler {
     TileEntityMachineStarMap starMap;
     ElementGroupList starList;
 
-    public PageQuadrant(GuiStarMap gui, int posX, int posY, int width, int height,TileEntityMachineStarMap starMap) {
+    public PageQuadrant(GuiStarMap gui, int posX, int posY, int width, int height, TileEntityMachineStarMap starMap) {
         super(gui, posX, posY, width, height);
         this.starMap = starMap;
-        starList = new ElementGroupList(gui,this,16,16,0,0);
+        starList = new ElementGroupList(gui, this, 16, 16, 0, 0);
         starList.setName("Stars");
     }
 
-    private void loadStars()
-    {
+    private void loadStars() {
         starList.init();
         Quadrant quadrant = GalaxyClient.getInstance().getTheGalaxy().getQuadrant(starMap.getDestination());
         if (quadrant != null) {
@@ -65,10 +64,9 @@ public class PageQuadrant extends ElementBaseGroup implements IListHandler {
     }
 
     @Override
-    public void init()
-    {
+    public void init() {
         super.init();
-        starList.setSize(sizeX,sizeY-100-32);
+        starList.setSize(sizeX, sizeY - 100 - 32);
         starList.setScroll(scroll);
         starList.resetSmoothScroll();
         addElement(starList);
@@ -77,15 +75,13 @@ public class PageQuadrant extends ElementBaseGroup implements IListHandler {
     }
 
     @Override
-    public void ListSelectionChange(String name, int selected)
-    {
+    public void ListSelectionChange(String name, int selected) {
 
     }
 
     @Override
-    public void update(int mouseX, int mouseY)
-    {
-        super.update(mouseX,mouseY);
+    public void update(int mouseX, int mouseY) {
+        super.update(mouseX, mouseY);
         scroll = starList.getScroll();
     }
 }

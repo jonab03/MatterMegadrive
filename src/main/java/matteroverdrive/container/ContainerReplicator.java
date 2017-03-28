@@ -10,32 +10,27 @@ import net.minecraft.inventory.ICrafting;
 /**
  * Created by Simeon on 12/27/2015.
  */
-public class ContainerReplicator extends ContainerMachine<TileEntityMachineReplicator>
-{
+public class ContainerReplicator extends ContainerMachine<TileEntityMachineReplicator> {
     int patternReplicateCount;
 
-    public ContainerReplicator(InventoryPlayer inventory, TileEntityMachineReplicator machine)
-    {
+    public ContainerReplicator(InventoryPlayer inventory, TileEntityMachineReplicator machine) {
         super(inventory, machine);
     }
 
     @Override
-    public void init(InventoryPlayer inventory)
-    {
+    public void init(InventoryPlayer inventory) {
         addAllSlotsFromInventory(machine.getInventoryContainer());
         MOContainerHelper.AddPlayerSlots(inventory, this, 45, 89, true, true);
     }
 
     @Override
-    public void addCraftingToCrafters(ICrafting icrafting)
-    {
+    public void addCraftingToCrafters(ICrafting icrafting) {
         super.addCraftingToCrafters(icrafting);
         icrafting.sendProgressBarUpdate(this, 1, this.machine.getTaskReplicateCount());
     }
 
     @Override
-    public void detectAndSendChanges()
-    {
+    public void detectAndSendChanges() {
         super.detectAndSendChanges();
         for (Object crafter : this.crafters) {
             ICrafting icrafting = (ICrafting) crafter;
@@ -50,17 +45,14 @@ public class ContainerReplicator extends ContainerMachine<TileEntityMachineRepli
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void updateProgressBar(int slot,int newValue)
-    {
-        super.updateProgressBar(slot,newValue);
-        if (slot == 1)
-        {
+    public void updateProgressBar(int slot, int newValue) {
+        super.updateProgressBar(slot, newValue);
+        if (slot == 1) {
             patternReplicateCount = newValue;
         }
     }
 
-    public int getPatternReplicateCount()
-    {
+    public int getPatternReplicateCount() {
         return patternReplicateCount;
     }
 }

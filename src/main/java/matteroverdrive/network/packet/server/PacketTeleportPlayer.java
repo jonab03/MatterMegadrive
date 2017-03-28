@@ -40,22 +40,19 @@ import java.util.EnumSet;
  */
 public class PacketTeleportPlayer extends PacketAbstract {
 
-    double x,y,z;
+    double x, y, z;
 
-    public PacketTeleportPlayer()
-    {
+    public PacketTeleportPlayer() {
 
     }
 
-    public PacketTeleportPlayer(Vec3 vec3)
-    {
+    public PacketTeleportPlayer(Vec3 vec3) {
         x = vec3.xCoord;
         y = vec3.yCoord;
         z = vec3.zCoord;
     }
 
-    public PacketTeleportPlayer(double x,double y,double z)
-    {
+    public PacketTeleportPlayer(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -75,17 +72,13 @@ public class PacketTeleportPlayer extends PacketAbstract {
         buf.writeDouble(z);
     }
 
-    public static class ServerHandler extends AbstractServerPacketHandler<PacketTeleportPlayer>
-    {
+    public static class ServerHandler extends AbstractServerPacketHandler<PacketTeleportPlayer> {
 
         @Override
-        public IMessage handleServerMessage(EntityPlayer player, PacketTeleportPlayer message, MessageContext ctx)
-        {
+        public IMessage handleServerMessage(EntityPlayer player, PacketTeleportPlayer message, MessageContext ctx) {
             AndroidPlayer androidPlayer = AndroidPlayer.get(player);
-            if (androidPlayer != null && androidPlayer.isAndroid())
-            {
-                if(!MinecraftForge.EVENT_BUS.post(new MOEventBionicStat(MatterOverdriveBioticStats.teleport, androidPlayer.getUnlockedLevel(MatterOverdriveBioticStats.teleport), androidPlayer)))
-                {
+            if (androidPlayer != null && androidPlayer.isAndroid()) {
+                if (!MinecraftForge.EVENT_BUS.post(new MOEventBionicStat(MatterOverdriveBioticStats.teleport, androidPlayer.getUnlockedLevel(MatterOverdriveBioticStats.teleport), androidPlayer))) {
                     MatterOverdrive.packetPipeline.sendToAllAround(new PacketSpawnParticle("teleport", player.posX, player.posY + 1, player.posZ, 1, 0), player, 64);
                     player.worldObj.playSoundToNearExcept(player, Reference.MOD_ID + ":" + "android_teleport", 0.2f, 0.8f + 0.4f * player.worldObj.rand.nextFloat());
                     player.setPositionAndUpdate(message.x, message.y, message.z);

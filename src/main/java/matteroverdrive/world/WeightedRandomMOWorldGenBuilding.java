@@ -26,18 +26,15 @@ import java.util.Random;
 /**
  * Created by Simeon on 11/26/2015.
  */
-public class WeightedRandomMOWorldGenBuilding extends WeightedRandom.Item
-{
+public class WeightedRandomMOWorldGenBuilding extends WeightedRandom.Item {
     public final MOWorldGenBuilding worldGenBuilding;
 
-    public WeightedRandomMOWorldGenBuilding(MOWorldGenBuilding worldGenBuilding,int weight)
-    {
+    public WeightedRandomMOWorldGenBuilding(MOWorldGenBuilding worldGenBuilding, int weight) {
         super(weight);
         this.worldGenBuilding = worldGenBuilding;
     }
 
-    public int getWeight(Random random,World world, int x, int y, int z)
-    {
-        return worldGenBuilding.shouldGenerate(random,world,x,y,z) && worldGenBuilding.isLocationValid(world,x,y,z) ? itemWeight : Math.max(1,(int)(itemWeight*0.1));
+    public int getWeight(Random random, World world, int x, int y, int z) {
+        return worldGenBuilding.shouldGenerate(random, world, x, y, z) && worldGenBuilding.isLocationValid(world, x, y, z) ? itemWeight : Math.max(1, (int) (itemWeight * 0.1));
     }
 }

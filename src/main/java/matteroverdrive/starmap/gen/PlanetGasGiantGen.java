@@ -7,11 +7,10 @@ import java.util.Random;
 /**
  * Created by Simeon on 6/21/2015.
  */
-public class PlanetGasGiantGen extends PlanetAbstractGen
-{
+public class PlanetGasGiantGen extends PlanetAbstractGen {
 
     public PlanetGasGiantGen() {
-        super((byte)1, 2, 8);
+        super((byte) 1, 2, 8);
     }
 
     @Override
@@ -20,10 +19,8 @@ public class PlanetGasGiantGen extends PlanetAbstractGen
     }
 
     @Override
-    public double getWeight(Planet body)
-    {
-        if (body.getOrbit() > 0.6f)
-        {
+    public double getWeight(Planet body) {
+        if (body.getOrbit() > 0.6f) {
             return 0.3f;
         }
         return 0.1f;

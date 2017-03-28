@@ -30,8 +30,7 @@ import java.io.Serializable;
 /**
  * Created by Simeon on 12/22/2015.
  */
-public class BlockPos implements Comparable<BlockPos>, Serializable
-{
+public class BlockPos implements Comparable<BlockPos>, Serializable {
     public int x;
     public int y;
     public int z;
@@ -62,7 +61,7 @@ public class BlockPos implements Comparable<BlockPos>, Serializable
         this.x = tagCompound.getInteger("bp_i");
         this.y = tagCompound.getInteger("bp_j");
         this.z = tagCompound.getInteger("bp_k");
-        if(!tagCompound.hasKey("bp_dir")) {
+        if (!tagCompound.hasKey("bp_dir")) {
             this.orientation = ForgeDirection.UNKNOWN;
         } else {
             this.orientation = ForgeDirection.getOrientation(tagCompound.getByte("bp_dir"));
@@ -70,8 +69,7 @@ public class BlockPos implements Comparable<BlockPos>, Serializable
 
     }
 
-    public BlockPos(TileEntity tileEntity)
-    {
+    public BlockPos(TileEntity tileEntity) {
         this.x = tileEntity.xCoord;
         this.y = tileEntity.yCoord;
         this.z = tileEntity.zCoord;
@@ -95,18 +93,18 @@ public class BlockPos implements Comparable<BlockPos>, Serializable
         tagCompound.setInteger("bp_i", this.x);
         tagCompound.setInteger("bp_j", this.y);
         tagCompound.setInteger("bp_k", this.z);
-        tagCompound.setByte("bp_dir", (byte)this.orientation.ordinal());
+        tagCompound.setByte("bp_dir", (byte) this.orientation.ordinal());
     }
 
     public String toString() {
-        return this.orientation == null?"{" + this.x + ", " + this.y + ", " + this.z + "}":"{" + this.x + ", " + this.y + ", " + this.z + ";" + this.orientation.toString() + "}";
+        return this.orientation == null ? "{" + this.x + ", " + this.y + ", " + this.z + "}" : "{" + this.x + ", " + this.y + ", " + this.z + ";" + this.orientation.toString() + "}";
     }
 
     public boolean equals(Object obj) {
-        if(!(obj instanceof BlockPos)) {
+        if (!(obj instanceof BlockPos)) {
             return false;
         } else {
-            BlockPos blockPos = (BlockPos)obj;
+            BlockPos blockPos = (BlockPos) obj;
             return blockPos.x == this.x & blockPos.y == this.y & blockPos.z == this.z & blockPos.orientation == this.orientation;
         }
     }
@@ -159,7 +157,7 @@ public class BlockPos implements Comparable<BlockPos>, Serializable
 
     public <T extends TileEntity> T getTileEntity(World world, Class<T> tClass) {
         TileEntity var3 = world.getTileEntity(this.x, this.y, this.z);
-        return tClass.isInstance(var3)?(T)var3:null;
+        return tClass.isInstance(var3) ? (T) var3 : null;
     }
 
     public Block getBlock(World world) {
@@ -167,6 +165,6 @@ public class BlockPos implements Comparable<BlockPos>, Serializable
     }
 
     public int compareTo(BlockPos blockPos) {
-        return this.x == blockPos.x?(this.y == blockPos.y?this.z - blockPos.z:this.y - blockPos.y):this.x - blockPos.x;
+        return this.x == blockPos.x ? (this.y == blockPos.y ? this.z - blockPos.z : this.y - blockPos.y) : this.x - blockPos.x;
     }
 }

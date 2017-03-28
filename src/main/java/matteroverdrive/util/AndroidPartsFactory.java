@@ -21,70 +21,58 @@ import java.util.Random;
 /**
  * Created by Simeon on 12/31/2015.
  */
-public class AndroidPartsFactory
-{
+public class AndroidPartsFactory {
     private static Random random = new Random();
     public List<WeightedRandomItemStack> parts;
 
-    public AndroidPartsFactory()
-    {
+    public AndroidPartsFactory() {
         parts = new ArrayList<>();
     }
 
-    public void initParts()
-    {
-        parts.add(new WeightedRandomItemStack(new ItemStack(MatterOverdriveItems.androidParts,1,0),100));
-        parts.add(new WeightedRandomItemStack(new ItemStack(MatterOverdriveItems.androidParts,1,1),100));
-        parts.add(new WeightedRandomItemStack(new ItemStack(MatterOverdriveItems.androidParts,1,2),100));
-        parts.add(new WeightedRandomItemStack(new ItemStack(MatterOverdriveItems.androidParts,1,3),100));
-        parts.add(new WeightedRandomItemStack(new ItemStack(MatterOverdriveItems.tritaniumSpine),20));
+    public void initParts() {
+        parts.add(new WeightedRandomItemStack(new ItemStack(MatterOverdriveItems.androidParts, 1, 0), 100));
+        parts.add(new WeightedRandomItemStack(new ItemStack(MatterOverdriveItems.androidParts, 1, 1), 100));
+        parts.add(new WeightedRandomItemStack(new ItemStack(MatterOverdriveItems.androidParts, 1, 2), 100));
+        parts.add(new WeightedRandomItemStack(new ItemStack(MatterOverdriveItems.androidParts, 1, 3), 100));
+        parts.add(new WeightedRandomItemStack(new ItemStack(MatterOverdriveItems.tritaniumSpine), 20));
     }
 
-    public ItemStack generateRandomDecoratedPart(AndroidPartFactoryContext context)
-    {
-        WeightedRandomItemStack randomPart = (WeightedRandomItemStack)WeightedRandom.getRandomItem(random,parts);
+    public ItemStack generateRandomDecoratedPart(AndroidPartFactoryContext context) {
+        WeightedRandomItemStack randomPart = (WeightedRandomItemStack) WeightedRandom.getRandomItem(random, parts);
         ItemStack stack = randomPart.getStack();
-        addLegendaryAttributesToPart(stack,context);
+        addLegendaryAttributesToPart(stack, context);
         return stack;
     }
 
-    public void addLegendaryAttributesToPart(ItemStack part, AndroidPartFactoryContext context)
-    {
-        if (context.legendary)
-        {
+    public void addLegendaryAttributesToPart(ItemStack part, AndroidPartFactoryContext context) {
+        if (context.legendary) {
             int healthLevel = random.nextInt(context.level + 1);
-            if (healthLevel > 0)
-            {
+            if (healthLevel > 0) {
                 addAttributeToPart(part, new AttributeModifier(SharedMonsterAttributes.maxHealth.getAttributeUnlocalizedName(), healthLevel, 0));
             }
 
             int attackPowerLevel = random.nextInt(context.level + 1);
-            if (attackPowerLevel > 0)
-            {
+            if (attackPowerLevel > 0) {
                 addAttributeToPart(part, new AttributeModifier(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), attackPowerLevel, 0));
             }
 
             int knockbackLevel = random.nextInt(context.level + 1);
-            if (knockbackLevel > 0)
-            {
+            if (knockbackLevel > 0) {
                 addAttributeToPart(part, new AttributeModifier(SharedMonsterAttributes.knockbackResistance.getAttributeUnlocalizedName(), knockbackLevel * 0.1, 0));
             }
 
-            int speedLevel = random.nextInt(context.level+1);
-            if (speedLevel > 0)
-            {
-                addAttributeToPart(part,new AttributeModifier(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(),speedLevel * 0.1,1));
+            int speedLevel = random.nextInt(context.level + 1);
+            if (speedLevel > 0) {
+                addAttributeToPart(part, new AttributeModifier(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), speedLevel * 0.1, 1));
             }
 
             int glitchLevel = random.nextInt(context.level + 1);
-            if (glitchLevel > 0)
-            {
+            if (glitchLevel > 0) {
                 addAttributeToPart(part, new AttributeModifier(AndroidAttributes.attributeGlitchTime.getAttributeUnlocalizedName(), -glitchLevel * 0.2, 1));
             }
 
             int batteryUse = random.nextInt(context.level + 1);
-            if (batteryUse > 0)
-            {
+            if (batteryUse > 0) {
                 addAttributeToPart(part, new AttributeModifier(AndroidAttributes.attributeBatteryUse.getAttributeUnlocalizedName(), -batteryUse * 0.03, 1));
             }
 
@@ -92,44 +80,39 @@ public class AndroidPartsFactory
         }
     }
 
-    public ItemStack addAttributeToPart(ItemStack part, AttributeModifier attribute)
-    {
+    public ItemStack addAttributeToPart(ItemStack part, AttributeModifier attribute) {
         if (part.getTagCompound() == null)
             part.setTagCompound(new NBTTagCompound());
 
         NBTTagList attributeList = part.getTagCompound().getTagList("CustomAttributes", Constants.NBT.TAG_COMPOUND);
         NBTTagCompound attributeTag = new NBTTagCompound();
-        attributeTag.setString("Name",attribute.getName());
-        attributeTag.setDouble("Amount",attribute.getAmount());
-        attributeTag.setString("UUID",attribute.getID().toString());
-        attributeTag.setByte("Operation",(byte) attribute.getOperation());
+        attributeTag.setString("Name", attribute.getName());
+        attributeTag.setDouble("Amount", attribute.getAmount());
+        attributeTag.setString("UUID", attribute.getID().toString());
+        attributeTag.setByte("Operation", (byte) attribute.getOperation());
         attributeList.appendTag(attributeTag);
 
 
-        part.getTagCompound().setTag("CustomAttributes",attributeList);
+        part.getTagCompound().setTag("CustomAttributes", attributeList);
         return part;
     }
 
-    public static class AndroidPartFactoryContext
-    {
+    public static class AndroidPartFactoryContext {
         public final int level;
         public Entity entity;
         public boolean legendary;
 
-        public AndroidPartFactoryContext(int level)
-        {
+        public AndroidPartFactoryContext(int level) {
             this.level = level;
         }
 
-        public AndroidPartFactoryContext(int level,Entity entity)
-        {
+        public AndroidPartFactoryContext(int level, Entity entity) {
             this(level);
             this.entity = entity;
         }
 
-        public AndroidPartFactoryContext(int level,Entity entity,boolean legendary)
-        {
-            this(level,entity);
+        public AndroidPartFactoryContext(int level, Entity entity, boolean legendary) {
+            this(level, entity);
             this.legendary = legendary;
         }
     }

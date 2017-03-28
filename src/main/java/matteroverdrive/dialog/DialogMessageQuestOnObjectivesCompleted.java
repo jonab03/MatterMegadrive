@@ -26,28 +26,28 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 11/22/2015.
  */
-public class DialogMessageQuestOnObjectivesCompleted extends DialogMessage
-{
+public class DialogMessageQuestOnObjectivesCompleted extends DialogMessage {
     QuestStack questStack;
     int[] completedObjectives;
 
-    public DialogMessageQuestOnObjectivesCompleted(){super();}
-    public DialogMessageQuestOnObjectivesCompleted(QuestStack questStack,int[] completedObjectives){super();this.questStack = questStack;this.completedObjectives = completedObjectives;}
+    public DialogMessageQuestOnObjectivesCompleted() {
+        super();
+    }
+
+    public DialogMessageQuestOnObjectivesCompleted(QuestStack questStack, int[] completedObjectives) {
+        super();
+        this.questStack = questStack;
+        this.completedObjectives = completedObjectives;
+    }
 
     @Override
-    public boolean isVisible(IDialogNpc npc, EntityPlayer player)
-    {
+    public boolean isVisible(IDialogNpc npc, EntityPlayer player) {
         MOExtendedProperties extendedProperties = MOExtendedProperties.get(player);
-        if (extendedProperties != null)
-        {
-            for (QuestStack questStack : extendedProperties.getQuestData().getActiveQuests())
-            {
-                if (questStack.getQuest().areQuestStacksEqual(questStack,this.questStack))
-                {
-                    for (int i = 0;i < completedObjectives.length;i++)
-                    {
-                        if (!questStack.isObjectiveCompleted(player,completedObjectives[i]))
-                        {
+        if (extendedProperties != null) {
+            for (QuestStack questStack : extendedProperties.getQuestData().getActiveQuests()) {
+                if (questStack.getQuest().areQuestStacksEqual(questStack, this.questStack)) {
+                    for (int i = 0; i < completedObjectives.length; i++) {
+                        if (!questStack.isObjectiveCompleted(player, completedObjectives[i])) {
                             return false;
                         }
                     }
@@ -58,13 +58,11 @@ public class DialogMessageQuestOnObjectivesCompleted extends DialogMessage
         return false;
     }
 
-    public void setQuest(QuestStack questStack)
-    {
+    public void setQuest(QuestStack questStack) {
         this.questStack = questStack;
     }
 
-    public void setCompletedObjectives(int[] completedObjectives)
-    {
+    public void setCompletedObjectives(int[] completedObjectives) {
         this.completedObjectives = completedObjectives;
     }
 }

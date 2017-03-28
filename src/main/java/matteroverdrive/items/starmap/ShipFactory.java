@@ -34,13 +34,12 @@ public class ShipFactory extends ItemBuildingAbstract {
     }
 
     @Override
-    public boolean canBuild(ItemStack building, Planet planet,List<String> info) {
+    public boolean canBuild(ItemStack building, Planet planet, List<String> info) {
         return true;
     }
 
     @Override
-    public int getBuildLengthUnscaled(ItemStack building, Planet planet)
-    {
+    public int getBuildLengthUnscaled(ItemStack building, Planet planet) {
         return 20 * 400;
     }
 

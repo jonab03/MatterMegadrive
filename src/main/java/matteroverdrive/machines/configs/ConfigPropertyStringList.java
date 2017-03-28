@@ -21,13 +21,11 @@ package matteroverdrive.machines.configs;
 /**
  * Created by Simeon on 8/16/2015.
  */
-public class ConfigPropertyStringList extends ConfigPropertyInteger
-{
+public class ConfigPropertyStringList extends ConfigPropertyInteger {
     String[] names;
 
-    public ConfigPropertyStringList(String key, String unlocalizedName, String[] names, int def)
-    {
-        super(key, unlocalizedName,0,names.length-1,def);
+    public ConfigPropertyStringList(String key, String unlocalizedName, String[] names, int def) {
+        super(key, unlocalizedName, 0, names.length - 1, def);
         this.names = names;
     }
 
@@ -36,8 +34,7 @@ public class ConfigPropertyStringList extends ConfigPropertyInteger
         return Enum.class;
     }
 
-    public String[] getList()
-    {
+    public String[] getList() {
         return names;
     }
 }

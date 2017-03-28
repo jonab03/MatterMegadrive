@@ -28,8 +28,7 @@ import org.lwjgl.opengl.GL11;
 /**
  * Created by Simeon on 5/3/2015.
  */
-public class MOElementButtonScaled extends MOElementButton
-{
+public class MOElementButtonScaled extends MOElementButton {
     private ScaleTexture normalTexture;
     private ScaleTexture overTexture;
     private ScaleTexture disabledTexture;
@@ -43,8 +42,7 @@ public class MOElementButtonScaled extends MOElementButton
     }
 
     @Override
-    public void drawBackground(int mouseX, int mouseY, float gameTicks)
-    {
+    public void drawBackground(int mouseX, int mouseY, float gameTicks) {
         GL11.glEnable(GL11.GL_BLEND);
         if (color != null)
             RenderUtils.applyColor(color);
@@ -57,42 +55,35 @@ public class MOElementButtonScaled extends MOElementButton
                 } else if (normalTexture != null) {
                     normalTexture.render(posX, posY, sizeX, sizeY);
                 }
-            }else
-            {
+            } else {
                 if (downTexture != null)
-                    downTexture.render(posX,posY,sizeX,sizeY);
+                    downTexture.render(posX, posY, sizeX, sizeY);
             }
-        } else if (disabledTexture != null){
-            disabledTexture.render(posX,posY,sizeX,sizeY);
-        }else if (normalTexture != null)
-        {
-            normalTexture.render(posX,posY,sizeX,sizeY);
+        } else if (disabledTexture != null) {
+            disabledTexture.render(posX, posY, sizeX, sizeY);
+        } else if (normalTexture != null) {
+            normalTexture.render(posX, posY, sizeX, sizeY);
         }
 
         GL11.glDisable(GL11.GL_BLEND);
     }
 
     @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
-        if (text != null && !text.isEmpty())
-        {
-            if (icon != null)
-            {
+    public void drawForeground(int mouseX, int mouseY) {
+        if (text != null && !text.isEmpty()) {
+            if (icon != null) {
                 int width = getFontRenderer().getStringWidth(text) - icon.getOriginalWidth();
-                getFontRenderer().drawString(text,posX + sizeX / 2 - (width / 2),posY + sizeY / 2 - 3,labelColor);
+                getFontRenderer().drawString(text, posX + sizeX / 2 - (width / 2), posY + sizeY / 2 - 3, labelColor);
                 RenderUtils.applyColor(getTextColor());
-                ClientProxy.holoIcons.renderIcon(icon,posX + sizeX / 2 - icon.getOriginalWidth() - width/2,posY + sizeY / 2 - icon.getOriginalHeight()/2);
-            }else
-            {
+                ClientProxy.holoIcons.renderIcon(icon, posX + sizeX / 2 - icon.getOriginalWidth() - width / 2, posY + sizeY / 2 - icon.getOriginalHeight() / 2);
+            } else {
                 int width = getFontRenderer().getStringWidth(text);
-                getFontRenderer().drawString(text,posX + sizeX / 2 - (width / 2),posY + sizeY / 2 - 3,labelColor);
+                getFontRenderer().drawString(text, posX + sizeX / 2 - (width / 2), posY + sizeY / 2 - 3, labelColor);
             }
-        }else
-        {
+        } else {
             if (icon != null) {
                 RenderUtils.applyColor(getTextColor());
-                ClientProxy.holoIcons.renderIcon(icon,posX + sizeX / 2 - icon.getOriginalWidth()/2,posY + sizeY / 2 - icon.getOriginalHeight()/2);
+                ClientProxy.holoIcons.renderIcon(icon, posX + sizeX / 2 - icon.getOriginalWidth() / 2, posY + sizeY / 2 - icon.getOriginalHeight() / 2);
             }
         }
     }
@@ -113,8 +104,13 @@ public class MOElementButtonScaled extends MOElementButton
         this.overTexture = overTexture;
     }
 
-    public ScaleTexture getDownTexture(){return downTexture;}
-    public void setDownTexture(ScaleTexture downTexture){this.downTexture = downTexture;}
+    public ScaleTexture getDownTexture() {
+        return downTexture;
+    }
+
+    public void setDownTexture(ScaleTexture downTexture) {
+        this.downTexture = downTexture;
+    }
 
     public ScaleTexture getDisabledTextureTexture() {
         return disabledTexture;

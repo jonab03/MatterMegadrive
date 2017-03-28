@@ -28,26 +28,22 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 8/5/2015.
  */
-public class TeleportFlashDriveSlot extends Slot
-{
-    public TeleportFlashDriveSlot(boolean isMainSlot)
-    {
+public class TeleportFlashDriveSlot extends Slot {
+    public TeleportFlashDriveSlot(boolean isMainSlot) {
         super(isMainSlot);
     }
 
-    public boolean isValidForSlot(ItemStack item)
-    {
+    public boolean isValidForSlot(ItemStack item) {
         return item != null && item.getItem() == MatterOverdriveItems.transportFlashDrive;
     }
 
     @SideOnly(Side.CLIENT)
-    public HoloIcon getHoloIcon()
-    {
+    public HoloIcon getHoloIcon() {
         return ClientProxy.holoIcons.getIcon("flash_drive");
     }
 
     @Override
-    public String getUnlocalizedTooltip(){
+    public String getUnlocalizedTooltip() {
         return "item.transport_flash_drive.name";
     }
 }

@@ -27,8 +27,7 @@ import matteroverdrive.util.math.MOMathHelper;
 /**
  * Created by Simeon on 3/13/2015.
  */
-public class ElementGrid extends ElementBaseGroup
-{
+public class ElementGrid extends ElementBaseGroup {
     private int maxWidth;
     float scrollYSmooth = 0;
     int scrollX = 0;
@@ -37,35 +36,29 @@ public class ElementGrid extends ElementBaseGroup
     int marginTop = 0;
     int marginLeft = 0;
 
-    public ElementGrid(MOGuiBase guiBase, int x, int y, int width, int height, int maxWidth)
-    {
-        super(guiBase,x, y,width,height);
+    public ElementGrid(MOGuiBase guiBase, int x, int y, int width, int height, int maxWidth) {
+        super(guiBase, x, y, width, height);
         this.maxWidth = maxWidth;
     }
 
     @Override
-    public void update(int mouseX,int mouseY)
-    {
+    public void update(int mouseX, int mouseY) {
 
     }
 
-    private void manageDrag(int maxHeight)
-    {
+    private void manageDrag(int maxHeight) {
         scrollY = Math.max(scrollY, -maxHeight);
-        scrollYSmooth = MOMathHelper.Lerp(scrollYSmooth,scrollY,0.1f);
+        scrollYSmooth = MOMathHelper.Lerp(scrollYSmooth, scrollY, 0.1f);
     }
 
     @Override
-    public void drawBackground(int mouseX, int mouseY, float gameTicks)
-    {
+    public void drawBackground(int mouseX, int mouseY, float gameTicks) {
         int widthCount = marginLeft;
         int height = marginTop;
         int maxTempHeigh = 0;
 
-        for (MOElementBase element : elements)
-        {
-            if (element != null && shouldBeDisplayed(element))
-            {
+        for (MOElementBase element : elements) {
+            if (element != null && shouldBeDisplayed(element)) {
 
                 if (widthCount > this.maxWidth - element.getWidth()) {
                     height += maxTempHeigh;
@@ -83,8 +76,7 @@ public class ElementGrid extends ElementBaseGroup
 
                 maxTempHeigh = Math.max(maxTempHeigh, element.getHeight() + 2);
                 widthCount += element.getWidth() + 3;
-            }else
-            {
+            } else {
                 element.setVisible(false);
             }
         }
@@ -99,8 +91,7 @@ public class ElementGrid extends ElementBaseGroup
     }
 
     @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
+    public void drawForeground(int mouseX, int mouseY) {
         RenderUtils.beginStencil();
         drawStencil(posX, posY, sizeX + posX, sizeY + posY, 1);
         super.drawForeground(mouseX, mouseY);
@@ -110,8 +101,7 @@ public class ElementGrid extends ElementBaseGroup
     @Override
     public boolean onMouseWheel(int mouseX, int mouseY, int movement) {
 
-        if (MOStringHelper.isControlKeyDown())
-        {
+        if (MOStringHelper.isControlKeyDown()) {
             if (movement > 0) {
                 //scrollLeft();
             } else if (movement < 0) {
@@ -127,39 +117,34 @@ public class ElementGrid extends ElementBaseGroup
         return true;
     }
 
-    public void scrollDown()
-    {
-        scrollY-=scrollSpeed;
+    public void scrollDown() {
+        scrollY -= scrollSpeed;
         onScrollV(scrollY);
     }
 
     public void scrollUp() {
 
-        if(scrollY < 0)
-        {
-            scrollY = Math.min(scrollY + scrollSpeed,0);
+        if (scrollY < 0) {
+            scrollY = Math.min(scrollY + scrollSpeed, 0);
             onScrollV(scrollY);
         }
     }
 
-    protected void onScrollV(int newStartIndex)
-    {
+    protected void onScrollV(int newStartIndex) {
         scrollY = newStartIndex;
     }
 
-    public void drawTexturedModalRect(int x, int y, int u, int v, int width, int height,int texWidth,int texHeight) {
+    public void drawTexturedModalRect(int x, int y, int u, int v, int width, int height, int texWidth, int texHeight) {
 
         gui.drawSizedTexturedModalRect(x, y, u, v, width, height, texWidth, texHeight);
     }
 
-    public void setMargins(int left,int right,int top,int bottom)
-    {
+    public void setMargins(int left, int right, int top, int bottom) {
         marginTop = top;
         marginLeft = left;
     }
 
-    public boolean shouldBeDisplayed(MOElementBase element)
-    {
+    public boolean shouldBeDisplayed(MOElementBase element) {
         return true;
     }
 }

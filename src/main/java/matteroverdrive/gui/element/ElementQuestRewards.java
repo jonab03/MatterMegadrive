@@ -27,31 +27,26 @@ import java.util.List;
 /**
  * Created by Simeon on 12/6/2015.
  */
-public class ElementQuestRewards extends MOElementBase
-{
+public class ElementQuestRewards extends MOElementBase {
     List<ItemStack> itemStacks;
 
-    public ElementQuestRewards(MOGuiBase gui, int posX, int posY, List<ItemStack> itemStacks)
-    {
+    public ElementQuestRewards(MOGuiBase gui, int posX, int posY, List<ItemStack> itemStacks) {
         super(gui, posX, posY);
         setItemStacks(itemStacks);
     }
 
     @Override
-    public void updateInfo()
-    {
+    public void updateInfo() {
 
     }
 
     @Override
-    public void init()
-    {
+    public void init() {
 
     }
 
     @Override
-    public void addTooltip(List<String> var1, int mouseX, int mouseY)
-    {
+    public void addTooltip(List<String> var1, int mouseX, int mouseY) {
 
     }
 
@@ -61,16 +56,13 @@ public class ElementQuestRewards extends MOElementBase
     }
 
     @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
-        for (int i = 0;i < itemStacks.size();i++)
-        {
-            RenderUtils.renderStack(posX + 18 * i,posY + 1,0,itemStacks.get(i),true);
+    public void drawForeground(int mouseX, int mouseY) {
+        for (int i = 0; i < itemStacks.size(); i++) {
+            RenderUtils.renderStack(posX + 18 * i, posY + 1, 0, itemStacks.get(i), true);
         }
     }
 
-    public void setItemStacks(List<ItemStack> itemStacks)
-    {
+    public void setItemStacks(List<ItemStack> itemStacks) {
         this.itemStacks = itemStacks;
         if (itemStacks != null) {
             sizeY = 18;

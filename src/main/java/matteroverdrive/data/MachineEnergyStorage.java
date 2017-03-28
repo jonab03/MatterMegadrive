@@ -27,33 +27,29 @@ import net.minecraft.util.MathHelper;
 /**
  * Created by Simeon on 8/7/2015.
  */
-public class MachineEnergyStorage<T extends MOTileEntityMachine> implements IEnergyStorage
-{
+public class MachineEnergyStorage<T extends MOTileEntityMachine> implements IEnergyStorage {
     protected int energy;
     protected int capacity;
     protected int maxReceive;
     protected int maxExtract;
     protected final T machine;
 
-    public MachineEnergyStorage(T machine,int capacity)
-    {
+    public MachineEnergyStorage(T machine, int capacity) {
         this(machine, capacity, capacity, capacity);
     }
-    public MachineEnergyStorage(T machine,int capacity, int maxReceive, int maxExtract)
-    {
+
+    public MachineEnergyStorage(T machine, int capacity, int maxReceive, int maxExtract) {
         this.machine = machine;
         this.capacity = capacity;
         this.maxReceive = maxReceive;
         this.maxExtract = maxExtract;
     }
 
-    public void readFromNBT(NBTTagCompound tagCompound)
-    {
+    public void readFromNBT(NBTTagCompound tagCompound) {
         this.energy = tagCompound.getInteger("Energy");
     }
 
-    public void writeToNBT(NBTTagCompound tagCompound)
-    {
+    public void writeToNBT(NBTTagCompound tagCompound) {
         tagCompound.setInteger("Energy", energy);
     }
 
@@ -66,7 +62,7 @@ public class MachineEnergyStorage<T extends MOTileEntityMachine> implements IEne
     @Override
     public int receiveEnergy(int amount, boolean simulate) {
         int clampedAmount = Math.min(getMaxEnergyStored() - this.energy, Math.min(getMaxReceive(), amount));
-        if(!simulate) {
+        if (!simulate) {
             this.energy += clampedAmount;
         }
 
@@ -76,21 +72,19 @@ public class MachineEnergyStorage<T extends MOTileEntityMachine> implements IEne
     @Override
     public int extractEnergy(int amount, boolean simulate) {
         int clampedAmount = Math.min(getMaxEnergyStored(), Math.min(getMaxExtract(), amount));
-        if(!simulate) {
+        if (!simulate) {
             this.energy -= clampedAmount;
         }
 
         return clampedAmount;
     }
 
-    public int getMaxReceive()
-    {
-        return Math.max(0, (int)(maxReceive * machine.getUpgradeMultiply(UpgradeTypes.PowerTransfer)));
+    public int getMaxReceive() {
+        return Math.max(0, (int) (maxReceive * machine.getUpgradeMultiply(UpgradeTypes.PowerTransfer)));
     }
 
-    public int getMaxExtract()
-    {
-        return Math.max(0,(int)(maxExtract * machine.getUpgradeMultiply(UpgradeTypes.PowerTransfer)));
+    public int getMaxExtract() {
+        return Math.max(0, (int) (maxExtract * machine.getUpgradeMultiply(UpgradeTypes.PowerTransfer)));
     }
 
     @Override
@@ -103,29 +97,24 @@ public class MachineEnergyStorage<T extends MOTileEntityMachine> implements IEne
         return Math.max(0, (int) (capacity * machine.getUpgradeMultiply(UpgradeTypes.PowerStorage)));
     }
 
-    public void setMaxTransfer(int amount)
-    {
+    public void setMaxTransfer(int amount) {
         this.setMaxReceive(amount);
         this.setMaxExtract(amount);
     }
 
-    public void setEnergyStored(int energy)
-    {
+    public void setEnergyStored(int energy) {
         this.energy = energy;
     }
 
-    public void setCapacity(int capacity)
-    {
+    public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
 
-    public void setMaxReceive(int maxReceive)
-    {
+    public void setMaxReceive(int maxReceive) {
         this.maxReceive = maxReceive;
     }
 
-    public void setMaxExtract(int maxExtract)
-    {
+    public void setMaxExtract(int maxExtract) {
         this.maxExtract = maxExtract;
     }
 }

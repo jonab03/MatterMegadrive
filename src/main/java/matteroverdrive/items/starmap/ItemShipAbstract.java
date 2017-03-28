@@ -28,19 +28,18 @@ import java.util.List;
 /**
  * Created by Simeon on 6/24/2015.
  */
-public abstract class ItemShipAbstract extends ItemBuildableAbstract implements IShip
-{
-    public ItemShipAbstract(String name)
-    {
+public abstract class ItemShipAbstract extends ItemBuildableAbstract implements IShip {
+    public ItemShipAbstract(String name) {
         super(name);
         setMaxStackSize(1);
         setCreativeTab(MatterOverdrive.tabMatterOverdrive_ships);
     }
 
-    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos)
-    {
+    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos) {
         super.addDetails(itemstack, player, infos);
     }
 
-    public boolean hasDetails(ItemStack stack){return true;}
+    public boolean hasDetails(ItemStack stack) {
+        return true;
+    }
 }

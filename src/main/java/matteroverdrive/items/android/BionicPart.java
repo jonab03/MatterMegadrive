@@ -39,57 +39,51 @@ import java.util.UUID;
 /**
  * Created by Simeon on 9/10/2015.
  */
-public abstract class BionicPart extends MOBaseItem implements IBionicPart
-{
-    public BionicPart(String name)
-    {
+public abstract class BionicPart extends MOBaseItem implements IBionicPart {
+    public BionicPart(String name) {
         super(name);
     }
 
-    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos)
-    {
+    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos) {
         super.addDetails(itemstack, player, infos);
         Multimap<String, AttributeModifier> multimap = getModifiers(AndroidPlayer.get(player), itemstack);
-        if (multimap != null)
-        {
+        if (multimap != null) {
             multimap.values().stream()
-					.forEach(modifier -> {
-						switch (modifier.getOperation()) {
-							case 0:
-								infos.add(EnumChatFormatting.GREEN + String.format("%s: +%s", modifier.getName(), modifier.getAmount()));
-								break;
-							case 1:
-								infos.add(EnumChatFormatting.GREEN + String.format("%s: %s", modifier.getName(), (modifier.getAmount() >= 0 ? "+" : "") + DecimalFormat.getPercentInstance().format(modifier.getAmount())));
-								break;
-							default:
-								infos.add(EnumChatFormatting.GREEN + String.format("%s: %s", modifier.getName(), DecimalFormat.getPercentInstance().format(modifier.getAmount() + 1)));
-						}
-					});
+                    .forEach(modifier -> {
+                        switch (modifier.getOperation()) {
+                            case 0:
+                                infos.add(EnumChatFormatting.GREEN + String.format("%s: +%s", modifier.getName(), modifier.getAmount()));
+                                break;
+                            case 1:
+                                infos.add(EnumChatFormatting.GREEN + String.format("%s: %s", modifier.getName(), (modifier.getAmount() >= 0 ? "+" : "") + DecimalFormat.getPercentInstance().format(modifier.getAmount())));
+                                break;
+                            default:
+                                infos.add(EnumChatFormatting.GREEN + String.format("%s: %s", modifier.getName(), DecimalFormat.getPercentInstance().format(modifier.getAmount() + 1)));
+                        }
+                    });
         }
     }
 
-    public Multimap<String, AttributeModifier> getModifiers(AndroidPlayer player, ItemStack itemStack)
-    {
+    public Multimap<String, AttributeModifier> getModifiers(AndroidPlayer player, ItemStack itemStack) {
         Multimap multimap = HashMultimap.create();
-        loadCustomAttributes(itemStack,multimap);
+        loadCustomAttributes(itemStack, multimap);
         return multimap;
     }
 
-    public void loadCustomAttributes(ItemStack itemStack,Multimap<String, AttributeModifier> multimap)
-    {
-        if (itemStack.getTagCompound() != null)
-        {
+    public void loadCustomAttributes(ItemStack itemStack, Multimap<String, AttributeModifier> multimap) {
+        if (itemStack.getTagCompound() != null) {
             NBTTagList attributeList = itemStack.getTagCompound().getTagList("CustomAttributes", Constants.NBT.TAG_COMPOUND);
-            for (int i = 0;i < attributeList.tagCount();i++)
-            {
+            for (int i = 0; i < attributeList.tagCount(); i++) {
                 NBTTagCompound tagCompound = attributeList.getCompoundTagAt(i);
                 String attributeName = tagCompound.getString("Name");
                 double amount = tagCompound.getDouble("Amount");
                 int operation = tagCompound.getByte("Operation");
-                multimap.put(attributeName,new AttributeModifier(UUID.fromString(tagCompound.getString("UUID")),MOStringHelper.translateToLocal("attribute.name."+attributeName),amount,operation));
+                multimap.put(attributeName, new AttributeModifier(UUID.fromString(tagCompound.getString("UUID")), MOStringHelper.translateToLocal("attribute.name." + attributeName), amount, operation));
             }
         }
     }
 
-    public boolean hasDetails(ItemStack stack){return true;}
+    public boolean hasDetails(ItemStack stack) {
+        return true;
+    }
 }

@@ -27,8 +27,7 @@ import net.minecraft.world.World;
  * @since 3/6/2015
  * Implemented by all Matter overdrive Tile Entities
  */
-public interface IMOTileEntity
-{
+public interface IMOTileEntity {
     void onAdded(World world, int x, int y, int z);
 
     void onPlaced(World world, EntityLivingBase entityLiving);

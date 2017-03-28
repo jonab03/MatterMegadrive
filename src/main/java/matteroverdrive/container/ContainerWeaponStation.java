@@ -27,21 +27,17 @@ import net.minecraft.entity.player.InventoryPlayer;
 /**
  * Created by Simeon on 4/13/2015.
  */
-public class ContainerWeaponStation extends ContainerMachine<TileEntityWeaponStation>
-{
-    public ContainerWeaponStation(InventoryPlayer playerInventory, TileEntityWeaponStation machine)
-    {
+public class ContainerWeaponStation extends ContainerMachine<TileEntityWeaponStation> {
+    public ContainerWeaponStation(InventoryPlayer playerInventory, TileEntityWeaponStation machine) {
         this.machine = machine;
         init(playerInventory);
     }
 
     @Override
-    protected void init(InventoryPlayer inventory)
-    {
+    protected void init(InventoryPlayer inventory) {
         addSlotToContainer(new MOSlot(machine, machine.INPUT_SLOT, 8, 55));
-        for (int i = 0;i < 5;i++)
-        {
-            addSlotToContainer(new SlotInventory(machine, machine.getInventoryContainer().getSlot(i),0,0));
+        for (int i = 0; i < 5; i++) {
+            addSlotToContainer(new SlotInventory(machine, machine.getInventoryContainer().getSlot(i), 0, 0));
         }
 
         addUpgradeSlots(machine.getInventoryContainer());

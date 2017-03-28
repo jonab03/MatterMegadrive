@@ -27,19 +27,16 @@ import java.util.Iterator;
 /**
  * Created by Simeon on 10/30/2015.
  */
-public class MultiBlockTileStructureMachine extends MultiBlockTileStructureAbstract
-{
+public class MultiBlockTileStructureMachine extends MultiBlockTileStructureAbstract {
     private HashSet<IMultiBlockTile> tiles = new HashSet<>();
     private MOTileEntityMachine machine;
 
-    public MultiBlockTileStructureMachine(MOTileEntityMachine machine)
-    {
+    public MultiBlockTileStructureMachine(MOTileEntityMachine machine) {
         this.machine = machine;
     }
 
     @Override
-    public boolean addMultiBlockTile(IMultiBlockTile tile)
-    {
+    public boolean addMultiBlockTile(IMultiBlockTile tile) {
         if (tile != null && !containsMultiBlockTile(tile) && tile.canJoinMultiBlockStructure(this)) {
             tile.setMultiBlockTileStructure(this);
             return tiles.add(tile);
@@ -47,25 +44,20 @@ public class MultiBlockTileStructureMachine extends MultiBlockTileStructureAbstr
         return false;
     }
 
-    public void update()
-    {
+    public void update() {
         Iterator<IMultiBlockTile> iterator = tiles.iterator();
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             IMultiBlockTile tile = iterator.next();
-            if (tile.isMultiblockInvalid())
-            {
+            if (tile.isMultiblockInvalid()) {
                 tile.setMultiBlockTileStructure(null);
                 iterator.remove();
             }
         }
     }
 
-    public void invalidate()
-    {
+    public void invalidate() {
         Iterator<IMultiBlockTile> iterator = tiles.iterator();
-        while (iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             iterator.next().setMultiBlockTileStructure(null);
             iterator.remove();
         }
@@ -73,30 +65,25 @@ public class MultiBlockTileStructureMachine extends MultiBlockTileStructureAbstr
     }
 
     @Override
-    public void removeMultiBlockTile(IMultiBlockTile tile)
-    {
+    public void removeMultiBlockTile(IMultiBlockTile tile) {
         tiles.remove(tile);
         tile.setMultiBlockTileStructure(null);
     }
 
     @Override
-    public boolean containsMultiBlockTile(IMultiBlockTile tile)
-    {
+    public boolean containsMultiBlockTile(IMultiBlockTile tile) {
         return tiles.contains(tile);
     }
 
-    public MOTileEntityMachine getMachine()
-    {
+    public MOTileEntityMachine getMachine() {
         return machine;
     }
 
-    public Collection<IMultiBlockTile> getTiles()
-    {
+    public Collection<IMultiBlockTile> getTiles() {
         return tiles;
     }
 
-    public boolean isInvalid()
-    {
+    public boolean isInvalid() {
         return machine == null || machine.isInvalid();
     }
 }

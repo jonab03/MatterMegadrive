@@ -33,8 +33,7 @@ import org.lwjgl.opengl.GL12;
 /**
  * Created by Simeon on 7/25/2015.
  */
-public class EntityRendererPhaserFire extends Render
-{
+public class EntityRendererPhaserFire extends Render {
     private static final ResourceLocation arrowTextures = new ResourceLocation(Reference.PATH_ENTITIES + "PlasmaFire.png");
 
     /**
@@ -43,13 +42,12 @@ public class EntityRendererPhaserFire extends Render
      * (Render<T extends Entity>) and this method has signature public void func_76986_a(T entity, double d, double d1,
      * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
      */
-    public void doRender(PlasmaBolt plasmaBolt, double x, double y, double z, float p_76986_8_, float p_76986_9_)
-    {
+    public void doRender(PlasmaBolt plasmaBolt, double x, double y, double z, float p_76986_8_, float p_76986_9_) {
         this.bindEntityTexture(plasmaBolt);
         RenderUtils.disableLightmap();
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
-        RenderUtils.applyColorWithMultipy(plasmaBolt.getColor(), MOEasing.Quad.easeOut(plasmaBolt.getLife(),0,1,0.7f));
+        RenderUtils.applyColorWithMultipy(plasmaBolt.getColor(), MOEasing.Quad.easeOut(plasmaBolt.getLife(), 0, 1, 0.7f));
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glPushMatrix();
         GL11.glTranslated(x, y, z);
@@ -59,15 +57,15 @@ public class EntityRendererPhaserFire extends Render
         byte b0 = 0;
         float f2 = 0.0F;
         float f3 = 0.5F;
-        float f4 = (float)(b0 * 10) / 32.0F;
-        float f5 = (float)(5 + b0 * 10) / 32.0F;
+        float f4 = (float) (b0 * 10) / 32.0F;
+        float f5 = (float) (5 + b0 * 10) / 32.0F;
         float f6 = 0.0F;
         float f7 = 0.15625F;
-        float f8 = (float)(5 + b0 * 10) / 32.0F;
-        float f9 = (float)(10 + b0 * 10) / 32.0F;
+        float f8 = (float) (5 + b0 * 10) / 32.0F;
+        float f9 = (float) (10 + b0 * 10) / 32.0F;
         float f10 = 0.05625F;
         float renderSize = plasmaBolt.getRenderSize();
-        double length = 6 * Vec3.createVectorHelper(plasmaBolt.motionX,plasmaBolt.motionY,plasmaBolt.motionZ).lengthVector() + 10;
+        double length = 6 * Vec3.createVectorHelper(plasmaBolt.motionX, plasmaBolt.motionY, plasmaBolt.motionZ).lengthVector() + 10;
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         GL11.glDisable(GL11.GL_CULL_FACE);
 
@@ -76,21 +74,20 @@ public class EntityRendererPhaserFire extends Render
         GL11.glTranslatef(-4.0F, 0.0F, 0.0F);
         GL11.glNormal3f(f10, 0.0F, 0.0F);
         tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(1, -renderSize, -renderSize, (double)f6, (double)f8);
-        tessellator.addVertexWithUV(1, -renderSize, renderSize, (double)f7, (double)f8);
-        tessellator.addVertexWithUV(1, renderSize, renderSize, (double)f7, (double)f9);
+        tessellator.addVertexWithUV(1, -renderSize, -renderSize, (double) f6, (double) f8);
+        tessellator.addVertexWithUV(1, -renderSize, renderSize, (double) f7, (double) f8);
+        tessellator.addVertexWithUV(1, renderSize, renderSize, (double) f7, (double) f9);
         tessellator.addVertexWithUV(1, renderSize, -renderSize, (double) f6, (double) f9);
         tessellator.draw();
 
         tessellator.startDrawingQuads();
-        tessellator.addVertexWithUV(length-1, -renderSize, renderSize, (double)f7, (double)f8);
-        tessellator.addVertexWithUV(length-1, renderSize, renderSize, (double)f7, (double)f9);
-        tessellator.addVertexWithUV(length-1, renderSize, -renderSize, (double) f6, (double) f9);
-        tessellator.addVertexWithUV(length-1, -renderSize, -renderSize, (double)f6, (double)f8);
+        tessellator.addVertexWithUV(length - 1, -renderSize, renderSize, (double) f7, (double) f8);
+        tessellator.addVertexWithUV(length - 1, renderSize, renderSize, (double) f7, (double) f9);
+        tessellator.addVertexWithUV(length - 1, renderSize, -renderSize, (double) f6, (double) f9);
+        tessellator.addVertexWithUV(length - 1, -renderSize, -renderSize, (double) f6, (double) f8);
         tessellator.draw();
 
-        for (int i = 0; i < 2; ++i)
-        {
+        for (int i = 0; i < 2; ++i) {
             GL11.glRotatef(90.0F, 1.0F, 0.0F, 0.0F);
             GL11.glNormal3f(0.0F, 0.0F, f10);
             tessellator.startDrawingQuads();
@@ -111,17 +108,15 @@ public class EntityRendererPhaserFire extends Render
     /**
      * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
      */
-    protected ResourceLocation getEntityTexture(PlasmaBolt p_110775_1_)
-    {
+    protected ResourceLocation getEntityTexture(PlasmaBolt p_110775_1_) {
         return arrowTextures;
     }
 
     /**
      * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
      */
-    protected ResourceLocation getEntityTexture(Entity p_110775_1_)
-    {
-        return this.getEntityTexture((PlasmaBolt)p_110775_1_);
+    protected ResourceLocation getEntityTexture(Entity p_110775_1_) {
+        return this.getEntityTexture((PlasmaBolt) p_110775_1_);
     }
 
     /**
@@ -131,8 +126,7 @@ public class EntityRendererPhaserFire extends Render
      * double d2, float f, float f1). But JAD is pre 1.5 so doesn't do that.
      */
     @Override
-    public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
-    {
-        this.doRender((PlasmaBolt)p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
+    public void doRender(Entity p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
+        this.doRender((PlasmaBolt) p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
     }
 }

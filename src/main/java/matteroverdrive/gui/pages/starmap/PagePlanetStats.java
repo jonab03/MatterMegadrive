@@ -30,43 +30,36 @@ import matteroverdrive.tile.TileEntityMachineStarMap;
 /**
  * Created by Simeon on 6/28/2015.
  */
-public class PagePlanetStats extends ElementBaseGroup implements IListHandler
-{
+public class PagePlanetStats extends ElementBaseGroup implements IListHandler {
     TileEntityMachineStarMap starMap;
     ElementGroupList shipList;
 
-    public PagePlanetStats(GuiStarMap gui, int posX, int posY, int width, int height,TileEntityMachineStarMap starMap)
-    {
+    public PagePlanetStats(GuiStarMap gui, int posX, int posY, int width, int height, TileEntityMachineStarMap starMap) {
         super(gui, posX, posY, width, height);
         this.starMap = starMap;
-        shipList = new ElementGroupList(gui,this,16,16,width,256);
+        shipList = new ElementGroupList(gui, this, 16, 16, width, 256);
     }
 
     @Override
-    public void init()
-    {
+    public void init() {
         super.init();
         addElement(shipList);
         loadShips();
     }
 
-    public void loadShips()
-    {
+    public void loadShips() {
         shipList.init();
         Planet planet = GalaxyClient.getInstance().getTheGalaxy().getPlanet(starMap.getGalaxyPosition());
-        if (planet != null && !starMap.getGalaxyPosition().equals(starMap.getDestination()))
-        {
-            for (int i = 0;i < planet.getFleet().size();i++)
-            {
-                shipList.addElement(new ElementShipEntry((GuiStarMap)gui,shipList,186,32,planet,planet.getFleet().get(i),i));
+        if (planet != null && !starMap.getGalaxyPosition().equals(starMap.getDestination())) {
+            for (int i = 0; i < planet.getFleet().size(); i++) {
+                shipList.addElement(new ElementShipEntry((GuiStarMap) gui, shipList, 186, 32, planet, planet.getFleet().get(i), i));
             }
         }
-        shipList.update(0,0);
+        shipList.update(0, 0);
     }
 
     @Override
-    public void ListSelectionChange(String name, int selected)
-    {
+    public void ListSelectionChange(String name, int selected) {
 
     }
 }

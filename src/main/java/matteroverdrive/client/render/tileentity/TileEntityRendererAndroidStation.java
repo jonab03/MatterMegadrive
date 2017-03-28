@@ -32,18 +32,15 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 5/27/2015.
  */
-public class TileEntityRendererAndroidStation extends TileEntityRendererStation<TileEntityAndroidStation>
-{
+public class TileEntityRendererAndroidStation extends TileEntityRendererStation<TileEntityAndroidStation> {
     EntityMeleeRougeAndroidMob mob;
 
-    public TileEntityRendererAndroidStation()
-    {
+    public TileEntityRendererAndroidStation() {
         super();
     }
 
     @Override
-    protected void renderHologram(TileEntityAndroidStation station, double x, double y, double z, float partialTicks, double noise)
-    {
+    protected void renderHologram(TileEntityAndroidStation station, double x, double y, double z, float partialTicks, double noise) {
         if ((station).isUseableByPlayer(Minecraft.getMinecraft().thePlayer)) {
             if (mob == null) {
                 mob = new EntityMeleeRougeAndroidMob(Minecraft.getMinecraft().theWorld);
@@ -62,13 +59,12 @@ public class TileEntityRendererAndroidStation extends TileEntityRendererStation<
 
             if (station.isUseableByPlayer(Minecraft.getMinecraft().thePlayer)) {
                 ClientProxy.renderHandler.rendererRougeAndroidHologram.setRenderManager(RenderManager.instance);
-                ClientProxy.renderHandler.rendererRougeAndroidHologram.doRender((EntityLivingBase) mob,0,0,0,0,0);
+                ClientProxy.renderHandler.rendererRougeAndroidHologram.doRender((EntityLivingBase) mob, 0, 0, 0, 0, 0);
                 //Render render = RenderManager.instance.getEntityRenderObject(mob);
                 //render.doRender(mob,0,0,0,0,0);
             }
             glPopMatrix();
-        }else
-        {
+        } else {
             super.renderHologram(station, x, y, z, partialTicks, noise);
         }
     }

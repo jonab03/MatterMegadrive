@@ -28,16 +28,14 @@ import net.minecraft.util.MovingObjectPosition;
  * Created by Simeon on 7/21/2015.
  * Triggered when a Plasma bolt hits a target.
  * It can be either a block or an Entity.
-*/
-public class MOEventPlasmaBlotHit extends Event
-{
+ */
+public class MOEventPlasmaBlotHit extends Event {
     public final ItemStack weapon;
     public final MovingObjectPosition hit;
     public final PlasmaBolt plasmaBolt;
     public final Side side;
 
-    public MOEventPlasmaBlotHit(ItemStack weapon, MovingObjectPosition hit, PlasmaBolt plasmaBolt, Side side)
-    {
+    public MOEventPlasmaBlotHit(ItemStack weapon, MovingObjectPosition hit, PlasmaBolt plasmaBolt, Side side) {
         this.weapon = weapon;
         this.hit = hit;
         this.plasmaBolt = plasmaBolt;

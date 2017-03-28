@@ -31,6 +31,7 @@ import matteroverdrive.guide.MOGuideEntry;
 import matteroverdrive.guide.MatterOverdriveGuide;
 import matteroverdrive.init.MatterOverdriveItems;
 import matteroverdrive.network.packet.server.PacketDataPadCommands;
+import matteroverdrive.util.MOLog;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MathHelper;
@@ -56,9 +57,8 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 4/3/2015.
  */
-public class PageGuideDescription extends ElementBaseGroup
-{
-    public static final ScaleTexture GUIDES_BG = new ScaleTexture(new ResourceLocation(Reference.PATH_ELEMENTS + "guides_bg.png"),166,142).setOffsets(80,80,72,69);
+public class PageGuideDescription extends ElementBaseGroup {
+    public static final ScaleTexture GUIDES_BG = new ScaleTexture(new ResourceLocation(Reference.PATH_ELEMENTS + "guides_bg.png"), 166, 142).setOffsets(80, 80, 72, 69);
 
     public static final String SCROLL_RIGHT_ELEMENT_NAME = "scroll_right";
     public static final String SCROLL_LEFT_ELEMENT_NAME = "scroll_left";
@@ -83,26 +83,24 @@ public class PageGuideDescription extends ElementBaseGroup
 
         pages = new ArrayList<>();
 
-        bt_scroll_right = new MOElementButton(gui,this,sizeX - 20,sizeY - 16,SCROLL_RIGHT_ELEMENT_NAME,0,0,10,0,10,10,"");
-        bt_scroll_right.setTexture(Reference.PATH_ELEMENTS + "scroll_right.png",20,10);
-        bt_scroll_left = new MOElementButton(gui,this,10,sizeY - 16,SCROLL_LEFT_ELEMENT_NAME,0,0,10,0,10,10,"");
+        bt_scroll_right = new MOElementButton(gui, this, sizeX - 20, sizeY - 16, SCROLL_RIGHT_ELEMENT_NAME, 0, 0, 10, 0, 10, 10, "");
+        bt_scroll_right.setTexture(Reference.PATH_ELEMENTS + "scroll_right.png", 20, 10);
+        bt_scroll_left = new MOElementButton(gui, this, 10, sizeY - 16, SCROLL_LEFT_ELEMENT_NAME, 0, 0, 10, 0, 10, 10, "");
         bt_scroll_left.setTexture(Reference.PATH_ELEMENTS + "scroll_left.png", 20, 10);
-        bt_return = new MOElementButton(gui,this,sizeX/2 - 5,sizeY - 16,RETURN_ELEMENT_NAME,0,0,11,0,11,11,"");
+        bt_return = new MOElementButton(gui, this, sizeX / 2 - 5, sizeY - 16, RETURN_ELEMENT_NAME, 0, 0, 11, 0, 11, 11, "");
         bt_return.setTexture(Reference.PATH_ELEMENTS + "return_arrow.png", 22, 11);
 
         builderFactory = DocumentBuilderFactory.newInstance();
         builderFactory.setIgnoringElementContentWhitespace(true);
         try {
             builder = builderFactory.newDocumentBuilder();
-        } catch (ParserConfigurationException e)
-        {
+        } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void init()
-    {
+    public void init() {
         super.init();
         elements.add(bt_scroll_left);
         elements.add(bt_scroll_right);
@@ -112,17 +110,14 @@ public class PageGuideDescription extends ElementBaseGroup
     }
 
     @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
-        if(MatterOverdriveItems.dataPad.getGuideID(dataPadStack) >= 0)
-        {
+    public void drawForeground(int mouseX, int mouseY) {
+        if (MatterOverdriveItems.dataPad.getGuideID(dataPadStack) >= 0) {
             boolean lastUnicodeFlag = Minecraft.getMinecraft().fontRenderer.getUnicodeFlag();
             //set yunicode for smaller text and all characters
             Minecraft.getMinecraft().fontRenderer.setUnicodeFlag(true);
 
-            if(tabID == 0)
-            {
-                DrawDescription(mouseX,mouseY);
+            if (tabID == 0) {
+                DrawDescription(mouseX, mouseY);
             }
 
             Minecraft.getMinecraft().fontRenderer.setUnicodeFlag(lastUnicodeFlag);
@@ -131,10 +126,8 @@ public class PageGuideDescription extends ElementBaseGroup
         super.drawForeground(mouseX, mouseY);
     }
 
-    private void DrawDescription(int mouseX,int mouseY)
-    {
-        if (scroll < pages.size() && scroll >= 0)
-        {
+    private void DrawDescription(int mouseX, int mouseY) {
+        if (scroll < pages.size() && scroll >= 0) {
             MOGuideEntry guideEntry = MatterOverdriveGuide.getQuide(MatterOverdriveItems.dataPad.getGuideID(dataPadStack));
             int x = posX;
             int y = posY;
@@ -143,99 +136,79 @@ public class PageGuideDescription extends ElementBaseGroup
                 glPushMatrix();
                 glTranslated(x, y, 0);
                 IGuideElement element = pages.get(scroll);
-                element.drawElement(sizeX,mouseX-x ,mouseY-y);
+                element.drawElement(sizeX, mouseX - x, mouseY - y);
                 glPopMatrix();
-            }else
-            {
+            } else {
                 drawNoInfo();
             }
-        }else {
+        } else {
             drawNoInfo();
         }
 
         handleScrollButtons();
     }
 
-    private void drawNoInfo()
-    {
+    private void drawNoInfo() {
         int noInfoWidth = getFontRenderer().getStringWidth("No Info...");
         getFontRenderer().drawString("No Info...", sizeX / 2 - noInfoWidth / 2, sizeY / 2, Reference.COLOR_HOLO_RED.getColor());
     }
 
-    private void handleScrollButtons()
-    {
+    private void handleScrollButtons() {
         bt_scroll_left.setVisible(true);
         bt_scroll_right.setVisible(true);
 
-        if(scroll >= pages.size()-1)
-        {
+        if (scroll >= pages.size() - 1) {
             bt_scroll_right.setVisible(false);
         }
-        if (scroll <= 0)
-        {
+        if (scroll <= 0) {
             bt_scroll_left.setVisible(false);
         }
     }
 
     @Override
-    public void handleElementButtonClick(MOElementBase element, String buttonName, int mouseButton)
-    {
-        if(element.equals(bt_scroll_left))
-        {
+    public void handleElementButtonClick(MOElementBase element, String buttonName, int mouseButton) {
+        if (element.equals(bt_scroll_left)) {
             scroll--;
-        }
-        else if(element.equals(bt_scroll_right))
-        {
+        } else if (element.equals(bt_scroll_right)) {
             scroll++;
-        }
-        else if (element.equals(bt_return))
-        {
+        } else if (element.equals(bt_return)) {
             undo();
         }
 
-        scroll = MathHelper.clamp_int(scroll,0, pages.size()-1);
+        scroll = MathHelper.clamp_int(scroll, 0, pages.size() - 1);
     }
 
-    public void OpenGuide(int id,boolean writeToHistory)
-    {
-        OpenGuide(id,0,writeToHistory);
+    public void OpenGuide(int id, boolean writeToHistory) {
+        OpenGuide(id, 0, writeToHistory);
     }
 
-    public void OpenGuide(int id,int page,boolean writeToHistory)
-    {
-        if (MatterOverdriveItems.dataPad.getGuideID(dataPadStack) != id)
-        {
+    public void OpenGuide(int id, int page, boolean writeToHistory) {
+        if (MatterOverdriveItems.dataPad.getGuideID(dataPadStack) != id) {
             if (writeToHistory)
-                historyStack.push(new HistoryEntry(MatterOverdriveItems.dataPad.getGuideID(dataPadStack),scroll));
+                historyStack.push(new HistoryEntry(MatterOverdriveItems.dataPad.getGuideID(dataPadStack), scroll));
 
             loadGuideInfo(id);
             MatterOverdriveItems.dataPad.setOpenGuide(dataPadStack, id);
             MatterOverdrive.packetPipeline.sendToServer(new PacketDataPadCommands(dataPadStack));
-            this.scroll = page;
-            this.tabID = 0;
+            scroll = page;
+            tabID = 0;
         }
     }
 
-    private void undo()
-    {
-        if (historyStack.size() > 0)
-        {
+    private void undo() {
+        if (historyStack.size() > 0) {
             HistoryEntry historyEntry = historyStack.pop();
-            OpenGuide(historyEntry.entry,false);
+            OpenGuide(historyEntry.entry, false);
             scroll = historyEntry.scroll;
-        }
-        else
-        {
-            ((MOGuiBase)gui).setPage(0);
+        } else {
+            gui.setPage(0);
         }
     }
 
-    private void loadGuideInfo(int guideID)
-    {
+    private void loadGuideInfo(int guideID) {
         pages.clear();
 
-        if(guideID >= 0)
-        {
+        if (guideID >= 0) {
             MOGuideEntry entry = MatterOverdriveGuide.getQuide(guideID);
             InputStream descriptionStream = entry.getDescriptionStream();
             if (descriptionStream != null) {
@@ -244,62 +217,55 @@ public class PageGuideDescription extends ElementBaseGroup
                     document.normalize();
                     Element rootNode = (Element) document.getElementsByTagName("entry").item(0);
                     NodeList pagesNodes = rootNode.getElementsByTagName("page");
-                    Map<String,String> stylesheetMap = loadStyleSheetMap(rootNode);
+                    Map<String, String> stylesheetMap = loadStyleSheetMap(rootNode);
 
-                    for (int i = 0; i < pagesNodes.getLength(); i++)
-                    {
+                    for (int i = 0; i < pagesNodes.getLength(); i++) {
                         GuideElementPage page = new GuideElementPage();
-                        page.setGUI((MOGuiBase)gui);
-                        page.loadElement(entry,(Element)pagesNodes.item(i),stylesheetMap,sizeX,sizeY);
+                        page.setGUI(gui);
+                        page.loadElement(entry, (Element) pagesNodes.item(i), stylesheetMap, sizeX, sizeY);
                         pages.add(page);
                     }
 
                 } catch (SAXException e) {
-                    MatterOverdrive.log.log(Level.ERROR, e, "XML for guide entry %s is not valid", entry.getDisplayName());
+                    MOLog.log(Level.ERROR, e, "XML for guide entry %s is not valid", entry.getDisplayName());
                 } catch (IOException e) {
-                    MatterOverdrive.log.log(Level.ERROR, e, "there was a problem reading language file for entry %s", entry.getDisplayName());
+                    MOLog.log(Level.ERROR, e, "there was a problem reading language file for entry %s", entry.getDisplayName());
                 }
-            }else
-            {
-                MatterOverdrive.log.warn("Guide Entry file for %s missing at: %s",entry.getDisplayName(),entry.getDescriptionPath("language"));
+            } else {
+                MOLog.warn("Guide Entry file for %s missing at: %s", entry.getDisplayName(), entry.getDescriptionPath("language"));
             }
         }
     }
 
-    private Map<String,String> loadStyleSheetMap(Element element)
-    {
-        if (element.hasAttribute("stylesheet"))
-        {
+    private Map<String, String> loadStyleSheetMap(Element element) {
+        if (element.hasAttribute("stylesheet")) {
             try {
-                Map<String,String> styleMap = new HashMap<>();
+                Map<String, String> styleMap = new HashMap<>();
                 InputStream stylesheetStream = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(element.getAttribute("stylesheet"))).getInputStream();
                 String rawStyle = IOUtils.toString(stylesheetStream, "UTF-8");
-                rawStyle = rawStyle.replaceAll("\\r|\\n|\\s+","");
+                rawStyle = rawStyle.replaceAll("\\r|\\n|\\s+", "");
                 rawStyle = rawStyle.replaceAll("(?s)/\\*.*?\\*/", "");  //remove comments
                 Matcher matcher = Pattern.compile("([^\\}\\{]+)(\\{[^\\}]+\\})", Pattern.DOTALL | Pattern.MULTILINE).matcher(rawStyle);
-                while (matcher.find())
-                {
-                    styleMap.put(matcher.group(1), matcher.group(2).substring(1,matcher.group(2).length()-1));
+                while (matcher.find()) {
+                    styleMap.put(matcher.group(1), matcher.group(2).substring(1, matcher.group(2).length() - 1));
                 }
                 return styleMap;
             } catch (IOException e) {
-                MatterOverdrive.log.log(Level.ERROR,e,"There was a problem loading the stylesheet");
+                MOLog.log(Level.ERROR, e, "There was a problem loading the stylesheet");
             }
         }
         return null;
     }
 
-    public void setDataPadStack(ItemStack stack)
-    {
+    public void setDataPadStack(ItemStack stack) {
         dataPadStack = stack;
     }
 
-    private class HistoryEntry
-    {
+    private class HistoryEntry {
         public final int entry;
         public final int scroll;
-        public HistoryEntry(int entry,int scroll)
-        {
+
+        public HistoryEntry(int entry, int scroll) {
             this.entry = entry;
             this.scroll = scroll;
         }

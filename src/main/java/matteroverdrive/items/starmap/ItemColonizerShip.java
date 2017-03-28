@@ -32,8 +32,7 @@ import java.util.UUID;
 /**
  * Created by Simeon on 7/2/2015.
  */
-public class ItemColonizerShip  extends ItemShipAbstract
-{
+public class ItemColonizerShip extends ItemShipAbstract {
 
     public ItemColonizerShip(String name) {
         super(name);
@@ -45,13 +44,12 @@ public class ItemColonizerShip  extends ItemShipAbstract
     }
 
     @Override
-    public void onTravel(ItemStack shipStack, Planet to)
-    {
+    public void onTravel(ItemStack shipStack, Planet to) {
         UUID owner = getOwnerID(shipStack);
         if (owner != null) {
             ItemStack base = new ItemStack(MatterOverdriveItems.buildingBase);
-            MatterOverdriveItems.buildingBase.setOwner(base,owner);
-            if (to.canBuild((IBuilding) base.getItem(), base,new ArrayList<>())) {
+            MatterOverdriveItems.buildingBase.setOwner(base, owner);
+            if (to.canBuild((IBuilding) base.getItem(), base, new ArrayList<>())) {
                 shipStack.stackSize = 0;
                 to.addBuilding(base);
                 to.setOwnerUUID(owner);
@@ -60,8 +58,7 @@ public class ItemColonizerShip  extends ItemShipAbstract
     }
 
     @Override
-    public boolean canBuild(ItemStack building, Planet planet,List<String> info)
-    {
+    public boolean canBuild(ItemStack building, Planet planet, List<String> info) {
         return !planet.hasBuildingType(BuildingType.BASE);
     }
 

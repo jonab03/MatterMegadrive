@@ -41,13 +41,11 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 5/12/2015.
  */
-public class TileEntityRendererGravitationalStabilizer extends TileEntitySpecialRenderer
-{
+public class TileEntityRendererGravitationalStabilizer extends TileEntitySpecialRenderer {
     public static final ResourceLocation beam = new ResourceLocation(Reference.PATH_FX + "physbeam.png");
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float ticks)
-    {
+    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float ticks) {
         TileEntityMachineGravitationalStabilizer stabilizer = (TileEntityMachineGravitationalStabilizer) tileEntity;
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         ForgeDirection f = ForgeDirection.getOrientation(tileEntity.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord));
@@ -63,9 +61,9 @@ public class TileEntityRendererGravitationalStabilizer extends TileEntitySpecial
             long time = stabilizer.getWorldObj().getWorldTime();
             double pulseSize = Math.sin(time * 0.2) * 0.001;
             Vector3f source = new Vector3f(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
-            Vector3f destination = new Vector3f((float)hit.hitVec.xCoord, (float)hit.hitVec.yCoord, (float)hit.hitVec.zCoord);
+            Vector3f destination = new Vector3f((float) hit.hitVec.xCoord, (float) hit.hitVec.yCoord, (float) hit.hitVec.zCoord);
             Vector3f dir = Vector3f.sub(destination, source, null);
-            Vector3f dirC = Vector3f.cross(dir,new Vector3f(1,0,1),null);
+            Vector3f dirC = Vector3f.cross(dir, new Vector3f(1, 0, 1), null);
             float distance = dir.length();
             dir.normalise(dir);
             Vector3f front = new Vector3f(0, 0, -1);
@@ -116,10 +114,10 @@ public class TileEntityRendererGravitationalStabilizer extends TileEntitySpecial
 
     public void renderScreen(double x, double y, double z, TileEntityMachineGravitationalStabilizer stabilizer, TileEntityGravitationalAnomaly anomaly) {
 
-        int meta = stabilizer.getWorldObj().getBlockMetadata(stabilizer.xCoord,stabilizer.yCoord,stabilizer.zCoord);
+        int meta = stabilizer.getWorldObj().getBlockMetadata(stabilizer.xCoord, stabilizer.yCoord, stabilizer.zCoord);
         ForgeDirection side = ForgeDirection.getOrientation(getOppositeSide(meta));
 
-        RenderUtils.beginDrawinngBlockScreen(x, y, z, side, Reference.COLOR_HOLO,stabilizer);
+        RenderUtils.beginDrawinngBlockScreen(x, y, z, side, Reference.COLOR_HOLO, stabilizer);
 
         List<String> infos = new ArrayList<String>();
         anomaly.addInfo(anomaly.getWorldObj(), anomaly.xCoord, anomaly.yCoord, anomaly.zCoord, infos);
@@ -128,8 +126,7 @@ public class TileEntityRendererGravitationalStabilizer extends TileEntitySpecial
         RenderUtils.endDrawinngBlockScreen();
     }
 
-    private FontRenderer fontRenderer()
-    {
+    private FontRenderer fontRenderer() {
         return Minecraft.getMinecraft().fontRenderer;
     }
 

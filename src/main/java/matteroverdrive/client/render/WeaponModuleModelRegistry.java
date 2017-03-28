@@ -30,26 +30,21 @@ import java.util.Map;
 /**
  * Created by Simeon on 12/8/2015.
  */
-public class WeaponModuleModelRegistry
-{
-    Map<String,WavefrontObject> models;
+public class WeaponModuleModelRegistry {
+    Map<String, WavefrontObject> models;
 
-    public WeaponModuleModelRegistry()
-    {
+    public WeaponModuleModelRegistry() {
         models = new HashMap<>();
     }
 
-    public void registerModule(IWeaponModule module)
-    {
+    public void registerModule(IWeaponModule module) {
         IModelCustom m = AdvancedModelLoader.loadModel(new ResourceLocation(module.getModelPath()));
-        if (m instanceof WavefrontObject)
-        {
-            models.put(module.getModelPath(),(WavefrontObject)m);
+        if (m instanceof WavefrontObject) {
+            models.put(module.getModelPath(), (WavefrontObject) m);
         }
     }
 
-    public WavefrontObject getModel(String model)
-    {
+    public WavefrontObject getModel(String model) {
         return models.get(model);
     }
 }

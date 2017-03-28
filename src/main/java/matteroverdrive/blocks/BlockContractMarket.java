@@ -26,8 +26,7 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 11/22/2015.
  */
-public class BlockContractMarket extends BlockMonitor
-{
+public class BlockContractMarket extends BlockMonitor {
     public BlockContractMarket(Material material, String name) {
         super(material, name);
         setHasGui(true);

@@ -18,7 +18,8 @@
 
 <entry stylesheet="mo:info/styles/guide.css">
     <page class="padded-page">
-        <text class="matter-text text-block">$itemName, является единственным источником [item name=tritanium_ingot].</text>
+        <text class="matter-text text-block">$itemName, является единственным источником [item name=tritanium_ingot].
+        </text>
         <depth min="0" max="64"></depth>
         <text class="matter-text text-block">Руда может быть найдена ниже 64 уровня по оси Y.</text>
     </page>

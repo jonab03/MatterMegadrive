@@ -26,26 +26,25 @@ import net.minecraftforge.common.util.ForgeDirection;
 /**
  * Created by Simeon on 4/30/2015.
  */
-public class MatterNetworkBroadcastPacket extends MatterNetworkPacket
-{
+public class MatterNetworkBroadcastPacket extends MatterNetworkPacket {
     int broadcastType;
 
-    public MatterNetworkBroadcastPacket(){super();}
-    public MatterNetworkBroadcastPacket(BlockPos position, int broadcastType, ForgeDirection port)
-    {
-        super(position,port);
+    public MatterNetworkBroadcastPacket() {
+        super();
+    }
+
+    public MatterNetworkBroadcastPacket(BlockPos position, int broadcastType, ForgeDirection port) {
+        super(position, port);
         this.broadcastType = broadcastType;
     }
 
     @Override
-    public boolean isValid(World world)
-    {
+    public boolean isValid(World world) {
         return true;
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return "Broadcast Packet";
     }
 

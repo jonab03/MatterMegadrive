@@ -31,8 +31,7 @@ import java.util.UUID;
 /**
  * Created by Simeon on 5/30/2015.
  */
-public class BioticStatSpeed extends AbstractBioticStat
-{
+public class BioticStatSpeed extends AbstractBioticStat {
     UUID modifierID;
 
     public BioticStatSpeed(String name, int xp) {
@@ -42,24 +41,20 @@ public class BioticStatSpeed extends AbstractBioticStat
     }
 
     @Override
-    public void onAndroidUpdate(AndroidPlayer android, int level)
-    {
+    public void onAndroidUpdate(AndroidPlayer android, int level) {
 
     }
 
-    public float getSpeedModify(int level)
-    {
+    public float getSpeedModify(int level) {
         return level * 0.1f;
     }
 
-    public String getDetails(int level)
-    {
-        return String.format(super.getDetails(level),EnumChatFormatting.GREEN + Integer.toString(Math.round(getSpeedModify(level) * 100f)) + "%" + EnumChatFormatting.GRAY);
+    public String getDetails(int level) {
+        return String.format(super.getDetails(level), EnumChatFormatting.GREEN + Integer.toString(Math.round(getSpeedModify(level) * 100f)) + "%" + EnumChatFormatting.GRAY);
     }
 
     @Override
-    public void onActionKeyPress(AndroidPlayer androidPlayer, int level, boolean server)
-    {
+    public void onActionKeyPress(AndroidPlayer androidPlayer, int level, boolean server) {
 
     }
 
@@ -74,14 +69,12 @@ public class BioticStatSpeed extends AbstractBioticStat
     }
 
     @Override
-    public void changeAndroidStats(AndroidPlayer androidPlayer, int level, boolean enabled)
-    {
+    public void changeAndroidStats(AndroidPlayer androidPlayer, int level, boolean enabled) {
 
     }
 
     @Override
-    public Multimap attributes(AndroidPlayer androidPlayer, int level)
-    {
+    public Multimap attributes(AndroidPlayer androidPlayer, int level) {
         Multimap multimap = HashMultimap.create();
         multimap.put(SharedMonsterAttributes.movementSpeed.getAttributeUnlocalizedName(), new MOAttributeModifier(modifierID, "Android Speed", getSpeedModify(level), 2).setSaved(false));
         return multimap;
@@ -89,18 +82,16 @@ public class BioticStatSpeed extends AbstractBioticStat
 
     @Override
     public boolean isEnabled(AndroidPlayer android, int level) {
-        return super.isEnabled(android,level) && android.getEnergyStored() > 0;
+        return super.isEnabled(android, level) && android.getEnergyStored() > 0;
     }
 
     @Override
-    public boolean isActive(AndroidPlayer androidPlayer, int level)
-    {
+    public boolean isActive(AndroidPlayer androidPlayer, int level) {
         return false;
     }
 
     @Override
-    public int getDelay(AndroidPlayer androidPlayer, int level)
-    {
+    public int getDelay(AndroidPlayer androidPlayer, int level) {
         return 0;
     }
 }

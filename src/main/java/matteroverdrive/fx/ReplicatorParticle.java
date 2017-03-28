@@ -7,60 +7,55 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-public class ReplicatorParticle extends EntityFX
-{
-	public static final ResourceLocation texture = new ResourceLocation(Reference.PATH_PARTICLE + "replication_particle.png");
-	public static float replicatorScale = 0.1f;
+public class ReplicatorParticle extends EntityFX {
+    public static final ResourceLocation texture = new ResourceLocation(Reference.PATH_PARTICLE + "replication_particle.png");
+    public static float replicatorScale = 0.1f;
 
-	/** the scale of the flame FX */
+    /**
+     * the scale of the flame FX
+     */
     private float flameScale;
-    private double centerX,centerY,centerZ;
+    private double centerX, centerY, centerZ;
     private double pointGravityScale = 1.0D;
 
-    public ReplicatorParticle(World world, double p_i1209_2_, double p_i1209_4_, double p_i1209_6_, double p_i1209_8_, double p_i1209_10_, double p_i1209_12_)
-    {
+    public ReplicatorParticle(World world, double p_i1209_2_, double p_i1209_4_, double p_i1209_6_, double p_i1209_8_, double p_i1209_10_, double p_i1209_12_) {
         super(world, p_i1209_2_, p_i1209_4_, p_i1209_6_, p_i1209_8_, p_i1209_10_, p_i1209_12_);
         this.motionX = this.motionX * 0.009999999776482582D + p_i1209_8_;
         this.motionY = this.motionY * 0.009999999776482582D + p_i1209_10_;
         this.motionZ = this.motionZ * 0.009999999776482582D + p_i1209_12_;
-        double d6 = p_i1209_2_ + (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.05F);
-        d6 = p_i1209_4_ + (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.05F);
-        d6 = p_i1209_6_ + (double)((this.rand.nextFloat() - this.rand.nextFloat()) * 0.05F);
+        double d6 = p_i1209_2_ + (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.05F);
+        d6 = p_i1209_4_ + (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.05F);
+        d6 = p_i1209_6_ + (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.05F);
         this.flameScale = this.particleScale;
         this.particleRed = this.particleGreen = this.particleBlue = 1.0F;
-        this.particleMaxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D)) + 4;
+        this.particleMaxAge = (int) (8.0D / (Math.random() * 0.8D + 0.2D)) + 4;
         this.noClip = true;
         this.setParticleTextureIndex(1);
     }
 
-    public void renderParticle(Tessellator tessellator, float p_70539_2_, float p_70539_3_, float p_70539_4_, float p_70539_5_, float p_70539_6_, float p_70539_7_)
-    {
-        float f6 = ((float)this.particleAge + p_70539_2_) / (float)this.particleMaxAge;
+    public void renderParticle(Tessellator tessellator, float p_70539_2_, float p_70539_3_, float p_70539_4_, float p_70539_5_, float p_70539_6_, float p_70539_7_) {
+        float f6 = ((float) this.particleAge + p_70539_2_) / (float) this.particleMaxAge;
         this.particleScale = this.flameScale * (1.0F - f6 * f6 * 0.5F);
         super.renderParticle(tessellator, p_70539_2_, p_70539_3_, p_70539_4_, p_70539_5_, p_70539_6_, p_70539_7_);
     }
 
-    public int getBrightnessForRender(float f)
-    {
-        float f1 = ((float)this.particleAge + f) / (float)this.particleMaxAge;
+    public int getBrightnessForRender(float f) {
+        float f1 = ((float) this.particleAge + f) / (float) this.particleMaxAge;
 
-        if (f1 < 0.0F)
-        {
+        if (f1 < 0.0F) {
             f1 = 0.0F;
         }
 
-        if (f1 > 1.0F)
-        {
+        if (f1 > 1.0F) {
             f1 = 1.0F;
         }
 
         int i = super.getBrightnessForRender(f);
         int j = i & 255;
         int k = i >> 16 & 255;
-        j += (int)(f1 * 15.0F * 16.0F);
+        j += (int) (f1 * 15.0F * 16.0F);
 
-        if (j > 240)
-        {
+        if (j > 240) {
             j = 240;
         }
 
@@ -70,17 +65,14 @@ public class ReplicatorParticle extends EntityFX
     /**
      * Gets how bright this entity is.
      */
-    public float getBrightness(float p_70013_1_)
-    {
-        float f1 = ((float)this.particleAge + p_70013_1_) / (float)this.particleMaxAge;
+    public float getBrightness(float p_70013_1_) {
+        float f1 = ((float) this.particleAge + p_70013_1_) / (float) this.particleMaxAge;
 
-        if (f1 < 0.0F)
-        {
+        if (f1 < 0.0F) {
             f1 = 0.0F;
         }
 
-        if (f1 > 1.0F)
-        {
+        if (f1 > 1.0F) {
             f1 = 1.0F;
         }
 
@@ -91,14 +83,12 @@ public class ReplicatorParticle extends EntityFX
     /**
      * Called to update the entity's position/logic.
      */
-    public void onUpdate()
-    {
+    public void onUpdate() {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
 
-        if (this.particleAge++ >= this.particleMaxAge)
-        {
+        if (this.particleAge++ >= this.particleMaxAge) {
             this.setDead();
         }
 
@@ -115,7 +105,7 @@ public class ReplicatorParticle extends EntityFX
 
         this.boundingBox.offset(this.motionX, this.motionY, this.motionZ);
         this.posX = (this.boundingBox.minX + this.boundingBox.maxX) / 2.0D;
-        this.posY = this.boundingBox.minY + (double)this.yOffset - (double)this.ySize;
+        this.posY = this.boundingBox.minY + (double) this.yOffset - (double) this.ySize;
         this.posZ = (this.boundingBox.minZ + this.boundingBox.maxZ) / 2.0D;
 
         double speedOverTime = 1D;
@@ -124,25 +114,23 @@ public class ReplicatorParticle extends EntityFX
         this.motionZ *= speedOverTime;
     }
 
-    public void setCenter(double x, double y, double z)
-    {
-    	this.centerX = x;
-    	this.centerY = y;
-    	this.centerZ = z;
+    public void setCenter(double x, double y, double z) {
+        this.centerX = x;
+        this.centerY = y;
+        this.centerZ = z;
     }
 
-    public void setParticleAge(int age)
-    {
-    	this.particleMaxAge = age;
+    public void setParticleAge(int age) {
+        this.particleMaxAge = age;
     }
 
-	public double getPointGravityScale() {
-		return pointGravityScale;
-	}
+    public double getPointGravityScale() {
+        return pointGravityScale;
+    }
 
-	public void setPointGravityScale(double pointGravityScale) {
-		this.pointGravityScale = pointGravityScale;
-	}
+    public void setPointGravityScale(double pointGravityScale) {
+        this.pointGravityScale = pointGravityScale;
+    }
 
 
 }

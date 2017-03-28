@@ -31,46 +31,38 @@ import java.util.List;
 /**
  * Created by Simeon on 4/27/2015.
  */
-public class ElementItemPattern extends ElementSlot
-{
+public class ElementItemPattern extends ElementSlot {
     ScaleTexture texture;
     ItemPattern pattern;
     ItemStack itemStack;
     int amount = 0;
 
-    public ElementItemPattern(MOGuiBase gui, ItemPattern pattern, String bgType, int width, int height)
-    {
+    public ElementItemPattern(MOGuiBase gui, ItemPattern pattern, String bgType, int width, int height) {
         super(gui, 0, 0, width, height, bgType);
-        this.texture = new ScaleTexture(getTexture(bgType),width,height).setOffsets(2,2,2,2);
+        this.texture = new ScaleTexture(getTexture(bgType), width, height).setOffsets(2, 2, 2, 2);
         this.pattern = pattern;
-        if(pattern != null)
-        {
+        if (pattern != null) {
             itemStack = pattern.toItemStack(false);
             this.name = itemStack.getDisplayName();
         }
     }
 
     @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
-        if (pattern != null)
-        {
+    public void drawForeground(int mouseX, int mouseY) {
+        if (pattern != null) {
             itemStack.stackSize = amount;
             RenderUtils.renderStack(posX + 3, posY + 3, 0, itemStack, true);
         }
     }
 
     @Override
-    public void drawBackground(int mouseX, int mouseY, float gameTicks)
-    {
+    public void drawBackground(int mouseX, int mouseY, float gameTicks) {
         texture.render(posX, posY, sizeX, sizeY);
     }
 
     @Override
-    public void addTooltip(List<String> list,int mouseX,int mouseY)
-    {
-        if (pattern != null)
-        {
+    public void addTooltip(List<String> list, int mouseX, int mouseY) {
+        if (pattern != null) {
             if (itemStack != null) {
                 list.addAll(itemStack.getTooltip(Minecraft.getMinecraft().thePlayer, false));
                 String name = list.get(0);
@@ -81,13 +73,11 @@ public class ElementItemPattern extends ElementSlot
         }
     }
 
-    public ItemPattern getPattern()
-    {
+    public ItemPattern getPattern() {
         return pattern;
     }
 
-    public void setPattern(ItemPattern pattern)
-    {
+    public void setPattern(ItemPattern pattern) {
         this.pattern = pattern;
         if (this.pattern != null)
             itemStack = pattern.toItemStack(false);
@@ -97,13 +87,11 @@ public class ElementItemPattern extends ElementSlot
         return amount;
     }
 
-    public void setAmount(int amount)
-    {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
-    public ScaleTexture getTexture()
-    {
+    public ScaleTexture getTexture() {
         return texture;
     }
 }

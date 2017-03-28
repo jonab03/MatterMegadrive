@@ -28,32 +28,27 @@ import net.minecraft.inventory.ICrafting;
 /**
  * Created by Simeon on 5/17/2015.
  */
-public class ContainerFusionReactor extends ContainerMachine<TileEntityMachineFusionReactorController>
-{
+public class ContainerFusionReactor extends ContainerMachine<TileEntityMachineFusionReactorController> {
     protected int energyPerTick;
 
-    public ContainerFusionReactor(InventoryPlayer inventory, TileEntityMachineFusionReactorController machine)
-    {
+    public ContainerFusionReactor(InventoryPlayer inventory, TileEntityMachineFusionReactorController machine) {
         super(inventory, machine);
     }
 
     @Override
-    public void init(InventoryPlayer inventory)
-    {
+    public void init(InventoryPlayer inventory) {
         addAllSlotsFromInventory(machine.getInventoryContainer());
         MOContainerHelper.AddPlayerSlots(inventory, this, 45, 89, false, true);
     }
 
     @Override
-    public void addCraftingToCrafters(ICrafting icrafting)
-    {
+    public void addCraftingToCrafters(ICrafting icrafting) {
         super.addCraftingToCrafters(icrafting);
         icrafting.sendProgressBarUpdate(this, 0, this.machine.getEnergyPerTick());
     }
 
     @Override
-    public void detectAndSendChanges()
-    {
+    public void detectAndSendChanges() {
         super.detectAndSendChanges();
         for (Object crafter : this.crafters) {
             ICrafting icrafting = (ICrafting) crafter;
@@ -67,14 +62,12 @@ public class ContainerFusionReactor extends ContainerMachine<TileEntityMachineFu
     }
 
     @SideOnly(Side.CLIENT)
-    public void updateProgressBar(int slot, int newValue)
-    {
-        if(slot == 0)
+    public void updateProgressBar(int slot, int newValue) {
+        if (slot == 0)
             energyPerTick = newValue;
     }
 
-    public int getEnergyPerTick()
-    {
+    public int getEnergyPerTick() {
         return energyPerTick;
     }
 }

@@ -26,24 +26,21 @@ import java.util.concurrent.Callable;
 /**
  * Created by Simeon on 7/13/2015.
  */
-public class VersionCheckThread implements Callable<String>
-{
+public class VersionCheckThread implements Callable<String> {
     String url;
 
-    public VersionCheckThread(String url)
-    {
+    public VersionCheckThread(String url) {
         this.url = url;
     }
 
     @Override
-    public String call() throws Exception
-    {
+    public String call() throws Exception {
         return readFromUrl(url);
     }
 
     private String readFromUrl(String urlPath) throws IOException {
         URL url = new URL(urlPath);
-        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(connection.getInputStream()));

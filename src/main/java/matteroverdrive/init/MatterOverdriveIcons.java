@@ -29,8 +29,7 @@ import net.minecraftforge.client.event.TextureStitchEvent;
 /**
  * Created by Simeon on 3/17/2015.
  */
-public class MatterOverdriveIcons
-{
+public class MatterOverdriveIcons {
     public static IIcon Base;
     public static IIcon Recycler;
     public static IIcon Vent;
@@ -57,10 +56,8 @@ public class MatterOverdriveIcons
     public static IIcon particle_steam;
 
     @SubscribeEvent
-    public void registerTextures(TextureStitchEvent event)
-    {
-        switch (event.map.getTextureType())
-        {
+    public void registerTextures(TextureStitchEvent event) {
+        switch (event.map.getTextureType()) {
             case 0:
                 initBlockIcons(event.map);
                 break;
@@ -70,48 +67,44 @@ public class MatterOverdriveIcons
         }
     }
 
-    private void initBlockIcons(IIconRegister r)
-    {
+    private void initBlockIcons(IIconRegister r) {
         Vent = register(r, "vent");
         Base = register(r, "base");
         matter_tank_empty = register(r, "tank_empty");
         matter_tank_full = register(r, "tank_full");
         Transparent = register(r, "transperant");
-        Network_port_square = register(r,"network_port");
-        Vent2 = register(r,"vent2");
-        Monitor_back = new IconConnectedTexture(register(r,"holo_monitor"));
-        YellowStripes = register(r,"base_stripes");
-        Recycler = register(r,"recycler_side");
-        Coil = register(r,"base_coil");
-        charging_station = register(r,"charging_station");
-        pattern_storage = register(r,"pattern_storage");
-        replicator = register(r,"replicator");
-        matter_plasma_still = register(r,"matter_plasma_still");
-        matter_plasma_flowing = register(r,"matter_plasma_flowing");
-        packet_queue_active = register(r,"packet_queue_active");
-        molten_tritanium_still = register(r,"molten_tritanium_still");
-        molten_tritanium_flowing = register(r,"molten_tritanium_flowing");
-        tritanium_crate_base = register(r,"tritanium_crate_base");
-        tritanium_crate_overlay = register(r,"tritanium_crate_overlay");
-        inscriber = register(r,"inscriber");
+        Network_port_square = register(r, "network_port");
+        Vent2 = register(r, "vent2");
+        Monitor_back = new IconConnectedTexture(register(r, "holo_monitor"));
+        YellowStripes = register(r, "base_stripes");
+        Recycler = register(r, "recycler_side");
+        Coil = register(r, "base_coil");
+        charging_station = register(r, "charging_station");
+        pattern_storage = register(r, "pattern_storage");
+        replicator = register(r, "replicator");
+        matter_plasma_still = register(r, "matter_plasma_still");
+        matter_plasma_flowing = register(r, "matter_plasma_flowing");
+        packet_queue_active = register(r, "packet_queue_active");
+        molten_tritanium_still = register(r, "molten_tritanium_still");
+        molten_tritanium_flowing = register(r, "molten_tritanium_flowing");
+        tritanium_crate_base = register(r, "tritanium_crate_base");
+        tritanium_crate_overlay = register(r, "tritanium_crate_overlay");
+        inscriber = register(r, "inscriber");
     }
 
-    private void initParticleIcons(IIconRegister r)
-    {
-        particle_steam = register(r,"particle_steam");
+    private void initParticleIcons(IIconRegister r) {
+        particle_steam = register(r, "particle_steam");
 
     }
 
-    private void initItems(IIconRegister r)
-    {
+    private void initItems(IIconRegister r) {
         register(r, "vent");
         register(r, "base");
         register(r, "tank_empty");
         register(r, "tank_full");
     }
 
-    public static IIcon register(IIconRegister register,String name)
-    {
+    public static IIcon register(IIconRegister register, String name) {
         return register.registerIcon(Reference.MOD_ID + ":" + name);
     }
 }

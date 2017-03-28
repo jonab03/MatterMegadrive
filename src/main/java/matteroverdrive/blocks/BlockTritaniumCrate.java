@@ -46,11 +46,10 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 /**
  * Created by Simeon on 11/5/2015.
  */
-public class BlockTritaniumCrate extends MOBlockMachine
-{
+public class BlockTritaniumCrate extends MOBlockMachine {
     private int color;
 
-    public BlockTritaniumCrate(Material material, String name,int color) {
+    public BlockTritaniumCrate(Material material, String name, int color) {
         super(material, name);
         setHardness(20.0F);
         this.setResistance(9.0f);
@@ -59,31 +58,25 @@ public class BlockTritaniumCrate extends MOBlockMachine
         this.color = color;
     }
 
-    public static BlockTritaniumCrate[] createAllColors(Material material, String name)
-    {
+    public static BlockTritaniumCrate[] createAllColors(Material material, String name) {
         BlockTritaniumCrate[] crates = new BlockTritaniumCrate[16];
-        for (int i = 0;i < crates.length;i++)
-        {
-            crates[i] = new BlockTritaniumCrate(material,name + "." + ItemDye.field_150923_a[i], ItemDye.field_150922_c[i]);
+        for (int i = 0; i < crates.length; i++) {
+            crates[i] = new BlockTritaniumCrate(material, name + "." + ItemDye.field_150923_a[i], ItemDye.field_150922_c[i]);
         }
         return crates;
     }
 
-    public static void registerAll(BlockTritaniumCrate[] crates,String name)
-    {
-        for (int i = 0;i < crates.length;i++)
-        {
+    public static void registerAll(BlockTritaniumCrate[] crates, String name) {
+        for (int i = 0; i < crates.length; i++) {
             GameRegistry.registerBlock(crates[i], crates[i].getUnlocalizedName().substring(5));
         }
 
         GameRegistry.registerTileEntity(new TileEntityTritaniumCrate().getClass(), name);
     }
 
-    public static void registerRecipes(BlockTritaniumCrate[] crates)
-    {
-        for (int i = 0;i < crates.length;i++)
-        {
-            ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(crates[i])," D ","TCT"," T ",'D',new ItemStack(Items.dye,1,i),'T', MatterOverdriveItems.tritanium_plate,'C', Blocks.chest);
+    public static void registerRecipes(BlockTritaniumCrate[] crates) {
+        for (int i = 0; i < crates.length; i++) {
+            ShapedOreRecipe recipe = new ShapedOreRecipe(new ItemStack(crates[i]), " D ", "TCT", " T ", 'D', new ItemStack(Items.dye, 1, i), 'T', MatterOverdriveItems.tritanium_plate, 'C', Blocks.chest);
             GameRegistry.addRecipe(recipe);
         }
     }
@@ -95,73 +88,59 @@ public class BlockTritaniumCrate extends MOBlockMachine
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister p_149651_1_)
-    {
+    public void registerBlockIcons(IIconRegister p_149651_1_) {
         return;
     }
 
     @Override
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return RendererBlockTritaniumCrate.renderID;
     }
 
     @Override
-    public boolean isOpaqueCube()
-    {
+    public boolean isOpaqueCube() {
         return false;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int p_149691_1_, int p_149691_2_)
-    {
+    public IIcon getIcon(int p_149691_1_, int p_149691_2_) {
         return MatterOverdriveIcons.tritanium_crate_base;
     }
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z)
-    {
-        setBlockBoundsBasedOnState(world,x,y,z);
-        return super.getCollisionBoundingBoxFromPool(world,x,y,z);
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World world, int x, int y, int z) {
+        setBlockBoundsBasedOnState(world, x, y, z);
+        return super.getCollisionBoundingBoxFromPool(world, x, y, z);
     }
 
     @Override
-    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z)
-    {
+    public void setBlockBoundsBasedOnState(IBlockAccess world, int x, int y, int z) {
         int l = world.getBlockMetadata(x, y, z);
         setBounds(l);
     }
 
-    private void setBounds(int meta)
-    {
-        float unit = 1f/16f;
+    private void setBounds(int meta) {
+        float unit = 1f / 16f;
         this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
         ForgeDirection forgeDirection = ForgeDirection.getOrientation(meta);
 
-        if (forgeDirection == ForgeDirection.EAST || forgeDirection == ForgeDirection.WEST)
-        {
-            this.setBlockBounds(unit*2, 0, 0, 1-unit*2, unit*13, 1);
-        }
-        else if (forgeDirection == ForgeDirection.SOUTH || forgeDirection == ForgeDirection.NORTH)
-        {
-            this.setBlockBounds(0, 0, unit*2, 1, unit*13, 1-unit*2);
+        if (forgeDirection == ForgeDirection.EAST || forgeDirection == ForgeDirection.WEST) {
+            this.setBlockBounds(unit * 2, 0, 0, 1 - unit * 2, unit * 13, 1);
+        } else if (forgeDirection == ForgeDirection.SOUTH || forgeDirection == ForgeDirection.NORTH) {
+            this.setBlockBounds(0, 0, unit * 2, 1, unit * 13, 1 - unit * 2);
         }
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_)
-    {
-        if (world.isRemote)
-        {
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer entityPlayer, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_) {
+        if (world.isRemote) {
             return true;
-        }
-        else
-        {
-            TileEntity entity = world.getTileEntity(x,y,z);
+        } else {
+            TileEntity entity = world.getTileEntity(x, y, z);
             if (entity instanceof TileEntityTritaniumCrate) {
                 //FMLNetworkHandler.openGui(entityPlayer, MatterOverdrive.instance, GuiHandler.TRITANIUM_CRATE, world, x, y, z);
-                world.playSoundEffect(x,y,z,Reference.MOD_ID + ":" + "crate_open",0.5f,1);
+                world.playSoundEffect(x, y, z, Reference.MOD_ID + ":" + "crate_open", 0.5f, 1);
                 entityPlayer.displayGUIChest(((TileEntityTritaniumCrate) entity).getInventory());
                 return true;
             }
@@ -169,9 +148,8 @@ public class BlockTritaniumCrate extends MOBlockMachine
         return false;
     }
 
-    protected Inventory getInventory(World world, int x, int y, int z)
-    {
-        if (world.getTileEntity(x,y,z) instanceof TileEntityTritaniumCrate) {
+    protected Inventory getInventory(World world, int x, int y, int z) {
+        if (world.getTileEntity(x, y, z) instanceof TileEntityTritaniumCrate) {
             TileEntityTritaniumCrate machine = (TileEntityTritaniumCrate) world.getTileEntity(x, y, z);
             return machine.getInventory();
         }
@@ -179,8 +157,7 @@ public class BlockTritaniumCrate extends MOBlockMachine
     }
 
     @SideOnly(Side.CLIENT)
-    public int getBlockColor()
-    {
+    public int getBlockColor() {
         return color;
     }
 }

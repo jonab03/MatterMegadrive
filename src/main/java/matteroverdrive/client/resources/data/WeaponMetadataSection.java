@@ -24,12 +24,10 @@ import net.minecraft.util.Vec3;
 /**
  * Created by Simeon on 12/9/2015.
  */
-public class WeaponMetadataSection implements IMetadataSection
-{
+public class WeaponMetadataSection implements IMetadataSection {
     private final Vec3 scopePosition;
 
-    public WeaponMetadataSection(Vec3 scopePosition)
-    {
+    public WeaponMetadataSection(Vec3 scopePosition) {
         this.scopePosition = scopePosition;
     }
 

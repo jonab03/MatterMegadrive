@@ -13,33 +13,27 @@ import net.minecraft.inventory.ICrafting;
 /**
  * Created by Simeon on 12/30/2015.
  */
-public class ContainerPatternMonitor extends ContainerMachine<TileEntityMachinePatternMonitor>
-{
-    public ContainerPatternMonitor(InventoryPlayer inventory, TileEntityMachinePatternMonitor machine)
-    {
+public class ContainerPatternMonitor extends ContainerMachine<TileEntityMachinePatternMonitor> {
+    public ContainerPatternMonitor(InventoryPlayer inventory, TileEntityMachinePatternMonitor machine) {
         super(inventory, machine);
     }
 
     @Override
-    public void init(InventoryPlayer inventory)
-    {
+    public void init(InventoryPlayer inventory) {
         addAllSlotsFromInventory(machine.getInventoryContainer());
         MOContainerHelper.AddPlayerSlots(inventory, this, 45, 89, false, true);
     }
 
     @Override
-    public void addCraftingToCrafters(ICrafting icrafting)
-    {
+    public void addCraftingToCrafters(ICrafting icrafting) {
         super.addCraftingToCrafters(icrafting);
-        if (icrafting instanceof EntityPlayerMP)
-        {
-            MatterOverdrive.packetPipeline.sendTo(new PacketSyncTaskQueue(machine,0),(EntityPlayerMP)icrafting);
+        if (icrafting instanceof EntityPlayerMP) {
+            MatterOverdrive.packetPipeline.sendTo(new PacketSyncTaskQueue(machine, 0), (EntityPlayerMP) icrafting);
         }
     }
 
     @Override
-    public void detectAndSendChanges()
-    {
+    public void detectAndSendChanges() {
         super.detectAndSendChanges();
         for (Object crafter : this.crafters) {
             ICrafting icrafting = (ICrafting) crafter;
@@ -50,8 +44,7 @@ public class ContainerPatternMonitor extends ContainerMachine<TileEntityMachineP
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void updateProgressBar(int slot,int newValue)
-    {
-        super.updateProgressBar(slot,newValue);
+    public void updateProgressBar(int slot, int newValue) {
+        super.updateProgressBar(slot, newValue);
     }
 }

@@ -27,14 +27,13 @@ import java.util.List;
 /**
  * Created by Simeon on 6/24/2015.
  */
-public class ItemScoutShip extends ItemShipAbstract
-{
+public class ItemScoutShip extends ItemShipAbstract {
     public ItemScoutShip(String name) {
         super(name);
     }
 
     @Override
-    public boolean canBuild(ItemStack building, Planet planet,List<String> info) {
+    public boolean canBuild(ItemStack building, Planet planet, List<String> info) {
         return true;
     }
 
@@ -49,8 +48,7 @@ public class ItemScoutShip extends ItemShipAbstract
     }
 
     @Override
-    public void onTravel(ItemStack stack, Planet to)
-    {
+    public void onTravel(ItemStack stack, Planet to) {
 
     }
 }

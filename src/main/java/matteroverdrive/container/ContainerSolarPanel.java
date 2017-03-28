@@ -29,30 +29,25 @@ import net.minecraft.inventory.ICrafting;
 /**
  * Created by Simeon on 4/9/2015.
  */
-public class ContainerSolarPanel extends ContainerMachine<TileEntityMachineSolarPanel>
-{
+public class ContainerSolarPanel extends ContainerMachine<TileEntityMachineSolarPanel> {
     int lastChargeAmount;
 
-    public ContainerSolarPanel(InventoryPlayer inventory, TileEntityMachineSolarPanel machine)
-    {
+    public ContainerSolarPanel(InventoryPlayer inventory, TileEntityMachineSolarPanel machine) {
         super(inventory, machine);
     }
 
     @Override
-    public void init(InventoryPlayer inventory)
-    {
+    public void init(InventoryPlayer inventory) {
         addAllSlotsFromInventory(machine.getInventoryContainer());
         MOContainerHelper.AddPlayerSlots(inventory, this, 45, 89, true, true);
     }
 
-    public void addCraftingToCrafters(ICrafting icrafting)
-    {
+    public void addCraftingToCrafters(ICrafting icrafting) {
         super.addCraftingToCrafters(icrafting);
         icrafting.sendProgressBarUpdate(this, 1, this.machine.getChargeAmount());
     }
 
-    public void detectAndSendChanges()
-    {
+    public void detectAndSendChanges() {
         super.detectAndSendChanges();
         for (Object crafter : this.crafters) {
             ICrafting icrafting = (ICrafting) crafter;
@@ -66,16 +61,14 @@ public class ContainerSolarPanel extends ContainerMachine<TileEntityMachineSolar
     }
 
     @SideOnly(Side.CLIENT)
-    public void updateProgressBar(int slot,int newValue)
-    {
-        super.updateProgressBar(slot,newValue);
-        if(slot == 1)
-            this.machine.setChargeAmount((byte)newValue);
+    public void updateProgressBar(int slot, int newValue) {
+        super.updateProgressBar(slot, newValue);
+        if (slot == 1)
+            this.machine.setChargeAmount((byte) newValue);
     }
 
     @Override
-    public boolean canInteractWith(EntityPlayer player)
-    {
+    public boolean canInteractWith(EntityPlayer player) {
         return true;
     }
 }

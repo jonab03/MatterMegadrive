@@ -32,53 +32,46 @@ import org.lwjgl.opengl.GL11;
 /**
  * Created by Simeon on 11/15/2015.
  */
-public class EntityRendererRangedRougeAndroid extends EntityRendererRougeAndroid
-{
+public class EntityRendererRangedRougeAndroid extends EntityRendererRougeAndroid {
     public static final ResourceLocation texture = new ResourceLocation(Reference.PATH_ENTITIES + "android_ranged.png");
     MOModelRenderColored visorModel;
 
     public EntityRendererRangedRougeAndroid(float f) {
-        super(new ModelBiped(0,0,96,64), f,false);
-        visorModel = new MOModelRenderColored(modelBipedMain,64,0);
+        super(new ModelBiped(0, 0, 96, 64), f, false);
+        visorModel = new MOModelRenderColored(modelBipedMain, 64, 0);
         visorModel.setDisableLighting(true);
-        visorModel.addBox(-4,-8,-4,8,8,8);
-        ((ModelBiped)mainModel).bipedHead.addChild(visorModel);
+        visorModel.addBox(-4, -8, -4, 8, 8, 8);
+        ((ModelBiped) mainModel).bipedHead.addChild(visorModel);
         modelBipedMain.bipedHead.addChild(visorModel);
     }
 
     @Override
-    protected void func_82422_c()
-    {
-        GL11.glTranslated(0,0.2,-0.3);
+    protected void func_82422_c() {
+        GL11.glTranslated(0, 0.2, -0.3);
         GL11.glRotatef(-97, 0, 0, 1.0F);
         GL11.glRotatef(-60, 0.0F, 1.0F, 0.0F);
-        GL11.glScaled(0.6,0.6,0.6);
+        GL11.glScaled(0.6, 0.6, 0.6);
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(Entity entity)
-    {
+    protected ResourceLocation getEntityTexture(Entity entity) {
         return texture;
     }
 
-    public void setRenderPassModel(ModelBase model)
-    {
+    public void setRenderPassModel(ModelBase model) {
         super.setRenderPassModel(model);
-        if (model instanceof ModelBiped)
-        {
+        if (model instanceof ModelBiped) {
             ((ModelBiped) model).aimedBow = true;
         }
     }
 
     @Override
-    public void doRender(EntityLiving entityLiving, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
-    {
-        if (entityLiving instanceof EntityRougeAndroidMob)
-        {
+    public void doRender(EntityLiving entityLiving, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
+        if (entityLiving instanceof EntityRougeAndroidMob) {
             visorModel.setColor(new Color(((EntityRougeAndroidMob) entityLiving).getVisorColor()));
         }
 
         this.field_82423_g.aimedBow = this.field_82425_h.aimedBow = this.modelBipedMain.aimedBow = true;
-        super.doRender(entityLiving,p_76986_2_,p_76986_4_,p_76986_6_,p_76986_8_,p_76986_9_);
+        super.doRender(entityLiving, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
     }
 }

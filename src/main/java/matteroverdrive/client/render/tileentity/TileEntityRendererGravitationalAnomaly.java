@@ -34,27 +34,24 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 5/12/2015.
  */
-public class TileEntityRendererGravitationalAnomaly extends TileEntitySpecialRenderer
-{
+public class TileEntityRendererGravitationalAnomaly extends TileEntitySpecialRenderer {
     public static final ResourceLocation core = new ResourceLocation(Reference.PATH_BLOCKS + "gravitational_anomaly_core.png");
     public static final ResourceLocation glow = new ResourceLocation(Reference.PATH_BLOCKS + "gravitational_anomaly_glow.png");
     public static final ResourceLocation black = new ResourceLocation(Reference.PATH_BLOCKS + "black.png");
 
     private IModelCustom sphere_model;
 
-    public TileEntityRendererGravitationalAnomaly()
-    {
+    public TileEntityRendererGravitationalAnomaly() {
         sphere_model = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.MODEL_SPHERE));
     }
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float ticks)
-    {
+    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float ticks) {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         long time = Minecraft.getMinecraft().theWorld.getWorldTime();
-        float speed = ((TileEntityGravitationalAnomaly)tileEntity).getBreakStrength();
+        float speed = ((TileEntityGravitationalAnomaly) tileEntity).getBreakStrength();
         double resonateSpeed = 0.2;
-        double radius = ((TileEntityGravitationalAnomaly)tileEntity).getEventHorizon();
+        double radius = ((TileEntityGravitationalAnomaly) tileEntity).getEventHorizon();
 
         radius = radius * Math.sin(time * resonateSpeed) * 0.1 + radius * 0.9;
 

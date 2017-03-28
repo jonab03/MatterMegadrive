@@ -5,61 +5,60 @@ import mekanism.api.gas.GasTank;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidTank;
 
-public interface IFusionReactor extends IHeatTransfer
-{
-	public void addTemperatureFromEnergyInput(double energyAdded);
+public interface IFusionReactor extends IHeatTransfer {
+    void addTemperatureFromEnergyInput(double energyAdded);
 
-	public void simulate();
+    void simulate();
 
-	public FluidTank getWaterTank();
+    FluidTank getWaterTank();
 
-	public FluidTank getSteamTank();
+    FluidTank getSteamTank();
 
-	public GasTank getDeuteriumTank();
+    GasTank getDeuteriumTank();
 
-	public GasTank getTritiumTank();
+    GasTank getTritiumTank();
 
-	public GasTank getFuelTank();
+    GasTank getFuelTank();
 
-	public double getBufferedEnergy();
+    double getBufferedEnergy();
 
-	public void setBufferedEnergy(double energy);
+    void setBufferedEnergy(double energy);
 
-	public double getPlasmaTemp();
+    double getPlasmaTemp();
 
-	public void setPlasmaTemp(double temp);
+    void setPlasmaTemp(double temp);
 
-	public double getCaseTemp();
+    double getCaseTemp();
 
-	public void setCaseTemp(double temp);
+    void setCaseTemp(double temp);
 
-	public double getBufferSize();
+    double getBufferSize();
 
-	public void formMultiblock();
+    void formMultiblock();
 
-	public boolean isFormed();
+    boolean isFormed();
 
-	public void setInjectionRate(int rate);
+    void setInjectionRate(int rate);
 
-	public int getInjectionRate();
+    int getInjectionRate();
 
-	public boolean isBurning();
+    boolean isBurning();
 
-	public void setBurning(boolean burn);
+    void setBurning(boolean burn);
 
-	public int getMinInjectionRate(boolean active);
+    int getMinInjectionRate(boolean active);
 
-	public double getMaxPlasmaTemperature(boolean active);
+    double getMaxPlasmaTemperature(boolean active);
 
-	public double getMaxCasingTemperature(boolean active);
+    double getMaxCasingTemperature(boolean active);
 
-	public double getIgnitionTemperature(boolean active);
+    double getIgnitionTemperature(boolean active);
 
-	public double getPassiveGeneration(boolean active, boolean current);
+    double getPassiveGeneration(boolean active, boolean current);
 
-	public int getSteamPerTick(boolean current);
+    int getSteamPerTick(boolean current);
 
-	public void updateTemperatures();
-	
-	public ItemStack[] getInventory();
+    void updateTemperatures();
+
+    ItemStack[] getInventory();
 }

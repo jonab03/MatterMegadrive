@@ -20,59 +20,48 @@ import java.util.List;
 /**
  * Created by Simeon on 6/28/2015.
  */
-public class PacketUpdateTravelEvents extends PacketAbstract
-{
+public class PacketUpdateTravelEvents extends PacketAbstract {
     List<TravelEvent> travelEvents;
 
-    public PacketUpdateTravelEvents()
-    {
+    public PacketUpdateTravelEvents() {
 
     }
 
-    public PacketUpdateTravelEvents(Galaxy galaxy)
-    {
+    public PacketUpdateTravelEvents(Galaxy galaxy) {
         travelEvents = galaxy.getTravelEvents();
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         if (travelEvents == null)
             travelEvents = new ArrayList<TravelEvent>();
 
         int size = buf.readInt();
-        for (int i = 0;i < size;i++)
-        {
+        for (int i = 0; i < size; i++) {
             travelEvents.add(new TravelEvent(buf));
         }
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         buf.writeInt(travelEvents.size());
-        for (int i = 0;i < travelEvents.size();i++)
-        {
+        for (int i = 0; i < travelEvents.size(); i++) {
             travelEvents.get(i).writeToBuffer(buf);
         }
     }
 
-    public static class ClientHandler extends AbstractClientPacketHandler<PacketUpdateTravelEvents>
-    {
+    public static class ClientHandler extends AbstractClientPacketHandler<PacketUpdateTravelEvents> {
         @Override
-        public IMessage handleClientMessage(EntityPlayer player, PacketUpdateTravelEvents message, MessageContext ctx)
-        {
+        public IMessage handleClientMessage(EntityPlayer player, PacketUpdateTravelEvents message, MessageContext ctx) {
             GalaxyClient.getInstance().getTheGalaxy().setTravelEvents(message.travelEvents);
             notifyChange();
             return null;
         }
 
         @SideOnly(Side.CLIENT)
-        private void notifyChange()
-        {
-            if (Minecraft.getMinecraft().currentScreen instanceof GuiStarMap)
-            {
-                GuiStarMap guiStarMap = (GuiStarMap)Minecraft.getMinecraft().currentScreen;
+        private void notifyChange() {
+            if (Minecraft.getMinecraft().currentScreen instanceof GuiStarMap) {
+                GuiStarMap guiStarMap = (GuiStarMap) Minecraft.getMinecraft().currentScreen;
                 guiStarMap.onTravelEventsChange(GalaxyClient.getInstance().getTheGalaxy().getTravelEvents());
             }
         }

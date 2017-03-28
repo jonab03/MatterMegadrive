@@ -55,13 +55,12 @@ import java.util.List;
 /**
  * Created by Simeon on 6/13/2015.
  */
-public class TileEntityMachineStarMap extends MOTileEntityMachineEnergy implements IWailaBodyProvider
-{
+public class TileEntityMachineStarMap extends MOTileEntityMachineEnergy implements IWailaBodyProvider {
     GalacticPosition position;
     GalacticPosition destination;
     int zoomLevel;
-    public TileEntityMachineStarMap()
-    {
+
+    public TileEntityMachineStarMap() {
         super(0);
         position = new GalacticPosition();
         destination = new GalacticPosition();
@@ -78,10 +77,8 @@ public class TileEntityMachineStarMap extends MOTileEntityMachineEnergy implemen
     }
 
     @Override
-    protected void RegisterSlots(Inventory inventory)
-    {
-        for (int i = 0;i < Planet.SLOT_COUNT;i++)
-        {
+    protected void RegisterSlots(Inventory inventory) {
+        for (int i = 0; i < Planet.SLOT_COUNT; i++) {
             inventory.AddSlot(new Slot(false));
         }
         super.RegisterSlots(inventory);
@@ -103,24 +100,20 @@ public class TileEntityMachineStarMap extends MOTileEntityMachineEnergy implemen
     }
 
     @Override
-    public boolean shouldRenderInPass(int pass)
-    {
+    public boolean shouldRenderInPass(int pass) {
         return pass == 1;
     }
 
     @Override
-    public void markDirty()
-    {
+    public void markDirty() {
         super.markDirty();
-        if (getInventory() != inventory)
-        {
+        if (getInventory() != inventory) {
             getInventory().markDirty();
         }
     }
 
     @Override
-    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk)
-    {
+    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
         super.writeCustomNBT(nbt, categories, toDisk);
         if (categories.contains(MachineNBTCategory.DATA)) {
             nbt.setByte("ZoomLevel", (byte) zoomLevel);
@@ -139,8 +132,7 @@ public class TileEntityMachineStarMap extends MOTileEntityMachineEnergy implemen
     }
 
     @Override
-    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories)
-    {
+    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories) {
         super.readCustomNBT(nbt, categories);
         if (categories.contains(MachineNBTCategory.DATA)) {
             zoomLevel = nbt.getByte("ZoomLevel");
@@ -157,15 +149,12 @@ public class TileEntityMachineStarMap extends MOTileEntityMachineEnergy implemen
     }
 
     @Override
-    public void updateEntity()
-    {
+    public void updateEntity() {
         super.updateEntity();
     }
 
-    public void zoom()
-    {
-        if (getZoomLevel() < getMaxZoom())
-        {
+    public void zoom() {
+        if (getZoomLevel() < getMaxZoom()) {
             setZoomLevel(getZoomLevel() + 1);
         } else {
             setZoomLevel(0);
@@ -173,75 +162,57 @@ public class TileEntityMachineStarMap extends MOTileEntityMachineEnergy implemen
         forceSync();
     }
 
-    public void setZoomLevel(int zoomLevel)
-    {
+    public void setZoomLevel(int zoomLevel) {
         this.zoomLevel = zoomLevel;
     }
 
-    public int getZoomLevel()
-    {
+    public int getZoomLevel() {
         return zoomLevel;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getRenderBoundingBox()
-    {
-        return AxisAlignedBB.getBoundingBox(xCoord - 3,yCoord,zCoord - 3,xCoord + 3,yCoord + 5,zCoord + 3);
+    public AxisAlignedBB getRenderBoundingBox() {
+        return AxisAlignedBB.getBoundingBox(xCoord - 3, yCoord, zCoord - 3, xCoord + 3, yCoord + 5, zCoord + 3);
     }
 
     @Override
-    public IInventory getInventory()
-    {
-        if (getPlanet() != null)
-        {
+    public IInventory getInventory() {
+        if (getPlanet() != null) {
             return getPlanet();
-        }else
-        {
+        } else {
             return inventory;
         }
     }
 
-    public Planet getPlanet()
-    {
-        if (worldObj.isRemote)
-        {
+    public Planet getPlanet() {
+        if (worldObj.isRemote) {
             return GalaxyClient.getInstance().getPlanet(destination);
-        }else
-        {
+        } else {
             return GalaxyServer.getInstance().getPlanet(destination);
         }
     }
 
-    public Star getStar()
-    {
-        if (worldObj.isRemote)
-        {
-            return  GalaxyClient.getInstance().getStar(destination);
-        }else
-        {
+    public Star getStar() {
+        if (worldObj.isRemote) {
+            return GalaxyClient.getInstance().getStar(destination);
+        } else {
             return GalaxyServer.getInstance().getStar(destination);
         }
     }
 
-    public Quadrant getQuadrant()
-    {
-        if (worldObj.isRemote)
-        {
+    public Quadrant getQuadrant() {
+        if (worldObj.isRemote) {
             return GalaxyClient.getInstance().getQuadrant(destination);
-        }else
-        {
+        } else {
             return GalaxyServer.getInstance().getQuadrant(destination);
         }
     }
 
-    public int getMaxZoom()
-    {
-        if (getPlanet() != null)
-        {
+    public int getMaxZoom() {
+        if (getPlanet() != null) {
             return 4;
-        }else
-        {
+        } else {
             return 2;
         }
     }
@@ -252,15 +223,14 @@ public class TileEntityMachineStarMap extends MOTileEntityMachineEnergy implemen
     }
 
     @Override
-    public void onPlaced(World world,EntityLivingBase entityLiving)
-    {
+    public void onPlaced(World world, EntityLivingBase entityLiving) {
         if (entityLiving instanceof EntityPlayer) {
             if (world.isRemote) {
-                Planet homeworld = GalaxyClient.getInstance().getHomeworld((EntityPlayer)entityLiving);
+                Planet homeworld = GalaxyClient.getInstance().getHomeworld((EntityPlayer) entityLiving);
                 if (homeworld != null)
                     position = new GalacticPosition(homeworld);
             } else {
-                Planet homeworld = GalaxyServer.getInstance().getHomeworld((EntityPlayer)entityLiving);
+                Planet homeworld = GalaxyServer.getInstance().getHomeworld((EntityPlayer) entityLiving);
                 if (homeworld != null)
                     position = new GalacticPosition(homeworld);
             }
@@ -271,28 +241,23 @@ public class TileEntityMachineStarMap extends MOTileEntityMachineEnergy implemen
     }
 
     @Override
-    public void onDestroyed()
-    {
+    public void onDestroyed() {
 
     }
 
-    public GalacticPosition getGalaxyPosition()
-    {
+    public GalacticPosition getGalaxyPosition() {
         return position;
     }
 
-    public void setGalaxticPosition(GalacticPosition position)
-    {
+    public void setGalaxticPosition(GalacticPosition position) {
         this.position = position;
     }
 
-    public void setDestination(GalacticPosition position)
-    {
+    public void setDestination(GalacticPosition position) {
         this.destination = position;
     }
 
-    public GalacticPosition getDestination()
-    {
+    public GalacticPosition getDestination() {
         return this.destination;
     }
 
@@ -309,18 +274,15 @@ public class TileEntityMachineStarMap extends MOTileEntityMachineEnergy implemen
         }
     }
 
-    public void Attack(GalacticPosition from,GalacticPosition to,int shipID)
-    {
-        MatterOverdrive.packetPipeline.sendToServer(new PacketStarMapAttack(from,to,shipID));
+    public void Attack(GalacticPosition from, GalacticPosition to, int shipID) {
+        MatterOverdrive.packetPipeline.sendToServer(new PacketStarMapAttack(from, to, shipID));
     }
 
-    public boolean isItemValidForSlot(int slot, ItemStack item,EntityPlayer player)
-    {
-        return (getPlanet() == null || getPlanet().isOwner(player)) && getInventory().isItemValidForSlot(slot,item);
+    public boolean isItemValidForSlot(int slot, ItemStack item, EntityPlayer player) {
+        return (getPlanet() == null || getPlanet().isOwner(player)) && getInventory().isItemValidForSlot(slot, item);
     }
 
-    public void onItemPickup(EntityPlayer player, ItemStack itemStack)
-    {
+    public void onItemPickup(EntityPlayer player, ItemStack itemStack) {
         if (!worldObj.isRemote) {
             if (itemStack != null && itemStack.getItem() instanceof IBuildable) {
                 ((IBuildable) itemStack.getItem()).setBuildStart(itemStack, getWorldObj().getTotalWorldTime());
@@ -328,8 +290,7 @@ public class TileEntityMachineStarMap extends MOTileEntityMachineEnergy implemen
         }
     }
 
-    public void onItemPlaced(ItemStack itemStack)
-    {
+    public void onItemPlaced(ItemStack itemStack) {
         if (!worldObj.isRemote) {
             if (itemStack != null && itemStack.getItem() instanceof IBuildable) {
                 ((IBuildable) itemStack.getItem()).setBuildStart(itemStack, getWorldObj().getTotalWorldTime());
@@ -337,22 +298,22 @@ public class TileEntityMachineStarMap extends MOTileEntityMachineEnergy implemen
         }
     }
 
-//	WAILA
-	@Override
-	@Optional.Method(modid = "Waila")
-	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-		TileEntity te = accessor.getTileEntity();
-		if (te instanceof TileEntityMachineStarMap) {
-			TileEntityMachineStarMap starMap = (TileEntityMachineStarMap)te;
+    //	WAILA
+    @Override
+    @Optional.Method(modid = "Waila")
+    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        TileEntity te = accessor.getTileEntity();
+        if (te instanceof TileEntityMachineStarMap) {
+            TileEntityMachineStarMap starMap = (TileEntityMachineStarMap) te;
 
-			String[] levels = new String[]{"gui.tooltip.page.galaxy", "gui.tooltip.page.quadrant", "gui.tooltip.page.star", "gui.tooltip.page.planet", "gui.tooltip.page.planet_stats"};
+            String[] levels = new String[]{"gui.tooltip.page.galaxy", "gui.tooltip.page.quadrant", "gui.tooltip.page.star", "gui.tooltip.page.planet", "gui.tooltip.page.planet_stats"};
 
-			currenttip.add(String.format("%sCurrent Mode: %s%s (%d)", EnumChatFormatting.YELLOW, EnumChatFormatting.WHITE, MOStringHelper.translateToLocal(levels[starMap.zoomLevel]), starMap.zoomLevel));
+            currenttip.add(String.format("%sCurrent Mode: %s%s (%d)", EnumChatFormatting.YELLOW, EnumChatFormatting.WHITE, MOStringHelper.translateToLocal(levels[starMap.zoomLevel]), starMap.zoomLevel));
 
-		} else {
-			throw new RuntimeException("Star Map WAILA provider is being used for something that is not a Star Map: " + te.getClass());
-		}
+        } else {
+            throw new RuntimeException("Star Map WAILA provider is being used for something that is not a Star Map: " + te.getClass());
+        }
 
-		return currenttip;
-	}
+        return currenttip;
+    }
 }

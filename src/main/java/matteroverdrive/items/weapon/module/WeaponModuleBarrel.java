@@ -42,17 +42,15 @@ import java.util.List;
 /**
  * Created by Simeon on 4/15/2015.
  */
-public class WeaponModuleBarrel extends MOBaseItem implements IWeaponModule
-{
+public class WeaponModuleBarrel extends MOBaseItem implements IWeaponModule {
     public static final int DAMAGE_BARREL_ID = 0;
     public static final int FIRE_BARREL_ID = 1;
     public static final int EXPLOSION_BARREL_ID = 2;
     public static final int HEAL_BARREL_ID = 3;
-    public static final String[] names = {"damage","fire","explosion","heal"};
+    public static final String[] names = {"damage", "fire", "explosion", "heal"};
     private IIcon[] icons;
 
-    public WeaponModuleBarrel(String name)
-    {
+    public WeaponModuleBarrel(String name) {
         super(name);
         setCreativeTab(MatterOverdrive.tabMatterOverdrive_modules);
         this.setHasSubtypes(true);
@@ -60,30 +58,26 @@ public class WeaponModuleBarrel extends MOBaseItem implements IWeaponModule
         this.setMaxStackSize(1);
     }
 
-    public void register()
-    {
+    public void register() {
         super.register();
 
         //damage barrel
-        GameRegistry.addRecipe(new ItemStack(this,1,0)," G ","RDR"," T ",'T', MatterOverdriveItems.tritanium_plate,'D',MatterOverdriveItems.dilithium_ctystal,'R', Items.redstone,'G', Blocks.glass);
-        GameRegistry.addRecipe(new ItemStack(this,1,1)," G ","BFB"," T ",'T', MatterOverdriveItems.tritanium_plate,'F',Items.fire_charge,'B', Items.blaze_rod,'G', Blocks.glass);
-        GameRegistry.addRecipe(new ItemStack(this,1,2)," B ","BRB","DTD",'T', MatterOverdriveItems.tritanium_plate,'R',Items.blaze_rod,'B', Blocks.tnt,'G', Blocks.glass,'D',Items.diamond);
-        GameRegistry.addRecipe(new ItemStack(this,1,3)," S ","SAS","ETE",'T', MatterOverdriveItems.tritanium_plate,'A',Items.golden_apple,'S', Items.sugar,'G', Blocks.glass,'E',Items.emerald);
+        GameRegistry.addRecipe(new ItemStack(this, 1, 0), " G ", "RDR", " T ", 'T', MatterOverdriveItems.tritanium_plate, 'D', MatterOverdriveItems.dilithium_ctystal, 'R', Items.redstone, 'G', Blocks.glass);
+        GameRegistry.addRecipe(new ItemStack(this, 1, 1), " G ", "BFB", " T ", 'T', MatterOverdriveItems.tritanium_plate, 'F', Items.fire_charge, 'B', Items.blaze_rod, 'G', Blocks.glass);
+        GameRegistry.addRecipe(new ItemStack(this, 1, 2), " B ", "BRB", "DTD", 'T', MatterOverdriveItems.tritanium_plate, 'R', Items.blaze_rod, 'B', Blocks.tnt, 'G', Blocks.glass, 'D', Items.diamond);
+        GameRegistry.addRecipe(new ItemStack(this, 1, 3), " S ", "SAS", "ETE", 'T', MatterOverdriveItems.tritanium_plate, 'A', Items.golden_apple, 'S', Items.sugar, 'G', Blocks.glass, 'E', Items.emerald);
     }
 
     @Override
-    public boolean hasDetails(ItemStack itemStack)
-    {
+    public boolean hasDetails(ItemStack itemStack) {
         return true;
     }
 
     @Override
-    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos)
-    {
+    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos) {
         super.addDetails(itemstack, player, infos);
         int damage = itemstack.getItemDamage();
-        switch (damage)
-        {
+        switch (damage) {
             case 0:
                 infos.add(MOStringHelper.weaponStatToInfo(Reference.WS_DAMAGE, 1.5f));
                 infos.add(MOStringHelper.weaponStatToInfo(Reference.WS_AMMO, 0.5f));
@@ -109,14 +103,12 @@ public class WeaponModuleBarrel extends MOBaseItem implements IWeaponModule
     }
 
     @Override
-    public int getSlot(ItemStack module)
-    {
+    public int getSlot(ItemStack module) {
         return Reference.MODULE_BARREL;
     }
 
     @Override
-    public String getModelPath()
-    {
+    public String getModelPath() {
         return null;
     }
 
@@ -131,11 +123,9 @@ public class WeaponModuleBarrel extends MOBaseItem implements IWeaponModule
     }
 
     @Override
-    public float modifyWeaponStat(int statID, ItemStack module, ItemStack weapon, float originalStat)
-    {
+    public float modifyWeaponStat(int statID, ItemStack module, ItemStack weapon, float originalStat) {
         int damage = module.getItemDamage();
-        switch (damage)
-        {
+        switch (damage) {
             case 0:
                 if (statID == Reference.WS_DAMAGE)
                     return originalStat * 1.5f;
@@ -176,40 +166,33 @@ public class WeaponModuleBarrel extends MOBaseItem implements IWeaponModule
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs creativeTabs, List list)
-    {
-        for (int i = 0; i < names.length;i++)
-        {
+    public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
+        for (int i = 0; i < names.length; i++) {
             list.add(new ItemStack(item, 1, i));
         }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamage(int damage)
-    {
-        if (damage >= 0 && damage < icons.length)
-        {
+    public IIcon getIconFromDamage(int damage) {
+        if (damage >= 0 && damage < icons.length) {
             return icons[damage];
         }
         return null;
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack itemStack)
-    {
+    public String getUnlocalizedName(ItemStack itemStack) {
         int damage = itemStack.getItemDamage();
         return this.getUnlocalizedName() + "." + names[damage];
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister)
-    {
+    public void registerIcons(IIconRegister iconRegister) {
         icons = new IIcon[names.length];
 
-        for (int i = 0; i < names.length;i++)
-        {
+        for (int i = 0; i < names.length; i++) {
             icons[i] = iconRegister.registerIcon(Reference.MOD_ID + ":barrel_" + names[i]);
         }
     }

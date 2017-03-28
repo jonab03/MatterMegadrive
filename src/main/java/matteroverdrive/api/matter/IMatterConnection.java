@@ -22,9 +22,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Created by Simeon on 3/7/2015.
+ *
  * @deprecated This is now replaced by Forge Fluid Tanks. As all machines that store matter are Fluid Tanks.
  */
-public interface IMatterConnection
-{
+public interface IMatterConnection {
     boolean canConnectFrom(ForgeDirection dir);
 }

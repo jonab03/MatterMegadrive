@@ -36,15 +36,13 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 3/16/2015.
  */
-public class BlockMatterAnalyzer extends MOBlockMachine
-{
+public class BlockMatterAnalyzer extends MOBlockMachine {
     public static float MACHINE_VOLUME;
     private IIcon iconTop;
     private IIcon iconFront;
     private IIcon iconFronAnim;
 
-    public BlockMatterAnalyzer(Material material, String name)
-    {
+    public BlockMatterAnalyzer(Material material, String name) {
         super(material, name);
         setHardness(20.0F);
         this.setResistance(5.0f);
@@ -53,15 +51,13 @@ public class BlockMatterAnalyzer extends MOBlockMachine
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int meta)
-    {
+    public TileEntity createNewTileEntity(World world, int meta) {
         return new TileEntityMachineMatterAnalyzer();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister)
-    {
+    public void registerBlockIcons(IIconRegister iconRegister) {
         this.iconFront = iconRegister.registerIcon(Reference.MOD_ID + ":" + "analyzer_front");
         this.iconTop = iconRegister.registerIcon(Reference.MOD_ID + ":" + "analyzer_top");
         this.iconFronAnim = iconRegister.registerIcon(Reference.MOD_ID + ":" + "analyzer_front_anim");
@@ -69,22 +65,14 @@ public class BlockMatterAnalyzer extends MOBlockMachine
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int metadata)
-    {
-        if(side == 1)
-        {
+    public IIcon getIcon(int side, int metadata) {
+        if (side == 1) {
             return this.iconTop;
-        }
-        else if(side == metadata)
-        {
+        } else if (side == metadata) {
             return this.iconFront;
-        }
-        else if(side == MOBlockHelper.getOppositeSide(metadata))
-        {
+        } else if (side == MOBlockHelper.getOppositeSide(metadata)) {
             return MatterOverdriveIcons.Network_port_square;
-        }
-        else if (side == MOBlockHelper.getLeftSide(metadata) || side == MOBlockHelper.getRightSide(metadata))
-        {
+        } else if (side == MOBlockHelper.getLeftSide(metadata) || side == MOBlockHelper.getRightSide(metadata)) {
             return MatterOverdriveIcons.Vent2;
         }
 
@@ -92,14 +80,10 @@ public class BlockMatterAnalyzer extends MOBlockMachine
     }
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side)
-    {
-        if (side == blockAccess.getBlockMetadata(x, y, z))
-        {
-            if (blockAccess.getTileEntity(x, y, z) instanceof TileEntityMachineMatterAnalyzer)
-            {
-                if (((TileEntityMachineMatterAnalyzer) blockAccess.getTileEntity(x, y, z)).isActive())
-                {
+    public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side) {
+        if (side == blockAccess.getBlockMetadata(x, y, z)) {
+            if (blockAccess.getTileEntity(x, y, z) instanceof TileEntityMachineMatterAnalyzer) {
+                if (((TileEntityMachineMatterAnalyzer) blockAccess.getTileEntity(x, y, z)).isActive()) {
                     return this.iconFronAnim;
                 }
             }
@@ -108,8 +92,7 @@ public class BlockMatterAnalyzer extends MOBlockMachine
     }
 
     @Override
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return MOBlockRenderer.renderID;
     }
 }

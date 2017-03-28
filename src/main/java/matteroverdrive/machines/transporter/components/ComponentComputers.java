@@ -49,9 +49,8 @@ import java.util.HashMap;
 @Optional.InterfaceList({
         @Optional.Interface(modid = "ComputerCraft", iface = "dan200.computercraft.api.peripheral.IPeripheral"),
 })
-public class ComponentComputers extends MachineComponentAbstract<TileEntityMachineTransporter> implements IPeripheral
-{
-    private static String[] methodNames = new String[] {
+public class ComponentComputers extends MachineComponentAbstract<TileEntityMachineTransporter> implements IPeripheral {
+    private static String[] methodNames = new String[]{
             "getLocations",
             "getSelectedLocation",
             "getLocation",
@@ -65,8 +64,7 @@ public class ComponentComputers extends MachineComponentAbstract<TileEntityMachi
     };
     private String peripheralName = "mo_transporter";
 
-    public ComponentComputers(TileEntityMachineTransporter machine)
-    {
+    public ComponentComputers(TileEntityMachineTransporter machine) {
         super(machine);
     }
 
@@ -130,7 +128,7 @@ public class ComponentComputers extends MachineComponentAbstract<TileEntityMachi
             throw new IllegalArgumentException("First argument must be the numerical id of the transport location");
         }
 
-        int locNum = (int)Math.floor((Double)args[0]);
+        int locNum = (int) Math.floor((Double) args[0]);
 
         HashMap<String, Object> map = new HashMap<>();
 
@@ -140,7 +138,7 @@ public class ComponentComputers extends MachineComponentAbstract<TileEntityMachi
         map.put("y", loc.y);
         map.put("z", loc.z);
 
-        return new Object[]{ map };
+        return new Object[]{map};
     }
 
     /**
@@ -159,10 +157,10 @@ public class ComponentComputers extends MachineComponentAbstract<TileEntityMachi
                 throw new IllegalArgumentException("Argument " + i + 1 + " must be an integer");
             }
         }
-        String name = (String)args[0];
-        int x = (int)Math.floor((Double)args[1]);
-        int y = (int)Math.floor((Double)args[2]);
-        int z = (int)Math.floor((Double)args[3]);
+        String name = (String) args[0];
+        int x = (int) Math.floor((Double) args[1]);
+        int y = (int) Math.floor((Double) args[2]);
+        int z = (int) Math.floor((Double) args[3]);
         machine.addNewLocation(x, y, z, name);
         return null;
     }
@@ -175,7 +173,7 @@ public class ComponentComputers extends MachineComponentAbstract<TileEntityMachi
         if (!(args[0] instanceof Double)) {
             throw new IllegalArgumentException("Argument 1 must be a number");
         }
-        machine.selectedLocation = (int)Math.floor((Double)args[0]);
+        machine.selectedLocation = (int) Math.floor((Double) args[0]);
         return null;
     }
 
@@ -192,9 +190,9 @@ public class ComponentComputers extends MachineComponentAbstract<TileEntityMachi
             throw new IllegalArgumentException("Argument 2 must be a string");
         }
 
-        int locNum = (int)Math.floor((Double)args[0]);
+        int locNum = (int) Math.floor((Double) args[0]);
 
-        machine.getPositions().get(locNum).name = (String)args[1];
+        machine.getPositions().get(locNum).name = (String) args[1];
 
         return null;
     }
@@ -212,8 +210,8 @@ public class ComponentComputers extends MachineComponentAbstract<TileEntityMachi
             throw new IllegalArgumentException("Argument 2 must be a number");
         }
 
-        int locNum = (int)Math.floor((Double)args[0]);
-        machine.getPositions().get(locNum).x = (int)Math.floor((Double)args[1]);
+        int locNum = (int) Math.floor((Double) args[0]);
+        machine.getPositions().get(locNum).x = (int) Math.floor((Double) args[1]);
 
         return null;
     }
@@ -231,8 +229,8 @@ public class ComponentComputers extends MachineComponentAbstract<TileEntityMachi
             throw new IllegalArgumentException("Argument 2 must be a number");
         }
 
-        int locNum = (int)Math.floor((Double)args[0]);
-        machine.getPositions().get(locNum).y = (int)Math.floor((Double)args[1]);
+        int locNum = (int) Math.floor((Double) args[0]);
+        machine.getPositions().get(locNum).y = (int) Math.floor((Double) args[1]);
 
         return null;
     }
@@ -250,8 +248,8 @@ public class ComponentComputers extends MachineComponentAbstract<TileEntityMachi
             throw new IllegalArgumentException("Argument 2 must be a number");
         }
 
-        int locNum = (int)Math.floor((Double)args[0]);
-        machine.getPositions().get(locNum).z = (int)Math.floor((Double)args[1]);
+        int locNum = (int) Math.floor((Double) args[0]);
+        machine.getPositions().get(locNum).z = (int) Math.floor((Double) args[1]);
 
         return null;
     }
@@ -259,27 +257,25 @@ public class ComponentComputers extends MachineComponentAbstract<TileEntityMachi
     /**
      * args:
      * mode (number) the redstone mode of the transporter
-     * 		0: High redstone signal
-     * 		1: Low redstone signal
-     * 		2: Redstone disabled
+     * 0: High redstone signal
+     * 1: Low redstone signal
+     * 2: Redstone disabled
      */
     private Object[] computerSetRedstoneMode(Object[] args) {
         if (!(args[0] instanceof Double)) {
             throw new IllegalArgumentException("Argument 1 must be a number from 0 to 2");
         }
 
-        int i = (int)Math.floor((Double)args[0]);
+        int i = (int) Math.floor((Double) args[0]);
 
         if (i < 0 || i > 2) {
             throw new IllegalArgumentException("Argument 1 must be a number from 0 to 2");
         }
 
         IConfigProperty property = machine.getConfigs().getProperty(Reference.CONFIG_KEY_REDSTONE_MODE);
-        if (property != null)
-        {
+        if (property != null) {
             property.setValue(i);
-        }else
-        {
+        } else {
             throw new IllegalArgumentException("No redstone mode config found for machine");
         }
 

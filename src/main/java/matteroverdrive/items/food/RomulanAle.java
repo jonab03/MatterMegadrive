@@ -35,40 +35,40 @@ import net.minecraft.world.World;
  */
 public class RomulanAle extends ItemFood {
 
-	public RomulanAle(String name) {
-		super(4, 0.6f, false);
-		setUnlocalizedName(name);
-		setTextureName(Reference.MOD_ID + ":" + name);
-		setAlwaysEdible();
-	}
+    public RomulanAle(String name) {
+        super(4, 0.6f, false);
+        setUnlocalizedName(name);
+        setTextureName(Reference.MOD_ID + ":" + name);
+        setAlwaysEdible();
+    }
 
-	public void register() {
-		setCreativeTab(MatterOverdrive.tabMatterOverdrive_food);
-		GameRegistry.registerItem(this, getUnlocalizedName().substring(5));
-	}
+    public void register() {
+        setCreativeTab(MatterOverdrive.tabMatterOverdrive_food);
+        GameRegistry.registerItem(this, getUnlocalizedName().substring(5));
+    }
 
-	@Override
-	public ItemStack onEaten(ItemStack itemStack, World world, EntityPlayer player) {
-		super.onEaten(itemStack, world, player);
+    @Override
+    public ItemStack onEaten(ItemStack itemStack, World world, EntityPlayer player) {
+        super.onEaten(itemStack, world, player);
 
-		if (!player.capabilities.isCreativeMode && !world.isRemote) {
-			--itemStack.stackSize;
-		}
-
-
-		if (!AndroidPlayer.get(player).isAndroid()) player.addPotionEffect(new PotionEffect(9, 160, 8));
-
-		if (itemStack.stackSize > 0) {
-			player.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle));
-			return itemStack;
-		} else {
-			return new ItemStack(Items.glass_bottle);
-		}
-	}
+        if (!player.capabilities.isCreativeMode && !world.isRemote) {
+            --itemStack.stackSize;
+        }
 
 
-	@Override
-	public EnumAction getItemUseAction(ItemStack p_77661_1_) {
-		return EnumAction.drink;
-	}
+        if (!AndroidPlayer.get(player).isAndroid()) player.addPotionEffect(new PotionEffect(9, 160, 8));
+
+        if (itemStack.stackSize > 0) {
+            player.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle));
+            return itemStack;
+        } else {
+            return new ItemStack(Items.glass_bottle);
+        }
+    }
+
+
+    @Override
+    public EnumAction getItemUseAction(ItemStack p_77661_1_) {
+        return EnumAction.drink;
+    }
 }

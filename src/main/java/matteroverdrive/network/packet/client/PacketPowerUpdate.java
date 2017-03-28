@@ -11,43 +11,38 @@ import net.minecraft.tileentity.TileEntity;
 /**
  * Created by Simeon on 4/22/2015.
  */
-public class PacketPowerUpdate extends TileEntityUpdatePacket
-{
+public class PacketPowerUpdate extends TileEntityUpdatePacket {
     int energy;
 
-    public PacketPowerUpdate(){}
+    public PacketPowerUpdate() {
+    }
 
-    public PacketPowerUpdate(MOTileEntityMachineEnergy entityMachineEnergy)
-    {
-        super(entityMachineEnergy.xCoord,entityMachineEnergy.yCoord,entityMachineEnergy.zCoord);
+    public PacketPowerUpdate(MOTileEntityMachineEnergy entityMachineEnergy) {
+        super(entityMachineEnergy.xCoord, entityMachineEnergy.yCoord, entityMachineEnergy.zCoord);
         energy = entityMachineEnergy.getEnergyStorage().getEnergyStored();
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         super.fromBytes(buf);
         energy = buf.readInt();
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         super.toBytes(buf);
         buf.writeInt(energy);
     }
 
-    public static class ClientHandler extends AbstractClientPacketHandler<PacketPowerUpdate>
-    {
+    public static class ClientHandler extends AbstractClientPacketHandler<PacketPowerUpdate> {
 
-        public ClientHandler(){}
+        public ClientHandler() {
+        }
 
         @Override
-        public IMessage handleClientMessage(EntityPlayer player, PacketPowerUpdate message, MessageContext ctx)
-        {
-            TileEntity tileEntity = player.worldObj.getTileEntity(message.x,message.y,message.z);
-            if (tileEntity instanceof MOTileEntityMachineEnergy)
-            {
+        public IMessage handleClientMessage(EntityPlayer player, PacketPowerUpdate message, MessageContext ctx) {
+            TileEntity tileEntity = player.worldObj.getTileEntity(message.x, message.y, message.z);
+            if (tileEntity instanceof MOTileEntityMachineEnergy) {
                 ((MOTileEntityMachineEnergy) tileEntity).setEnergyStored(message.energy);
             }
             return null;

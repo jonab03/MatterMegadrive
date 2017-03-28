@@ -34,8 +34,7 @@ import java.util.EnumSet;
 /**
  * Created by Simeon on 5/26/2015.
  */
-public class PacketSyncAndroid extends PacketAbstract
-{
+public class PacketSyncAndroid extends PacketAbstract {
     public static final int SYNC_ALL = -1;
     public static final int SYNC_BATTERY = 0;
     public static final int SYNC_EFFECTS = 1;
@@ -46,13 +45,11 @@ public class PacketSyncAndroid extends PacketAbstract
     int dataType;
     int playerID;
 
-    public PacketSyncAndroid()
-    {
+    public PacketSyncAndroid() {
         data = new NBTTagCompound();
     }
 
-    public PacketSyncAndroid(AndroidPlayer player, EnumSet<AndroidPlayer.DataType> dataTypes)
-    {
+    public PacketSyncAndroid(AndroidPlayer player, EnumSet<AndroidPlayer.DataType> dataTypes) {
        /* switch (syncPart)
         {
             case SYNC_BATTERY:
@@ -86,37 +83,33 @@ public class PacketSyncAndroid extends PacketAbstract
         this.dataType = MOEnumHelper.encode(dataTypes);
         this.playerID = player.getPlayer().getEntityId();
         this.data = new NBTTagCompound();
-        player.writeToNBT(this.data,dataTypes);
+        player.writeToNBT(this.data, dataTypes);
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         dataType = buf.readInt();
         playerID = buf.readInt();
         data = ByteBufUtils.readTag(buf);
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         buf.writeInt(dataType);
         buf.writeInt(playerID);
-        ByteBufUtils.writeTag(buf,data);
+        ByteBufUtils.writeTag(buf, data);
     }
 
-    public static class ClientHandler extends AbstractClientPacketHandler<PacketSyncAndroid>
-    {
+    public static class ClientHandler extends AbstractClientPacketHandler<PacketSyncAndroid> {
         @Override
-        public IMessage handleClientMessage(EntityPlayer player, PacketSyncAndroid message, MessageContext ctx)
-        {
+        public IMessage handleClientMessage(EntityPlayer player, PacketSyncAndroid message, MessageContext ctx) {
             Entity entity = player.worldObj.getEntityByID(message.playerID);
 
             if (entity instanceof EntityPlayer) {
                 EntityPlayer source = (EntityPlayer) entity;
                 AndroidPlayer ex = AndroidPlayer.get(source);
 
-                ex.readFromNBT(message.data,MOEnumHelper.decode(message.dataType, AndroidPlayer.DataType.class));
+                ex.readFromNBT(message.data, MOEnumHelper.decode(message.dataType, AndroidPlayer.DataType.class));
 
                 /*if (ex != null) {
                     switch (message.syncPart) {

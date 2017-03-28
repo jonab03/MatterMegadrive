@@ -6,8 +6,7 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Created by Simeon on 5/14/2015.
  */
-public class IconHolder implements IIcon
-{
+public class IconHolder implements IIcon {
     public float minX, minY, maxX, maxY;
     public int width;
     public int height;
@@ -16,8 +15,7 @@ public class IconHolder implements IIcon
     ResourceLocation canvas;
     String name;
 
-    public IconHolder(float minX, float minY, float maxX, float maxY, int width, int height)
-    {
+    public IconHolder(float minX, float minY, float maxX, float maxY, int width, int height) {
         this.minX = minX;
         this.minY = minY;
         this.maxX = maxX;
@@ -26,23 +24,19 @@ public class IconHolder implements IIcon
         this.height = height;
     }
 
-    public void setCanvasWidth(int width)
-    {
+    public void setCanvasWidth(int width) {
         canvasWidth = width;
     }
 
-    public void setCanvasHeight(int height)
-    {
+    public void setCanvasHeight(int height) {
         canvasHeight = height;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public IconHolder setCanvas(ResourceLocation canvas)
-    {
+    public IconHolder setCanvas(ResourceLocation canvas) {
         this.canvas = canvas;
         return this;
     }
@@ -92,12 +86,11 @@ public class IconHolder implements IIcon
         return name;
     }
 
-    public ResourceLocation getCanvas()
-    {
+    public ResourceLocation getCanvas() {
         return canvas;
     }
-    public IconHolder setCanvasSize(int width,int height)
-    {
+
+    public IconHolder setCanvasSize(int width, int height) {
         this.canvasWidth = width;
         this.canvasHeight = height;
         return this;

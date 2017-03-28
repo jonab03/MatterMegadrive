@@ -21,14 +21,13 @@ package matteroverdrive.api.starmap;
 /**
  * Created by Simeon on 7/2/2015.
  */
-public enum  BuildingType
-{
+public enum BuildingType {
     BASE,
     SHIP_FACTORY,
-	SHIELD,
-	GENERATOR,
-	REPLICATOR,
-	RESIDENTIAL,
-	ORE_EXTRACTOR,
-	OTHER
+    SHIELD,
+    GENERATOR,
+    REPLICATOR,
+    RESIDENTIAL,
+    ORE_EXTRACTOR,
+    OTHER
 }

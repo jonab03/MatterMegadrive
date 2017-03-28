@@ -33,30 +33,24 @@ import net.minecraft.item.ItemStack;
  * Created by Simeon on 6/17/2015.
  */
 @SideOnly(Side.CLIENT)
-public class GalaxyClient extends GalaxyCommon
-{
+public class GalaxyClient extends GalaxyCommon {
     //region Private Vars
     private static GalaxyClient instance;
     //endregion
 
     //region Constructors
-    public GalaxyClient()
-    {
+    public GalaxyClient() {
         super();
     }
     //endregion
 
-    public boolean canSeePlanetInfo(Planet planet,EntityPlayer player)
-    {
-        if (planet.isOwner(player) || player.capabilities.isCreativeMode)
-        {
+    public boolean canSeePlanetInfo(Planet planet, EntityPlayer player) {
+        if (planet.isOwner(player) || player.capabilities.isCreativeMode) {
             return true;
         }
 
-        for (ItemStack shipStack : planet.getFleet())
-        {
-            if (((IShip)shipStack.getItem()).isOwner(shipStack,player))
-            {
+        for (ItemStack shipStack : planet.getFleet()) {
+            if (((IShip) shipStack.getItem()).isOwner(shipStack, player)) {
                 return true;
             }
         }
@@ -64,12 +58,9 @@ public class GalaxyClient extends GalaxyCommon
         return false;
     }
 
-    public boolean canSeeStarInfo(Star star,EntityPlayer player)
-    {
-        for (Planet planet : star.getPlanets())
-        {
-            if (canSeePlanetInfo(planet,player))
-            {
+    public boolean canSeeStarInfo(Star star, EntityPlayer player) {
+        for (Planet planet : star.getPlanets()) {
+            if (canSeePlanetInfo(planet, player)) {
                 return true;
             }
         }
@@ -78,26 +69,22 @@ public class GalaxyClient extends GalaxyCommon
 
     //region Events
     @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event)
-    {
-		if (Minecraft.getMinecraft().theWorld != null &&
-				theGalaxy != null &&
-				!Minecraft.getMinecraft().isGamePaused() &&
-				Minecraft.getMinecraft().theWorld.isRemote &&
-				Minecraft.getMinecraft().theWorld.provider.dimensionId == 0 &&
-				event.phase == TickEvent.Phase.START &&
-                Minecraft.getMinecraft().theWorld != null)
-		{
-			theGalaxy.update(Minecraft.getMinecraft().theWorld);
-		}
+    public void onClientTick(TickEvent.ClientTickEvent event) {
+        if (Minecraft.getMinecraft().theWorld != null &&
+                theGalaxy != null &&
+                !Minecraft.getMinecraft().isGamePaused() &&
+                Minecraft.getMinecraft().theWorld.isRemote &&
+                Minecraft.getMinecraft().theWorld.provider.dimensionId == 0 &&
+                event.phase == TickEvent.Phase.START &&
+                Minecraft.getMinecraft().theWorld != null) {
+            theGalaxy.update(Minecraft.getMinecraft().theWorld);
+        }
     }
     //endregion
 
     //region Getters and Setters
-    public static GalaxyClient getInstance()
-    {
-        if (instance == null)
-        {
+    public static GalaxyClient getInstance() {
+        if (instance == null) {
             instance = new GalaxyClient();
         }
 

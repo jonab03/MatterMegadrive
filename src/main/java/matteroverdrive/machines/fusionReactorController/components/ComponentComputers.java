@@ -49,17 +49,16 @@ public class ComponentComputers extends MachineComponentAbstract<TileEntityMachi
 
     private String[] methodNames = new String[]
             {
-            "getStatus",
-            "isValid",
-            "getEnergyGenerated",
-            "getMatterUsed",
-            "getEnergyStored",
-            "getMatterStored"
-    };
+                    "getStatus",
+                    "isValid",
+                    "getEnergyGenerated",
+                    "getMatterUsed",
+                    "getEnergyStored",
+                    "getMatterStored"
+            };
     private String peripheralName = "mo_fusion_reactor_controller";
 
-    public ComponentComputers(TileEntityMachineFusionReactorController machine)
-    {
+    public ComponentComputers(TileEntityMachineFusionReactorController machine) {
         super(machine);
     }
 
@@ -78,23 +77,31 @@ public class ComponentComputers extends MachineComponentAbstract<TileEntityMachi
                 return computerGetEnergyStored(args);
             case 5:
                 return computerGetMatterStored(args);
-            default: throw new IllegalArgumentException("Invalid method id");
+            default:
+                throw new IllegalArgumentException("Invalid method id");
         }
     }
 
     private Object[] computerGetStatus(Object[] args) {
         return new Object[]{machine.getMonitorInfo()};
     }
+
     private Object[] computerIsValid(Object[] args) {
         return new Object[]{machine.isValidStructure()};
     }
+
     private Object[] computerGetEnergyGenerated(Object[] args) {
         return new Object[]{machine.getEnergyPerTick()};
     }
+
     private Object[] computerGetMatterUsed(Object[] args) {
         return new Object[]{machine.getMatterDrainPerTick()};
     }
-    private Object[] computerGetEnergyStored(Object[] args) {return new Object[]{machine.getEnergyStored(ForgeDirection.UNKNOWN)};}
+
+    private Object[] computerGetEnergyStored(Object[] args) {
+        return new Object[]{machine.getEnergyStored(ForgeDirection.UNKNOWN)};
+    }
+
     private Object[] computerGetMatterStored(Object[] args) {
         return new Object[]{machine.getMatterStored()};
     }

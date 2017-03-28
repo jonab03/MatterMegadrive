@@ -31,14 +31,13 @@ import matteroverdrive.tile.TileEntityMachineStarMap;
 /**
  * Created by Simeon on 6/21/2015.
  */
-public class PageStar extends ElementBaseGroup implements IListHandler
-{
+public class PageStar extends ElementBaseGroup implements IListHandler {
     TileEntityMachineStarMap starMap;
     ElementGroupList planetList;
 
-    public PageStar(GuiStarMap gui, int posX, int posY, int width, int height,TileEntityMachineStarMap starMap) {
+    public PageStar(GuiStarMap gui, int posX, int posY, int width, int height, TileEntityMachineStarMap starMap) {
         super(gui, posX, posY, width, height);
-        planetList = new ElementGroupList(gui,this,16,16,sizeX,sizeY-100-32);
+        planetList = new ElementGroupList(gui, this, 16, 16, sizeX, sizeY - 100 - 32);
         planetList.setName("Stars");
         planetList.resetSmoothScroll();
         //planetList.textColor = Reference.COLOR_HOLO.getColor();
@@ -46,8 +45,7 @@ public class PageStar extends ElementBaseGroup implements IListHandler
         this.starMap = starMap;
     }
 
-    private void loadPlanets()
-    {
+    private void loadPlanets() {
         planetList.init();
         Star star = GalaxyClient.getInstance().getTheGalaxy().getStar(starMap.getDestination());
         if (star != null) {
@@ -60,14 +58,13 @@ public class PageStar extends ElementBaseGroup implements IListHandler
             }
         }
         planetList.limitScroll();
-        planetList.update(0,0);
+        planetList.update(0, 0);
     }
 
     @Override
-    public void init()
-    {
+    public void init() {
         super.init();
-        planetList.setSize(sizeX,sizeY-100-32);
+        planetList.setSize(sizeX, sizeY - 100 - 32);
         addElement(planetList);
         loadPlanets();
 
@@ -79,8 +76,7 @@ public class PageStar extends ElementBaseGroup implements IListHandler
     }
 
     @Override
-    public void update(int mouseX, int mouseY)
-    {
-        super.update(mouseX,mouseY);
+    public void update(int mouseX, int mouseY) {
+        super.update(mouseX, mouseY);
     }
 }

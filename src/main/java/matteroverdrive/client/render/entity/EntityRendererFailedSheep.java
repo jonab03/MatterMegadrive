@@ -13,13 +13,11 @@ public class EntityRendererFailedSheep extends RenderSheep {
 
     private static final ResourceLocation shearedSheepTextures = new ResourceLocation(Reference.PATH_ENTITIES + "failed_sheep.png");
 
-    public EntityRendererFailedSheep(ModelBase model1, ModelBase model2, float f)
-    {
+    public EntityRendererFailedSheep(ModelBase model1, ModelBase model2, float f) {
         super(model1, model2, f);
     }
 
-    protected ResourceLocation getEntityTexture(EntitySheep entity)
-    {
+    protected ResourceLocation getEntityTexture(EntitySheep entity) {
         return shearedSheepTextures;
     }
 }

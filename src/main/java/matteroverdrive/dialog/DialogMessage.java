@@ -37,8 +37,7 @@ import java.util.List;
 /**
  * Created by Simeon on 8/9/2015.
  */
-public class DialogMessage implements IDialogMessage
-{
+public class DialogMessage implements IDialogMessage {
     protected String message;
     protected String question;
     protected IDialogMessage parent;
@@ -48,23 +47,21 @@ public class DialogMessage implements IDialogMessage
     @SideOnly(Side.CLIENT)
     protected String holoIcon;
 
-    public DialogMessage()
-    {
+    public DialogMessage() {
         init();
     }
-    public DialogMessage(String message)
-    {
+
+    public DialogMessage(String message) {
         this(message, message);
     }
-    public DialogMessage(String message, String question)
-    {
+
+    public DialogMessage(String message, String question) {
         this.message = message;
         this.question = question;
         init();
     }
 
-    private void init()
-    {
+    private void init() {
         options = new ArrayList<>();
     }
 
@@ -74,47 +71,38 @@ public class DialogMessage implements IDialogMessage
     }
 
     @Override
-    public List<IDialogMessage> getOptions(IDialogNpc npc, EntityPlayer player)
-    {
+    public List<IDialogMessage> getOptions(IDialogNpc npc, EntityPlayer player) {
         return options;
     }
 
     @Override
-    public String getMessageText(IDialogNpc npc, EntityPlayer player)
-    {
+    public String getMessageText(IDialogNpc npc, EntityPlayer player) {
         return formatMessage(message, npc, player);
     }
 
     @Override
-    public String getQuestionText(IDialogNpc npc, EntityPlayer player)
-    {
+    public String getQuestionText(IDialogNpc npc, EntityPlayer player) {
         return formatQuestion(question, npc, player);
     }
 
     @Override
-    public void onOptionsInteract(IDialogNpc npc, EntityPlayer player, int option)
-    {
-        if (option >= 0 && option < options.size())
-        {
+    public void onOptionsInteract(IDialogNpc npc, EntityPlayer player, int option) {
+        if (option >= 0 && option < options.size()) {
             options.get(option).onInteract(npc, player);
         }
     }
 
     @Override
-    public void onInteract(IDialogNpc npc,EntityPlayer player)
-    {
-        if (npc != null && player != null)
-        {
+    public void onInteract(IDialogNpc npc, EntityPlayer player) {
+        if (npc != null && player != null) {
             if (player.worldObj.isRemote) {
                 setAsGuiActiveMessage(npc, player);
-            }else
-            {
-                npc.onPlayerInteract(player,this);
-                MOEventDialogInteract eventDialogInteract = new MOEventDialogInteract(player,npc,this);
+            } else {
+                npc.onPlayerInteract(player, this);
+                MOEventDialogInteract eventDialogInteract = new MOEventDialogInteract(player, npc, this);
                 MinecraftForge.EVENT_BUS.post(eventDialogInteract);
                 MOExtendedProperties extendedProperties = MOExtendedProperties.get(player);
-                if (extendedProperties != null)
-                {
+                if (extendedProperties != null) {
                     extendedProperties.onEvent(eventDialogInteract);
                 }
             }
@@ -122,10 +110,8 @@ public class DialogMessage implements IDialogMessage
     }
 
     @SideOnly(Side.CLIENT)
-    protected void setAsGuiActiveMessage(IDialogNpc npc, EntityPlayer player)
-    {
-        if (Minecraft.getMinecraft().currentScreen instanceof GuiDialog)
-        {
+    protected void setAsGuiActiveMessage(IDialogNpc npc, EntityPlayer player) {
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiDialog) {
             ((GuiDialog) Minecraft.getMinecraft().currentScreen).setCurrentMessage(this);
         }
     }
@@ -136,8 +122,7 @@ public class DialogMessage implements IDialogMessage
     }
 
     @Override
-    public boolean isVisible(IDialogNpc npc, EntityPlayer player)
-    {
+    public boolean isVisible(IDialogNpc npc, EntityPlayer player) {
         return true;
     }
 
@@ -149,65 +134,55 @@ public class DialogMessage implements IDialogMessage
 
     @Override
     @SideOnly(Side.CLIENT)
-    public String getHoloIcon(IDialogNpc npc, EntityPlayer player)
-    {
+    public String getHoloIcon(IDialogNpc npc, EntityPlayer player) {
         return holoIcon;
     }
 
     @SideOnly(Side.CLIENT)
-    public void setShots(IDialogShot... shot)
-    {
+    public void setShots(IDialogShot... shot) {
         this.shots = shot;
     }
 
-    public void setParent(IDialogMessage parent)
-    {
+    public void setParent(IDialogMessage parent) {
         this.parent = parent;
     }
 
-    public void addOption(IDialogMessage message)
-    {
+    public void addOption(IDialogMessage message) {
         this.options.add(message);
     }
 
-    public IDialogMessage getMessage(int id)
-    {
+    public IDialogMessage getMessage(int id) {
         return this.options.get(id);
     }
 
-    public List<IDialogMessage> getOptions()
-    {
+    public List<IDialogMessage> getOptions() {
         return options;
     }
 
     @SideOnly(Side.CLIENT)
-    public DialogMessage setHoloIcon(String holoIcon)
-    {
-        this.holoIcon = holoIcon; return this;
+    public DialogMessage setHoloIcon(String holoIcon) {
+        this.holoIcon = holoIcon;
+        return this;
     }
 
-    public DialogMessage loadMessageFromLocalization(String key)
-    {
+    public DialogMessage loadMessageFromLocalization(String key) {
         message = MOStringHelper.translateToLocal(key);
         return this;
     }
 
-    public DialogMessage loadQuestionFromLocalization(String key)
-    {
+    public DialogMessage loadQuestionFromLocalization(String key) {
         question = MOStringHelper.translateToLocal(key);
         return this;
     }
 
-    protected String formatMessage(String text,IDialogNpc npc,EntityPlayer player)
-    {
+    protected String formatMessage(String text, IDialogNpc npc, EntityPlayer player) {
         if (text != null) {
             return String.format(text, player.getDisplayName(), npc.getEntity().getCommandSenderName());
         }
         return text;
     }
 
-    protected String formatQuestion(String text,IDialogNpc npc,EntityPlayer player)
-    {
+    protected String formatQuestion(String text, IDialogNpc npc, EntityPlayer player) {
         if (text != null) {
             return String.format(text, player.getDisplayName(), npc.getEntity().getCommandSenderName());
         }

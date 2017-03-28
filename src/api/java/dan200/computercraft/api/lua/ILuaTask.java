@@ -6,7 +6,6 @@
 
 package dan200.computercraft.api.lua;
 
-public interface ILuaTask
-{
-    public Object[] execute() throws LuaException;
+public interface ILuaTask {
+    Object[] execute() throws LuaException;
 }

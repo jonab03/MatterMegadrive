@@ -42,22 +42,18 @@ import static matteroverdrive.util.MOBlockHelper.getAboveSide;
 /**
  * Created by Simeon on 5/12/2015.
  */
-public class TileEntityMachineGravitationalStabilizer extends MOTileEntityMachineEnergy implements IMOTickable
-{
+public class TileEntityMachineGravitationalStabilizer extends MOTileEntityMachineEnergy implements IMOTickable {
     MovingObjectPosition hit;
 
-    public TileEntityMachineGravitationalStabilizer()
-    {
+    public TileEntityMachineGravitationalStabilizer() {
         super(4);
     }
 
     @Override
-    public void updateEntity()
-    {
+    public void updateEntity() {
         super.updateEntity();
 
-        if (worldObj.isRemote)
-        {
+        if (worldObj.isRemote) {
             spawnParticles(worldObj);
             hit = seacrhForAnomalies(worldObj);
         }
@@ -68,34 +64,27 @@ public class TileEntityMachineGravitationalStabilizer extends MOTileEntityMachin
 
     }
 
-    MovingObjectPosition seacrhForAnomalies(World world)
-    {
+    MovingObjectPosition seacrhForAnomalies(World world) {
         ForgeDirection front = ForgeDirection.getOrientation(world.getBlockMetadata(xCoord, yCoord, zCoord));
-        for (int i = 1;i < 64;i++)
-        {
+        for (int i = 1; i < 64; i++) {
             Block block = world.getBlock(xCoord + front.offsetX * i, yCoord + front.offsetY * i, zCoord + front.offsetZ * i);
-            if (block instanceof BlockGravitationalAnomaly || block.getMaterial() == null || block.getMaterial().isOpaque())
-            {
-                return new MovingObjectPosition(xCoord + front.offsetX * i, yCoord + front.offsetY * i, zCoord + front.offsetZ * i, front.getOpposite().ordinal(),Vec3.createVectorHelper(xCoord + (front.offsetX * i) - Math.abs(front.offsetX) * 0.5, yCoord + (front.offsetY * i) - Math.abs(front.offsetY) * 0.5, zCoord + (front.offsetZ * i) - Math.abs(front.offsetZ) * 0.5));
+            if (block instanceof BlockGravitationalAnomaly || block.getMaterial() == null || block.getMaterial().isOpaque()) {
+                return new MovingObjectPosition(xCoord + front.offsetX * i, yCoord + front.offsetY * i, zCoord + front.offsetZ * i, front.getOpposite().ordinal(), Vec3.createVectorHelper(xCoord + (front.offsetX * i) - Math.abs(front.offsetX) * 0.5, yCoord + (front.offsetY * i) - Math.abs(front.offsetY) * 0.5, zCoord + (front.offsetZ * i) - Math.abs(front.offsetZ) * 0.5));
             }
         }
         return null;
     }
 
-    void manageAnomalies(World world)
-    {
+    void manageAnomalies(World world) {
         hit = seacrhForAnomalies(world);
-        if (hit != null && world.getTileEntity(hit.blockX,hit.blockY,hit.blockZ) instanceof TileEntityGravitationalAnomaly)
-        {
-            ((TileEntityGravitationalAnomaly) world.getTileEntity(hit.blockX,hit.blockY,hit.blockZ)).suppress(new AnomalySuppressor(xCoord,yCoord,zCoord,20,0.7f));
+        if (hit != null && world.getTileEntity(hit.blockX, hit.blockY, hit.blockZ) instanceof TileEntityGravitationalAnomaly) {
+            ((TileEntityGravitationalAnomaly) world.getTileEntity(hit.blockX, hit.blockY, hit.blockZ)).suppress(new AnomalySuppressor(xCoord, yCoord, zCoord, 20, 0.7f));
         }
     }
 
     @SideOnly(Side.CLIENT)
-    void spawnParticles(World world)
-    {
-        if (hit != null && world.getTileEntity(hit.blockX,hit.blockY,hit.blockZ) instanceof TileEntityGravitationalAnomaly)
-        {
+    void spawnParticles(World world) {
+        if (hit != null && world.getTileEntity(hit.blockX, hit.blockY, hit.blockZ) instanceof TileEntityGravitationalAnomaly) {
             if (random.nextFloat() < 0.2f) {
                 float r = (float) getBeamColorR();
                 float g = (float) getBeamColorG();
@@ -112,25 +101,21 @@ public class TileEntityMachineGravitationalStabilizer extends MOTileEntityMachin
     }
 
     @SideOnly(Side.CLIENT)
-    public double getMaxRenderDistanceSquared()
-    {
+    public double getMaxRenderDistanceSquared() {
         return 4086 * 2;
     }
 
     @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getRenderBoundingBox()
-    {
+    public AxisAlignedBB getRenderBoundingBox() {
         Block type = getBlockType();
-        if(type != null)
-        {
+        if (type != null) {
             AxisAlignedBB bb = type.getCollisionBoundingBoxFromPool(worldObj, xCoord, yCoord, zCoord);
-            if (hit != null)
-            {
+            if (hit != null) {
                 return bb.expand(hit.blockX - xCoord, hit.blockY - yCoord, hit.blockZ - zCoord);
             }
             return bb;
         }
-        return AxisAlignedBB.getBoundingBox(xCoord,yCoord,zCoord,xCoord + 1,yCoord + 1,zCoord + 1);
+        return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 1, zCoord + 1);
     }
 
     @Override
@@ -158,47 +143,39 @@ public class TileEntityMachineGravitationalStabilizer extends MOTileEntityMachin
 
     }
 
-    public double getBeamColorR()
-    {
-        return MOMathHelper.noise(0,yCoord,worldObj.getWorldTime() * 0.01);
+    public double getBeamColorR() {
+        return MOMathHelper.noise(0, yCoord, worldObj.getWorldTime() * 0.01);
     }
 
-    public double getBeamColorG()
-    {
-        return MOMathHelper.noise(xCoord,0,worldObj.getWorldTime() * 0.01);
+    public double getBeamColorG() {
+        return MOMathHelper.noise(xCoord, 0, worldObj.getWorldTime() * 0.01);
     }
 
-    public double getBeamColorB()
-    {
-        return MOMathHelper.noise(0,0,zCoord + worldObj.getWorldTime() * 0.01);
+    public double getBeamColorB() {
+        return MOMathHelper.noise(0, 0, zCoord + worldObj.getWorldTime() * 0.01);
     }
 
-    public MovingObjectPosition getHit()
-    {
+    public MovingObjectPosition getHit() {
         return hit;
     }
 
     @Override
-    public boolean shouldRenderInPass(int pass)
-    {
+    public boolean shouldRenderInPass(int pass) {
         return pass == 1;
     }
 
     @Override
-    public void onServerTick(TickEvent.Phase phase,World world)
-    {
+    public void onServerTick(TickEvent.Phase phase, World world) {
         if (worldObj == null)
             return;
 
-        if (phase.equals(TickEvent.Phase.START) && getRedstoneActive())
-        {
+        if (phase.equals(TickEvent.Phase.START) && getRedstoneActive()) {
             manageAnomalies(worldObj);
         }
     }
 
     @Override
-    public boolean isAffectedByUpgrade(UpgradeTypes type)
-    {
+    public boolean isAffectedByUpgrade(UpgradeTypes type) {
         return false;
     }
 

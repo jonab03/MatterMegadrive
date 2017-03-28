@@ -27,34 +27,29 @@ import net.minecraft.nbt.NBTTagCompound;
 /**
  * Created by Simeon on 4/14/2015.
  */
-public class ItemInventoryWrapper implements IInventory
-{
+public class ItemInventoryWrapper implements IInventory {
     ItemStack inventory;
     int size;
     boolean dirty;
 
-    public ItemInventoryWrapper(ItemStack itemStack, int size)
-    {
+    public ItemInventoryWrapper(ItemStack itemStack, int size) {
         this.inventory = itemStack;
         this.size = size;
     }
 
     @Override
-    public int getSizeInventory()
-    {
+    public int getSizeInventory() {
         return size;
     }
 
     @Override
-    public ItemStack getStackInSlot(int slot)
-    {
-       return MOInventoryHelper.getStackInSlot(inventory, slot);
+    public ItemStack getStackInSlot(int slot) {
+        return MOInventoryHelper.getStackInSlot(inventory, slot);
     }
 
     @Override
-    public ItemStack decrStackSize(int slot, int amount)
-    {
-        return MOInventoryHelper.decrStackSize(inventory,slot,amount);
+    public ItemStack decrStackSize(int slot, int amount) {
+        return MOInventoryHelper.decrStackSize(inventory, slot, amount);
     }
 
     @Override
@@ -63,8 +58,7 @@ public class ItemInventoryWrapper implements IInventory
     }
 
     @Override
-    public void setInventorySlotContents(int slot, ItemStack stack)
-    {
+    public void setInventorySlotContents(int slot, ItemStack stack) {
         if (inventory.getTagCompound() == null)
             inventory.setTagCompound(new NBTTagCompound());
 
@@ -87,8 +81,7 @@ public class ItemInventoryWrapper implements IInventory
     }
 
     @Override
-    public void markDirty()
-    {
+    public void markDirty() {
         dirty = true;
     }
 
@@ -108,8 +101,7 @@ public class ItemInventoryWrapper implements IInventory
     }
 
     @Override
-    public boolean isItemValidForSlot(int slot, ItemStack stack)
-    {
+    public boolean isItemValidForSlot(int slot, ItemStack stack) {
         return true;
     }
 }

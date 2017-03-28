@@ -41,44 +41,40 @@ import java.util.List;
 /**
  * Created by Simeon on 4/26/2015.
  */
-public class GuiPatternMonitor extends MOGuiNetworkMachine<TileEntityMachinePatternMonitor>
-{
+public class GuiPatternMonitor extends MOGuiNetworkMachine<TileEntityMachinePatternMonitor> {
     MOElementButton refreshButton;
     MOElementButton requestButton;
     ElementPatternsGrid elementGrid;
     PageTasks pageTasks;
     MOElementTextField searchField;
 
-    public GuiPatternMonitor(InventoryPlayer inventoryPlayer, TileEntityMachinePatternMonitor machine)
-    {
-        super(new ContainerPatternMonitor(inventoryPlayer,machine), machine);
+    public GuiPatternMonitor(InventoryPlayer inventoryPlayer, TileEntityMachinePatternMonitor machine) {
+        super(new ContainerPatternMonitor(inventoryPlayer, machine), machine);
         name = "pattern_monitor";
-        refreshButton = new MOElementButton(this,this,6,45,"Refresh",0,0,22,0,22,22, "");
+        refreshButton = new MOElementButton(this, this, 6, 45, "Refresh", 0, 0, 22, 0, 22, 22, "");
         refreshButton.setTexture(Reference.PATH_GUI_ITEM + "refresh.png", 44, 22);
         refreshButton.setToolTip(MOStringHelper.translateToLocal("gui.tooltip.button.refresh"));
-        requestButton = new MOElementButton(this,this,6,75,"Request",0,0,22,0,22,22,"");
-        requestButton.setTexture(Reference.PATH_GUI_ITEM + "request.png",44,22);
+        requestButton = new MOElementButton(this, this, 6, 75, "Request", 0, 0, 22, 0, 22, 22, "");
+        requestButton.setTexture(Reference.PATH_GUI_ITEM + "request.png", 44, 22);
         requestButton.setToolTip(MOStringHelper.translateToLocal("gui.tooltip.button.request"));
-        elementGrid = new ElementPatternsGrid(this,48,40,160,110);
-        searchField = new MOElementTextField(this,41,26,167,14);
+        elementGrid = new ElementPatternsGrid(this, 48, 40, 160, 110);
+        searchField = new MOElementTextField(this, 41, 26, 167, 14);
         slotsList.addElement(refreshButton);
         slotsList.addElement(requestButton);
         elementGrid.updateStackList(machine.getGuiPatterns());
     }
 
     @Override
-    public void registerPages(MOBaseContainer container,TileEntityMachinePatternMonitor machine)
-    {
+    public void registerPages(MOBaseContainer container, TileEntityMachinePatternMonitor machine) {
         super.registerPages(container, machine);
 
-        pageTasks = new PageTasks(this,0,0,xSize,ySize,machine.getTaskQueue((byte) 0));
+        pageTasks = new PageTasks(this, 0, 0, xSize, ySize, machine.getTaskQueue((byte) 0));
         pageTasks.setName("Tasks");
         AddPage(pageTasks, ClientProxy.holoIcons.getIcon("page_icon_tasks"), MOStringHelper.translateToLocal("gui.tooltip.page.tasks")).setIconColor(Reference.COLOR_MATTER);
     }
 
     @Override
-    public void initGui()
-    {
+    public void initGui() {
         super.initGui();
 
         //this.addElement(refreshButton);
@@ -88,56 +84,42 @@ public class GuiPatternMonitor extends MOGuiNetworkMachine<TileEntityMachinePatt
         AddHotbarPlayerSlots(inventorySlots, this);
     }
 
-    public void handleElementButtonClick(MOElementBase element, String buttonName, int mouseButton)
-    {
-        super.handleElementButtonClick(element,buttonName,mouseButton);
-        if (buttonName.equals("Refresh"))
-        {
-            MatterOverdrive.packetPipeline.sendToServer(new PacketPatternMonitorCommands(machine,0,null));
-        }
-        else if (buttonName.equals("Request"))
-        {
+    public void handleElementButtonClick(MOElementBase element, String buttonName, int mouseButton) {
+        super.handleElementButtonClick(element, buttonName, mouseButton);
+        if (buttonName.equals("Refresh")) {
+            MatterOverdrive.packetPipeline.sendToServer(new PacketPatternMonitorCommands(machine, 0, null));
+        } else if (buttonName.equals("Request")) {
             List<ItemPattern> requestList = new ArrayList<>();
-            for (int i = 0;i < elementGrid.getElements().size();i++)
-            {
-                if (elementGrid.getElements().get(i) instanceof ElementMonitorItemPattern)
-                {
-                    ElementMonitorItemPattern itemPattern = (ElementMonitorItemPattern)elementGrid.getElements().get(i);
+            for (int i = 0; i < elementGrid.getElements().size(); i++) {
+                if (elementGrid.getElements().get(i) instanceof ElementMonitorItemPattern) {
+                    ElementMonitorItemPattern itemPattern = (ElementMonitorItemPattern) elementGrid.getElements().get(i);
 
-                    if (itemPattern.getAmount() > 0)
-                    {
+                    if (itemPattern.getAmount() > 0) {
                         ItemPattern pattern = itemPattern.getPattern().copy();
                         pattern.setCount(itemPattern.getAmount());
                         requestList.add(pattern);
                         itemPattern.setAmount(0);
-                    }
-                    else
-                    {
+                    } else {
                         itemPattern.setExpanded(false);
                     }
                 }
             }
 
-            if (requestList.size() > 0)
-            {
+            if (requestList.size() > 0) {
                 MatterOverdrive.packetPipeline.sendToServer(new PacketPatternMonitorCommands(machine, PacketPatternMonitorCommands.COMMAND_REQUEST, requestList));
             }
-        }
-        else if (buttonName.equals("DropTask"))
-        {
+        } else if (buttonName.equals("DropTask")) {
             NBTTagCompound tagCompound = new NBTTagCompound();
-            tagCompound.setInteger("TaskID",mouseButton);
-            MatterOverdrive.packetPipeline.sendToServer(new PacketRemoveTask(machine,mouseButton,(byte)0, MatterNetworkTaskState.INVALID));
+            tagCompound.setInteger("TaskID", mouseButton);
+            MatterOverdrive.packetPipeline.sendToServer(new PacketRemoveTask(machine, mouseButton, (byte) 0, MatterNetworkTaskState.INVALID));
         }
     }
 
     @Override
-    protected void updateElementInformation()
-    {
+    protected void updateElementInformation() {
         super.updateElementInformation();
 
-        if (machine.needsRefresh())
-        {
+        if (machine.needsRefresh()) {
             elementGrid.updateStackList(machine.getGuiPatterns());
             machine.forceSearch(false);
         }

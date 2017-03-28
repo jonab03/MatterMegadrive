@@ -25,13 +25,12 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 8/10/2015.
  */
-public class DialogMessageTrade extends DialogMessageRandom
-{
+public class DialogMessageTrade extends DialogMessageRandom {
 
-    public DialogMessageTrade()
-    {
+    public DialogMessageTrade() {
         super();
     }
+
     public DialogMessageTrade(String message, String shortMessage) {
         super(message, shortMessage);
     }
@@ -41,12 +40,10 @@ public class DialogMessageTrade extends DialogMessageRandom
     }
 
     @Override
-    public void onInteract(IDialogNpc npc,EntityPlayer player)
-    {
-        if (!player.worldObj.isRemote && npc.getEntity() instanceof IMerchant)
-        {
-            ((IMerchant)npc.getEntity()).setCustomer(player);
-            player.displayGUIMerchant((IMerchant)npc, npc.getEntity().getCommandSenderName());
+    public void onInteract(IDialogNpc npc, EntityPlayer player) {
+        if (!player.worldObj.isRemote && npc.getEntity() instanceof IMerchant) {
+            ((IMerchant) npc.getEntity()).setCustomer(player);
+            player.displayGUIMerchant((IMerchant) npc, npc.getEntity().getCommandSenderName());
         }
     }
 }

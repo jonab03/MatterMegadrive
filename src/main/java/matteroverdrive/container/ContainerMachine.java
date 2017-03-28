@@ -37,29 +37,24 @@ import java.util.List;
 /**
  * Created by Simeon on 4/9/2015.
  */
-public class ContainerMachine<T extends MOTileEntityMachine> extends MOBaseContainer
-{
+public class ContainerMachine<T extends MOTileEntityMachine> extends MOBaseContainer {
     protected T machine;
     protected int progressScaled;
 
-    public ContainerMachine()
-    {
+    public ContainerMachine() {
         super();
     }
 
-    public ContainerMachine(InventoryPlayer inventory, T machine)
-    {
+    public ContainerMachine(InventoryPlayer inventory, T machine) {
         super(inventory);
         this.machine = machine;
         init(inventory);
     }
 
-    protected void init(InventoryPlayer inventory)
-    {
+    protected void init(InventoryPlayer inventory) {
     }
 
-    public void detectAndSendChanges()
-    {
+    public void detectAndSendChanges() {
         super.detectAndSendChanges();
         if (this.machine != null) {
             short progressScaled = (short) (this.machine.getProgress() * Short.MAX_VALUE);
@@ -74,9 +69,8 @@ public class ContainerMachine<T extends MOTileEntityMachine> extends MOBaseConta
     }
 
     @SideOnly(Side.CLIENT)
-    public void updateProgressBar(int slot,int newValue)
-    {
-        if(slot == 0)
+    public void updateProgressBar(int slot, int newValue) {
+        if (slot == 0)
             this.progressScaled = newValue;
     }
 
@@ -85,64 +79,49 @@ public class ContainerMachine<T extends MOTileEntityMachine> extends MOBaseConta
         return true;
     }
 
-    public void addUpgradeSlots(Inventory inventory)
-    {
+    public void addUpgradeSlots(Inventory inventory) {
         addUpgradeSlots(inventory, 0, 0);
     }
 
-    public void addUpgradeSlots(Inventory inventory, int x, int y)
-    {
+    public void addUpgradeSlots(Inventory inventory, int x, int y) {
         int upgradeSlotIndex = 0;
 
-        for (int i = 0; i < inventory.getSizeInventory(); i++)
-        {
-            if (inventory.getSlot(i) instanceof UpgradeSlot)
-            {
-                addSlotToContainer(new SlotInventory(inventory,inventory.getSlot(i),x + (upgradeSlotIndex % 5) * 24,y + (upgradeSlotIndex / 5) * 24));
+        for (int i = 0; i < inventory.getSizeInventory(); i++) {
+            if (inventory.getSlot(i) instanceof UpgradeSlot) {
+                addSlotToContainer(new SlotInventory(inventory, inventory.getSlot(i), x + (upgradeSlotIndex % 5) * 24, y + (upgradeSlotIndex / 5) * 24));
                 upgradeSlotIndex++;
             }
         }
     }
 
-    public void addAllSlotsFromInventory(Inventory inventory)
-    {
-        for (matteroverdrive.data.inventory.Slot slot : inventory.getSlots())
-        {
+    public void addAllSlotsFromInventory(Inventory inventory) {
+        for (matteroverdrive.data.inventory.Slot slot : inventory.getSlots()) {
             addSlotToContainer(new SlotInventory(inventory, inventory.getSlot(slot.getId()), 0, 0));
         }
     }
 
     @Override
-    public ItemStack transferStackInSlot(EntityPlayer player, int slotID)
-    {
+    public ItemStack transferStackInSlot(EntityPlayer player, int slotID) {
         ItemStack itemstack = null;
-        Slot slot = (Slot)this.inventorySlots.get(slotID);
+        Slot slot = (Slot) this.inventorySlots.get(slotID);
 
-        if(slot != null && slot.getHasStack())
-        {
+        if (slot != null && slot.getHasStack()) {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
-            if(slotID < machine.getSizeInventory())
-            {
+            if (slotID < machine.getSizeInventory()) {
                 putInPlayerInventory(itemstack1);
-            }
-            else if(slotID >= machine.getSizeInventory())
-            {
+            } else if (slotID >= machine.getSizeInventory()) {
                 tryAndPutInMachineSlots(itemstack1, machine);
             }
 
-            if (itemstack1.stackSize == 0)
-            {
+            if (itemstack1.stackSize == 0) {
                 slot.putStack(null);
-            }
-            else
-            {
+            } else {
                 slot.onSlotChanged();
             }
 
-            if (itemstack1.stackSize == itemstack.stackSize)
-            {
+            if (itemstack1.stackSize == itemstack.stackSize) {
                 return null;
             }
 
@@ -152,23 +131,19 @@ public class ContainerMachine<T extends MOTileEntityMachine> extends MOBaseConta
         return itemstack;
     }
 
-    protected boolean putInPlayerInventory(ItemStack itemStack)
-    {
-        return MOInventoryHelper.mergeItemStack((List<Slot>)inventorySlots, itemStack, machine.getSizeInventory(), inventorySlots.size() - machine.getSizeInventory(), true, true);
+    protected boolean putInPlayerInventory(ItemStack itemStack) {
+        return MOInventoryHelper.mergeItemStack((List<Slot>) inventorySlots, itemStack, machine.getSizeInventory(), inventorySlots.size() - machine.getSizeInventory(), true, true);
     }
 
-    protected boolean tryAndPutInMachineSlots(ItemStack itemStack,IInventory inventory)
-    {
-        return MOInventoryHelper.mergeItemStack((List<Slot>)inventorySlots, itemStack, 0, inventory.getSizeInventory(), false, true);
+    protected boolean tryAndPutInMachineSlots(ItemStack itemStack, IInventory inventory) {
+        return MOInventoryHelper.mergeItemStack((List<Slot>) inventorySlots, itemStack, 0, inventory.getSizeInventory(), false, true);
     }
 
-    public T getMachine()
-    {
+    public T getMachine() {
         return machine;
     }
 
-    public float getProgress()
-    {
-        return (float)progressScaled / (float)Short.MAX_VALUE;
+    public float getProgress() {
+        return (float) progressScaled / (float) Short.MAX_VALUE;
     }
 }

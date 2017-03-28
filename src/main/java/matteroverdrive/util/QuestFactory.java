@@ -35,62 +35,52 @@ import java.util.Random;
 /**
  * Created by Simeon on 11/19/2015.
  */
-public class QuestFactory
-{
-    public QuestStack generateQuestStack(Random random, IQuest quest)
-    {
+public class QuestFactory {
+    public QuestStack generateQuestStack(Random random, IQuest quest) {
         QuestStack questStack = new QuestStack(quest);
-        quest.initQuestStack(random,questStack);
+        quest.initQuestStack(random, questStack);
         return questStack;
     }
 
     @SideOnly(Side.CLIENT)
-    public String getFormattedQuestObjective(EntityPlayer entityPlayer,QuestStack questStack,int objectiveInex)
-    {
-        boolean isCompleted = questStack.isObjectiveCompleted(entityPlayer,objectiveInex);
-        if (isCompleted)
-        {
+    public String getFormattedQuestObjective(EntityPlayer entityPlayer, QuestStack questStack, int objectiveInex) {
+        boolean isCompleted = questStack.isObjectiveCompleted(entityPlayer, objectiveInex);
+        if (isCompleted) {
             //completed
-            return EnumChatFormatting.GREEN + Reference.UNICODE_COMPLETED_OBJECTIVE + " " + questStack.getObjective(entityPlayer,objectiveInex);
-        }else
-        {
+            return EnumChatFormatting.GREEN + Reference.UNICODE_COMPLETED_OBJECTIVE + " " + questStack.getObjective(entityPlayer, objectiveInex);
+        } else {
             //not completed
-            return EnumChatFormatting.DARK_GREEN + Reference.UNICODE_UNCOMPLETED_OBJECTIVE + " " + questStack.getObjective(entityPlayer,objectiveInex);
+            return EnumChatFormatting.DARK_GREEN + Reference.UNICODE_UNCOMPLETED_OBJECTIVE + " " + questStack.getObjective(entityPlayer, objectiveInex);
         }
     }
 
     @SideOnly(Side.CLIENT)
-    public List<String> getFormattedQuestObjective(EntityPlayer entityPlayer,QuestStack questStack,int objectiveInex,int length)
-    {
-        List<String> objectiveLines = Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(questStack.getObjective(entityPlayer,objectiveInex),length);
-        boolean isObjectiveComplete = questStack.isObjectiveCompleted(Minecraft.getMinecraft().thePlayer,objectiveInex);
-        for (int o = 0;o < objectiveLines.size();o++)
-        {
+    public List<String> getFormattedQuestObjective(EntityPlayer entityPlayer, QuestStack questStack, int objectiveInex, int length) {
+        List<String> objectiveLines = Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(questStack.getObjective(entityPlayer, objectiveInex), length);
+        boolean isObjectiveComplete = questStack.isObjectiveCompleted(Minecraft.getMinecraft().thePlayer, objectiveInex);
+        for (int o = 0; o < objectiveLines.size(); o++) {
             String line = "";
-            if (isObjectiveComplete)
-            {
+            if (isObjectiveComplete) {
                 line += EnumChatFormatting.GREEN;
                 if (o == 0)
                     line += Reference.UNICODE_COMPLETED_OBJECTIVE + " ";
-            }else
-            {
+            } else {
                 line += EnumChatFormatting.DARK_GREEN;
                 if (o == 0)
-                    line += Reference.UNICODE_UNCOMPLETED_OBJECTIVE +" ";
+                    line += Reference.UNICODE_UNCOMPLETED_OBJECTIVE + " ";
             }
 
             line += objectiveLines.get(o);
-            objectiveLines.set(o,line);
+            objectiveLines.set(o, line);
         }
         return objectiveLines;
     }
 
-    public QuestStack generateQuestStack(String questName)
-    {
+    public QuestStack generateQuestStack(String questName) {
         IQuest quest = MatterOverdrive.quests.getQuestByName(questName);
         if (quest != null) {
             QuestStack questStack = new QuestStack(quest);
-            quest.initQuestStack(MatterOverdrive.quests.random,questStack);
+            quest.initQuestStack(MatterOverdrive.quests.random, questStack);
             return questStack;
         }
         return null;

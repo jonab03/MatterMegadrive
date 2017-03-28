@@ -29,17 +29,17 @@ import net.minecraft.tileentity.TileEntity;
 /**
  * Created by Simeon on 8/22/2015.
  */
-public class PacketSendQueueFlash extends TileEntityUpdatePacket
-{
-    public PacketSendQueueFlash(){super();}
-    public PacketSendQueueFlash(TileEntityMachinePacketQueue tileEntity)
-    {
+public class PacketSendQueueFlash extends TileEntityUpdatePacket {
+    public PacketSendQueueFlash() {
+        super();
+    }
+
+    public PacketSendQueueFlash(TileEntityMachinePacketQueue tileEntity) {
         super(tileEntity);
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         super.fromBytes(buf);
     }
 
@@ -48,14 +48,11 @@ public class PacketSendQueueFlash extends TileEntityUpdatePacket
         super.toBytes(buf);
     }
 
-    public static class ClientHandler extends AbstractClientPacketHandler<PacketSendQueueFlash>
-    {
+    public static class ClientHandler extends AbstractClientPacketHandler<PacketSendQueueFlash> {
         @Override
-        public IMessage handleClientMessage(EntityPlayer player, PacketSendQueueFlash message, MessageContext ctx)
-        {
+        public IMessage handleClientMessage(EntityPlayer player, PacketSendQueueFlash message, MessageContext ctx) {
             TileEntity tileEntity = message.getTileEntity(player.worldObj);
-            if (tileEntity instanceof TileEntityMachinePacketQueue)
-            {
+            if (tileEntity instanceof TileEntityMachinePacketQueue) {
                 ((TileEntityMachinePacketQueue) tileEntity).flashTime = 5;
             }
             return null;

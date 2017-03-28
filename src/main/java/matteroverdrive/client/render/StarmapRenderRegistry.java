@@ -32,19 +32,16 @@ import java.util.Map;
 /**
  * Created by Simeon on 7/25/2015.
  */
-public class StarmapRenderRegistry implements IStarmapRenderRegistry
-{
+public class StarmapRenderRegistry implements IStarmapRenderRegistry {
     Map<Class<? extends SpaceBody>, Collection<ISpaceBodyHoloRenderer>> map;
 
-    public StarmapRenderRegistry()
-    {
+    public StarmapRenderRegistry() {
         map = new HashMap<>();
     }
 
     @Override
-    public boolean registerRenderer(Class<? extends SpaceBody> spaceBodyType, ISpaceBodyHoloRenderer renderer)
-    {
-        if (!MinecraftForge.EVENT_BUS.post(new MOEventRegisterStarmapRenderer(spaceBodyType,renderer))) {
+    public boolean registerRenderer(Class<? extends SpaceBody> spaceBodyType, ISpaceBodyHoloRenderer renderer) {
+        if (!MinecraftForge.EVENT_BUS.post(new MOEventRegisterStarmapRenderer(spaceBodyType, renderer))) {
             Collection<ISpaceBodyHoloRenderer> renderers = map.get(spaceBodyType);
             if (renderers == null) {
                 renderers = new ArrayList<>();

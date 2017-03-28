@@ -35,19 +35,15 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 8/22/2015.
  */
-public class TileEntityRendererPacketQueue extends TileEntitySpecialRenderer
-{
+public class TileEntityRendererPacketQueue extends TileEntitySpecialRenderer {
     Block fakeBlock = new BlockNetworkSwitch(Material.iron, "fake_block");
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float ticks)
-    {
+    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float ticks) {
         glPushMatrix();
         glTranslated(x, y, z);
-        if (tileEntity instanceof TileEntityMachinePacketQueue)
-        {
-            if (((TileEntityMachinePacketQueue) tileEntity).flashTime > 0)
-            {
+        if (tileEntity instanceof TileEntityMachinePacketQueue) {
+            if (((TileEntityMachinePacketQueue) tileEntity).flashTime > 0) {
                 renderBlock(fakeBlock, RenderBlocks.getInstance());
             }
         }
@@ -55,14 +51,13 @@ public class TileEntityRendererPacketQueue extends TileEntitySpecialRenderer
         glPopMatrix();
     }
 
-    private void renderBlock(Block block, RenderBlocks renderer)
-    {
+    private void renderBlock(Block block, RenderBlocks renderer) {
         IIcon icon = MatterOverdriveIcons.packet_queue_active;
         float distance = 0.1f;
 
         glDisable(GL_LIGHTING);
         glEnable(GL_BLEND);
-        glBlendFunc(GL_ONE,GL_ONE);
+        glBlendFunc(GL_ONE, GL_ONE);
         RenderUtils.disableLightmap();
         RenderUtils.setBlockTextureSheet();
         RenderUtils.drawCube(-0.01, -0.01, -0.01, 1.02, 1.02, 1.02, icon.getMinU(), icon.getMinV(), icon.getMaxU(), icon.getMaxV(), Reference.COLOR_HOLO);

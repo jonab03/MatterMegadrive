@@ -26,8 +26,7 @@ import java.util.List;
 /**
  * Created by Simeon on 12/23/2015.
  */
-public class ElementDualScaled extends MOElementBase
-{
+public class ElementDualScaled extends MOElementBase {
     public int quantity;
     public int mode;
     public boolean background = true;
@@ -38,20 +37,17 @@ public class ElementDualScaled extends MOElementBase
     }
 
     @Override
-    public void updateInfo()
-    {
+    public void updateInfo() {
 
     }
 
     @Override
-    public void init()
-    {
+    public void init() {
 
     }
 
     @Override
-    public void addTooltip(List<String> var1, int mouseX, int mouseY)
-    {
+    public void addTooltip(List<String> var1, int mouseX, int mouseY) {
 
     }
 

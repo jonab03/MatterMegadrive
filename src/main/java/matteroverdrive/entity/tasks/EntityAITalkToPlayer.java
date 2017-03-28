@@ -26,38 +26,30 @@ import net.minecraft.inventory.Container;
 /**
  * Created by Simeon on 8/11/2015.
  */
-public class EntityAITalkToPlayer extends EntityAIBase
-{
+public class EntityAITalkToPlayer extends EntityAIBase {
     private IDialogNpc npc;
 
-    public EntityAITalkToPlayer(IDialogNpc npc)
-    {
+    public EntityAITalkToPlayer(IDialogNpc npc) {
         this.npc = npc;
         this.setMutexBits(5);
     }
 
     @Override
-    public boolean shouldExecute()
-    {
-        if (!this.npc.getEntity().isEntityAlive())
-        {
+    public boolean shouldExecute() {
+        if (!this.npc.getEntity().isEntityAlive()) {
             return false;
-        }
-        else
-        {
+        } else {
             EntityPlayer entityplayer = this.npc.getDialogPlayer();
-            return entityplayer == null ? false : (this.npc.getEntity().getDistanceSqToEntity(entityplayer) > 32.0D ? false : entityplayer.openContainer instanceof Container);
+            return entityplayer != null && (!(this.npc.getEntity().getDistanceSqToEntity(entityplayer) > 32.0D) && entityplayer.openContainer instanceof Container);
         }
     }
 
     @Override
-    public void startExecuting()
-    {
+    public void startExecuting() {
         this.npc.getEntity().getNavigator().clearPathEntity();
     }
 
-    public void resetTask()
-    {
+    public void resetTask() {
         this.npc.setDialogPlayer(null);
     }
 }

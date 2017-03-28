@@ -41,8 +41,7 @@ public class BlockMatterRecycler extends MOMatterEnergyStorageBlock {
     private IIcon iconTop;
     private IIcon iconSideAnim;
 
-    public BlockMatterRecycler(Material material, String name)
-    {
+    public BlockMatterRecycler(Material material, String name) {
         super(material, name, true, true);
         setHardness(20.0F);
         this.setResistance(9.0f);
@@ -51,17 +50,14 @@ public class BlockMatterRecycler extends MOMatterEnergyStorageBlock {
     }
 
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister iconRegister)
-    {
+    public void registerBlockIcons(IIconRegister iconRegister) {
         this.iconTop = iconRegister.registerIcon(Reference.MOD_ID + ":decomposer_top");
         this.iconSideAnim = iconRegister.registerIcon(Reference.MOD_ID + ":recycler_side_anim");
     }
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int meta)
-    {
-        if (side == MOBlockHelper.getAboveSide(meta))
-        {
+    public IIcon getIcon(int side, int meta) {
+        if (side == MOBlockHelper.getAboveSide(meta)) {
             return iconTop;
         }
 
@@ -69,14 +65,10 @@ public class BlockMatterRecycler extends MOMatterEnergyStorageBlock {
     }
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side)
-    {
-        if (side != MOBlockHelper.getAboveSide(blockAccess.getBlockMetadata(x, y, z)))
-        {
-            if (blockAccess.getTileEntity(x, y, z) instanceof TileEntityMachineMatterRecycler)
-            {
-                if (((TileEntityMachineMatterRecycler) blockAccess.getTileEntity(x, y, z)).isActive())
-                {
+    public IIcon getIcon(IBlockAccess blockAccess, int x, int y, int z, int side) {
+        if (side != MOBlockHelper.getAboveSide(blockAccess.getBlockMetadata(x, y, z))) {
+            if (blockAccess.getTileEntity(x, y, z) instanceof TileEntityMachineMatterRecycler) {
+                if (((TileEntityMachineMatterRecycler) blockAccess.getTileEntity(x, y, z)).isActive()) {
                     return iconSideAnim;
                 }
             }
@@ -85,14 +77,12 @@ public class BlockMatterRecycler extends MOMatterEnergyStorageBlock {
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int meta)
-    {
+    public TileEntity createNewTileEntity(World world, int meta) {
         return new TileEntityMachineMatterRecycler();
     }
 
     @Override
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return MOBlockRenderer.renderID;
     }
 }

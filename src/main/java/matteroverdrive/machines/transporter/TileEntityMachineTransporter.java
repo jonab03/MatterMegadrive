@@ -70,12 +70,11 @@ import java.util.List;
  * Created by Simeon on 5/3/2015.
  */
 @Optional.InterfaceList({
-		@Optional.Interface(modid = "ComputerCraft", iface = "dan200.computercraft.api.peripheral.IPeripheral"),
-		@Optional.Interface(modid = "OpenComputers", iface = "li.cil.oc.api.network.SimpleComponent"),
-		@Optional.Interface(modid = "OpenComputers", iface = "li.cil.oc.api.network.ManagedPeripheral")
+        @Optional.Interface(modid = "ComputerCraft", iface = "dan200.computercraft.api.peripheral.IPeripheral"),
+        @Optional.Interface(modid = "OpenComputers", iface = "li.cil.oc.api.network.SimpleComponent"),
+        @Optional.Interface(modid = "OpenComputers", iface = "li.cil.oc.api.network.ManagedPeripheral")
 })
-public class TileEntityMachineTransporter extends MOTileEntityMachineMatter implements ITransportList, IWailaBodyProvider, IPeripheral, SimpleComponent, ManagedPeripheral
-{
+public class TileEntityMachineTransporter extends MOTileEntityMachineMatter implements ITransportList, IWailaBodyProvider, IPeripheral, SimpleComponent, ManagedPeripheral {
     public static final int MAX_ENTETIES_PRE_TRANSPORT = 3;
     public static final int TRANSPORT_TIME = 70;
     public static final int TRANSPORT_DELAY = 80;
@@ -90,8 +89,7 @@ public class TileEntityMachineTransporter extends MOTileEntityMachineMatter impl
     long transportTracker;
     private ComponentComputers computerComponent;
 
-    public TileEntityMachineTransporter()
-    {
+    public TileEntityMachineTransporter() {
         super(5);
         energyStorage.setCapacity(ENERGY_STORAGE);
         energyStorage.setMaxExtract(MAX_ENERGY_EXTRACT);
@@ -102,25 +100,21 @@ public class TileEntityMachineTransporter extends MOTileEntityMachineMatter impl
     }
 
     @Override
-    protected void RegisterSlots(Inventory inventory)
-    {
+    protected void RegisterSlots(Inventory inventory) {
         super.RegisterSlots(inventory);
         usbSlotID = inventory.AddSlot(new TeleportFlashDriveSlot(true));
     }
 
     @Override
-    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk)
-    {
+    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
         super.writeCustomNBT(nbt, categories, toDisk);
-        if (categories.contains(MachineNBTCategory.CONFIGS))
-        {
+        if (categories.contains(MachineNBTCategory.CONFIGS)) {
             writeLocations(nbt);
         }
     }
 
     @Override
-    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories)
-    {
+    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories) {
         super.readCustomNBT(nbt, categories);
         if (categories.contains(MachineNBTCategory.CONFIGS)) {
             readLocations(nbt);
@@ -132,22 +126,18 @@ public class TileEntityMachineTransporter extends MOTileEntityMachineMatter impl
 
     }
 
-    public void readLocations(NBTTagCompound nbt)
-    {
+    public void readLocations(NBTTagCompound nbt) {
         locations.clear();
-        NBTTagList locationsList = nbt.getTagList("transportLocations",10);
-        for (int i = 0;i < locationsList.tagCount();i++)
-        {
+        NBTTagList locationsList = nbt.getTagList("transportLocations", 10);
+        for (int i = 0; i < locationsList.tagCount(); i++) {
             locations.add(new TransportLocation(locationsList.getCompoundTagAt(i)));
         }
         selectedLocation = nbt.getInteger("selectedTransport");
     }
 
-    public void writeLocations(NBTTagCompound nbt)
-    {
+    public void writeLocations(NBTTagCompound nbt) {
         NBTTagList locationsList = new NBTTagList();
-        for (TransportLocation location : locations)
-        {
+        for (TransportLocation location : locations) {
             NBTTagCompound positionTag = new NBTTagCompound();
             location.writeToNBT(positionTag);
             locationsList.appendTag(positionTag);
@@ -172,8 +162,7 @@ public class TileEntityMachineTransporter extends MOTileEntityMachineMatter impl
     }
 
     @Override
-    public void writeToDropItem(ItemStack itemStack)
-    {
+    public void writeToDropItem(ItemStack itemStack) {
         super.writeToDropItem(itemStack);
         if (!itemStack.hasTagCompound())
             itemStack.setTagCompound(new NBTTagCompound());
@@ -182,13 +171,12 @@ public class TileEntityMachineTransporter extends MOTileEntityMachineMatter impl
     }
 
     @Override
-    public void readFromPlaceItem(ItemStack itemStack)
-    {
+    public void readFromPlaceItem(ItemStack itemStack) {
         super.readFromPlaceItem(itemStack);
         if (!itemStack.hasTagCompound())
             itemStack.setTagCompound(new NBTTagCompound());
 
-            readLocations(itemStack.getTagCompound());
+        readLocations(itemStack.getTagCompound());
     }
 
     @Override
@@ -197,95 +185,74 @@ public class TileEntityMachineTransporter extends MOTileEntityMachineMatter impl
     }
 
     @Override
-    public void updateEntity()
-    {
+    public void updateEntity() {
         super.updateEntity();
         manageTeleportation();
     }
 
     @Override
-    protected void registerComponents()
-    {
+    protected void registerComponents() {
         super.registerComponents();
         computerComponent = new ComponentComputers(this);
         addComponent(computerComponent);
     }
 
-    void manageTeleportation()
-    {
+    void manageTeleportation() {
         List<Entity> entities = worldObj.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 2, zCoord + 1));
         TransportLocation position = getSelectedLocation();
 
         if (!worldObj.isRemote) {
-            if (getEnergyStorage().getEnergyStored() > getEnergyDrain() && entities.size() > 0 && isLocationValid(getSelectedLocation()))
-            {
-                if (transportTracker < worldObj.getTotalWorldTime())
-                {
+            if (getEnergyStorage().getEnergyStored() > getEnergyDrain() && entities.size() > 0 && isLocationValid(getSelectedLocation())) {
+                if (transportTracker < worldObj.getTotalWorldTime()) {
                     transportTimer++;
 
-                    if (transportTimer >= getSpeed())
-                    {
-                        for (int i = 0;i < Math.min(entities.size(),MAX_ENTETIES_PRE_TRANSPORT);i++)
-                        {
-                            Teleport(entities.get(i),position);
+                    if (transportTimer >= getSpeed()) {
+                        for (int i = 0; i < Math.min(entities.size(), MAX_ENTETIES_PRE_TRANSPORT); i++) {
+                            Teleport(entities.get(i), position);
                             transportTracker = worldObj.getTotalWorldTime() + getTransportDelay();
                         }
 
                         energyStorage.modifyEnergyStored(-getEnergyDrain());
 
                         transportTimer = 0;
-                        MatterOverdrive.packetPipeline.sendToDimention(new PacketSyncTransportProgress(this),worldObj);
-                    }
-                    else
-                    {
+                        MatterOverdrive.packetPipeline.sendToDimention(new PacketSyncTransportProgress(this), worldObj);
+                    } else {
                         MatterOverdrive.packetPipeline.sendToAllAround(new PacketSyncTransportProgress(this), this, TRANSPORT_RANGE);
                     }
                 }
-            }
-            else
-            {
-                if (transportTimer != 0)
-                {
+            } else {
+                if (transportTimer != 0) {
                     transportTimer = 0;
-                    MatterOverdrive.packetPipeline.sendToDimention(new PacketSyncTransportProgress(this),worldObj);
+                    MatterOverdrive.packetPipeline.sendToDimention(new PacketSyncTransportProgress(this), worldObj);
                 }
             }
 
-        }
-        else {
+        } else {
             if (transportTimer > 0) {
-                for (Entity entity : entities)
-                {
-                    SpawnReplicateParticles(entity,new Vector3f((float)entity.posX,yCoord,(float)entity.posZ));
+                for (Entity entity : entities) {
+                    SpawnReplicateParticles(entity, new Vector3f((float) entity.posX, yCoord, (float) entity.posZ));
                 }
 
 
-                for (Entity entity : entities)
-                {
-                    SpawnReplicateParticles(entity,new Vector3f(position.x,position.y-1,position.z));
+                for (Entity entity : entities) {
+                    SpawnReplicateParticles(entity, new Vector3f(position.x, position.y - 1, position.z));
                 }
             }
         }
     }
 
-    public void Teleport(Entity entity,TransportLocation position)
-    {
-        if(!MinecraftForge.EVENT_BUS.post(new MOEventTransport(new ChunkCoordinates(xCoord,yCoord,zCoord),position,entity)))
-        {
-            if (entity instanceof EntityLivingBase)
-            {
+    public void Teleport(Entity entity, TransportLocation position) {
+        if (!MinecraftForge.EVENT_BUS.post(new MOEventTransport(new ChunkCoordinates(xCoord, yCoord, zCoord), position, entity))) {
+            if (entity instanceof EntityLivingBase) {
                 ((EntityLivingBase) entity).setPositionAndUpdate(position.x, position.y, position.z);
-            } else
-            {
+            } else {
                 entity.setPosition(position.x, position.y, position.z);
             }
         }
     }
 
-    public TransportLocation getSelectedLocation()
-    {
-        if (selectedLocation < locations.size() && selectedLocation >= 0)
-        {
+    public TransportLocation getSelectedLocation() {
+        if (selectedLocation < locations.size() && selectedLocation >= 0) {
             TransportLocation location = locations.get(selectedLocation);
             int range = getTransportRange();
             //location.x = MathHelper.clampI(location.x,xCoord - range,xCoord + range);
@@ -293,72 +260,62 @@ public class TileEntityMachineTransporter extends MOTileEntityMachineMatter impl
             //location.z = MathHelper.clampI(location.z,zCoord - range,zCoord + range);
             return location;
         }
-        return new TransportLocation(xCoord,yCoord,zCoord,"Unknown");
+        return new TransportLocation(xCoord, yCoord, zCoord, "Unknown");
     }
 
-    public boolean isLocationValid(TransportLocation location)
-    {
-        return !(location.x == xCoord && location.y < yCoord + 4 && location.y > yCoord - 4 && location.z == zCoord) && location.getDistance(xCoord,yCoord,zCoord) < getTransportRange();
+    public boolean isLocationValid(TransportLocation location) {
+        return !(location.x == xCoord && location.y < yCoord + 4 && location.y > yCoord - 4 && location.z == zCoord) && location.getDistance(xCoord, yCoord, zCoord) < getTransportRange();
     }
 
-    public void setSelectedLocation(int x,int y,int z,String name)
-    {
-        if (selectedLocation < locations.size() && selectedLocation >= 0)
-        {
+    public void setSelectedLocation(int x, int y, int z, String name) {
+        if (selectedLocation < locations.size() && selectedLocation >= 0) {
             TransportLocation location = locations.get(selectedLocation);
-            if (location != null)
-            {
-                location.setPosition(x,y,z);
+            if (location != null) {
+                location.setPosition(x, y, z);
                 location.setName(name);
-            }else
-            {
-                locations.set(selectedLocation,new TransportLocation(x,y,z,name));
+            } else {
+                locations.set(selectedLocation, new TransportLocation(x, y, z, name));
             }
 
-        }else
-        {
+        } else {
             selectedLocation = 0;
-            locations.add(new TransportLocation(x,y,z,name));
+            locations.add(new TransportLocation(x, y, z, name));
         }
     }
 
-    public void addNewLocation(int x,int y,int z,String name)
-    {
-        locations.add(new TransportLocation(x,y,z,name));
+    public void addNewLocation(int x, int y, int z, String name) {
+        locations.add(new TransportLocation(x, y, z, name));
     }
 
-    public void removeLocation(int at)
-    {
+    public void removeLocation(int at) {
         if (at < locations.size() && at >= 0) {
             locations.remove(at);
-            selectedLocation = net.minecraft.util.MathHelper.clamp_int(selectedLocation,0,locations.size()-1);
+            selectedLocation = net.minecraft.util.MathHelper.clamp_int(selectedLocation, 0, locations.size() - 1);
         }
     }
 
     @SideOnly(Side.CLIENT)
-    public void SpawnReplicateParticles(Entity entity,Vector3f p)
-    {
+    public void SpawnReplicateParticles(Entity entity, Vector3f p) {
         double entityRadius = entity.width;
-        double entityArea = Math.max(entityRadius * entity.height,0.3);
+        double entityArea = Math.max(entityRadius * entity.height, 0.3);
 
         double radiusX = entityRadius + random.nextDouble() * 0.2f;
         double radiusZ = entityRadius + random.nextDouble() * 0.2f;
         double time = Math.min((double) (transportTimer) / (double) (getTransportDelay()), 1);
         double gravity = 0.015f;
-        int age = (int)Math.round(MOMathHelper.easeIn(time, 5, 15, 1));
-        int count = (int)Math.round(MOMathHelper.easeIn(time, 2, entityArea * 15, 1));
+        int age = (int) Math.round(MOMathHelper.easeIn(time, 5, 15, 1));
+        int count = (int) Math.round(MOMathHelper.easeIn(time, 2, entityArea * 15, 1));
 
-        for(int i = 0;i < count;i++)
-        {
+        for (int i = 0; i < count; i++) {
             float speed = random.nextFloat() * 0.05f + 0.15f;
             float height = p.y + 1 + random.nextFloat() * entity.height;
 
-            Vector3f origin = new Vector3f(p.x ,height, p.z);
-            Vector3f pos = MOMathHelper.randomSpherePoint(origin.x,origin.y,origin.z, Vec3.createVectorHelper(radiusX, 0,radiusZ), random);
-            Vector3f dir = Vector3f.cross(Vector3f.sub(origin, pos,null), new Vector3f(0,1,0),null);
+            Vector3f origin = new Vector3f(p.x, height, p.z);
+            Vector3f pos = MOMathHelper.randomSpherePoint(origin.x, origin.y, origin.z, Vec3.createVectorHelper(radiusX, 0, radiusZ), random);
+            Vector3f dir = Vector3f.cross(Vector3f.sub(origin, pos, null), new Vector3f(0, 1, 0), null);
             dir.scale(speed);
-            ReplicatorParticle replicatorParticle = new ReplicatorParticle(this.worldObj,pos.x,pos.y ,pos.z,dir.x,dir.y,dir.z);
-            replicatorParticle.setCenter(origin.x,origin.y,origin.z);
+            ReplicatorParticle replicatorParticle = new ReplicatorParticle(this.worldObj, pos.x, pos.y, pos.z, dir.x, dir.y, dir.z);
+            replicatorParticle.setCenter(origin.x, origin.y, origin.z);
 
             replicatorParticle.setParticleAge(age);
             replicatorParticle.setPointGravityScale(gravity);
@@ -367,30 +324,25 @@ public class TileEntityMachineTransporter extends MOTileEntityMachineMatter impl
         }
     }
 
-    public int getEnergyDrain()
-    {
+    public int getEnergyDrain() {
         TransportLocation location = getSelectedLocation();
-        return (int)Math.round(getUpgradeMultiply(UpgradeTypes.PowerUsage) * (location.getDistance(xCoord, yCoord, zCoord) * ENERGY_PER_UNIT));
+        return (int) Math.round(getUpgradeMultiply(UpgradeTypes.PowerUsage) * (location.getDistance(xCoord, yCoord, zCoord) * ENERGY_PER_UNIT));
     }
 
-    private int getSpeed()
-    {
-        return (int)Math.round(getUpgradeMultiply(UpgradeTypes.Speed) * TRANSPORT_TIME);
+    private int getSpeed() {
+        return (int) Math.round(getUpgradeMultiply(UpgradeTypes.Speed) * TRANSPORT_TIME);
     }
 
-    private int getTransportDelay()
-    {
-        return (int)Math.round(getUpgradeMultiply(UpgradeTypes.Speed) * TRANSPORT_DELAY);
+    private int getTransportDelay() {
+        return (int) Math.round(getUpgradeMultiply(UpgradeTypes.Speed) * TRANSPORT_DELAY);
     }
 
-    public int getTransportRange()
-    {
-        return (int)Math.round(getUpgradeMultiply(UpgradeTypes.Range) * TRANSPORT_RANGE);
+    public int getTransportRange() {
+        return (int) Math.round(getUpgradeMultiply(UpgradeTypes.Range) * TRANSPORT_RANGE);
     }
 
     @Override
-    public String getSound()
-    {
+    public String getSound() {
         return "transporter";
     }
 
@@ -400,9 +352,8 @@ public class TileEntityMachineTransporter extends MOTileEntityMachineMatter impl
     }
 
     @Override
-    public boolean getServerActive()
-    {
-        return  transportTimer > 0;
+    public boolean getServerActive() {
+        return transportTimer > 0;
     }
 
     @Override
@@ -411,30 +362,25 @@ public class TileEntityMachineTransporter extends MOTileEntityMachineMatter impl
     }
 
     @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid)
-    {
-        return from != ForgeDirection.UP && super.canFill(from,fluid);
+    public boolean canFill(ForgeDirection from, Fluid fluid) {
+        return from != ForgeDirection.UP && super.canFill(from, fluid);
     }
 
     @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid)
-    {
-        return from != ForgeDirection.UP && super.canDrain(from,fluid);
+    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+        return from != ForgeDirection.UP && super.canDrain(from, fluid);
     }
 
     @Override
-    public boolean isAffectedByUpgrade(UpgradeTypes type)
-    {
+    public boolean isAffectedByUpgrade(UpgradeTypes type) {
         return type == UpgradeTypes.PowerUsage || type == UpgradeTypes.Speed || type == UpgradeTypes.Range || type == UpgradeTypes.PowerStorage;
     }
 
-    public void setTransportTime(int time)
-    {
+    public void setTransportTime(int time) {
         transportTimer = time;
     }
 
-    public int getTransportTime()
-    {
+    public int getTransportTime() {
         return transportTimer;
     }
 
@@ -445,85 +391,85 @@ public class TileEntityMachineTransporter extends MOTileEntityMachineMatter impl
 
 
     //region WAILA
-	@Override
-	@Optional.Method(modid = "Waila")
-	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-		TileEntity te = accessor.getTileEntity();
+    @Override
+    @Optional.Method(modid = "Waila")
+    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        TileEntity te = accessor.getTileEntity();
 
-		if (te instanceof TileEntityMachineTransporter) {
-			TileEntityMachineTransporter transporter = (TileEntityMachineTransporter)te;
+        if (te instanceof TileEntityMachineTransporter) {
+            TileEntityMachineTransporter transporter = (TileEntityMachineTransporter) te;
 
-			TransportLocation location = transporter.getSelectedLocation();
+            TransportLocation location = transporter.getSelectedLocation();
 
-			currenttip.add(String.format("%sSelected Location: %s%s", EnumChatFormatting.YELLOW, EnumChatFormatting.WHITE, location.name));
-			currenttip.add(String.format("%sDestination Coords: %s X:%d Y:%d Z:%d", EnumChatFormatting.YELLOW, EnumChatFormatting.WHITE, location.x, location.y, location.z));
+            currenttip.add(String.format("%sSelected Location: %s%s", EnumChatFormatting.YELLOW, EnumChatFormatting.WHITE, location.name));
+            currenttip.add(String.format("%sDestination Coords: %s X:%d Y:%d Z:%d", EnumChatFormatting.YELLOW, EnumChatFormatting.WHITE, location.x, location.y, location.z));
 
-		} else {
-			throw new RuntimeException("Transporter WAILA provider is being used for something that is not a Transporter: " + te.getClass());
-		}
+        } else {
+            throw new RuntimeException("Transporter WAILA provider is being used for something that is not a Transporter: " + te.getClass());
+        }
 
 
-
-		return currenttip;
-	}
+        return currenttip;
+    }
     //endregion
 
     //region All Computers
     //region ComputerCraft
-	@Override
-	@Optional.Method(modid = "ComputerCraft")
-	public String getType() {
-		return computerComponent.getType();
-	}
+    @Override
+    @Optional.Method(modid = "ComputerCraft")
+    public String getType() {
+        return computerComponent.getType();
+    }
 
-	@Override
-	@Optional.Method(modid = "ComputerCraft")
-	public String[] getMethodNames() {
-		return computerComponent.getMethodNames();
-	}
+    @Override
+    @Optional.Method(modid = "ComputerCraft")
+    public String[] getMethodNames() {
+        return computerComponent.getMethodNames();
+    }
 
-	@Override
-	@Optional.Method(modid = "ComputerCraft")
-	public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws LuaException, InterruptedException {
-        return computerComponent.callMethod(computer,context,method,arguments);
-	}
+    @Override
+    @Optional.Method(modid = "ComputerCraft")
+    public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws LuaException, InterruptedException {
+        return computerComponent.callMethod(computer, context, method, arguments);
+    }
 
-	@Override
-	@Optional.Method(modid = "ComputerCraft")
-	public void attach(IComputerAccess computer) {
+    @Override
+    @Optional.Method(modid = "ComputerCraft")
+    public void attach(IComputerAccess computer) {
         computerComponent.attach(computer);
-	}
+    }
 
-	@Override
-	@Optional.Method(modid = "ComputerCraft")
-	public void detach(IComputerAccess computer) {
+    @Override
+    @Optional.Method(modid = "ComputerCraft")
+    public void detach(IComputerAccess computer) {
         computerComponent.attach(computer);
-	}
+    }
 
-	@Override
-	@Optional.Method(modid = "ComputerCraft")
-	public boolean equals(IPeripheral other) { // Does this mean if it's the same type or if they're the same one?
-		return computerComponent.equals(other);
-	}
+    @Override
+    @Optional.Method(modid = "ComputerCraft")
+    public boolean equals(IPeripheral other) { // Does this mean if it's the same type or if they're the same one?
+        return computerComponent.equals(other);
+    }
+
     //endregion
     //region Open Computers
-	@Override
-	@Optional.Method(modid = "OpenComputers")
-	public String getComponentName() {
-		return computerComponent.getComponentName();
-	}
+    @Override
+    @Optional.Method(modid = "OpenComputers")
+    public String getComponentName() {
+        return computerComponent.getComponentName();
+    }
 
-	@Override
-	@Optional.Method(modid = "OpenComputers")
-	public String[] methods() {
-		return computerComponent.methods();
-	}
+    @Override
+    @Optional.Method(modid = "OpenComputers")
+    public String[] methods() {
+        return computerComponent.methods();
+    }
 
-	@Override
-	@Optional.Method(modid = "OpenComputers")
-	public Object[] invoke(String method, Context context, Arguments args) throws Exception {
-		return computerComponent.invoke(method,context,args);
-	}
+    @Override
+    @Optional.Method(modid = "OpenComputers")
+    public Object[] invoke(String method, Context context, Arguments args) throws Exception {
+        return computerComponent.invoke(method, context, args);
+    }
     //endregion
     //endregion
 }

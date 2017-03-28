@@ -18,26 +18,22 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 6/2/2015.
  */
-public class PacketSpawnParticle extends PacketAbstract
-{
+public class PacketSpawnParticle extends PacketAbstract {
     String particleType;
-    double x,y,z;
+    double x, y, z;
     int count;
     int blending;
     float size;
 
-    public PacketSpawnParticle()
-    {
+    public PacketSpawnParticle() {
 
     }
 
-    public PacketSpawnParticle(String particleType, double x, double y, double z, int count, int blending)
-    {
-        this(particleType,x,y,z,count,blending,0);
+    public PacketSpawnParticle(String particleType, double x, double y, double z, int count, int blending) {
+        this(particleType, x, y, z, count, blending, 0);
     }
 
-    public PacketSpawnParticle(String particleType, double x, double y, double z, int count, int blending,float size)
-    {
+    public PacketSpawnParticle(String particleType, double x, double y, double z, int count, int blending, float size) {
         this.particleType = particleType;
         this.x = x;
         this.y = y;
@@ -60,7 +56,7 @@ public class PacketSpawnParticle extends PacketAbstract
 
     @Override
     public void toBytes(ByteBuf buf) {
-        ByteBufUtils.writeUTF8String(buf,particleType);
+        ByteBufUtils.writeUTF8String(buf, particleType);
         buf.writeDouble(x);
         buf.writeDouble(y);
         buf.writeDouble(z);
@@ -69,25 +65,20 @@ public class PacketSpawnParticle extends PacketAbstract
         buf.writeFloat(size);
     }
 
-    public static class ClientHandler extends AbstractClientPacketHandler<PacketSpawnParticle>
-    {
+    public static class ClientHandler extends AbstractClientPacketHandler<PacketSpawnParticle> {
         @Override
-        public IMessage handleClientMessage(EntityPlayer player, PacketSpawnParticle message, MessageContext ctx)
-        {
-            spawnParticle(player.worldObj,message);
+        public IMessage handleClientMessage(EntityPlayer player, PacketSpawnParticle message, MessageContext ctx) {
+            spawnParticle(player.worldObj, message);
             return null;
         }
 
         @SideOnly(Side.CLIENT)
-        public void spawnParticle(World world,PacketSpawnParticle message)
-        {
+        public void spawnParticle(World world, PacketSpawnParticle message) {
             EntityFX particle = null;
-            if (message.particleType.equalsIgnoreCase("teleport"))
-            {
-                particle = new AndroidTeleportParticle(world,message.x,message.y,message.z);
-            }else if (message.particleType.equalsIgnoreCase("shockwave"))
-            {
-                particle = new ShockwaveParticle(world,message.x,message.y,message.z,message.size);
+            if (message.particleType.equalsIgnoreCase("teleport")) {
+                particle = new AndroidTeleportParticle(world, message.x, message.y, message.z);
+            } else if (message.particleType.equalsIgnoreCase("shockwave")) {
+                particle = new ShockwaveParticle(world, message.x, message.y, message.z, message.size);
             }
 
             if (particle != null) {

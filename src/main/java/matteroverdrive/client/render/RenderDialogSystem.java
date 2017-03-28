@@ -28,31 +28,24 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 /**
  * Created by Simeon on 8/10/2015.
  */
-public class RenderDialogSystem implements IWorldLastRenderer
-{
+public class RenderDialogSystem implements IWorldLastRenderer {
     private EntityRendererConversation entityRendererConversation;
     EntityRenderer lastEntityRenderer;
 
-    public RenderDialogSystem()
-    {
+    public RenderDialogSystem() {
         entityRendererConversation = new EntityRendererConversation(Minecraft.getMinecraft(), Minecraft.getMinecraft().getResourceManager());
     }
 
     @Override
-    public void onRenderWorldLast(RenderHandler handler, RenderWorldLastEvent event)
-    {
-        if (Minecraft.getMinecraft().currentScreen instanceof GuiDialog)
-        {
-            if (lastEntityRenderer == null)
-            {
+    public void onRenderWorldLast(RenderHandler handler, RenderWorldLastEvent event) {
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiDialog) {
+            if (lastEntityRenderer == null) {
                 lastEntityRenderer = Minecraft.getMinecraft().entityRenderer;
             }
 
             Minecraft.getMinecraft().entityRenderer = entityRendererConversation;
-        }else
-        {
-            if (lastEntityRenderer != null)
-            {
+        } else {
+            if (lastEntityRenderer != null) {
                 Minecraft.getMinecraft().entityRenderer = lastEntityRenderer;
                 lastEntityRenderer = null;
             }

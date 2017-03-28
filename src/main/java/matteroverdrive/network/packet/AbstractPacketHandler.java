@@ -11,8 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 4/22/2015.
  */
-public abstract class AbstractPacketHandler<T extends IMessage> implements IMessageHandler<T,IMessage>
-{
+public abstract class AbstractPacketHandler<T extends IMessage> implements IMessageHandler<T, IMessage> {
     @SideOnly(Side.CLIENT)
     public abstract IMessage handleClientMessage(EntityPlayer player, T message, MessageContext ctx);
 
@@ -20,11 +19,9 @@ public abstract class AbstractPacketHandler<T extends IMessage> implements IMess
 
     @Override
     public IMessage onMessage(T message, MessageContext ctx) {
-        if (ctx.side.isClient())
-        {
+        if (ctx.side.isClient()) {
             return handleClientMessage(MatterOverdrive.proxy.getPlayerEntity(ctx), message, ctx);
-        } else
-        {
+        } else {
             return handleServerMessage(MatterOverdrive.proxy.getPlayerEntity(ctx), message, ctx);
         }
     }

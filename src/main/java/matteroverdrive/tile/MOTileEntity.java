@@ -33,45 +33,39 @@ import java.util.EnumSet;
 /**
  * Created by Simeon on 3/21/2015.
  */
-public abstract class MOTileEntity extends TileEntity implements IMOTileEntity
-{
+public abstract class MOTileEntity extends TileEntity implements IMOTileEntity {
     private boolean isAwake = false;
 
-    public MOTileEntity(){super();}
-
-    public MOTileEntity(World world,int meta)
-    {
+    public MOTileEntity() {
         super();
     }
 
-    protected void updateBlock()
-    {
-        if(worldObj != null)
-        {
-            worldObj.markBlockForUpdate(xCoord,yCoord,zCoord);
+    public MOTileEntity(World world, int meta) {
+        super();
+    }
+
+    protected void updateBlock() {
+        if (worldObj != null) {
+            worldObj.markBlockForUpdate(xCoord, yCoord, zCoord);
         }
     }
 
     @Override
-    public void updateEntity()
-    {
-        if (!isAwake)
-        {
+    public void updateEntity() {
+        if (!isAwake) {
             onAwake(worldObj.isRemote ? Side.CLIENT : Side.SERVER);
             isAwake = true;
         }
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
-    {
+    public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
         readCustomNBT(nbt, MachineNBTCategory.ALL_OPTS);
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
-    {
+    public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
         writeCustomNBT(nbt, MachineNBTCategory.ALL_OPTS, true);
     }
@@ -81,11 +75,9 @@ public abstract class MOTileEntity extends TileEntity implements IMOTileEntity
     public abstract void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories);
 
     @SideOnly(Side.CLIENT)
-    public void sendNBTToServer(EnumSet<MachineNBTCategory> categories,boolean forceUpdate)
-    {
-        if (worldObj.isRemote)
-        {
-            MatterOverdrive.packetPipeline.sendToServer(new PacketSendMachineNBT(categories,this,forceUpdate,true));
+    public void sendNBTToServer(EnumSet<MachineNBTCategory> categories, boolean forceUpdate) {
+        if (worldObj.isRemote) {
+            MatterOverdrive.packetPipeline.sendToServer(new PacketSendMachineNBT(categories, this, forceUpdate, true));
         }
     }
 

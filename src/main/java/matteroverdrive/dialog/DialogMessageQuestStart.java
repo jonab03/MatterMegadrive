@@ -26,25 +26,25 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 11/22/2015.
  */
-public class DialogMessageQuestStart extends DialogMessage
-{
+public class DialogMessageQuestStart extends DialogMessage {
     QuestStack questStack;
-    public DialogMessageQuestStart(){super();}
-    public DialogMessageQuestStart(QuestStack questStack){super();this.questStack = questStack;}
 
-    @Override
-    public boolean isVisible(IDialogNpc npc, EntityPlayer player)
-    {
-        MOExtendedProperties extendedProperties = MOExtendedProperties.get(player);
-        if (extendedProperties != null && questStack != null && questStack.getQuest().canBeAccepted(questStack,player))
-        {
-            return true;
-        }
-        return false;
+    public DialogMessageQuestStart() {
+        super();
     }
 
-    public DialogMessageQuestStart setQuest(QuestStack questStack)
-    {
+    public DialogMessageQuestStart(QuestStack questStack) {
+        super();
+        this.questStack = questStack;
+    }
+
+    @Override
+    public boolean isVisible(IDialogNpc npc, EntityPlayer player) {
+        MOExtendedProperties extendedProperties = MOExtendedProperties.get(player);
+        return extendedProperties != null && questStack != null && questStack.getQuest().canBeAccepted(questStack, player);
+    }
+
+    public DialogMessageQuestStart setQuest(QuestStack questStack) {
         this.questStack = questStack;
         return this;
     }

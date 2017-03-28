@@ -30,14 +30,12 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 11/22/2015.
  */
-public abstract class TileEntityRendererMonitor extends TileEntitySpecialRenderer
-{
+public abstract class TileEntityRendererMonitor extends TileEntitySpecialRenderer {
     public static ResourceLocation screenTextureBack = new ResourceLocation(Reference.PATH_BLOCKS + "pattern_monitor_holo_back.png");
     public static ResourceLocation screenTextureGlow = new ResourceLocation(Reference.PATH_FX + "holo_monitor_glow.png");
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float ticks)
-    {
+    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float ticks) {
         glPushMatrix();
 
         int meta = tileEntity.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
@@ -49,9 +47,9 @@ public abstract class TileEntityRendererMonitor extends TileEntitySpecialRendere
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_COLOR);
         RenderUtils.disableLightmap();
 
-        RenderUtils.beginDrawinngBlockScreen(x, y, z, direction, Reference.COLOR_HOLO, tileEntity, -0.65,1f);
+        RenderUtils.beginDrawinngBlockScreen(x, y, z, direction, Reference.COLOR_HOLO, tileEntity, -0.65, 1f);
         glTranslated(0, 0, -0.05);
-        drawScreen(tileEntity,ticks);
+        drawScreen(tileEntity, ticks);
         RenderUtils.endDrawinngBlockScreen();
 
         glDisable(GL_BLEND);
@@ -61,5 +59,5 @@ public abstract class TileEntityRendererMonitor extends TileEntitySpecialRendere
         glPopMatrix();
     }
 
-    public abstract void drawScreen(TileEntity tileEntity,float ticks);
+    public abstract void drawScreen(TileEntity tileEntity, float ticks);
 }

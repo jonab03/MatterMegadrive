@@ -30,15 +30,12 @@ import net.minecraftforge.client.event.MouseEvent;
  * Created by Simeon on 7/9/2015.
  */
 @SideOnly(Side.CLIENT)
-public class MouseHandler
-{
+public class MouseHandler {
 
     @SideOnly(Side.CLIENT)
     @SubscribeEvent
-    public void onMouseEvent(MouseEvent event)
-    {
-        if (GuiAndroidHud.showRadial)
-        {
+    public void onMouseEvent(MouseEvent event) {
+        if (GuiAndroidHud.showRadial) {
             GuiAndroidHud.radialDeltaX -= event.dx / 100D;
             GuiAndroidHud.radialDeltaY += event.dy / 100D;
 
@@ -48,12 +45,9 @@ public class MouseHandler
                 GuiAndroidHud.radialDeltaY /= mag;
             }
         }
-        if (Minecraft.getMinecraft().thePlayer.getHeldItem() != null && Minecraft.getMinecraft().thePlayer.getHeldItem().getItem() instanceof IWeapon)
-        {
-            if (event.button == 0 && event.buttonstate)
-            {
-                if (((IWeapon) Minecraft.getMinecraft().thePlayer.getHeldItem().getItem()).onLeftClick(Minecraft.getMinecraft().thePlayer.getHeldItem(), Minecraft.getMinecraft().thePlayer))
-                {
+        if (Minecraft.getMinecraft().thePlayer.getHeldItem() != null && Minecraft.getMinecraft().thePlayer.getHeldItem().getItem() instanceof IWeapon) {
+            if (event.button == 0 && event.buttonstate) {
+                if (((IWeapon) Minecraft.getMinecraft().thePlayer.getHeldItem().getItem()).onLeftClick(Minecraft.getMinecraft().thePlayer.getHeldItem(), Minecraft.getMinecraft().thePlayer)) {
                     event.setCanceled(true);
                 }
             }

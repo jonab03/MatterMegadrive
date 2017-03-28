@@ -51,25 +51,21 @@ import java.util.List;
 /**
  * Created by Simeon on 11/19/2015.
  */
-public class MOExtendedProperties implements IExtendedEntityProperties
-{
+public class MOExtendedProperties implements IExtendedEntityProperties {
     public static final String EXT_PROP_NAME = "MOPlayer";
     private EntityPlayer player;
     private PlayerQuestData questData;
 
-    public MOExtendedProperties(EntityPlayer player)
-    {
+    public MOExtendedProperties(EntityPlayer player) {
         this.player = player;
         questData = new PlayerQuestData(this);
     }
 
-    public static void register(EntityPlayer player)
-    {
+    public static void register(EntityPlayer player) {
         player.registerExtendedProperties(EXT_PROP_NAME, new MOExtendedProperties(player));
     }
 
-    public static MOExtendedProperties get(EntityPlayer player)
-    {
+    public static MOExtendedProperties get(EntityPlayer player) {
         return (MOExtendedProperties) player.getExtendedProperties(EXT_PROP_NAME);
     }
 
@@ -77,158 +73,127 @@ public class MOExtendedProperties implements IExtendedEntityProperties
     public void saveNBTData(NBTTagCompound compound) {
         NBTTagCompound questNBT = new NBTTagCompound();
         questData.writeToNBT(questNBT, EnumSet.allOf(PlayerQuestData.DataType.class));
-        compound.setTag("QuestData",questNBT);
+        compound.setTag("QuestData", questNBT);
     }
 
     @Override
-    public void loadNBTData(NBTTagCompound compound)
-    {
+    public void loadNBTData(NBTTagCompound compound) {
         NBTTagCompound questNBT = compound.getCompoundTag("QuestData");
-        questData.readFromNBT(questNBT,EnumSet.allOf(PlayerQuestData.DataType.class));
+        questData.readFromNBT(questNBT, EnumSet.allOf(PlayerQuestData.DataType.class));
     }
 
-    public void sync(EnumSet<PlayerQuestData.DataType> dataTypes)
-    {
-        if (player != null && !player.worldObj.isRemote && player instanceof EntityPlayerMP)
-        {
-            MatterOverdrive.packetPipeline.sendTo(new PacketSyncQuests(questData,dataTypes),(EntityPlayerMP) player);
+    public void sync(EnumSet<PlayerQuestData.DataType> dataTypes) {
+        if (player != null && !player.worldObj.isRemote && player instanceof EntityPlayerMP) {
+            MatterOverdrive.packetPipeline.sendTo(new PacketSyncQuests(questData, dataTypes), (EntityPlayerMP) player);
         }
     }
 
-    public void copy(MOExtendedProperties oterExtendetProperies)
-    {
+    public void copy(MOExtendedProperties oterExtendetProperies) {
         NBTTagCompound tagCompound = new NBTTagCompound();
         oterExtendetProperies.saveNBTData(tagCompound);
         loadNBTData(tagCompound);
     }
 
-    public void addQuest(QuestStack questStack)
-    {
-        if (!MinecraftForge.EVENT_BUS.post(new MOEventQuest.Added(questStack, player)))
-        {
-            if (isServer())
-            {
-                if (questData.getActiveQuests().size() <= 0 && questData.getCompletedQuests().size() <= 0)
-                {
+    public void addQuest(QuestStack questStack) {
+        if (!MinecraftForge.EVENT_BUS.post(new MOEventQuest.Added(questStack, player))) {
+            if (isServer()) {
+                if (questData.getActiveQuests().size() <= 0 && questData.getCompletedQuests().size() <= 0) {
                     player.inventory.addItemStackToInventory(new ItemStack(MatterOverdriveItems.dataPad));
                 }
                 QuestStack addedQuest = questData.addQuest(questStack);
-                if (addedQuest != null)
-                {
+                if (addedQuest != null) {
                     addedQuest.getQuest().initQuestStack(player.getRNG(), addedQuest, player);
                     MatterOverdrive.packetPipeline.sendTo(new PacketUpdateQuest(addedQuest, PacketUpdateQuest.ADD_QUEST), (EntityPlayerMP) player);
                 }
-            } else
-            {
+            } else {
                 QuestStack addedQuest = questData.addQuest(questStack);
-                MatterOverdrive.proxy.getGoogleAnalytics().sendEventHit(GoogleAnalyticsCommon.EVENT_CATEGORY_QUESTS,GoogleAnalyticsCommon.EVENT_ACTION_QUEST_ACCEPT,addedQuest.getTitle(),player);
+                MatterOverdrive.proxy.getGoogleAnalytics().sendEventHit(GoogleAnalyticsCommon.EVENT_CATEGORY_QUESTS, GoogleAnalyticsCommon.EVENT_ACTION_QUEST_ACCEPT, addedQuest.getTitle(), player);
                 ClientProxy.questHud.addStartedQuest(addedQuest);
             }
         }
     }
 
-    public void update(Side side)
-    {
-        if (side.equals(Side.SERVER))
-        {
+    public void update(Side side) {
+        if (side.equals(Side.SERVER)) {
             questData.manageQuestCompletion();
         }
     }
 
-    public boolean hasCompletedQuest(QuestStack questStack)
-    {
+    public boolean hasCompletedQuest(QuestStack questStack) {
         return questData.hasCompletedQuest(questStack);
     }
 
-    public boolean hasQuest(QuestStack questStack)
-    {
+    public boolean hasQuest(QuestStack questStack) {
         return questData.hasQuest(questStack);
     }
 
-    public void onQuestCompleted(QuestStack questStack,int index)
-    {
+    public void onQuestCompleted(QuestStack questStack, int index) {
         if (isServer()) {
 
             List<IQuestReward> rewards = new ArrayList<>();
             questStack.addRewards(rewards, getPlayer());
             int xp = questStack.getXP(getPlayer());
-            MOEventQuest.Completed event = new MOEventQuest.Completed(questStack, player,xp,rewards);
+            MOEventQuest.Completed event = new MOEventQuest.Completed(questStack, player, xp, rewards);
 
-            if (!MinecraftForge.EVENT_BUS.post(event))
-            {
-                MatterOverdrive.proxy.getGoogleAnalytics().sendEventHit(GoogleAnalyticsCommon.EVENT_CATEGORY_QUESTS,GoogleAnalyticsCommon.EVENT_ACTION_QUEST_COMPLETE,event.questStack.getTitle(),player);
+            if (!MinecraftForge.EVENT_BUS.post(event)) {
+                MatterOverdrive.proxy.getGoogleAnalytics().sendEventHit(GoogleAnalyticsCommon.EVENT_CATEGORY_QUESTS, GoogleAnalyticsCommon.EVENT_ACTION_QUEST_COMPLETE, event.questStack.getTitle(), player);
                 questData.addQuestToCompleted(questStack);
                 getPlayer().addExperience(event.xp);
                 InventoryPlayer inventoryPlayer = getPlayer().inventory;
-                for (IQuestReward reward : event.rewards)
-                {
-                    reward.giveReward(questStack,getPlayer());
+                for (IQuestReward reward : event.rewards) {
+                    reward.giveReward(questStack, getPlayer());
                 }
-                questStack.getQuest().onCompleted(questStack,player);
+                questStack.getQuest().onCompleted(questStack, player);
                 player.addChatMessage(new ChatComponentText(String.format("[Matter Overdrive] %1$s completed %2$s", player.getDisplayName(), questStack.getTitle(player))));
             }
             MatterOverdrive.packetPipeline.sendTo(new PacketUpdateQuest(index, questStack, PacketUpdateQuest.COMPLETE_QUEST), (EntityPlayerMP) player);
-        }else
-        {
+        } else {
             ClientProxy.questHud.addCompletedQuest(questStack);
             getQuestData().getCompletedQuests().add(questStack);
             getQuestData().removeQuest(index);
-            if (Minecraft.getMinecraft().currentScreen instanceof GuiDataPad)
-            {
+            if (Minecraft.getMinecraft().currentScreen instanceof GuiDataPad) {
                 ((GuiDataPad) Minecraft.getMinecraft().currentScreen).refreshQuests(this);
             }
         }
     }
 
-    public void onQuestAbandoned(QuestStack questStack)
-    {
-        if (isServer())
-        {
+    public void onQuestAbandoned(QuestStack questStack) {
+        if (isServer()) {
 
-        }
-        else
-        {
-            MatterOverdrive.proxy.getGoogleAnalytics().sendEventHit(GoogleAnalyticsCommon.EVENT_CATEGORY_QUESTS,GoogleAnalyticsCommon.EVENT_ACTION_QUEST_ABANDON,questStack.getTitle(),player);
-            if (Minecraft.getMinecraft().currentScreen instanceof GuiDataPad)
-            {
+        } else {
+            MatterOverdrive.proxy.getGoogleAnalytics().sendEventHit(GoogleAnalyticsCommon.EVENT_CATEGORY_QUESTS, GoogleAnalyticsCommon.EVENT_ACTION_QUEST_ABANDON, questStack.getTitle(), player);
+            if (Minecraft.getMinecraft().currentScreen instanceof GuiDataPad) {
                 ((GuiDataPad) Minecraft.getMinecraft().currentScreen).refreshQuests(this);
             }
         }
     }
 
     @SideOnly(Side.CLIENT)
-    public void updateQuestFromServer(int index, QuestStack questStack)
-    {
-        if (index < getQuestData().getActiveQuests().size())
-        {
-            ClientProxy.questHud.addObjectivesChanged(getQuestData().getActiveQuests().get(index),questStack);
+    public void updateQuestFromServer(int index, QuestStack questStack) {
+        if (index < getQuestData().getActiveQuests().size()) {
+            ClientProxy.questHud.addObjectivesChanged(getQuestData().getActiveQuests().get(index), questStack);
             getQuestData().getActiveQuests().set(index, questStack);
         }
     }
 
-    public boolean isServer()
-    {
+    public boolean isServer() {
         return player != null && !player.worldObj.isRemote;
     }
 
-    public PlayerQuestData getQuestData()
-    {
+    public PlayerQuestData getQuestData() {
         return questData;
     }
 
-    public void onEvent(Event event)
-    {
+    public void onEvent(Event event) {
         questData.onEvent(event);
     }
 
     @Override
-    public void init(Entity entity, World world)
-    {
+    public void init(Entity entity, World world) {
 
     }
 
-    public EntityPlayer getPlayer()
-    {
+    public EntityPlayer getPlayer() {
         return player;
     }
 }

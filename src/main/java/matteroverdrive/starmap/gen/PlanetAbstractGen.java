@@ -8,30 +8,26 @@ import java.util.Random;
 /**
  * Created by Simeon on 6/26/2015.
  */
-public abstract class PlanetAbstractGen implements ISpaceBodyGen<Planet>
-{
+public abstract class PlanetAbstractGen implements ISpaceBodyGen<Planet> {
     byte type;
-    int buildingSpaces,fleetSpaces;
+    int buildingSpaces, fleetSpaces;
 
-    public PlanetAbstractGen(byte type,int buildingSpaces,int fleetSpaces)
-    {
+    public PlanetAbstractGen(byte type, int buildingSpaces, int fleetSpaces) {
         this.type = type;
         this.buildingSpaces = buildingSpaces;
         this.fleetSpaces = fleetSpaces;
     }
 
     @Override
-    public void generateSpaceBody(Planet planet,Random random)
-    {
-        planet.setType((byte)2);
-        setSize(planet,random);
+    public void generateSpaceBody(Planet planet, Random random) {
+        planet.setType((byte) 2);
+        setSize(planet, random);
         planet.setBuildingSpaces(buildingSpaces);
         planet.setFleetSpaces(fleetSpaces);
     }
 
     @Override
-    public boolean generateMissing(NBTTagCompound tagCompound, Planet planet, Random random)
-    {
+    public boolean generateMissing(NBTTagCompound tagCompound, Planet planet, Random random) {
         if (planet.getType() == type) {
             if (!tagCompound.hasKey("Type", 1)) {
                 planet.setType(type);
@@ -50,5 +46,5 @@ public abstract class PlanetAbstractGen implements ISpaceBodyGen<Planet>
         return false;
     }
 
-    protected abstract void setSize(Planet planet,Random random);
+    protected abstract void setSize(Planet planet, Random random);
 }

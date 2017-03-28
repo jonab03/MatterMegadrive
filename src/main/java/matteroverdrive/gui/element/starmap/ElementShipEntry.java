@@ -37,42 +37,36 @@ import java.util.Map;
 /**
  * Created by Simeon on 6/28/2015.
  */
-public class ElementShipEntry extends ElementAbstractStarMapEntry<Planet>
-{
+public class ElementShipEntry extends ElementAbstractStarMapEntry<Planet> {
     int shipId;
     ItemStack ship;
 
-    public ElementShipEntry(GuiStarMap gui, ElementGroupList groupList, int width, int height,Planet planet, ItemStack ship,int shipId) {
-        super(gui, groupList, width, height,planet);
+    public ElementShipEntry(GuiStarMap gui, ElementGroupList groupList, int width, int height, Planet planet, ItemStack ship, int shipId) {
+        super(gui, groupList, width, height, planet);
         this.ship = ship;
         this.searchIcon = ClientProxy.holoIcons.getIcon("icon_attack");
         this.shipId = shipId;
     }
 
     @Override
-    protected void drawElementName(Planet planet, Color color, float multiply)
-    {
+    protected void drawElementName(Planet planet, Color color, float multiply) {
         RenderUtils.renderStack(posX + 10, posY + sizeY / 2 - 8, ship);
         RenderUtils.drawString(Minecraft.getMinecraft().fontRenderer, ship.getDisplayName(), posX + 31, posY + 12, color, multiply);
     }
 
     @Override
-    protected Map<HoloIcon,Integer> getIcons(Planet spaceBody)
-    {
+    protected Map<HoloIcon, Integer> getIcons(Planet spaceBody) {
         return null;
     }
 
     @Override
-    protected boolean canTravelTo(Planet ship, EntityPlayer player)
-    {
+    protected boolean canTravelTo(Planet ship, EntityPlayer player) {
         return false;
     }
 
     @Override
-    protected boolean canView(Planet planet,EntityPlayer player)
-    {
-        if (ship.getItem() instanceof IShip && ((IShip) ship.getItem()).isOwner(ship,Minecraft.getMinecraft().thePlayer))
-        {
+    protected boolean canView(Planet planet, EntityPlayer player) {
+        if (ship.getItem() instanceof IShip && ((IShip) ship.getItem()).isOwner(ship, Minecraft.getMinecraft().thePlayer)) {
             Planet to = GalaxyClient.getInstance().getTheGalaxy().getPlanet(((GuiStarMap) gui).getMachine().getDestination());
             if (to != null && to != planet) {
                 return to.canAddShip(ship, player);
@@ -82,29 +76,24 @@ public class ElementShipEntry extends ElementAbstractStarMapEntry<Planet>
     }
 
     @Override
-    public float getMultiply(Planet ship)
-    {
-        if (groupList.isSelected(this))
-        {
-            return  1;
+    public float getMultiply(Planet ship) {
+        if (groupList.isSelected(this)) {
+            return 1;
         }
         return 0.1f;
     }
 
     @Override
-    protected Color getSpaceBodyColor(Planet planet)
-    {
-        if (canView(planet,Minecraft.getMinecraft().thePlayer)) {
+    protected Color getSpaceBodyColor(Planet planet) {
+        if (canView(planet, Minecraft.getMinecraft().thePlayer)) {
             return Reference.COLOR_HOLO;
-        }else
-        {
+        } else {
             return Reference.COLOR_HOLO_RED;
         }
     }
 
     @Override
-    boolean isSelected(Planet planet)
-    {
+    boolean isSelected(Planet planet) {
         return groupList.isSelected(this);
     }
 
@@ -115,8 +104,7 @@ public class ElementShipEntry extends ElementAbstractStarMapEntry<Planet>
     }
 
     @Override
-    protected void onTravelPress()
-    {
+    protected void onTravelPress() {
 
     }
 

@@ -28,15 +28,13 @@ import matteroverdrive.handler.ConfigurationHandler;
 /**
  * Created by Simeon on 8/13/2015.
  */
-public class MatterOverdriveDialogs
-{
+public class MatterOverdriveDialogs {
     public static DialogMessage backMessage;
     public static DialogMessage backHomeMessage;
     public static DialogMessage quitMessage;
     public static DialogMessage trade;
 
-    public static void init(FMLInitializationEvent event, ConfigurationHandler configurationHandler, IDialogRegistry registry)
-    {
+    public static void init(FMLInitializationEvent event, ConfigurationHandler configurationHandler, IDialogRegistry registry) {
         backMessage = new DialogMessageBack("").loadQuestionFromLocalization("dialog.generic.back.questions");
         registry.registerMessage(backMessage);
         quitMessage = new DialogMessageQuit("").loadQuestionFromLocalization("dialog.generic.quit.questions");
@@ -46,8 +44,7 @@ public class MatterOverdriveDialogs
         trade = new DialogMessageTrade().loadQuestionFromLocalization("dialog.generic.trade.questions");
         registry.registerMessage(trade);
 
-        if(event.getSide() == Side.CLIENT)
-        {
+        if (event.getSide() == Side.CLIENT) {
             backMessage.setHoloIcon("mini_quit");
             quitMessage.setHoloIcon("mini_quit");
             backHomeMessage.setHoloIcon("mini_quit");
@@ -55,6 +52,6 @@ public class MatterOverdriveDialogs
         }
 
 
-        EntityVillagerMadScientist.registerDialogMessages(registry,event.getSide());
+        EntityVillagerMadScientist.registerDialogMessages(registry, event.getSide());
     }
 }

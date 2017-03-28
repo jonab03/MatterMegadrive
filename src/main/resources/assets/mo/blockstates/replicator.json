@@ -1,5 +1,7 @@
 {
-    "variants": {
-        "normal" : {"model": "mo:replicator"}
-     }
+  "variants": {
+    "normal": {
+      "model": "mo:replicator"
+    }
+  }
 }

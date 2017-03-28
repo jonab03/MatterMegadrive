@@ -41,12 +41,12 @@ import java.util.EnumSet;
 /**
  * Created by Simeon on 11/22/2015.
  */
-public class TileEntityMachineContractMarket extends MOTileEntityMachine
-{
-    public static final int QUEST_GENERATE_DELAY_MIN = 20*60*30;
-    public static final int QUEST_GENERATE_DELAY_PER_SLOT = 20*60*5;
+public class TileEntityMachineContractMarket extends MOTileEntityMachine {
+    public static final int QUEST_GENERATE_DELAY_MIN = 20 * 60 * 30;
+    public static final int QUEST_GENERATE_DELAY_PER_SLOT = 20 * 60 * 5;
     public static final int CONTRACT_SLOTS = 18;
     private long lastGenerationTime;
+
     public TileEntityMachineContractMarket() {
         super(0);
         playerSlotsMain = true;
@@ -54,48 +54,37 @@ public class TileEntityMachineContractMarket extends MOTileEntityMachine
     }
 
     @Override
-    protected void RegisterSlots(Inventory inventory)
-    {
+    protected void RegisterSlots(Inventory inventory) {
         super.RegisterSlots(inventory);
         inventory.AddSlot(new RemoveOnlySlot(true));
-        for (int i = 0;i < CONTRACT_SLOTS;i++)
-        {
+        for (int i = 0; i < CONTRACT_SLOTS; i++) {
             inventory.AddSlot(new SlotContract(false));
         }
     }
 
     @Override
-    public void updateEntity()
-    {
+    public void updateEntity() {
         super.updateEntity();
-        if (!worldObj.isRemote)
-        {
+        if (!worldObj.isRemote) {
             manageContractGeneration();
         }
     }
 
-    protected void manageContractGeneration()
-    {
-        if (getRedstoneActive() && getTimeUntilNextQuest() <= 0)
-        {
+    protected void manageContractGeneration() {
+        if (getRedstoneActive() && getTimeUntilNextQuest() <= 0) {
             generateContract();
         }
     }
 
-    private void generateContract()
-    {
-        Quest quest = ((WeightedRandomQuest)WeightedRandom.getRandomItem(random,MatterOverdriveQuests.contractGeneration)).getQuest();
-        QuestStack questStack = MatterOverdrive.questFactory.generateQuestStack(random,quest);
-        for (int i = 0;i < inventory.getSizeInventory();i++)
-        {
-            if (inventory.getSlot(i).getItem() != null)
-            {
+    private void generateContract() {
+        Quest quest = ((WeightedRandomQuest) WeightedRandom.getRandomItem(random, MatterOverdriveQuests.contractGeneration)).getQuest();
+        QuestStack questStack = MatterOverdrive.questFactory.generateQuestStack(random, quest);
+        for (int i = 0; i < inventory.getSizeInventory(); i++) {
+            if (inventory.getSlot(i).getItem() != null) {
                 ItemStack itemStack = inventory.getSlot(i).getItem();
-                if (itemStack.getTagCompound() != null)
-                {
+                if (itemStack.getTagCompound() != null) {
                     QuestStack qs = QuestStack.loadFromNBT(itemStack.getTagCompound());
-                    if (questStack.getQuest().areQuestStacksEqual(questStack,qs))
-                    {
+                    if (questStack.getQuest().areQuestStacksEqual(questStack, qs)) {
                         return;
                     }
                 }
@@ -107,48 +96,39 @@ public class TileEntityMachineContractMarket extends MOTileEntityMachine
         forceSync();
     }
 
-    public void addGenerationDelay()
-    {
+    public void addGenerationDelay() {
         int freeSlots = getFreeSlots();
         lastGenerationTime = worldObj.getTotalWorldTime() + QUEST_GENERATE_DELAY_MIN + (inventory.getSizeInventory() - freeSlots) * QUEST_GENERATE_DELAY_PER_SLOT;
     }
 
     @Override
-    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories)
-    {
-        super.readCustomNBT(nbt,categories);
-        if (categories.contains(MachineNBTCategory.DATA))
-        {
+    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories) {
+        super.readCustomNBT(nbt, categories);
+        if (categories.contains(MachineNBTCategory.DATA)) {
             lastGenerationTime = nbt.getLong("LastGenerationTime");
         }
     }
 
     @Override
-    public void  writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk)
-    {
-        super.writeCustomNBT(nbt,categories, toDisk);
-        if (categories.contains(MachineNBTCategory.DATA))
-        {
-            nbt.setLong("LastGenerationTime",lastGenerationTime);
+    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
+        super.writeCustomNBT(nbt, categories, toDisk);
+        if (categories.contains(MachineNBTCategory.DATA)) {
+            nbt.setLong("LastGenerationTime", lastGenerationTime);
         }
     }
 
-    public int getFreeSlots()
-    {
+    public int getFreeSlots() {
         int freeSlots = 0;
-        for (int i = 0;i < inventory.getSizeInventory();i++)
-        {
-            if (inventory.getSlot(i).getItem() == null)
-            {
+        for (int i = 0; i < inventory.getSizeInventory(); i++) {
+            if (inventory.getSlot(i).getItem() == null) {
                 freeSlots++;
             }
         }
         return freeSlots;
     }
 
-    public int getTimeUntilNextQuest()
-    {
-        return Math.max(0,(int)(lastGenerationTime - worldObj.getTotalWorldTime()));
+    public int getTimeUntilNextQuest() {
+        return Math.max(0, (int) (lastGenerationTime - worldObj.getTotalWorldTime()));
     }
 
     @Override
@@ -187,8 +167,7 @@ public class TileEntityMachineContractMarket extends MOTileEntityMachine
     }
 
     @Override
-    public void onAdded(World world, int x, int y, int z)
-    {
+    public void onAdded(World world, int x, int y, int z) {
         addGenerationDelay();
     }
 

@@ -36,8 +36,7 @@ import java.util.Random;
 /**
  * Created by Simeon on 11/19/2015.
  */
-public class QuestLogicKillCreature extends AbstractQuestLogic
-{
+public class QuestLogicKillCreature extends AbstractQuestLogic {
     String regex;
     ItemStack killWithItemStack;
     Item killWithItem;
@@ -50,13 +49,11 @@ public class QuestLogicKillCreature extends AbstractQuestLogic
     int xpPerKill;
     Class<? extends EntityLivingBase>[] creatureClasses;
 
-    public QuestLogicKillCreature(Class<? extends EntityLivingBase> creatureClass,int minKillCount,int maxKillCount,int xpPerKill)
-    {
-        this(new Class[]{creatureClass},minKillCount,maxKillCount,xpPerKill);
+    public QuestLogicKillCreature(Class<? extends EntityLivingBase> creatureClass, int minKillCount, int maxKillCount, int xpPerKill) {
+        this(new Class[]{creatureClass}, minKillCount, maxKillCount, xpPerKill);
     }
 
-    public QuestLogicKillCreature(Class<? extends EntityLivingBase>[] creatureClasses,int minKillCount,int maxKillCount,int xpPerKill)
-    {
+    public QuestLogicKillCreature(Class<? extends EntityLivingBase>[] creatureClasses, int minKillCount, int maxKillCount, int xpPerKill) {
         this.creatureClasses = creatureClasses;
         this.minKillCount = minKillCount;
         this.maxKillCount = maxKillCount;
@@ -64,39 +61,33 @@ public class QuestLogicKillCreature extends AbstractQuestLogic
     }
 
     @Override
-    public String modifyInfo(QuestStack questStack,String info)
-    {
-        return String.format(info,"",Integer.toString(getMaxKillCount(questStack)), getTargetName(questStack));
+    public String modifyInfo(QuestStack questStack, String info) {
+        return String.format(info, "", Integer.toString(getMaxKillCount(questStack)), getTargetName(questStack));
     }
 
     @Override
-    public boolean isObjectiveCompleted(QuestStack questStack, EntityPlayer entityPlayer, int objectiveIndex)
-    {
+    public boolean isObjectiveCompleted(QuestStack questStack, EntityPlayer entityPlayer, int objectiveIndex) {
         return getKillCount(questStack) >= getMaxKillCount(questStack);
     }
 
     @Override
-    public String modifyObjective(QuestStack questStack, EntityPlayer entityPlayer,String objetive, int objectiveIndex) {
-        return String.format(objetive,"",getKillCount(questStack),getMaxKillCount(questStack),getTargetName(questStack));
+    public String modifyObjective(QuestStack questStack, EntityPlayer entityPlayer, String objetive, int objectiveIndex) {
+        return String.format(objetive, "", getKillCount(questStack), getMaxKillCount(questStack), getTargetName(questStack));
     }
 
     @Override
-    public void initQuestStack(Random random,QuestStack questStack)
-    {
+    public void initQuestStack(Random random, QuestStack questStack) {
         initTag(questStack);
-        getTag(questStack).setInteger("MaxKillCount",random(random,minKillCount,maxKillCount));
-        getTag(questStack).setByte("KillType",(byte) random.nextInt(creatureClasses.length));
+        getTag(questStack).setInteger("MaxKillCount", random(random, minKillCount, maxKillCount));
+        getTag(questStack).setByte("KillType", (byte) random.nextInt(creatureClasses.length));
     }
 
     @Override
-    public boolean onEvent(QuestStack questStack, Event event,EntityPlayer entityPlayer)
-    {
-        if (event instanceof LivingDeathEvent)
-        {
-            LivingDeathEvent deathEvent = (LivingDeathEvent)event;
+    public boolean onEvent(QuestStack questStack, Event event, EntityPlayer entityPlayer) {
+        if (event instanceof LivingDeathEvent) {
+            LivingDeathEvent deathEvent = (LivingDeathEvent) event;
             Class targetClass = creatureClasses[getKillType(questStack)];
-            if (deathEvent.entityLiving != null && targetClass.isInstance(deathEvent.entityLiving))
-            {
+            if (deathEvent.entityLiving != null && targetClass.isInstance(deathEvent.entityLiving)) {
                 if (regex != null && !isTargetNameValid(((LivingDeathEvent) event).entity))
                     return false;
                 if (shootOnly && !((LivingDeathEvent) event).source.isProjectile())
@@ -107,22 +98,19 @@ public class QuestLogicKillCreature extends AbstractQuestLogic
                     return false;
                 if (killWithItem != null && (entityPlayer.getHeldItem() == null || entityPlayer.getHeldItem().getItem() != killWithItem))
                     return false;
-                if (killWithItemStack != null && (entityPlayer.getHeldItem() == null || !ItemStack.areItemStacksEqual(entityPlayer.getHeldItem(),killWithItemStack)))
+                if (killWithItemStack != null && (entityPlayer.getHeldItem() == null || !ItemStack.areItemStacksEqual(entityPlayer.getHeldItem(), killWithItemStack)))
                     return false;
                 if (onlyChildren && !((LivingDeathEvent) event).entityLiving.isChild())
                     return false;
 
                 initTag(questStack);
                 int currentKillCount = getKillCount(questStack);
-                if (currentKillCount < getMaxKillCount(questStack))
-                {
-                    setKillCount(questStack,++currentKillCount);
-                    if (isObjectiveCompleted(questStack,entityPlayer,0) && autoComplete)
-                    {
+                if (currentKillCount < getMaxKillCount(questStack)) {
+                    setKillCount(questStack, ++currentKillCount);
+                    if (isObjectiveCompleted(questStack, entityPlayer, 0) && autoComplete) {
                         MOExtendedProperties extendedProperties = MOExtendedProperties.get(entityPlayer);
-                        if (extendedProperties != null)
-                        {
-                            questStack.markComplited(entityPlayer,false);
+                        if (extendedProperties != null) {
+                            questStack.markComplited(entityPlayer, false);
                         }
                     }
 
@@ -133,18 +121,13 @@ public class QuestLogicKillCreature extends AbstractQuestLogic
         return false;
     }
 
-    protected boolean isTargetNameValid(Entity entity)
-    {
-        if (entity instanceof EntityLiving && ((EntityLiving)entity).hasCustomNameTag())
-        {
-            if (!((EntityLiving)entity).getCustomNameTag().matches(regex))
-            {
+    protected boolean isTargetNameValid(Entity entity) {
+        if (entity instanceof EntityLiving && ((EntityLiving) entity).hasCustomNameTag()) {
+            if (!((EntityLiving) entity).getCustomNameTag().matches(regex)) {
                 return false;
             }
-        }else
-        {
-            if (!entity.getCommandSenderName().matches(regex))
-            {
+        } else {
+            if (!entity.getCommandSenderName().matches(regex)) {
                 return false;
             }
         }
@@ -152,53 +135,44 @@ public class QuestLogicKillCreature extends AbstractQuestLogic
     }
 
     @Override
-    public void onTaken(QuestStack questStack, EntityPlayer entityPlayer)
-    {
+    public void onTaken(QuestStack questStack, EntityPlayer entityPlayer) {
 
     }
 
-    public int getKillType(QuestStack questStack)
-    {
-        if (hasTag(questStack))
-        {
+    public int getKillType(QuestStack questStack) {
+        if (hasTag(questStack)) {
             return getTag(questStack).getByte("KillType");
         }
         return 0;
     }
 
-    public int getMaxKillCount(QuestStack questStack)
-    {
+    public int getMaxKillCount(QuestStack questStack) {
         if (hasTag(questStack))
             return getTag(questStack).getInteger("MaxKillCount");
         return 0;
     }
 
-    public int getKillCount(QuestStack questStack)
-    {
+    public int getKillCount(QuestStack questStack) {
         if (hasTag(questStack))
             return getTag(questStack).getInteger("KillCount");
         return 0;
     }
 
-    public void setKillCount(QuestStack questStack,int killCount)
-    {
+    public void setKillCount(QuestStack questStack, int killCount) {
         initTag(questStack);
-        getTag(questStack).setInteger("KillCount",killCount);
+        getTag(questStack).setInteger("KillCount", killCount);
     }
 
-    public String getTargetName(QuestStack questStack)
-    {
-        return getEntityClassName(creatureClasses[getKillType(questStack)],"Unknown Target");
+    public String getTargetName(QuestStack questStack) {
+        return getEntityClassName(creatureClasses[getKillType(questStack)], "Unknown Target");
     }
 
-    public Class<? extends EntityLivingBase>[] getCreatureClasses()
-    {
+    public Class<? extends EntityLivingBase>[] getCreatureClasses() {
         return creatureClasses;
     }
 
     @Override
-    public void onCompleted(QuestStack questStack, EntityPlayer entityPlayer)
-    {
+    public void onCompleted(QuestStack questStack, EntityPlayer entityPlayer) {
 
     }
 
@@ -208,38 +182,32 @@ public class QuestLogicKillCreature extends AbstractQuestLogic
     }
 
     @Override
-    public int modifyXP(QuestStack questStack, EntityPlayer entityPlayer, int originalXp)
-    {
+    public int modifyXP(QuestStack questStack, EntityPlayer entityPlayer, int originalXp) {
 
         return originalXp + xpPerKill * getMaxKillCount(questStack);
     }
 
-    public QuestLogicKillCreature setOnlyChildren(boolean onlyChildren)
-    {
+    public QuestLogicKillCreature setOnlyChildren(boolean onlyChildren) {
         this.onlyChildren = onlyChildren;
         return this;
     }
 
-    public QuestLogicKillCreature setShootOnly(boolean shootOnly)
-    {
+    public QuestLogicKillCreature setShootOnly(boolean shootOnly) {
         this.shootOnly = shootOnly;
         return this;
     }
 
-    public QuestLogicKillCreature setBurnOnly(boolean burnOnly)
-    {
+    public QuestLogicKillCreature setBurnOnly(boolean burnOnly) {
         this.burnOnly = burnOnly;
         return this;
     }
 
-    public QuestLogicKillCreature setExplosionOnly(boolean explosionOnly)
-    {
+    public QuestLogicKillCreature setExplosionOnly(boolean explosionOnly) {
         this.explosionOnly = explosionOnly;
         return this;
     }
 
-    public void setNameRegex(String regex)
-    {
+    public void setNameRegex(String regex) {
         this.regex = regex;
     }
 }

@@ -29,10 +29,10 @@ import java.util.Collection;
  * Primary implementation is in {@link matteroverdrive.client.render.AndroidStatRenderRegistry}
  */
 @SideOnly(Side.CLIENT)
-public interface IAndroidStatRenderRegistry
-{
+public interface IAndroidStatRenderRegistry {
     /**
      * Gets a Collection of all registered Render Handlers for a given type of Bionic stat.
+     *
      * @param stat The Class (type) of Bionic stat.
      * @return The collection of Render Handlers ({@link matteroverdrive.api.renderer.IBioticStatRenderer}) for the given stat.
      * Returns a Null if there are no registered Render Handlers.
@@ -42,6 +42,7 @@ public interface IAndroidStatRenderRegistry
 
     /**
      * Removes and returns all renderers assigned to that bionic stat (android ability).
+     *
      * @param stat the class/type of bionic stat (android ability).
      * @return a collection of all assigned renderers to that stat class/type.
      */
@@ -49,7 +50,8 @@ public interface IAndroidStatRenderRegistry
 
     /**
      * Registers a Render Handler of a given BionicStat.
-     * @param stat The Class of Bionic Stat.
+     *
+     * @param stat     The Class of Bionic Stat.
      * @param renderer The Render Handler.
      * @return Did the Render Handler register.
      */

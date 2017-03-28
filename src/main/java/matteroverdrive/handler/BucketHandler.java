@@ -30,12 +30,10 @@ import java.util.Map;
 /**
  * Created by Simeon on 8/20/2015.
  */
-public class BucketHandler
-{
+public class BucketHandler {
     public Map<Block, Item> buckets;
 
-    public BucketHandler()
-    {
+    public BucketHandler() {
         buckets = new HashMap<>();
     }
 
@@ -43,10 +41,8 @@ public class BucketHandler
     public void onBucketFill(FillBucketEvent event) {
 
         Block block = event.world.getBlock(event.target.blockX, event.target.blockY, event.target.blockZ);
-        if (block instanceof BlockFluidMatterPlasma)
-        {
-            if (event.isCancelable())
-            {
+        if (block instanceof BlockFluidMatterPlasma) {
+            if (event.isCancelable()) {
                 event.setCanceled(true);
             }
         }

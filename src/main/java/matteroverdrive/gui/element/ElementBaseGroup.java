@@ -30,98 +30,83 @@ import java.util.List;
 /**
  * Created by Simeon on 4/3/2015.
  */
-public class ElementBaseGroup extends MOElementBase implements IButtonHandler, GuiElementList, ITextHandler
-{
+public class ElementBaseGroup extends MOElementBase implements IButtonHandler, GuiElementList, ITextHandler {
     protected ArrayList<MOElementBase> elements = new ArrayList<MOElementBase>();
 
-    public ElementBaseGroup(MOGuiBase gui, int posX, int posY)
-    {
+    public ElementBaseGroup(MOGuiBase gui, int posX, int posY) {
         super(gui, posX, posY);
     }
-    public ElementBaseGroup(MOGuiBase gui, int posX, int posY,int width,int height)
-    {
+
+    public ElementBaseGroup(MOGuiBase gui, int posX, int posY, int width, int height) {
         super(gui, posX, posY, width, height);
     }
 
     @Override
-    public void init()
-    {
+    public void init() {
         elements.clear();
     }
 
-    protected MOElementBase getElementAtPosition(int mX, int mY)
-    {
-        for (int i = getElements().size(); i-- > 0;)
-        {
+    protected MOElementBase getElementAtPosition(int mX, int mY) {
+        for (int i = getElements().size(); i-- > 0; ) {
             MOElementBase element = getElements().get(i);
-            if (mY >= 0 && mY <= sizeY && mX >= 0 && mX <= sizeX && element.intersectsWith(mX, mY) && element.isVisible())
-            {
+            if (mY >= 0 && mY <= sizeY && mX >= 0 && mX <= sizeX && element.intersectsWith(mX, mY) && element.isVisible()) {
                 return element;
             }
         }
         return null;
     }
 
-    public void addTooltip(List<String> var1,int mouseX,int mouseY)
-    {
+    public void addTooltip(List<String> var1, int mouseX, int mouseY) {
         mouseX -= posX;
         mouseY -= posY;
 
-        for (int i = getElements().size(); i-- > 0;)
-        {
+        for (int i = getElements().size(); i-- > 0; ) {
             MOElementBase element = getElements().get(i);
-            if (mouseY >= 0 && mouseY <= sizeY && mouseX >= 0 && mouseX <= sizeX && element.intersectsWith(mouseX, mouseY) && element.isVisible())
-            {
-                element.addTooltip(var1,mouseX,mouseY);
+            if (mouseY >= 0 && mouseY <= sizeY && mouseX >= 0 && mouseX <= sizeX && element.intersectsWith(mouseX, mouseY) && element.isVisible()) {
+                element.addTooltip(var1, mouseX, mouseY);
             }
         }
     }
 
     @Override
-    public void drawBackground(int mouseX, int mouseY, float gameTicks)
-    {
-        mouseX -= posX;
-        mouseY -= posY;
-
-        GL11.glPushMatrix();
-        GL11.glTranslatef(this.posX, this.posY, 0);
-        GL11.glColor3f(1,1,1);
-        for (int i = getElements().size(); i-- > 0;)
-        {
-            MOElementBase c = getElements().get(i);
-
-            if(c.isVisible())
-                c.drawBackground(mouseX,mouseY,gameTicks);
-        }
-        GL11.glPopMatrix();
-    }
-
-    @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
+    public void drawBackground(int mouseX, int mouseY, float gameTicks) {
         mouseX -= posX;
         mouseY -= posY;
 
         GL11.glPushMatrix();
         GL11.glTranslatef(this.posX, this.posY, 0);
         GL11.glColor3f(1, 1, 1);
-        for (int i = getElements().size(); i-- > 0;)
-        {
+        for (int i = getElements().size(); i-- > 0; ) {
             MOElementBase c = getElements().get(i);
-            if(c.isVisible())
+
+            if (c.isVisible())
+                c.drawBackground(mouseX, mouseY, gameTicks);
+        }
+        GL11.glPopMatrix();
+    }
+
+    @Override
+    public void drawForeground(int mouseX, int mouseY) {
+        mouseX -= posX;
+        mouseY -= posY;
+
+        GL11.glPushMatrix();
+        GL11.glTranslatef(this.posX, this.posY, 0);
+        GL11.glColor3f(1, 1, 1);
+        for (int i = getElements().size(); i-- > 0; ) {
+            MOElementBase c = getElements().get(i);
+            if (c.isVisible())
                 c.drawForeground(mouseX, mouseY);
         }
         GL11.glPopMatrix();
     }
 
     @Override
-    public void update(int mouseX, int mouseY)
-    {
+    public void update(int mouseX, int mouseY) {
         mouseX -= posX;
         mouseY -= posY;
 
-        for (int i = elements.size(); i-- > 0;)
-        {
+        for (int i = elements.size(); i-- > 0; ) {
             getElements().get(i).update(mouseX, mouseY);
         }
 
@@ -129,10 +114,8 @@ public class ElementBaseGroup extends MOElementBase implements IButtonHandler, G
     }
 
     @Override
-    public void updateInfo()
-    {
-        for (int i = elements.size(); i-- > 0;)
-        {
+    public void updateInfo() {
+        for (int i = elements.size(); i-- > 0; ) {
             MOElementBase element = elements.get(i);
             element.updateInfo();
         }
@@ -140,19 +123,16 @@ public class ElementBaseGroup extends MOElementBase implements IButtonHandler, G
     }
 
     @Override
-    public boolean onMousePressed(int mouseX, int mouseY, int mouseButton)
-    {
+    public boolean onMousePressed(int mouseX, int mouseY, int mouseButton) {
         mouseX -= posX;
         mouseY -= posY;
 
-        for (int i = getElements().size(); i-- > 0;)
-        {
+        for (int i = getElements().size(); i-- > 0; ) {
             MOElementBase c = getElements().get(i);
             if (!c.isVisible() || !c.isEnabled() || !c.intersectsWith(mouseX, mouseY)) {
                 continue;
             }
-            if (c.onMousePressed(mouseX, mouseY, mouseButton))
-            {
+            if (c.onMousePressed(mouseX, mouseY, mouseButton)) {
                 return true;
             }
         }
@@ -166,8 +146,7 @@ public class ElementBaseGroup extends MOElementBase implements IButtonHandler, G
         mouseX -= posX;
         mouseY -= posY;
 
-        for (int i = getElements().size(); i-- > 0;)
-        {
+        for (int i = getElements().size(); i-- > 0; ) {
             MOElementBase c = getElements().get(i);
             if (!c.isVisible() || !c.isEnabled()) {
                 continue;
@@ -182,8 +161,7 @@ public class ElementBaseGroup extends MOElementBase implements IButtonHandler, G
         mouseX -= posX;
         mouseY -= posY;
 
-        for (int i = getElements().size(); i-- > 0;)
-        {
+        for (int i = getElements().size(); i-- > 0; ) {
             MOElementBase c = getElements().get(i);
             if (!c.isVisible() || !c.isEnabled() || !c.intersectsWith(mouseX, mouseY)) {
                 continue;
@@ -198,8 +176,7 @@ public class ElementBaseGroup extends MOElementBase implements IButtonHandler, G
     @Override
     public boolean onKeyTyped(char characterTyped, int keyPressed) {
 
-        for (int i = getElements().size(); i-- > 0;)
-        {
+        for (int i = getElements().size(); i-- > 0; ) {
             MOElementBase c = getElements().get(i);
             if (!c.isVisible() || !c.isEnabled()) {
                 continue;
@@ -211,32 +188,27 @@ public class ElementBaseGroup extends MOElementBase implements IButtonHandler, G
         return false;
     }
 
-    public MOElementBase setGroupVisible(boolean visible)
-    {
+    public MOElementBase setGroupVisible(boolean visible) {
         super.setVisible(visible);
         return this;
     }
 
     @Override
-    public void handleElementButtonClick(MOElementBase element,String buttonName, int mouseButton)
-    {
+    public void handleElementButtonClick(MOElementBase element, String buttonName, int mouseButton) {
 
     }
 
-    public List<MOElementBase> getElements()
-    {
+    public List<MOElementBase> getElements() {
         return elements;
     }
 
-    public MOElementBase addElementAt(int i,MOElementBase element)
-    {
+    public MOElementBase addElementAt(int i, MOElementBase element) {
         element.parent = this;
-        elements.add(i,element);
+        elements.add(i, element);
         return element;
     }
 
-    public MOElementBase addElement(MOElementBase element)
-    {
+    public MOElementBase addElement(MOElementBase element) {
         if (element == null)
             return null;
 
@@ -246,8 +218,7 @@ public class ElementBaseGroup extends MOElementBase implements IButtonHandler, G
     }
 
     @Override
-    public void textChanged(String elementName, String text, boolean typed)
-    {
+    public void textChanged(String elementName, String text, boolean typed) {
 
     }
 }

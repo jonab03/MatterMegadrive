@@ -49,12 +49,11 @@ import java.util.List;
 /**
  * Created by Simeon on 5/9/2015.
  */
-public class PlayerEventHandler
-{
+public class PlayerEventHandler {
     private VersionCheckerHandler versionCheckerHandler;
     public List<EntityPlayerMP> players;
-    public PlayerEventHandler(ConfigurationHandler configurationHandler)
-    {
+
+    public PlayerEventHandler(ConfigurationHandler configurationHandler) {
         players = new ArrayList<>();
         versionCheckerHandler = new VersionCheckerHandler();
 
@@ -62,8 +61,7 @@ public class PlayerEventHandler
     }
 
     @SubscribeEvent
-    public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event)
-    {
+    public void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
         if (event.player instanceof EntityPlayerMP) {
             if (MatterOverdrive.matterRegistry.hasComplitedRegistration) {
                 if (!MinecraftServer.getServer().isSinglePlayer()) {
@@ -78,8 +76,7 @@ public class PlayerEventHandler
     }
 
     @SubscribeEvent
-    public void onPlayerTick(TickEvent.PlayerTickEvent event)
-    {
+    public void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.side == Side.CLIENT) {
             versionCheckerHandler.onPlayerTick(event);
         }
@@ -95,13 +92,10 @@ public class PlayerEventHandler
         }
 
         MOExtendedProperties extendedProperties = MOExtendedProperties.get(event.player);
-        if (extendedProperties != null && event.phase.equals(TickEvent.Phase.START))
-        {
-            if (event.side == Side.CLIENT)
-            {
+        if (extendedProperties != null && event.phase.equals(TickEvent.Phase.START)) {
+            if (event.side == Side.CLIENT) {
                 extendedProperties.update(Side.CLIENT);
-            }else
-            {
+            } else {
                 extendedProperties.update(Side.SERVER);
             }
         }
@@ -112,9 +106,8 @@ public class PlayerEventHandler
         if (event.player.isUsingItem() && event.side == Side.CLIENT) {
             ItemStack itemstack = event.player.inventory.getCurrentItem();
             int itemUseCount = event.player.getItemInUseCount();
-            if (itemstack != null && itemstack.getItem() instanceof IWeapon && itemUseCount > 0)
-            {
-                event.player.setItemInUse(itemstack,itemUseCount);
+            if (itemstack != null && itemstack.getItem() instanceof IWeapon && itemUseCount > 0) {
+                event.player.setItemInUse(itemstack, itemUseCount);
 
                 if (Minecraft.getMinecraft().currentScreen != null && event.player.equals(Minecraft.getMinecraft().thePlayer))
                     event.player.clearItemInUse();
@@ -123,22 +116,18 @@ public class PlayerEventHandler
     }
 
     @SideOnly(Side.CLIENT)
-    private void onAndroidTickClient(AndroidPlayer androidPlayer,TickEvent.PlayerTickEvent event)
-    {
-        if (event.player == Minecraft.getMinecraft().thePlayer)
-        {
+    private void onAndroidTickClient(AndroidPlayer androidPlayer, TickEvent.PlayerTickEvent event) {
+        if (event.player == Minecraft.getMinecraft().thePlayer) {
             androidPlayer.onAndroidTick(event.side);
         }
     }
 
-    private void onAndroidServerTick(AndroidPlayer androidPlayer,TickEvent.PlayerTickEvent event)
-    {
+    private void onAndroidServerTick(AndroidPlayer androidPlayer, TickEvent.PlayerTickEvent event) {
         androidPlayer.onAndroidTick(event.side);
     }
 
     @SubscribeEvent
-    public void onPlayerLoadFromFile(net.minecraftforge.event.entity.player.PlayerEvent.LoadFromFile event)
-    {
+    public void onPlayerLoadFromFile(net.minecraftforge.event.entity.player.PlayerEvent.LoadFromFile event) {
         AndroidPlayer player = AndroidPlayer.get(event.entityPlayer);
         if (player != null) {
             player.onPlayerLoad(event);
@@ -146,47 +135,36 @@ public class PlayerEventHandler
     }
 
     @SubscribeEvent
-    public void onStartTracking(net.minecraftforge.event.entity.player.PlayerEvent.StartTracking event)
-    {
-        if (event.target instanceof EntityPlayer)
-        {
-            AndroidPlayer androidPlayer = AndroidPlayer.get((EntityPlayer)event.target);
-            if (androidPlayer != null && androidPlayer.isAndroid())
-            {
-                androidPlayer.sync(event.entityPlayer, EnumSet.allOf(AndroidPlayer.DataType.class),false);
+    public void onStartTracking(net.minecraftforge.event.entity.player.PlayerEvent.StartTracking event) {
+        if (event.target instanceof EntityPlayer) {
+            AndroidPlayer androidPlayer = AndroidPlayer.get((EntityPlayer) event.target);
+            if (androidPlayer != null && androidPlayer.isAndroid()) {
+                androidPlayer.sync(event.entityPlayer, EnumSet.allOf(AndroidPlayer.DataType.class), false);
             }
-            MOExtendedProperties extendedProperties = MOExtendedProperties.get((EntityPlayer)event.target);
-            if (extendedProperties != null)
-            {
+            MOExtendedProperties extendedProperties = MOExtendedProperties.get((EntityPlayer) event.target);
+            if (extendedProperties != null) {
                 extendedProperties.sync(EnumSet.allOf(PlayerQuestData.DataType.class));
             }
         }
     }
 
     @SubscribeEvent
-    public void onPlayerDeath(LivingDeathEvent deathEvent)
-    {
-        if (deathEvent.entityLiving instanceof EntityPlayer)
-        {
-            if (!((EntityPlayer) deathEvent.entityLiving).worldObj.isRemote)
-            {
+    public void onPlayerDeath(LivingDeathEvent deathEvent) {
+        if (deathEvent.entityLiving instanceof EntityPlayer) {
+            if (!((EntityPlayer) deathEvent.entityLiving).worldObj.isRemote) {
                 MatterOverdrive.proxy.getGoogleAnalytics().sendEventHit(GoogleAnalyticsCommon.EVENT_CATEGORY_ENTITIES, GoogleAnalyticsCommon.EVENT_ACTION_PLAYER_DEATH, deathEvent.source.getDamageType(), ((EntityPlayer) deathEvent.entityLiving).ticksExisted / 20, (EntityPlayer) deathEvent.entityLiving);
                 AndroidPlayer androidPlayer = AndroidPlayer.get((EntityPlayer) deathEvent.entityLiving);
-                if (androidPlayer != null && androidPlayer.isAndroid())
-                {
+                if (androidPlayer != null && androidPlayer.isAndroid()) {
                     androidPlayer.onPlayerDeath(deathEvent);
                 }
             }
         }
     }
 
-    public void onServerTick(TickEvent.ServerTickEvent event)
-    {
-        if (MatterOverdrive.matterRegistry.hasComplitedRegistration)
-        {
-            for (int i = 0; i < MatterOverdrive.playerEventHandler.players.size();i++)
-            {
-                MatterOverdrive.packetPipeline.sendTo(new PacketUpdateMatterRegistry(MatterOverdrive.matterRegistry.getEntries()),MatterOverdrive.playerEventHandler.players.get(i));
+    public void onServerTick(TickEvent.ServerTickEvent event) {
+        if (MatterOverdrive.matterRegistry.hasComplitedRegistration) {
+            for (int i = 0; i < MatterOverdrive.playerEventHandler.players.size(); i++) {
+                MatterOverdrive.packetPipeline.sendTo(new PacketUpdateMatterRegistry(MatterOverdrive.matterRegistry.getEntries()), MatterOverdrive.playerEventHandler.players.get(i));
             }
 
             MatterOverdrive.playerEventHandler.players.clear();
@@ -194,21 +172,15 @@ public class PlayerEventHandler
     }
 
     @SubscribeEvent
-    public void onItemCrafted(PlayerEvent.ItemCraftedEvent event)
-    {
-        if (event.player != null)
-        {
-            if (event.player.worldObj.isRemote)
-            {
-                if (event.crafting != null && event.crafting.getItem() instanceof MOBaseItem)
-                {
+    public void onItemCrafted(PlayerEvent.ItemCraftedEvent event) {
+        if (event.player != null) {
+            if (event.player.worldObj.isRemote) {
+                if (event.crafting != null && event.crafting.getItem() instanceof MOBaseItem) {
                     MatterOverdrive.proxy.getGoogleAnalytics().sendEventHit(GoogleAnalyticsCommon.EVENT_CATEGORY_ITEMS, GoogleAnalyticsCommon.EVENT_ACTION_CRAFT_ITEMS, event.crafting.getUnlocalizedName(), event.crafting.stackSize, event.player);
                 }
-            }else
-            {
+            } else {
                 MOExtendedProperties extendedProperties = MOExtendedProperties.get(event.player);
-                if (extendedProperties != null)
-                {
+                if (extendedProperties != null) {
                     extendedProperties.onEvent(event);
                 }
             }
@@ -216,26 +188,20 @@ public class PlayerEventHandler
     }
 
     @SubscribeEvent
-    public void onPlayerFlyableFallEvent(PlayerFlyableFallEvent event)
-    {
-        if (event.entityPlayer != null)
-        {
+    public void onPlayerFlyableFallEvent(PlayerFlyableFallEvent event) {
+        if (event.entityPlayer != null) {
             AndroidPlayer androidPlayer = AndroidPlayer.get(event.entityPlayer);
-            if (androidPlayer != null && androidPlayer.isAndroid())
-            {
+            if (androidPlayer != null && androidPlayer.isAndroid()) {
                 androidPlayer.triggerEventOnStats(event);
             }
         }
     }
 
     @SubscribeEvent
-    public void onPlayerScanEvent(MOEventScan event)
-    {
-        if (event.getSide() == Side.SERVER && event.entityPlayer != null)
-        {
+    public void onPlayerScanEvent(MOEventScan event) {
+        if (event.getSide() == Side.SERVER && event.entityPlayer != null) {
             MOExtendedProperties extendedProperties = MOExtendedProperties.get(event.entityPlayer);
-            if (extendedProperties != null)
-            {
+            if (extendedProperties != null) {
                 extendedProperties.onEvent(event);
             }
         }
@@ -248,23 +214,19 @@ public class PlayerEventHandler
     }*/
 
     @SubscribeEvent
-    public void onBioticStatUse(MOEventBionicStat event)
-    {
-        if (event.entityPlayer.worldObj.isRemote)
-        {
+    public void onBioticStatUse(MOEventBionicStat event) {
+        if (event.entityPlayer.worldObj.isRemote) {
             MatterOverdrive.proxy.getGoogleAnalytics().sendEventHit(GoogleAnalyticsCommon.EVENT_CATEGORY_BIOTIC_STATS, GoogleAnalyticsCommon.EVENT_ACTION_BIOTIC_STAT_USE, event.stat.getUnlocalizedName(), event.android.getPlayer());
         }
     }
 
     @SubscribeEvent
-    public void onAnvilRepair(AnvilUpdateEvent event)
-    {
-        if (event.left != null && event.right != null && event.left.getItem() == MatterOverdriveItems.portableDecomposer)
-        {
+    public void onAnvilRepair(AnvilUpdateEvent event) {
+        if (event.left != null && event.right != null && event.left.getItem() == MatterOverdriveItems.portableDecomposer) {
             event.output = event.left.copy();
             event.materialCost = 1;
             event.cost = 3;
-            MatterOverdriveItems.portableDecomposer.addStackToList(event.output,event.right);
+            MatterOverdriveItems.portableDecomposer.addStackToList(event.output, event.right);
         }
     }
 }

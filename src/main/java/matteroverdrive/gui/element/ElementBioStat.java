@@ -45,9 +45,8 @@ public class ElementBioStat extends MOElementButton {
     ForgeDirection direction;
     Cylinder cylinder;
 
-    public ElementBioStat(MOGuiBase gui, int posX, int posY,IBionicStat stat,int level,AndroidPlayer player,ForgeDirection direction)
-    {
-        super(gui,gui, posX, posY,stat.getUnlocalizedName(),0,0,0,0, 22, 22,"");
+    public ElementBioStat(MOGuiBase gui, int posX, int posY, IBionicStat stat, int level, AndroidPlayer player, ForgeDirection direction) {
+        super(gui, gui, posX, posY, stat.getUnlocalizedName(), 0, 0, 0, 0, 22, 22, "");
         texture = ElementSlot.getTexture("holo");
         texW = 22;
         texH = 22;
@@ -61,10 +60,8 @@ public class ElementBioStat extends MOElementButton {
     @Override
     public boolean isEnabled() {
 
-        if (stat.canBeUnlocked(player,level))
-        {
-            if (player.getUnlockedLevel(stat) < stat.maxLevel())
-            {
+        if (stat.canBeUnlocked(player, level)) {
+            if (player.getUnlockedLevel(stat) < stat.maxLevel()) {
                 return true;
             }
         }
@@ -72,83 +69,64 @@ public class ElementBioStat extends MOElementButton {
     }
 
 
-    protected void ApplyColor()
-    {
-        if (stat.canBeUnlocked(player,level) || player.isUnlocked(stat,level))
-        {
-            if (level <= 0)
-            {
+    protected void ApplyColor() {
+        if (stat.canBeUnlocked(player, level) || player.isUnlocked(stat, level)) {
+            if (level <= 0) {
                 RenderUtils.applyColorWithMultipy(Reference.COLOR_HOLO, 0.5f);
-            }
-            else
-            {
+            } else {
                 RenderUtils.applyColor(Reference.COLOR_HOLO);
             }
-        }
-        else
-        {
+        } else {
             RenderUtils.applyColorWithMultipy(Reference.COLOR_HOLO_RED, 0.5f);
         }
     }
 
-    protected void ResetColor()
-    {
+    protected void ResetColor() {
         glColor3f(1, 1, 1);
     }
 
     @Override
-    public void addTooltip(List<String> list,int mouseX,int mouseY)
-    {
-       stat.onTooltip(player, level, list, mouseX, mouseY);
+    public void addTooltip(List<String> list, int mouseX, int mouseY) {
+        stat.onTooltip(player, level, list, mouseX, mouseY);
     }
 
     @Override
-    public void onAction(int mouseX, int mouseY,int mouseButton)
-    {
-        if (super.intersectsWith(mouseX,mouseY))
-        {
-            if (stat.canBeUnlocked(player,level+1) && level < stat.maxLevel())
-            {
+    public void onAction(int mouseX, int mouseY, int mouseButton) {
+        if (super.intersectsWith(mouseX, mouseY)) {
+            if (stat.canBeUnlocked(player, level + 1) && level < stat.maxLevel()) {
                 MOGuiBase.playSound(Reference.MOD_ID + ":" + "gui.biotic_stat_unlock", 1, 1);
-                MatterOverdrive.packetPipeline.sendToServer(new PacketUnlockBioticStat(stat.getUnlocalizedName(),++level));
-                MatterOverdrive.proxy.getGoogleAnalytics().sendEventHit(GoogleAnalyticsCommon.EVENT_CATEGORY_BIOTIC_STATS, GoogleAnalyticsCommon.EVENT_ACTION_BIOTIC_STAT_UNLOCK,stat.getUnlocalizedName(),null);
+                MatterOverdrive.packetPipeline.sendToServer(new PacketUnlockBioticStat(stat.getUnlocalizedName(), ++level));
+                MatterOverdrive.proxy.getGoogleAnalytics().sendEventHit(GoogleAnalyticsCommon.EVENT_CATEGORY_BIOTIC_STATS, GoogleAnalyticsCommon.EVENT_ACTION_BIOTIC_STAT_UNLOCK, stat.getUnlocalizedName(), null);
             }
         }
         super.onAction(mouseX, mouseY, mouseButton);
     }
 
     @Override
-    public void drawTexturedModalRect(int var1, int var2, int var3, int var4, int var5, int var6)
-    {
+    public void drawTexturedModalRect(int var1, int var2, int var3, int var4, int var5, int var6) {
         ApplyColor();
         this.gui.drawSizedTexturedModalRect(var1, var2, var3, var4, var5, var6, (float) this.texW, (float) this.texH);
     }
 
     @Override
-    public void drawBackground(int mouseX, int mouseY, float gameTicks)
-    {
+    public void drawBackground(int mouseX, int mouseY, float gameTicks) {
         glEnable(GL_BLEND);
         ApplyColor();
         super.drawBackground(mouseX, mouseY, gameTicks);
         drawIcon(stat.getIcon(level), posX + 3, posY + 3);
-        if (direction != ForgeDirection.UNKNOWN)
-        {
+        if (direction != ForgeDirection.UNKNOWN) {
             glPushMatrix();
             glTranslated(posX, posY, 0);
             glTranslated(sizeX / 2, sizeY / 2, 0);
-            glTranslated(direction.offsetX * (sizeX*0.75),-direction.offsetY * (sizeY*0.75),0);
-            if (direction == ForgeDirection.EAST)
-            {
+            glTranslated(direction.offsetX * (sizeX * 0.75), -direction.offsetY * (sizeY * 0.75), 0);
+            if (direction == ForgeDirection.EAST) {
                 glRotated(90, 0, 0, 1);
-            }else if (direction == ForgeDirection.WEST)
-            {
-                glRotated(-90,0,0,1);
+            } else if (direction == ForgeDirection.WEST) {
+                glRotated(-90, 0, 0, 1);
+            } else if (direction == ForgeDirection.DOWN) {
+                glRotated(180, 0, 0, 1);
             }
-            else if (direction == ForgeDirection.DOWN)
-            {
-                glRotated(180,0,0,1);
-            }
-            glTranslated(-3.5,-3.5,0);
+            glTranslated(-3.5, -3.5, 0);
             ClientProxy.holoIcons.renderIcon("up_arrow", 0, 0);
             glPopMatrix();
         }
@@ -156,30 +134,25 @@ public class ElementBioStat extends MOElementButton {
         glDisable(GL_BLEND);
     }
 
-    public void drawForeground(int x, int y)
-    {
-        if (stat.maxLevel() > 1 && level > 0)
-        {
+    public void drawForeground(int x, int y) {
+        if (stat.maxLevel() > 1 && level > 0) {
             String levelInfo = Integer.toString(level);
             ClientProxy.holoIcons.renderIcon("black_circle", posX + 14, posY + 14, 10, 10);
             getFontRenderer().drawString(levelInfo, posX + 16, posY + 16, 0xFFFFFF);
         }
     }
 
-    public void drawIcon(HoloIcon icon, int x, int y)
-    {
-        if(icon != null)
-        {
+    public void drawIcon(HoloIcon icon, int x, int y) {
+        if (icon != null) {
             glEnable(GL_BLEND);
 
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            ClientProxy.holoIcons.renderIcon(icon,x,y,16,16);
+            ClientProxy.holoIcons.renderIcon(icon, x, y, 16, 16);
             glDisable(GL_BLEND);
         }
     }
 
-    public IBionicStat getStat()
-    {
+    public IBionicStat getStat() {
         return stat;
     }
 }

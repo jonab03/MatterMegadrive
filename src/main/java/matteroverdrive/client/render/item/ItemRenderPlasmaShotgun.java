@@ -37,8 +37,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 12/6/2015.
  */
-public class ItemRenderPlasmaShotgun extends WeaponItemRenderer
-{
+public class ItemRenderPlasmaShotgun extends WeaponItemRenderer {
     public static final String TEXTURE = Reference.PATH_ITEM + "plasma_shotgun.png";
     public static final String MODEL = Reference.PATH_MODEL + "item/plasma_shotgun.obj";
     public static final float SCALE = 0.85f;
@@ -48,9 +47,8 @@ public class ItemRenderPlasmaShotgun extends WeaponItemRenderer
 
     private Random random;
 
-    public ItemRenderPlasmaShotgun()
-    {
-        super(new ResourceLocation(MODEL),new ResourceLocation(TEXTURE));
+    public ItemRenderPlasmaShotgun() {
+        super(new ResourceLocation(MODEL), new ResourceLocation(TEXTURE));
         random = new Random();
     }
 
@@ -65,58 +63,46 @@ public class ItemRenderPlasmaShotgun extends WeaponItemRenderer
     }
 
     @Override
-    public void renderItem(ItemRenderType type, ItemStack item, Object... data)
-    {
-        if(type == ItemRenderType.EQUIPPED_FIRST_PERSON)
-        {
+    public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+        if (type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
             renderFirstPerson(item);
-        }
-        else if(type == ItemRenderType.INVENTORY)
-        {
+        } else if (type == ItemRenderType.INVENTORY) {
             renderItem(item);
-        }
-        else if(type == ItemRenderType.ENTITY)
-        {
+        } else if (type == ItemRenderType.ENTITY) {
             renderDrop(item);
-        }
-        else
-        {
-            renderThirdPerson(type,item);
+        } else {
+            renderThirdPerson(type, item);
         }
     }
 
-    void renderItem(ItemStack item)
-    {
+    void renderItem(ItemStack item) {
         glPushMatrix();
         glScaled(ITEM_SCALE, ITEM_SCALE, ITEM_SCALE);
         glTranslated(0, -0.2, -2.5);
         glRotated(180, 0, 1, 0);
-        renderGun(ItemRenderType.INVENTORY,item);
+        renderGun(ItemRenderType.INVENTORY, item);
         glPopMatrix();
     }
 
-    void renderThirdPerson(ItemRenderType renderType, ItemStack item)
-    {
+    void renderThirdPerson(ItemRenderType renderType, ItemStack item) {
         glPushMatrix();
         glScaled(THIRD_PERSON_SCALE, THIRD_PERSON_SCALE, THIRD_PERSON_SCALE);
         glTranslated(1.5, 1.5, 1.3);
         glRotated(45, 0, 1, 0);
         glRotated(-70, 1, 0, 0);
-        renderGun(renderType,item);
+        renderGun(renderType, item);
         glPopMatrix();
     }
 
-    void renderDrop(ItemStack item)
-    {
+    void renderDrop(ItemStack item) {
         glPushMatrix();
         glScaled(SCALE_DROP, SCALE_DROP, SCALE_DROP);
         glTranslated(0, 0, 2);
-        renderGun(ItemRenderType.ENTITY,item);
+        renderGun(ItemRenderType.ENTITY, item);
         glPopMatrix();
     }
 
-    void renderFirstPerson(ItemStack item)
-    {
+    void renderFirstPerson(ItemStack item) {
         float zoomValue = MOEasing.Sine.easeInOut(ClientProxy.instance().getClientWeaponHandler().ZOOM_TIME, 0, 1, 1f);
         float recoilValue = MOEasing.Quart.easeInOut(getRecoilTime(), 0, 1, 1f);
 
@@ -156,27 +142,24 @@ public class ItemRenderPlasmaShotgun extends WeaponItemRenderer
         glPushMatrix();
         glScaled(SCALE, SCALE, SCALE);
 
-        if (Minecraft.getMinecraft().thePlayer.isUsingItem())
-        {
-            glTranslated(2.5,-0.5,0.8);
-            glRotated(MOMathHelper.Lerp(48,50,recoilValue),0,0,1);
-            glRotated(-77,0,1,0);
+        if (Minecraft.getMinecraft().thePlayer.isUsingItem()) {
+            glTranslated(2.5, -0.5, 0.8);
+            glRotated(MOMathHelper.Lerp(48, 50, recoilValue), 0, 0, 1);
+            glRotated(-77, 0, 1, 0);
             glScaled(1.2, 1.2, 0.8);
-        }else
-        {
-            glTranslated(2,MOMathHelper.Lerp(-0.5f,-1f,recoilValue),0.3);
-            glRotated(MOMathHelper.Lerp(28,50,recoilValue),0,0,1);
-            glRotated(-89,0,1,0);
+        } else {
+            glTranslated(2, MOMathHelper.Lerp(-0.5f, -1f, recoilValue), 0.3);
+            glRotated(MOMathHelper.Lerp(28, 50, recoilValue), 0, 0, 1);
+            glRotated(-89, 0, 1, 0);
             glScaled(1.2, 1.2, 0.8);
         }
 
 
-        renderGun(ItemRenderType.EQUIPPED_FIRST_PERSON,item);
+        renderGun(ItemRenderType.EQUIPPED_FIRST_PERSON, item);
         glPopMatrix();
     }
 
-    void renderGun(ItemRenderType renderType, ItemStack item)
-    {
+    void renderGun(ItemRenderType renderType, ItemStack item) {
         RenderUtils.applyColor(WeaponHelper.getColor(item));
         Minecraft.getMinecraft().renderEngine.bindTexture(weaponTexture);
         weaponModel.renderAll();

@@ -23,8 +23,7 @@ import java.util.EnumSet;
 /**
  * Created by Simeon on 7/19/2015.
  */
-public enum MachineNBTCategory
-{
+public enum MachineNBTCategory {
     DATA,
     CONFIGS,
     INVENTORY,

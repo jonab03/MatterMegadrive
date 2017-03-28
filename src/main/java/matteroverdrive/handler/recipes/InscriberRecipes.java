@@ -27,29 +27,23 @@ import java.util.List;
 /**
  * Created by Simeon on 11/12/2015.
  */
-public class InscriberRecipes
-{
+public class InscriberRecipes {
     private static List<InscriberRecipe> recipes = new ArrayList<>();
 
-    public static void registerRecipe(InscriberRecipe recipe)
-    {
+    public static void registerRecipe(InscriberRecipe recipe) {
         recipes.add(recipe);
     }
 
-    public static InscriberRecipe getRecipe(ItemStack main,ItemStack sec)
-    {
-        for (InscriberRecipe recipe : recipes)
-        {
-            if (recipe.matches(main,sec))
-            {
+    public static InscriberRecipe getRecipe(ItemStack main, ItemStack sec) {
+        for (InscriberRecipe recipe : recipes) {
+            if (recipe.matches(main, sec)) {
                 return recipe;
             }
         }
         return null;
     }
 
-    public static boolean containedInRecipe(ItemStack itemStack,boolean main)
-    {
+    public static boolean containedInRecipe(ItemStack itemStack, boolean main) {
         if (itemStack != null) {
             ItemStack other;
             for (InscriberRecipe recipe : recipes) {
@@ -58,10 +52,8 @@ public class InscriberRecipes
                 } else {
                     other = recipe.getSec();
                 }
-                if (other != null)
-                {
-                    if (itemStack.getItem() == other.getItem() && itemStack.getItemDamage() == other.getItemDamage())
-                    {
+                if (other != null) {
+                    if (itemStack.getItem() == other.getItem() && itemStack.getItemDamage() == other.getItemDamage()) {
                         return true;
                     }
                 }
@@ -70,8 +62,7 @@ public class InscriberRecipes
         return false;
     }
 
-    public static List<InscriberRecipe> getRecipes()
-    {
+    public static List<InscriberRecipe> getRecipes() {
         return recipes;
     }
 }

@@ -28,33 +28,29 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 3/16/2015.
  */
-public class EnergySlot extends Slot
-{
+public class EnergySlot extends Slot {
     public EnergySlot(boolean isMainSlot) {
         super(isMainSlot);
     }
 
     @Override
-    public boolean isValidForSlot(ItemStack itemStack)
-    {
+    public boolean isValidForSlot(ItemStack itemStack) {
         return MOEnergyHelper.isEnergyContainerItem(itemStack);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public HoloIcon getHoloIcon()
-    {
+    public HoloIcon getHoloIcon() {
         return ClientProxy.holoIcons.getIcon("energy");
     }
 
     @Override
-    public boolean keepOnDismantle()
-    {
+    public boolean keepOnDismantle() {
         return true;
     }
 
     @Override
-    public String getUnlocalizedTooltip(){
+    public String getUnlocalizedTooltip() {
         return "gui.tooltip.slot.energy";
     }
 }

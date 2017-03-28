@@ -33,45 +33,38 @@ import matteroverdrive.proxy.ClientProxy;
 /**
  * Created by Simeon on 7/20/2015.
  */
-public class Api implements IMOApi
-{
+public class Api implements IMOApi {
     public static final Api INSTANCE = new Api();
 
     @Override
-    public IMatterRegistry getMatterRegistry()
-    {
+    public IMatterRegistry getMatterRegistry() {
         return MatterOverdrive.matterRegistry;
     }
 
     @Override
-    public IAndroidStatRegistry getAndroidStatRegistry()
-    {
-		return MatterOverdrive.statRegistry;
-	}
+    public IAndroidStatRegistry getAndroidStatRegistry() {
+        return MatterOverdrive.statRegistry;
+    }
 
     @Override
-    public IDialogRegistry getDialogRegistry()
-    {
+    public IDialogRegistry getDialogRegistry() {
         return MatterOverdrive.dialogRegistry;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IAndroidStatRenderRegistry getAndroidStatRenderRegistry()
-	{
+    public IAndroidStatRenderRegistry getAndroidStatRenderRegistry() {
         return ClientProxy.renderHandler.getStatRenderRegistry();
     }
 
     @Override
-    public IBionicPartRenderRegistry getBionicStatRenderRegistry()
-    {
+    public IBionicPartRenderRegistry getBionicStatRenderRegistry() {
         return ClientProxy.renderHandler.getBionicPartRenderRegistry();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IStarmapRenderRegistry getStarmapRenderRegistry()
-	{
+    public IStarmapRenderRegistry getStarmapRenderRegistry() {
         return ClientProxy.renderHandler.getStarmapRenderRegistry();
     }
 }

@@ -28,10 +28,8 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Created by Simeon on 12/8/2015.
  */
-public class WeaponModuleSniperScope extends MOBaseItem implements IWeaponScope
-{
-    public WeaponModuleSniperScope(String name)
-    {
+public class WeaponModuleSniperScope extends MOBaseItem implements IWeaponScope {
+    public WeaponModuleSniperScope(String name) {
         super(name);
         setCreativeTab(MatterOverdrive.tabMatterOverdrive_modules);
         this.setMaxDamage(0);
@@ -39,21 +37,18 @@ public class WeaponModuleSniperScope extends MOBaseItem implements IWeaponScope
     }
 
     @Override
-    public float getYOffset(ItemStack scopeStack,ItemStack weapon) {
+    public float getYOffset(ItemStack scopeStack, ItemStack weapon) {
         return -0.18f;
     }
 
     @Override
-    public float getZoomAmount(ItemStack scopeStack,ItemStack weapon)
-    {
+    public float getZoomAmount(ItemStack scopeStack, ItemStack weapon) {
         return 0.85f;
     }
 
     @Override
-    public float getAccuracyModify(ItemStack scopeStack, ItemStack weaponStack, boolean zoomed,float originalAccuracy)
-    {
-        if (zoomed)
-        {
+    public float getAccuracyModify(ItemStack scopeStack, ItemStack weaponStack, boolean zoomed, float originalAccuracy) {
+        if (zoomed) {
             return originalAccuracy * 0.4f;
         }
         return originalAccuracy + 3f;
@@ -80,13 +75,10 @@ public class WeaponModuleSniperScope extends MOBaseItem implements IWeaponScope
     }
 
     @Override
-    public float modifyWeaponStat(int statID, ItemStack module, ItemStack weapon,float originalStat)
-    {
-        if (statID == Reference.WS_ACCURACY)
-        {
+    public float modifyWeaponStat(int statID, ItemStack module, ItemStack weapon, float originalStat) {
+        if (statID == Reference.WS_ACCURACY) {
             return originalStat * 0.8f;
-        }else if (statID == Reference.WS_RANGE)
-        {
+        } else if (statID == Reference.WS_RANGE) {
             return originalStat * 1.5f;
         }
         return originalStat;

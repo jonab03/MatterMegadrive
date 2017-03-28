@@ -28,10 +28,12 @@ import matteroverdrive.tile.TileEntityMachineStarMap;
  * Created by Simeon on 6/17/2015.
  */
 @SideOnly(Side.CLIENT)
-public interface ISpaceBodyHoloRenderer
-{
-    void renderBody(Galaxy galaxy, SpaceBody spaceBody, TileEntityMachineStarMap starMap, float partialTicks,float viewerDistance);
-    void renderGUIInfo(Galaxy galaxy, SpaceBody spaceBody,TileEntityMachineStarMap starMap, float partialTicks,float opacity);
-    boolean displayOnZoom(int zoom,SpaceBody spaceBody);
+public interface ISpaceBodyHoloRenderer {
+    void renderBody(Galaxy galaxy, SpaceBody spaceBody, TileEntityMachineStarMap starMap, float partialTicks, float viewerDistance);
+
+    void renderGUIInfo(Galaxy galaxy, SpaceBody spaceBody, TileEntityMachineStarMap starMap, float partialTicks, float opacity);
+
+    boolean displayOnZoom(int zoom, SpaceBody spaceBody);
+
     double getHologramHeight(SpaceBody spaceBody);
 }

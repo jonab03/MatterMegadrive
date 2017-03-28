@@ -36,8 +36,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 11/20/2015.
  */
-public class GuiQuestHud
-{
+public class GuiQuestHud {
     private static final float QUEST_NOTIFICATION_TIME = 400;
     private static final float QUEST_FADE_IN_TIME = 30;
     private static final float QUEST_FADE_OUT_TIME = 60;
@@ -54,45 +53,41 @@ public class GuiQuestHud
     private MOAnimationTimeline startedQuestTimeline;
     private MOAnimationTimeline objectivesTimeline;
 
-    public GuiQuestHud()
-    {
+    public GuiQuestHud() {
         completedQuestQueue = new ArrayDeque<>();
         startedQuestQueue = new ArrayDeque<>();
         objectivesChangedQueue = new ArrayDeque<>();
 
-        completeQuestTimeline = new MOAnimationTimeline(QUEST_NOTIFICATION_TIME,false,false,1);
+        completeQuestTimeline = new MOAnimationTimeline(QUEST_NOTIFICATION_TIME, false, false, 1);
         completeQuestTimeline.setAutoLength(true);
-        completeQuestTimeline.addSlice(new MOAnimationTimeline.Slice(0,1,0,QUEST_FADE_IN_TIME,new MOAnimationTimeline.Easing.QuadEaseIn()));
-        completeQuestTimeline.addSlice(new MOAnimationTimeline.Slice(1,1,QUEST_FADE_IN_TIME,QUEST_NOTIFICATION_TIME-QUEST_FADE_OUT_TIME,null));
-        completeQuestTimeline.addSlice(new MOAnimationTimeline.Slice(1,0,QUEST_NOTIFICATION_TIME-QUEST_FADE_OUT_TIME,QUEST_FADE_OUT_TIME,new MOAnimationTimeline.Easing.QuadEaseOut()));
+        completeQuestTimeline.addSlice(new MOAnimationTimeline.Slice(0, 1, 0, QUEST_FADE_IN_TIME, new MOAnimationTimeline.Easing.QuadEaseIn()));
+        completeQuestTimeline.addSlice(new MOAnimationTimeline.Slice(1, 1, QUEST_FADE_IN_TIME, QUEST_NOTIFICATION_TIME - QUEST_FADE_OUT_TIME, null));
+        completeQuestTimeline.addSlice(new MOAnimationTimeline.Slice(1, 0, QUEST_NOTIFICATION_TIME - QUEST_FADE_OUT_TIME, QUEST_FADE_OUT_TIME, new MOAnimationTimeline.Easing.QuadEaseOut()));
 
-        startedQuestTimeline = new MOAnimationTimeline(QUEST_NOTIFICATION_TIME,false,false,1);
+        startedQuestTimeline = new MOAnimationTimeline(QUEST_NOTIFICATION_TIME, false, false, 1);
         startedQuestTimeline.setAutoLength(true);
-        startedQuestTimeline.addSlice(new MOAnimationTimeline.Slice(0,1,0,QUEST_FADE_IN_TIME,new MOAnimationTimeline.Easing.QuadEaseIn()));
-        startedQuestTimeline.addSlice(new MOAnimationTimeline.Slice(1,1,QUEST_FADE_IN_TIME,QUEST_NOTIFICATION_TIME-QUEST_FADE_OUT_TIME,null));
-        startedQuestTimeline.addSlice(new MOAnimationTimeline.Slice(1,0,QUEST_NOTIFICATION_TIME-QUEST_FADE_OUT_TIME,OBJECTIVES_FADE_TIME,new MOAnimationTimeline.Easing.QuadEaseOut()));
+        startedQuestTimeline.addSlice(new MOAnimationTimeline.Slice(0, 1, 0, QUEST_FADE_IN_TIME, new MOAnimationTimeline.Easing.QuadEaseIn()));
+        startedQuestTimeline.addSlice(new MOAnimationTimeline.Slice(1, 1, QUEST_FADE_IN_TIME, QUEST_NOTIFICATION_TIME - QUEST_FADE_OUT_TIME, null));
+        startedQuestTimeline.addSlice(new MOAnimationTimeline.Slice(1, 0, QUEST_NOTIFICATION_TIME - QUEST_FADE_OUT_TIME, OBJECTIVES_FADE_TIME, new MOAnimationTimeline.Easing.QuadEaseOut()));
 
-        objectivesTimeline = new MOAnimationTimeline(OBJECTIVES_NOTIFICATION_TIME,false,false,1);
+        objectivesTimeline = new MOAnimationTimeline(OBJECTIVES_NOTIFICATION_TIME, false, false, 1);
         objectivesTimeline.setAutoLength(true);
-        objectivesTimeline.addSlice(new MOAnimationTimeline.Slice(0,1,0,OBJECTIVES_FADE_TIME,new MOAnimationTimeline.Easing.QuadEaseIn()));
-        objectivesTimeline.addSlice(new MOAnimationTimeline.Slice(1,1,QUEST_FADE_IN_TIME,QUEST_NOTIFICATION_TIME-QUEST_FADE_OUT_TIME,null));
-        objectivesTimeline.addSlice(new MOAnimationTimeline.Slice(1,0,OBJECTIVES_NOTIFICATION_TIME-OBJECTIVES_FADE_TIME,OBJECTIVES_FADE_TIME,new MOAnimationTimeline.Easing.QuadEaseOut()));
+        objectivesTimeline.addSlice(new MOAnimationTimeline.Slice(0, 1, 0, OBJECTIVES_FADE_TIME, new MOAnimationTimeline.Easing.QuadEaseIn()));
+        objectivesTimeline.addSlice(new MOAnimationTimeline.Slice(1, 1, QUEST_FADE_IN_TIME, QUEST_NOTIFICATION_TIME - QUEST_FADE_OUT_TIME, null));
+        objectivesTimeline.addSlice(new MOAnimationTimeline.Slice(1, 0, OBJECTIVES_NOTIFICATION_TIME - OBJECTIVES_FADE_TIME, OBJECTIVES_FADE_TIME, new MOAnimationTimeline.Easing.QuadEaseOut()));
     }
 
     @SubscribeEvent()
-    public void onRenderOverlay(RenderGameOverlayEvent.Post event)
-    {
+    public void onRenderOverlay(RenderGameOverlayEvent.Post event) {
         //glEnable(GL_BLEND);
-        if (event.type.equals(RenderGameOverlayEvent.ElementType.ALL))
-        {
+        if (event.type.equals(RenderGameOverlayEvent.ElementType.ALL)) {
             FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
 
-            if (completeQuestTimeline.isPlaying() && completeQuestName != null)
-            {
+            if (completeQuestTimeline.isPlaying() && completeQuestName != null) {
                 float time = completeQuestTimeline.getCurrentValue();
                 Color color = new Color(Reference.COLOR_HOLO.getIntR(), Reference.COLOR_HOLO.getIntG(), Reference.COLOR_HOLO.getIntB(), 20 + (int) (235f * time));
                 glPushMatrix();
-                int y = (int)(event.resolution.getScaledHeight() * 0.15);
+                int y = (int) (event.resolution.getScaledHeight() * 0.15);
                 int titleWidth = (int) (fontRenderer.getStringWidth(completeQuestName) * 1.5);
                 glTranslated(event.resolution.getScaledWidth() - titleWidth - 30 - time * 30, y - 20, 0);
                 glScaled(1.5, 1.5, 1.5);
@@ -103,26 +98,23 @@ public class GuiQuestHud
                     fontRenderer.drawStringWithShadow(String.format("+%dxp", (int) (time * completeQuestXp)), event.resolution.getScaledWidth() - 50 - (int) (20 * time), y + 58, color.getColor());
                 }
             }
-            if (startedQuestTimeline.isPlaying() && newQuestName != null)
-            {
+            if (startedQuestTimeline.isPlaying() && newQuestName != null) {
                 float time = startedQuestTimeline.getCurrentValue();
                 Color color = new Color(Reference.COLOR_HOLO.getIntR(), Reference.COLOR_HOLO.getIntG(), Reference.COLOR_HOLO.getIntB(), 20 + (int) (235f * time));
                 glPushMatrix();
-                int y = (int)(event.resolution.getScaledHeight() * 0.65);
+                int y = (int) (event.resolution.getScaledHeight() * 0.65);
                 String title = "Dead! We're all dead!";
                 glTranslated(-10 + time * 30, y, 0);
                 glScaled(1.5, 1.5, 1.5);
                 fontRenderer.drawStringWithShadow(EnumChatFormatting.BOLD + newQuestName, 0, 0, color.getColor());
                 glPopMatrix();
-                fontRenderer.drawStringWithShadow("Started:",(int) (time * 20), y-12, color.getColor());
+                fontRenderer.drawStringWithShadow("Started:", (int) (time * 20), y - 12, color.getColor());
             }
-            if (objectivesTimeline.isPlaying() && objectivesChanged != null)
-            {
+            if (objectivesTimeline.isPlaying() && objectivesChanged != null) {
                 float time = objectivesTimeline.getCurrentValue();
                 Color color = new Color(Reference.COLOR_HOLO.getIntR(), Reference.COLOR_HOLO.getIntG(), Reference.COLOR_HOLO.getIntB(), 20 + (int) (235f * time));
                 int objectivesY = 0;
-                for (int i = 0;i < objectivesChanged.length;i++)
-                {
+                for (int i = 0; i < objectivesChanged.length; i++) {
                     if (objectivesChanged[i] != null) {
                         fontRenderer.drawStringWithShadow(String.format("[ %s ]", objectivesChanged[i]), (int) (time * 20), (int) (event.resolution.getScaledHeight() * 0.5) + objectivesY, color.getColor());
                         objectivesY += fontRenderer.FONT_HEIGHT + 2;
@@ -149,16 +141,13 @@ public class GuiQuestHud
         }
     }
 
-    public void startCompleteQuestNotification(QuestStack questStack)
-    {
-        Minecraft.getMinecraft().thePlayer.playSound(Reference.MOD_ID + ":" + "quest_complete",1,1);
+    public void startCompleteQuestNotification(QuestStack questStack) {
+        Minecraft.getMinecraft().thePlayer.playSound(Reference.MOD_ID + ":" + "quest_complete", 1, 1);
         if (questStack != null) {
             completeQuestName = questStack.getTitle(Minecraft.getMinecraft().thePlayer);
             completeQuestXp = questStack.getXP(Minecraft.getMinecraft().thePlayer);
             //addObjectivesChanged(questStack);
-        }
-        else
-        {
+        } else {
             completeQuestName = "Test. This is a test";
             completeQuestXp = 256;
         }
@@ -168,44 +157,35 @@ public class GuiQuestHud
         completeQuestTimeline.replay();
     }
 
-    public void startNewQuestNotification(QuestStack questStack)
-    {
-        Minecraft.getMinecraft().thePlayer.playSound(Reference.MOD_ID + ":" + "quest_started",1,1);
-        if (questStack != null)
-        {
+    public void startNewQuestNotification(QuestStack questStack) {
+        Minecraft.getMinecraft().thePlayer.playSound(Reference.MOD_ID + ":" + "quest_started", 1, 1);
+        if (questStack != null) {
             newQuestName = questStack.getTitle(Minecraft.getMinecraft().thePlayer);
-        }else
-        {
+        } else {
             newQuestName = "Test. This is a test";
         }
 
-        startedQuestTimeline.getSlice(1).setLength(20*5 + newQuestName.length() * 5);
+        startedQuestTimeline.getSlice(1).setLength(20 * 5 + newQuestName.length() * 5);
         startedQuestTimeline.sort();
         startedQuestTimeline.replay();
     }
 
-    public void startObjectivesChanged(QuestStack oldQuestStack,QuestStack newQuestStack)
-    {
+    public void startObjectivesChanged(QuestStack oldQuestStack, QuestStack newQuestStack) {
         int showTime = 0;
-        if (newQuestStack != null)
-        {
+        if (newQuestStack != null) {
             int objectiveCount = newQuestStack.getObjectivesCount(Minecraft.getMinecraft().thePlayer);
             objectivesChanged = new String[objectiveCount];
-            for (int i = 0;i < objectiveCount;i++)
-            {
-                String newObjective = newQuestStack.getObjective(Minecraft.getMinecraft().thePlayer,i);
-                String oldObjective = oldQuestStack.getObjective(Minecraft.getMinecraft().thePlayer,i);
-                if (!newObjective.contentEquals(oldObjective))
-                {
+            for (int i = 0; i < objectiveCount; i++) {
+                String newObjective = newQuestStack.getObjective(Minecraft.getMinecraft().thePlayer, i);
+                String oldObjective = oldQuestStack.getObjective(Minecraft.getMinecraft().thePlayer, i);
+                if (!newObjective.contentEquals(oldObjective)) {
                     objectivesChanged[i] = newObjective;
-                    showTime = Math.max(showTime,objectivesChanged[i].length() * 4);
+                    showTime = Math.max(showTime, objectivesChanged[i].length() * 4);
                 }
             }
 
-        }
-        else
-        {
-            objectivesChanged = new String[]{"Objectives changed 0/5","Objectives changed 0/5"};
+        } else {
+            objectivesChanged = new String[]{"Objectives changed 0/5", "Objectives changed 0/5"};
         }
 
         objectivesTimeline.getSlice(1).setLength(showTime);
@@ -213,20 +193,17 @@ public class GuiQuestHud
         objectivesTimeline.replay();
     }
 
-    public void addCompletedQuest(QuestStack questStack)
-    {
+    public void addCompletedQuest(QuestStack questStack) {
         completedQuestQueue.add(questStack);
     }
 
-    public void addStartedQuest(QuestStack questStack)
-    {
+    public void addStartedQuest(QuestStack questStack) {
         startedQuestQueue.add(questStack);
     }
 
-    public void addObjectivesChanged(QuestStack oldQuestStack,QuestStack newQestStack)
-    {
-        objectivesChangedQueue.add(new QuestStack[]{oldQuestStack,newQestStack});
-        if (objectivesTimeline.getTime() < OBJECTIVES_NOTIFICATION_TIME-OBJECTIVES_FADE_TIME)
-            objectivesTimeline.setTime(OBJECTIVES_NOTIFICATION_TIME-OBJECTIVES_FADE_TIME);
+    public void addObjectivesChanged(QuestStack oldQuestStack, QuestStack newQestStack) {
+        objectivesChangedQueue.add(new QuestStack[]{oldQuestStack, newQestStack});
+        if (objectivesTimeline.getTime() < OBJECTIVES_NOTIFICATION_TIME - OBJECTIVES_FADE_TIME)
+            objectivesTimeline.setTime(OBJECTIVES_NOTIFICATION_TIME - OBJECTIVES_FADE_TIME);
     }
 }

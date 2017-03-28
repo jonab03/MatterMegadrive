@@ -22,12 +22,14 @@
         <text class="matter-text text-block">$itemName 是一种能量武器, 能够眩晕甚至杀掉生物. $itemName 拥有两种主要设定, 每种都有着对应的等级.</text>
         <preview size="6" style="text-align:center;margin-bottom:-10px;margin-top:-10px"></preview>
         <text class="matter-text text-block">$itemName 同样需要能量来运行, 它本身能够存储64K RF. 它也可以使用一些RF能量存储单元, 例如电池.
-            $itemName 可以在[block name=weapon_station]中通过使用武器模块进行升级</text>
+            $itemName 可以在[block name=weapon_station]中通过使用武器模块进行升级
+        </text>
     </page>
-  	<page class="padded-page">
+    <page class="padded-page">
         <title size="2" class="matter-text small-title" style="margin-bottom:6px">自定义</title>
         <text class="matter-text text-block">同其他能量武器一样, $itemName 可以通过使用[item name=energy_pack]进行快速充能,
-            连续射击也会导致过热, 可以通过使用[block name=weapon_station]来进行武器改装.</text>
+            连续射击也会导致过热, 可以通过使用[block name=weapon_station]来进行武器改装.
+        </text>
         <text class="matter-text text-block">$itemName 可以加装所有种类的武器升级模块.</text>
         <image width="128" height="64" src="guide/phaser_modules.png" style="text-align:center;"></image>
     </page>

@@ -25,101 +25,82 @@ import java.util.concurrent.Callable;
 /**
  * Created by Simeon on 5/13/2015.
  */
-public class RenderParticlesHandler implements IWorldLastRenderer
-{
+public class RenderParticlesHandler implements IWorldLastRenderer {
     ResourceLocation additiveTextureSheet = new ResourceLocation(Reference.PATH_PARTICLE + "particles_additive.png");
     private TextureManager renderer;
     protected World worldObj;
     private Random rand = new Random();
     List<EntityFX>[] fxes;
 
-    public RenderParticlesHandler(World world, TextureManager renderer)
-    {
+    public RenderParticlesHandler(World world, TextureManager renderer) {
         this.worldObj = world;
         this.renderer = renderer;
         fxes = new List[Blending.values().length];
-        for (int i = 0;i < Blending.values().length;i++)
-        {
+        for (int i = 0; i < Blending.values().length; i++) {
             fxes[i] = new ArrayList<>();
         }
     }
 
-    public void onRenderWorldLast(RenderHandler renderHandler, RenderWorldLastEvent event)
-    {
+    public void onRenderWorldLast(RenderHandler renderHandler, RenderWorldLastEvent event) {
         renderParticles(Minecraft.getMinecraft().thePlayer, event.partialTicks);
     }
 
-    public void onClientTick(TickEvent.ClientTickEvent event)
-    {
+    public void onClientTick(TickEvent.ClientTickEvent event) {
         if (!Minecraft.getMinecraft().isGamePaused()) {
             updateEffects();
         }
     }
 
-    public void addEffect(EntityFX entityFX, Blending blendingLayer)
-    {
+    public void addEffect(EntityFX entityFX, Blending blendingLayer) {
         fxes[blendingLayer.ordinal()].add(entityFX);
     }
 
-    private void updateEffects()
-    {
-        for (int k = 0; k < fxes.length; ++k)
-        {
+    private void updateEffects() {
+        for (int k = 0; k < fxes.length; ++k) {
 
-            for (int j = 0; j < this.fxes[k].size(); ++j)
-            {
+            for (int j = 0; j < this.fxes[k].size(); ++j) {
                 final EntityFX entityfx = this.fxes[k].get(j);
 
-                try
-                {
-                    if (entityfx != null)
-                    {
+                try {
+                    if (entityfx != null) {
                         entityfx.onUpdate();
                     }
-                }
-                catch (Throwable throwable)
-                {
+                } catch (Throwable throwable) {
                     CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Ticking Particle");
                     CrashReportCategory crashreportcategory = crashreport.makeCategory("Particle being ticked");
-                    crashreportcategory.addCrashSectionCallable("Particle", new Callable()
-                    {
+                    crashreportcategory.addCrashSectionCallable("Particle", new Callable() {
                         private static final String __OBFID = "CL_00000916";
-                        public String call()
-                        {
+
+                        public String call() {
                             return entityfx.toString();
                         }
                     });
                     throw new ReportedException(crashreport);
                 }
 
-                if (entityfx == null || entityfx.isDead)
-                {
+                if (entityfx == null || entityfx.isDead) {
                     this.fxes[k].remove(j--);
                 }
             }
         }
     }
 
-    public void renderParticles(Entity entity, float f)
-    {
+    public void renderParticles(Entity entity, float f) {
         float f1 = ActiveRenderInfo.rotationX;
         float f2 = ActiveRenderInfo.rotationZ;
         float f3 = ActiveRenderInfo.rotationYZ;
         float f4 = ActiveRenderInfo.rotationXY;
         float f5 = ActiveRenderInfo.rotationXZ;
-        EntityFX.interpPosX = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double)f;
-        EntityFX.interpPosY = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double)f;
-        EntityFX.interpPosZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double)f;
+        EntityFX.interpPosX = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double) f;
+        EntityFX.interpPosY = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) f;
+        EntityFX.interpPosZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) f;
 
-        for (int k = 0; k < fxes.length; ++k)
-        {
-            if (!this.fxes[k].isEmpty())
-            {
+        for (int k = 0; k < fxes.length; ++k) {
+            if (!this.fxes[k].isEmpty()) {
                 GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
                 GL11.glDepthMask(false);
                 GL11.glEnable(GL11.GL_BLEND);
-                switch (k)
-                {
+                switch (k) {
                     case 0:
                         GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE);
                         renderer.bindTexture(additiveTextureSheet);
@@ -131,18 +112,14 @@ public class RenderParticlesHandler implements IWorldLastRenderer
                 Tessellator tessellator = Tessellator.instance;
                 tessellator.startDrawingQuads();
 
-                for (int j = 0; j < this.fxes[k].size(); ++j)
-                {
+                for (int j = 0; j < this.fxes[k].size(); ++j) {
                     final EntityFX entityfx = this.fxes[k].get(j);
                     if (entityfx == null) continue;
                     tessellator.setBrightness(entityfx.getBrightnessForRender(f));
 
-                    try
-                    {
+                    try {
                         entityfx.renderParticle(tessellator, f, f1, f5, f2, f3, f4);
-                    }
-                    catch (Throwable throwable)
-                    {
+                    } catch (Throwable throwable) {
                         CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering Particle");
                         CrashReportCategory crashreportcategory = crashreport.makeCategory("Particle being rendered");
                         crashreportcategory.addCrashSectionCallable("Particle", entityfx::toString);
@@ -158,13 +135,11 @@ public class RenderParticlesHandler implements IWorldLastRenderer
         }
     }
 
-    public enum Blending
-    {
+    public enum Blending {
         Additive
     }
 
-    public ResourceLocation getAdditiveTextureSheet()
-    {
+    public ResourceLocation getAdditiveTextureSheet() {
         return additiveTextureSheet;
     }
 }

@@ -40,14 +40,12 @@ import java.util.List;
 /**
  * Created by Simeon on 3/27/2015.
  */
-public class PatternDrive extends MOBaseItem implements IMatterPatternStorage
-{
+public class PatternDrive extends MOBaseItem implements IMatterPatternStorage {
     private IIcon storageFull;
     private IIcon storagePartiallyFull;
     int capacity;
 
-    public PatternDrive(String name, int capacity)
-    {
+    public PatternDrive(String name, int capacity) {
         super(name);
         this.capacity = capacity;
         this.setMaxStackSize(1);
@@ -55,18 +53,15 @@ public class PatternDrive extends MOBaseItem implements IMatterPatternStorage
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister p_94581_1_)
-    {
+    public void registerIcons(IIconRegister p_94581_1_) {
         this.itemIcon = p_94581_1_.registerIcon(this.getIconString());
         this.storageFull = p_94581_1_.registerIcon(this.getIconString() + "_full");
         this.storagePartiallyFull = p_94581_1_.registerIcon(this.getIconString() + "_partially_full");
     }
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamage(int damage)
-    {
-        switch (damage)
-        {
+    public IIcon getIconFromDamage(int damage) {
+        switch (damage) {
             case 2:
                 return storageFull;
             case 1:
@@ -76,18 +71,12 @@ public class PatternDrive extends MOBaseItem implements IMatterPatternStorage
         }
     }
 
-    public int getDamage(ItemStack stack)
-    {
-        if (stack.hasTagCompound())
-        {
-            if (stack.getTagCompound().func_150296_c().size() > 0)
-            {
-                if (stack.getTagCompound().func_150296_c().size() < getCapacity(stack))
-                {
+    public int getDamage(ItemStack stack) {
+        if (stack.hasTagCompound()) {
+            if (stack.getTagCompound().func_150296_c().size() > 0) {
+                if (stack.getTagCompound().func_150296_c().size() < getCapacity(stack)) {
                     return 1;
-                }
-                else
-                {
+                } else {
                     return 2;
                 }
             }
@@ -96,40 +85,30 @@ public class PatternDrive extends MOBaseItem implements IMatterPatternStorage
     }
 
     @Override
-    public boolean hasDetails(ItemStack itemStack)
-    {
+    public boolean hasDetails(ItemStack itemStack) {
         return true;
     }
 
     @Override
-    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos)
-    {
-        if(itemstack.hasTagCompound())
-        {
+    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos) {
+        if (itemstack.hasTagCompound()) {
             ItemPattern[] patterns = getPatterns(itemstack);
-            for (int i = 0;i < patterns.length;i++)
-            {
+            for (int i = 0; i < patterns.length; i++) {
                 ItemStack stack = patterns[i].toItemStack(false);
                 String displayName;
                 try {
                     displayName = stack.getDisplayName();
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     displayName = "Unknown";
                 }
 
-                if (MatterHelper.getMatterAmountFromItem(stack) > 0)
-                {
+                if (MatterHelper.getMatterAmountFromItem(stack) > 0) {
                     infos.add(MatterDatabaseHelper.getPatternInfoColor(patterns[i].getProgress()) + displayName + " [" + patterns[i].getProgress() + "%]");
-                }
-                else
-                {
+                } else {
                     infos.add(EnumChatFormatting.RED + "[Invalid] " + MatterDatabaseHelper.getPatternInfoColor(patterns[i].getProgress()) + displayName + " [" + patterns[i].getProgress() + "%]");
                 }
-                if (i > 8)
-                {
-                    infos.add(EnumChatFormatting.YELLOW + String.format("...and %s more patterns.",patterns.length-9));
+                if (i > 8) {
+                    infos.add(EnumChatFormatting.YELLOW + String.format("...and %s more patterns.", patterns.length - 9));
                     break;
                 }
             }
@@ -137,23 +116,20 @@ public class PatternDrive extends MOBaseItem implements IMatterPatternStorage
     }
 
     @Override
-    public void InitTagCompount(ItemStack stack)
-    {
+    public void InitTagCompount(ItemStack stack) {
         NBTTagCompound tagCompound = new NBTTagCompound();
         tagCompound.setShort(MatterDatabaseHelper.CAPACITY_TAG_NAME, (short) capacity);
         NBTTagList itemList = new NBTTagList();
-        tagCompound.setTag(MatterDatabaseHelper.ITEMS_TAG_NAME,itemList);
+        tagCompound.setTag(MatterDatabaseHelper.ITEMS_TAG_NAME, itemList);
         stack.setTagCompound(tagCompound);
     }
 
     @Override
-    public ItemPattern[] getPatterns(ItemStack storage)
-    {
+    public ItemPattern[] getPatterns(ItemStack storage) {
         TagCompountCheck(storage);
         NBTTagList tagList = storage.getTagCompound().getTagList(MatterDatabaseHelper.ITEMS_TAG_NAME, 10);
         ItemPattern[] patterns = new ItemPattern[tagList.tagCount()];
-        for (int i = 0;i < tagList.tagCount();i++)
-        {
+        for (int i = 0; i < tagList.tagCount(); i++) {
             ItemPattern pattern = new ItemPattern(tagList.getCompoundTagAt(i));
             patterns[i] = pattern;
         }
@@ -161,22 +137,17 @@ public class PatternDrive extends MOBaseItem implements IMatterPatternStorage
     }
 
     @Override
-    public boolean addItem(ItemStack storage, ItemStack itemStack,int initialAmount,boolean simulate)
-    {
+    public boolean addItem(ItemStack storage, ItemStack itemStack, int initialAmount, boolean simulate) {
         TagCompountCheck(storage);
 
         NBTTagList patternsTagList = storage.getTagCompound().getTagList(MatterDatabaseHelper.ITEMS_TAG_NAME, Constants.NBT.TAG_COMPOUND);
-        if(patternsTagList.tagCount() < getCapacity(storage))
-        {
-            if(MatterHelper.CanScan(itemStack))
-            {
+        if (patternsTagList.tagCount() < getCapacity(storage)) {
+            if (MatterHelper.CanScan(itemStack)) {
                 int itemProgress = MatterDatabaseHelper.getItemStackProgress(storage, itemStack);
 
-                if(itemProgress < MatterDatabaseHelper.MAX_ITEM_PROGRESS)
-                {
-                    if (!simulate)
-                    {
-                        MatterDatabaseHelper.addProgressToPatternStorage(storage, itemStack, initialAmount,false);
+                if (itemProgress < MatterDatabaseHelper.MAX_ITEM_PROGRESS) {
+                    if (!simulate) {
+                        MatterDatabaseHelper.addProgressToPatternStorage(storage, itemStack, initialAmount, false);
                     }
                     return true;
                 }
@@ -187,31 +158,25 @@ public class PatternDrive extends MOBaseItem implements IMatterPatternStorage
     }
 
     @Override
-    public ItemPattern getPattern(ItemStack storage, ItemStack item)
-    {
+    public ItemPattern getPattern(ItemStack storage, ItemStack item) {
         TagCompountCheck(storage);
-        return  MatterDatabaseHelper.getPatternFromStorage(storage, item);
+        return MatterDatabaseHelper.getPatternFromStorage(storage, item);
     }
 
     @Override
-    public int getCapacity(ItemStack item)
-    {
+    public int getCapacity(ItemStack item) {
         TagCompountCheck(item);
         return item.getTagCompound().getShort(MatterDatabaseHelper.CAPACITY_TAG_NAME);
     }
 
-    public void clearStorage(ItemStack itemStack)
-    {
-        if (MatterHelper.isMatterPatternStorage(itemStack))
-        {
+    public void clearStorage(ItemStack itemStack) {
+        if (MatterHelper.isMatterPatternStorage(itemStack)) {
             itemStack.setTagCompound(null);
         }
     }
 
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player)
-    {
-        if (player.isSneaking())
-        {
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+        if (player.isSneaking()) {
             clearStorage(itemStack);
         }
         return itemStack;

@@ -30,9 +30,11 @@ import net.minecraft.util.EnumChatFormatting;
 /**
  * Created by Simeon on 8/10/2015.
  */
-public class DialogMessageAndroidTransformation extends DialogMessage
-{
-    public DialogMessageAndroidTransformation(){super();}
+public class DialogMessageAndroidTransformation extends DialogMessage {
+    public DialogMessageAndroidTransformation() {
+        super();
+    }
+
     public DialogMessageAndroidTransformation(String message, String question) {
         super(message, question);
     }
@@ -42,18 +44,14 @@ public class DialogMessageAndroidTransformation extends DialogMessage
     }
 
     @Override
-    public boolean canInteract(IDialogNpc npc, EntityPlayer player)
-    {
+    public boolean canInteract(IDialogNpc npc, EntityPlayer player) {
         boolean[] hasParts = new boolean[4];
         int[] slots = new int[4];
 
-        for (int i = 0; i < player.inventory.getSizeInventory();i++)
-        {
-            if(player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() == MatterOverdriveItems.androidParts)
-            {
+        for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+            if (player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() == MatterOverdriveItems.androidParts) {
                 int damage = player.inventory.getStackInSlot(i).getItemDamage();
-                if (damage < hasParts.length)
-                {
+                if (damage < hasParts.length) {
                     hasParts[damage] = true;
                     slots[damage] = i;
                 }
@@ -70,18 +68,14 @@ public class DialogMessageAndroidTransformation extends DialogMessage
     }
 
     @Override
-    public void onInteract(IDialogNpc npc, EntityPlayer player)
-    {
+    public void onInteract(IDialogNpc npc, EntityPlayer player) {
         boolean[] hasParts = new boolean[4];
         int[] slots = new int[4];
 
-        for (int i = 0; i < player.inventory.getSizeInventory();i++)
-        {
-            if(player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() == MatterOverdriveItems.androidParts)
-            {
+        for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+            if (player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() == MatterOverdriveItems.androidParts) {
                 int damage = player.inventory.getStackInSlot(i).getItemDamage();
-                if (damage < hasParts.length)
-                {
+                if (damage < hasParts.length) {
                     hasParts[damage] = true;
                     slots[damage] = i;
                 }
@@ -110,8 +104,7 @@ public class DialogMessageAndroidTransformation extends DialogMessage
     }
 
     @Override
-    public boolean isVisible(IDialogNpc npc, EntityPlayer player)
-    {
+    public boolean isVisible(IDialogNpc npc, EntityPlayer player) {
         return AndroidPlayer.get(player) == null || !AndroidPlayer.get(player).isAndroid();
     }
 }

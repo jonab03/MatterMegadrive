@@ -33,31 +33,26 @@ import java.util.EnumSet;
 /**
  * Created by Simeon on 8/15/2015.
  */
-public class TileEntityHoloSign extends MOTileEntityMachine
-{
+public class TileEntityHoloSign extends MOTileEntityMachine {
     private String text = "";
 
-    public TileEntityHoloSign()
-    {
+    public TileEntityHoloSign() {
         super(0);
     }
 
     @Override
-    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk)
-    {
-        super.writeCustomNBT(nbt,categories, toDisk);
+    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
+        super.writeCustomNBT(nbt, categories, toDisk);
 
-        if (categories.contains(MachineNBTCategory.GUI))
-        {
+        if (categories.contains(MachineNBTCategory.GUI)) {
             nbt.setString("Text", text);
         }
     }
 
     @Override
-    protected void registerComponents()
-    {
+    protected void registerComponents() {
         super.registerComponents();
-        configs.addProperty(new ConfigPropertyBoolean("AutoLineSize","gui.label.auto_line_size"));
+        configs.addProperty(new ConfigPropertyBoolean("AutoLineSize", "gui.label.auto_line_size"));
     }
 
     @Override
@@ -81,11 +76,9 @@ public class TileEntityHoloSign extends MOTileEntityMachine
     }
 
     @Override
-    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories)
-    {
-        super.readCustomNBT(nbt,categories);
-        if (categories.contains(MachineNBTCategory.GUI))
-        {
+    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories) {
+        super.readCustomNBT(nbt, categories);
+        if (categories.contains(MachineNBTCategory.GUI)) {
             text = nbt.getString("Text");
         }
     }
@@ -116,8 +109,7 @@ public class TileEntityHoloSign extends MOTileEntityMachine
     }
 
     @Override
-    public void writeToDropItem(ItemStack itemStack)
-    {
+    public void writeToDropItem(ItemStack itemStack) {
 
     }
 
@@ -131,13 +123,11 @@ public class TileEntityHoloSign extends MOTileEntityMachine
 
     }
 
-    public String getText()
-    {
+    public String getText() {
         return text;
     }
 
-    public void setText(String text)
-    {
+    public void setText(String text) {
         this.text = text;
     }
 

@@ -21,26 +21,22 @@ import net.minecraft.nbt.NBTTagCompound;
 /**
  * Created by Simeon on 6/15/2015.
  */
-public class PacketUpdatePlanet extends PacketAbstract
-{
+public class PacketUpdatePlanet extends PacketAbstract {
     int planetID;
     int starID;
     int quadrantID;
     boolean updateHomeworlds;
     NBTTagCompound planetData;
 
-    public PacketUpdatePlanet()
-    {
+    public PacketUpdatePlanet() {
 
     }
 
-    public PacketUpdatePlanet(Planet planet)
-    {
-        this(planet,false);
+    public PacketUpdatePlanet(Planet planet) {
+        this(planet, false);
     }
 
-    public PacketUpdatePlanet(Planet planet,boolean updateHomeworlds)
-    {
+    public PacketUpdatePlanet(Planet planet, boolean updateHomeworlds) {
         planetID = planet.getId();
         starID = planet.getStar().getId();
         quadrantID = planet.getStar().getQuadrant().getId();
@@ -50,8 +46,7 @@ public class PacketUpdatePlanet extends PacketAbstract
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         planetID = buf.readInt();
         starID = buf.readInt();
         quadrantID = buf.readInt();
@@ -60,24 +55,20 @@ public class PacketUpdatePlanet extends PacketAbstract
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         buf.writeInt(planetID);
         buf.writeInt(starID);
         buf.writeInt(quadrantID);
         buf.writeBoolean(updateHomeworlds);
-        ByteBufUtils.writeTag(buf,planetData);
+        ByteBufUtils.writeTag(buf, planetData);
     }
 
-    public static class ClientHandler extends AbstractClientPacketHandler<PacketUpdatePlanet>
-    {
+    public static class ClientHandler extends AbstractClientPacketHandler<PacketUpdatePlanet> {
 
         @Override
-        public IMessage handleClientMessage(EntityPlayer player, PacketUpdatePlanet message, MessageContext ctx)
-        {
+        public IMessage handleClientMessage(EntityPlayer player, PacketUpdatePlanet message, MessageContext ctx) {
             Galaxy galaxy = GalaxyClient.getInstance().getTheGalaxy();
-            if (galaxy != null)
-            {
+            if (galaxy != null) {
                 Quadrant quadrant = galaxy.quadrant(message.quadrantID);
                 if (quadrant != null) {
                     Star star = quadrant.star(message.starID);
@@ -85,17 +76,16 @@ public class PacketUpdatePlanet extends PacketAbstract
                         Planet planet = star.planet(message.planetID);
                         if (planet == null) {
                             planet = new Planet();
-                            planet.readFromNBT(message.planetData,null);
+                            planet.readFromNBT(message.planetData, null);
                             star.addPlanet(planet);
                         } else {
-                            planet.readFromNBT(message.planetData,null);
+                            planet.readFromNBT(message.planetData, null);
                         }
                         notifyChange(planet);
                     }
                 }
 
-                if (message.updateHomeworlds)
-                {
+                if (message.updateHomeworlds) {
                     GalaxyClient.getInstance().loadClaimedPlanets();
                 }
             }
@@ -103,11 +93,9 @@ public class PacketUpdatePlanet extends PacketAbstract
         }
 
         @SideOnly(Side.CLIENT)
-        private void notifyChange(Planet planet)
-        {
-            if (Minecraft.getMinecraft().currentScreen instanceof GuiStarMap)
-            {
-                GuiStarMap guiStarMap = (GuiStarMap)Minecraft.getMinecraft().currentScreen;
+        private void notifyChange(Planet planet) {
+            if (Minecraft.getMinecraft().currentScreen instanceof GuiStarMap) {
+                GuiStarMap guiStarMap = (GuiStarMap) Minecraft.getMinecraft().currentScreen;
                 guiStarMap.onPlanetChange(planet);
             }
         }

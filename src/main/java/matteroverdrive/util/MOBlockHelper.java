@@ -27,14 +27,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 /**
  * Created by Simeon on 12/22/2015.
  */
-public class MOBlockHelper
-{
+public class MOBlockHelper {
     public static final int[][] SIDE_COORD_MOD = new int[][]{{0, -1, 0}, {0, 1, 0}, {0, 0, -1}, {0, 0, 1}, {-1, 0, 0}, {1, 0, 0}};
-    public static final byte[] SIDE_LEFT = new byte[]{(byte)4, (byte)5, (byte)5, (byte)4, (byte)2, (byte)3};
-    public static final byte[] SIDE_RIGHT = new byte[]{(byte)5, (byte)4, (byte)4, (byte)5, (byte)3, (byte)2};
-    public static final byte[] SIDE_OPPOSITE = new byte[]{(byte)1, (byte)0, (byte)3, (byte)2, (byte)5, (byte)4};
-    public static final byte[] SIDE_ABOVE = new byte[]{(byte)3, (byte)2, (byte)1, (byte)1, (byte)1, (byte)1};
-    public static final byte[] SIDE_BELOW = new byte[]{(byte)2, (byte)3, (byte)0, (byte)0, (byte)0, (byte)0};
+    public static final byte[] SIDE_LEFT = new byte[]{(byte) 4, (byte) 5, (byte) 5, (byte) 4, (byte) 2, (byte) 3};
+    public static final byte[] SIDE_RIGHT = new byte[]{(byte) 5, (byte) 4, (byte) 4, (byte) 5, (byte) 3, (byte) 2};
+    public static final byte[] SIDE_OPPOSITE = new byte[]{(byte) 1, (byte) 0, (byte) 3, (byte) 2, (byte) 5, (byte) 4};
+    public static final byte[] SIDE_ABOVE = new byte[]{(byte) 3, (byte) 2, (byte) 1, (byte) 1, (byte) 1, (byte) 1};
+    public static final byte[] SIDE_BELOW = new byte[]{(byte) 2, (byte) 3, (byte) 0, (byte) 0, (byte) 0, (byte) 0};
 
     public static int getLeftSide(int side) {
         return SIDE_LEFT[side];
@@ -57,8 +56,8 @@ public class MOBlockHelper
     }
 
     public static int determineXZPlaceFacing(EntityLivingBase placer) {
-        int rotation = MathHelper.floor_double((double)(placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
-        switch(rotation) {
+        int rotation = MathHelper.floor_double((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3;
+        switch (rotation) {
             case 0:
                 return 2;
             case 1:
@@ -76,19 +75,19 @@ public class MOBlockHelper
         x += direction.offsetX;
         y += direction.offsetY;
         z += direction.offsetZ;
-        return world != null && world.blockExists(x, y, z)?world.getTileEntity(x, y, z):null;
+        return world != null && world.blockExists(x, y, z) ? world.getTileEntity(x, y, z) : null;
     }
 
     public static TileEntity getAdjacentTileEntity(World world, int x, int y, int z, int side) {
-        return world == null?null:getAdjacentTileEntity(world, x, y, z, ForgeDirection.values()[side]);
+        return world == null ? null : getAdjacentTileEntity(world, x, y, z, ForgeDirection.values()[side]);
     }
 
     public static TileEntity getAdjacentTileEntity(TileEntity tileEntity, ForgeDirection direction) {
-        return tileEntity == null?null:getAdjacentTileEntity(tileEntity.getWorldObj(), tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, direction);
+        return tileEntity == null ? null : getAdjacentTileEntity(tileEntity.getWorldObj(), tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, direction);
     }
 
     public static TileEntity getAdjacentTileEntity(TileEntity tileEntity, int direction) {
-        return tileEntity == null?null:getAdjacentTileEntity(tileEntity.getWorldObj(), tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, ForgeDirection.values()[direction]);
+        return tileEntity == null ? null : getAdjacentTileEntity(tileEntity.getWorldObj(), tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord, ForgeDirection.values()[direction]);
     }
 
     public static final class RotationType {

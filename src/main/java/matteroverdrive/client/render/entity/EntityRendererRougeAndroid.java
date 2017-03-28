@@ -34,59 +34,47 @@ import org.lwjgl.opengl.GL12;
 /**
  * Created by Simeon on 5/26/2015.
  */
-public class EntityRendererRougeAndroid extends RenderBiped
-{
+public class EntityRendererRougeAndroid extends RenderBiped {
     private boolean hologram;
     public static boolean RENDER_ANDROID_LABEL = true;
     public static final ResourceLocation texture = new ResourceLocation(Reference.PATH_ENTITIES + "android.png");
     public static final ResourceLocation texture_hologram = new ResourceLocation(Reference.PATH_ENTITIES + "android_holo.png");
 
-    public EntityRendererRougeAndroid(ModelBiped modelBase, float f,boolean hologram)
-    {
-        super(modelBase, f,1);
+    public EntityRendererRougeAndroid(ModelBiped modelBase, float f, boolean hologram) {
+        super(modelBase, f, 1);
         this.hologram = hologram;
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(Entity entity)
-    {
-        if (hologram)
-        {
+    protected ResourceLocation getEntityTexture(Entity entity) {
+        if (hologram) {
             return texture_hologram;
-        }else
-        {
+        } else {
             return texture;
         }
     }
 
     @Override
-    protected boolean func_110813_b(EntityLiving entityLiving)
-    {
-        if(entityLiving.getTeam() != null)
-        {
+    protected boolean func_110813_b(EntityLiving entityLiving) {
+        if (entityLiving.getTeam() != null) {
             return true;
-        }else
-        {
+        } else {
             return RENDER_ANDROID_LABEL && Minecraft.getMinecraft().thePlayer.getDistanceToEntity(entityLiving) < 18;
         }
     }
 
     @Override
-    protected void preRenderCallback(EntityLivingBase entityLiving, float p_77041_2_)
-    {
-        if (entityLiving instanceof EntityRougeAndroidMob)
-        {
-            if (((EntityRougeAndroidMob) entityLiving).getIsLegendary())
-            {
-                GL11.glScaled(1.5,1.5,1.5);
+    protected void preRenderCallback(EntityLivingBase entityLiving, float p_77041_2_) {
+        if (entityLiving instanceof EntityRougeAndroidMob) {
+            if (((EntityRougeAndroidMob) entityLiving).getIsLegendary()) {
+                GL11.glScaled(1.5, 1.5, 1.5);
             }
         }
         super.preRenderCallback(entityLiving, p_77041_2_);
     }
 
     @Override
-    public void doRender(EntityLivingBase p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
-    {
+    public void doRender(EntityLivingBase p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
         if (hologram) {
             GL11.glPushMatrix();
             GL11.glDisable(GL11.GL_CULL_FACE);
@@ -254,10 +242,8 @@ public class EntityRendererRougeAndroid extends RenderBiped
             GL11.glEnable(GL11.GL_CULL_FACE);
             GL11.glPopMatrix();
             this.passSpecialRender(p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_);
-        }
-        else
-        {
-            super.doRender(p_76986_1_,p_76986_2_,p_76986_4_,p_76986_6_,p_76986_8_,p_76986_9_);
+        } else {
+            super.doRender(p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
         }
     }
 }

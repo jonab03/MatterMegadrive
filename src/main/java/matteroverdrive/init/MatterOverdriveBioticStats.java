@@ -30,8 +30,7 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 9/12/2015.
  */
-public class MatterOverdriveBioticStats
-{
+public class MatterOverdriveBioticStats {
     public static BioticStatTeleport teleport;
     public static BiostatNanobots nanobots;
     public static BioticStatNanoArmor nanoArmor;
@@ -47,28 +46,26 @@ public class MatterOverdriveBioticStats
     public static BioticStatFlashCooling flashCooling;
     public static BioticStatShockwave shockwave;
 
-    public static void init(FMLPreInitializationEvent event)
-    {
-        teleport = new BioticStatTeleport("teleport",48);
-        nanobots = new BiostatNanobots("nanobots",26);
-        nanoArmor = new BioticStatNanoArmor("nano_armor",30);
-        flotation = new BioticStatFlotation("floatation",14);
-        speed = new BioticStatSpeed("speed",18);
-        highJump = new BioticStatHighJump("high_jump",36);
+    public static void init(FMLPreInitializationEvent event) {
+        teleport = new BioticStatTeleport("teleport", 48);
+        nanobots = new BiostatNanobots("nanobots", 26);
+        nanoArmor = new BioticStatNanoArmor("nano_armor", 30);
+        flotation = new BioticStatFlotation("floatation", 14);
+        speed = new BioticStatSpeed("speed", 18);
+        highJump = new BioticStatHighJump("high_jump", 36);
         highJump.addReqiredItm(new ItemStack(Blocks.piston));
-        equalizer = new BioticStatEqualizer("equalizer",24);
+        equalizer = new BioticStatEqualizer("equalizer", 24);
         equalizer.addReqiredItm(new ItemStack(MatterOverdriveItems.spacetime_equalizer));
-        shield = new BioticStatShield("shield",36);
-        attack = new BioticStatAttack("attack",30);
-        cloak = new BioticStatCloak("cloak",36);
-        nightvision = new BioticStatNightVision("nightvision",28);
-        minimap = new BioticStatMinimap("minimap",18);
-        flashCooling = new BioticStatFlashCooling("flash_cooling",28);
-        shockwave = new BioticStatShockwave("shockwave",32);
+        shield = new BioticStatShield("shield", 36);
+        attack = new BioticStatAttack("attack", 30);
+        cloak = new BioticStatCloak("cloak", 36);
+        nightvision = new BioticStatNightVision("nightvision", 28);
+        minimap = new BioticStatMinimap("minimap", 18);
+        flashCooling = new BioticStatFlashCooling("flash_cooling", 28);
+        shockwave = new BioticStatShockwave("shockwave", 32);
     }
 
-    public static void register(FMLInitializationEvent event)
-    {
+    public static void register(FMLInitializationEvent event) {
         teleport.addReqiredItm(new ItemStack(MatterOverdriveItems.h_compensator));
         teleport.addToEnabledBlacklist(shield);
         nanoArmor.setRoot(nanobots);
@@ -86,8 +83,7 @@ public class MatterOverdriveBioticStats
         shockwave.setRoot(flashCooling);
     }
 
-    public static void registerAll(ConfigurationHandler configurationHandler,IAndroidStatRegistry androidStatRegistry)
-    {
+    public static void registerAll(ConfigurationHandler configurationHandler, IAndroidStatRegistry androidStatRegistry) {
         androidStatRegistry.registerStat(teleport);
         androidStatRegistry.registerStat(nanobots);
         androidStatRegistry.registerStat(nanoArmor);

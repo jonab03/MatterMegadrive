@@ -26,15 +26,12 @@ import matteroverdrive.util.IConfigSubscriber;
 /**
  * Created by Simeon on 8/7/2015.
  */
-public class MatterOverdriveEnchantments implements IConfigSubscriber
-{
+public class MatterOverdriveEnchantments implements IConfigSubscriber {
     public static EnchantmentOverclock overclock;
 
-    public static void init(FMLPreInitializationEvent event,ConfigurationHandler configurationHandler)
-    {
-        int id = configurationHandler.getInt("Overclock",ConfigurationHandler.CATEGORY_ENCHANTMENTS,69);
-        while (id < 256)
-        {
+    public static void init(FMLPreInitializationEvent event, ConfigurationHandler configurationHandler) {
+        int id = configurationHandler.getInt("Overclock", ConfigurationHandler.CATEGORY_ENCHANTMENTS, 69);
+        while (id < 256) {
             try {
                 overclock = new EnchantmentOverclock(id);
                 break;
@@ -43,7 +40,7 @@ public class MatterOverdriveEnchantments implements IConfigSubscriber
             }
         }
 
-        configurationHandler.setInt("Overclock",ConfigurationHandler.CATEGORY_ENCHANTMENTS,id);
+        configurationHandler.setInt("Overclock", ConfigurationHandler.CATEGORY_ENCHANTMENTS, id);
     }
 
     @Override

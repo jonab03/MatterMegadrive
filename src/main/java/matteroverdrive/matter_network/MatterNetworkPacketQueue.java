@@ -27,26 +27,20 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 4/21/2015.
  */
-public class MatterNetworkPacketQueue<T extends MatterNetworkPacket> extends MatterNetworkQueue<T>
-{
+public class MatterNetworkPacketQueue<T extends MatterNetworkPacket> extends MatterNetworkQueue<T> {
 
-    public MatterNetworkPacketQueue(IMatterNetworkConnection connection, int capacity)
-    {
-        super("TaskPackets",connection,capacity);
+    public MatterNetworkPacketQueue(IMatterNetworkConnection connection, int capacity) {
+        super("TaskPackets", connection, capacity);
     }
 
-    public MatterNetworkPacketQueue(IMatterNetworkConnection connection)
-    {
-        this(connection,256);
+    public MatterNetworkPacketQueue(IMatterNetworkConnection connection) {
+        this(connection, 256);
     }
 
-    public void tickAllAlive(World world,boolean alive)
-    {
-        for (int i = 0;i < elements.size();i++)
-        {
-            if (elements.get(i).isValid(world))
-            {
-                elements.get(i).tickAlive(world,alive);
+    public void tickAllAlive(World world, boolean alive) {
+        for (int i = 0; i < elements.size(); i++) {
+            if (elements.get(i).isValid(world)) {
+                elements.get(i).tickAlive(world, alive);
             }
         }
     }
@@ -63,18 +57,16 @@ public class MatterNetworkPacketQueue<T extends MatterNetworkPacket> extends Mat
     }
 
     @Override
-    protected void readElementFromBuffer(ByteBuf byteBuf, T element)
-    {
+    protected void readElementFromBuffer(ByteBuf byteBuf, T element) {
         element.readFromNBT(ByteBufUtils.readTag(byteBuf));
     }
 
     @Override
-    protected void writeElementToBuffer(ByteBuf byteBuf, T element)
-    {
+    protected void writeElementToBuffer(ByteBuf byteBuf, T element) {
         NBTTagCompound tagCompound = new NBTTagCompound();
         byteBuf.writeInt(MatterNetworkRegistry.getPacketID(element.getClass()));
         element.writeToNBT(tagCompound);
-        ByteBufUtils.writeTag(byteBuf,tagCompound);
+        ByteBufUtils.writeTag(byteBuf, tagCompound);
     }
 
     @Override
@@ -83,8 +75,7 @@ public class MatterNetworkPacketQueue<T extends MatterNetworkPacket> extends Mat
     }
 
     @Override
-    protected Class getElementClassFromBuffer(ByteBuf byteBuf)
-    {
+    protected Class getElementClassFromBuffer(ByteBuf byteBuf) {
         return MatterNetworkRegistry.getPacketClass(byteBuf.readInt());
     }
 }

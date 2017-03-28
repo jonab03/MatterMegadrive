@@ -30,15 +30,22 @@ import java.util.EnumSet;
 /**
  * Created by Simeon on 7/19/2015.
  */
-public interface IMachineComponent<T extends MOTileEntityMachine>
-{
-    void readFromNBT(NBTTagCompound nbt,EnumSet<MachineNBTCategory> categories);
+public interface IMachineComponent<T extends MOTileEntityMachine> {
+    void readFromNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories);
+
     void writeToNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk);
+
     void registerSlots(Inventory inventory);
+
     void update(T machine);
+
     boolean isAffectedByUpgrade(UpgradeTypes type);
+
     boolean isActive();
+
     void onActiveChange(T machine);
-    void onAwake(T machine,Side side);
-    void onPlaced(World world, EntityLivingBase entityLiving,T machine);
+
+    void onAwake(T machine, Side side);
+
+    void onPlaced(World world, EntityLivingBase entityLiving, T machine);
 }

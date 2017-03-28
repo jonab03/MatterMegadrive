@@ -34,8 +34,7 @@ public class BioticStatHighJump extends AbstractBioticStat implements IConfigSub
 
     public static int ENERGY_PER_JUMP = 1024;
 
-    public BioticStatHighJump(String name, int xp)
-    {
+    public BioticStatHighJump(String name, int xp) {
         super(name, xp);
         setShowOnHud(true);
     }
@@ -46,14 +45,12 @@ public class BioticStatHighJump extends AbstractBioticStat implements IConfigSub
     }
 
     @Override
-    public String getDetails(int level)
-    {
+    public String getDetails(int level) {
         return String.format(super.getDetails(level), EnumChatFormatting.YELLOW.toString() + ENERGY_PER_JUMP + " RF" + EnumChatFormatting.GRAY);
     }
 
     @Override
-    public void onActionKeyPress(AndroidPlayer androidPlayer, int level, boolean server)
-    {
+    public void onActionKeyPress(AndroidPlayer androidPlayer, int level, boolean server) {
 
     }
 
@@ -63,12 +60,9 @@ public class BioticStatHighJump extends AbstractBioticStat implements IConfigSub
     }
 
     @Override
-    public void onLivingEvent(AndroidPlayer androidPlayer, int level, LivingEvent event)
-    {
-        if (event instanceof LivingEvent.LivingJumpEvent)
-        {
-            if (!MinecraftForge.EVENT_BUS.post(new MOEventBionicStat(this, level, androidPlayer)))
-            {
+    public void onLivingEvent(AndroidPlayer androidPlayer, int level, LivingEvent event) {
+        if (event instanceof LivingEvent.LivingJumpEvent) {
+            if (!MinecraftForge.EVENT_BUS.post(new MOEventBionicStat(this, level, androidPlayer))) {
                 if (!event.entity.worldObj.isRemote)
                     androidPlayer.extractEnergyScaled(ENERGY_PER_JUMP);
 
@@ -88,26 +82,22 @@ public class BioticStatHighJump extends AbstractBioticStat implements IConfigSub
     }
 
     @Override
-    public boolean isEnabled(AndroidPlayer android, int level)
-    {
-        return super.isEnabled(android,level) && android.hasEnoughEnergyScaled(ENERGY_PER_JUMP);
+    public boolean isEnabled(AndroidPlayer android, int level) {
+        return super.isEnabled(android, level) && android.hasEnoughEnergyScaled(ENERGY_PER_JUMP);
     }
 
     @Override
-    public boolean isActive(AndroidPlayer androidPlayer, int level)
-    {
+    public boolean isActive(AndroidPlayer androidPlayer, int level) {
         return false;
     }
 
     @Override
-    public int getDelay(AndroidPlayer androidPlayer, int level)
-    {
+    public int getDelay(AndroidPlayer androidPlayer, int level) {
         return 0;
     }
 
     @Override
-    public void onConfigChanged(ConfigurationHandler config)
-    {
+    public void onConfigChanged(ConfigurationHandler config) {
         ENERGY_PER_JUMP = config.getInt("high_jump_energy", ConfigurationHandler.CATEGORY_ABILITIES, 1024, "The energy cost of each High Jump");
     }
 }

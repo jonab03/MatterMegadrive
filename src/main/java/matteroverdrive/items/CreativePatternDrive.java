@@ -30,37 +30,30 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 7/22/2015.
  */
-public class CreativePatternDrive extends PatternDrive
-{
+public class CreativePatternDrive extends PatternDrive {
 
-    public CreativePatternDrive(String name, int capacity)
-    {
+    public CreativePatternDrive(String name, int capacity) {
         super(name, capacity);
     }
 
-    private void loadAllPatterns(ItemStack patternStorage)
-    {
+    private void loadAllPatterns(ItemStack patternStorage) {
 
     }
 
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
-    {
-        if (!world.isRemote && entityPlayer.isSneaking())
-        {
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer) {
+        if (!world.isRemote && entityPlayer.isSneaking()) {
             loadAllPatterns(itemStack);
         }
         return itemStack;
     }
 
     @SideOnly(Side.CLIENT)
-    protected String getIconString()
-    {
+    protected String getIconString() {
         return Reference.MOD_ID + ":" + "pattern_drive";
     }
 
     @Override
-    public boolean addItem(ItemStack storage, ItemStack itemStack,int initialAmount,boolean simulate)
-    {
+    public boolean addItem(ItemStack storage, ItemStack itemStack, int initialAmount, boolean simulate) {
         return false;
     }
 }

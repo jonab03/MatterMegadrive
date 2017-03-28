@@ -31,65 +31,55 @@ import java.util.Random;
 /**
  * Created by Simeon on 8/10/2015.
  */
-public class DialogMessageRandom extends DialogMessage implements IDialogMessageSeedable
-{
+public class DialogMessageRandom extends DialogMessage implements IDialogMessageSeedable {
     public static Random random = new Random();
     protected long seed;
     protected List<String> messages;
     protected List<String> questions;
 
 
-    public DialogMessageRandom()
-    {
+    public DialogMessageRandom() {
         super();
         init();
     }
 
-    public DialogMessageRandom(String message, String question)
-    {
+    public DialogMessageRandom(String message, String question) {
         super(message, question);
         init();
     }
 
-    public DialogMessageRandom(String message)
-    {
+    public DialogMessageRandom(String message) {
         super(message);
         init();
     }
 
-    private void init()
-    {
+    private void init() {
         questions = new ArrayList<>();
         messages = new ArrayList<>();
     }
 
-    public DialogMessageRandom addQuestionVariation(String question)
-    {
+    public DialogMessageRandom addQuestionVariation(String question) {
         questions.add(question);
         return this;
     }
 
-    public DialogMessageRandom addQuestionVariation(String... questions)
-    {
+    public DialogMessageRandom addQuestionVariation(String... questions) {
         Collections.addAll(this.questions, questions);
         return this;
     }
 
-    public DialogMessageRandom addMessageVariation(String message)
-    {
+    public DialogMessageRandom addMessageVariation(String message) {
         this.messages.add(message);
         return this;
     }
 
-    public DialogMessageRandom addMessageVariation(String... messages)
-    {
+    public DialogMessageRandom addMessageVariation(String... messages) {
         Collections.addAll(this.messages, messages);
         return this;
     }
 
     @Override
-    public String getMessageText(IDialogNpc npc, EntityPlayer player)
-    {
+    public String getMessageText(IDialogNpc npc, EntityPlayer player) {
         if (messages.size() > 0) {
             random.setSeed(seed);
             return formatMessage(messages.get(random.nextInt(messages.size())), npc, player);
@@ -98,8 +88,7 @@ public class DialogMessageRandom extends DialogMessage implements IDialogMessage
     }
 
     @Override
-    public String getQuestionText(IDialogNpc npc, EntityPlayer player)
-    {
+    public String getQuestionText(IDialogNpc npc, EntityPlayer player) {
         if (questions.size() > 0) {
             random.setSeed(seed);
             return formatQuestion(questions.get(random.nextInt(questions.size())), npc, player);
@@ -107,20 +96,18 @@ public class DialogMessageRandom extends DialogMessage implements IDialogMessage
         return question;
     }
 
-    public void setSeed(long seed)
-    {
+    public void setSeed(long seed) {
         this.seed = seed;
     }
 
     @Override
-    public DialogMessage loadMessageFromLocalization(String key)
-    {
+    public DialogMessage loadMessageFromLocalization(String key) {
         addMessageVariation(MOStringHelper.translateToLocal(key).split(";"));
         return this;
     }
+
     @Override
-    public DialogMessage loadQuestionFromLocalization(String key)
-    {
+    public DialogMessage loadQuestionFromLocalization(String key) {
         addQuestionVariation(MOStringHelper.translateToLocal(key).split(";"));
         return this;
     }

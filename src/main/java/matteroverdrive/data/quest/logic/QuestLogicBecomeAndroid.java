@@ -17,51 +17,40 @@ import java.util.Random;
 /**
  * Created by Simeon on 12/24/2015.
  */
-public class QuestLogicBecomeAndroid extends AbstractQuestLogic
-{
+public class QuestLogicBecomeAndroid extends AbstractQuestLogic {
     boolean talkToComplete;
 
     @Override
-    public String modifyInfo(QuestStack questStack, String info)
-    {
+    public String modifyInfo(QuestStack questStack, String info) {
         return info;
     }
 
     @Override
-    public int modifyObjectiveCount(QuestStack questStack, EntityPlayer entityPlayer, int count)
-    {
-        if (isObjectiveCompleted(questStack,entityPlayer,0))
-        {
+    public int modifyObjectiveCount(QuestStack questStack, EntityPlayer entityPlayer, int count) {
+        if (isObjectiveCompleted(questStack, entityPlayer, 0)) {
             return 2;
         }
         return 1;
     }
 
     @Override
-    public boolean isObjectiveCompleted(QuestStack questStack, EntityPlayer entityPlayer, int objectiveIndex)
-    {
-        if (objectiveIndex == 0)
-        {
+    public boolean isObjectiveCompleted(QuestStack questStack, EntityPlayer entityPlayer, int objectiveIndex) {
+        if (objectiveIndex == 0) {
             boolean[] hasParts = new boolean[4];
             int[] slots = new int[4];
 
-            for (int i = 0; i < entityPlayer.inventory.getSizeInventory(); i++)
-            {
-                if (entityPlayer.inventory.getStackInSlot(i) != null && entityPlayer.inventory.getStackInSlot(i).getItem() == MatterOverdriveItems.androidParts)
-                {
+            for (int i = 0; i < entityPlayer.inventory.getSizeInventory(); i++) {
+                if (entityPlayer.inventory.getStackInSlot(i) != null && entityPlayer.inventory.getStackInSlot(i).getItem() == MatterOverdriveItems.androidParts) {
                     int damage = entityPlayer.inventory.getStackInSlot(i).getItemDamage();
-                    if (damage < hasParts.length)
-                    {
+                    if (damage < hasParts.length) {
                         hasParts[damage] = true;
                         slots[damage] = i;
                     }
                 }
             }
 
-            for (boolean hasPart : hasParts)
-            {
-                if (!hasPart)
-                {
+            for (boolean hasPart : hasParts) {
+                if (!hasPart) {
                     return false;
                 }
             }
@@ -72,42 +61,34 @@ public class QuestLogicBecomeAndroid extends AbstractQuestLogic
     }
 
     @Override
-    public String modifyObjective(QuestStack questStack, EntityPlayer entityPlayer, String objective, int objectiveIndex)
-    {
+    public String modifyObjective(QuestStack questStack, EntityPlayer entityPlayer, String objective, int objectiveIndex) {
         return objective;
     }
 
     @Override
-    public void initQuestStack(Random random, QuestStack questStack)
-    {
+    public void initQuestStack(Random random, QuestStack questStack) {
 
     }
 
     @Override
-    public boolean onEvent(QuestStack questStack, Event event, EntityPlayer entityPlayer)
-    {
+    public boolean onEvent(QuestStack questStack, Event event, EntityPlayer entityPlayer) {
         return false;
     }
 
     @Override
-    public void onTaken(QuestStack questStack, EntityPlayer entityPlayer)
-    {
+    public void onTaken(QuestStack questStack, EntityPlayer entityPlayer) {
 
     }
 
     @Override
-    public void onCompleted(QuestStack questStack, EntityPlayer entityPlayer)
-    {
+    public void onCompleted(QuestStack questStack, EntityPlayer entityPlayer) {
         boolean[] hasParts = new boolean[4];
         int[] slots = new int[4];
 
-        for (int i = 0; i < entityPlayer.inventory.getSizeInventory();i++)
-        {
-            if(entityPlayer.inventory.getStackInSlot(i) != null && entityPlayer.inventory.getStackInSlot(i).getItem() == MatterOverdriveItems.androidParts)
-            {
+        for (int i = 0; i < entityPlayer.inventory.getSizeInventory(); i++) {
+            if (entityPlayer.inventory.getStackInSlot(i) != null && entityPlayer.inventory.getStackInSlot(i).getItem() == MatterOverdriveItems.androidParts) {
                 int damage = entityPlayer.inventory.getStackInSlot(i).getItemDamage();
-                if (damage < hasParts.length)
-                {
+                if (damage < hasParts.length) {
                     hasParts[damage] = true;
                     slots[damage] = i;
                 }
@@ -136,13 +117,11 @@ public class QuestLogicBecomeAndroid extends AbstractQuestLogic
     }
 
     @Override
-    public void modifyRewards(QuestStack questStack, EntityPlayer entityPlayer, List<IQuestReward> rewards)
-    {
+    public void modifyRewards(QuestStack questStack, EntityPlayer entityPlayer, List<IQuestReward> rewards) {
 
     }
 
-    public QuestLogicBecomeAndroid setTalkToComplete(boolean talkToComplete)
-    {
+    public QuestLogicBecomeAndroid setTalkToComplete(boolean talkToComplete) {
         this.talkToComplete = talkToComplete;
         return this;
     }

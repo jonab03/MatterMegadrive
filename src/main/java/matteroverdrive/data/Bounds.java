@@ -21,53 +21,45 @@ package matteroverdrive.data;
 /**
  * Created by Simeon on 8/30/2015.
  */
-public class Bounds
-{
+public class Bounds {
     int minX;
     int minY;
     int maxX;
     int maxY;
 
-    public Bounds(int minX, int minY, int maxX, int maxY)
-    {
+    public Bounds(int minX, int minY, int maxX, int maxY) {
         this.minX = minX;
         this.minY = minY;
         this.maxX = maxX;
         this.maxY = maxY;
     }
 
-    public void extendMin(int minX, int minY)
-    {
-        this.minX = Math.min(minX,this.minX);
-        this.minY = Math.min(minY,this.minY);
+    public void extendMin(int minX, int minY) {
+        this.minX = Math.min(minX, this.minX);
+        this.minY = Math.min(minY, this.minY);
     }
 
-    public void extendMinBy(int minX, int minY)
-    {
+    public void extendMinBy(int minX, int minY) {
         this.minX += minX;
         this.minY += minY;
     }
 
-    public void extendMax(int maxX, int maxY)
-    {
+    public void extendMax(int maxX, int maxY) {
         this.maxX = Math.max(maxX, this.maxX);
         this.maxY = Math.max(maxY, this.maxY);
     }
 
-    public void extendMaxBy(int maxX, int maxY)
-    {
+    public void extendMaxBy(int maxX, int maxY) {
         this.maxX += maxX;
         this.maxY += maxY;
     }
 
-    public void extend(int minX, int minY, int maxX, int maxY)
-    {
+    public void extend(int minX, int minY, int maxX, int maxY) {
         extendMin(minX, minY);
         extendMax(maxX, maxY);
     }
 
-    public void extend(Bounds bounds)
-    {
+    public void extend(Bounds bounds) {
         extendMin(bounds.minX, bounds.minY);
         extendMax(bounds.maxX, bounds.maxY);
     }
@@ -104,13 +96,11 @@ public class Bounds
         this.maxX = maxX;
     }
 
-    public int getWidth()
-    {
+    public int getWidth() {
         return maxX - minX;
     }
 
-    public int getHeight()
-    {
+    public int getHeight() {
         return maxY - minY;
     }
 }

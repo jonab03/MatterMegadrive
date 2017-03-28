@@ -24,20 +24,17 @@ import net.minecraftforge.common.util.ForgeDirection;
 /**
  * Created by Simeon on 4/26/2015.
  */
-public class MatterNetworkPathNode
-{
+public class MatterNetworkPathNode {
     int x;
     int y;
     int z;
     ForgeDirection port;
 
-    public MatterNetworkPathNode(BlockPos position)
-    {
-        this(position,ForgeDirection.UNKNOWN);
+    public MatterNetworkPathNode(BlockPos position) {
+        this(position, ForgeDirection.UNKNOWN);
     }
 
-    public MatterNetworkPathNode(BlockPos position, ForgeDirection port)
-    {
+    public MatterNetworkPathNode(BlockPos position, ForgeDirection port) {
         x = position.x;
         y = position.y;
         z = position.z;
@@ -55,8 +52,7 @@ public class MatterNetworkPathNode
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return (x & 0xFFF) | (y & 0xFF << 8) | (z & 0xFFF << 12);
     }
 

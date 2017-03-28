@@ -35,41 +35,33 @@ import java.util.EnumSet;
 /**
  * Created by Simeon on 11/5/2015.
  */
-public class TileEntityTritaniumCrate extends MOTileEntity implements IInventory
-{
+public class TileEntityTritaniumCrate extends MOTileEntity implements IInventory {
     TileEntityInventory inventory;
 
-    public TileEntityTritaniumCrate()
-    {
+    public TileEntityTritaniumCrate() {
         inventory = new TileEntityInventory(this, MOStringHelper.translateToLocal("container.tritanium_crate"));
-        for (int i = 0;i < 54;i++)
-        {
+        for (int i = 0; i < 54; i++) {
             CrateSlot slot = new CrateSlot(false);
             inventory.AddSlot(slot);
         }
     }
 
     @Override
-    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk)
-    {
-        if (categories.contains(MachineNBTCategory.INVENTORY) && toDisk)
-        {
-            inventory.writeToNBT(nbt,true);
+    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
+        if (categories.contains(MachineNBTCategory.INVENTORY) && toDisk) {
+            inventory.writeToNBT(nbt, true);
         }
     }
 
     @Override
-    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories)
-    {
-        if (categories.contains(MachineNBTCategory.INVENTORY))
-        {
+    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories) {
+        if (categories.contains(MachineNBTCategory.INVENTORY)) {
             inventory.readFromNBT(nbt);
         }
     }
 
     @Override
-    protected void onAwake(Side side)
-    {
+    protected void onAwake(Side side) {
 
     }
 
@@ -84,39 +76,32 @@ public class TileEntityTritaniumCrate extends MOTileEntity implements IInventory
     }
 
     @Override
-    public void onDestroyed()
-    {
+    public void onDestroyed() {
 
     }
 
     @Override
-    public void onNeighborBlockChange()
-    {
+    public void onNeighborBlockChange() {
 
     }
 
     @Override
-    public void writeToDropItem(ItemStack itemStack)
-    {
-        if (!itemStack.hasTagCompound())
-        {
+    public void writeToDropItem(ItemStack itemStack) {
+        if (!itemStack.hasTagCompound()) {
             itemStack.setTagCompound(new NBTTagCompound());
         }
 
-        inventory.writeToNBT(itemStack.getTagCompound(),true);
+        inventory.writeToNBT(itemStack.getTagCompound(), true);
     }
 
     @Override
-    public void readFromPlaceItem(ItemStack itemStack)
-    {
-        if (itemStack.hasTagCompound())
-        {
+    public void readFromPlaceItem(ItemStack itemStack) {
+        if (itemStack.hasTagCompound()) {
             inventory.readFromNBT(itemStack.getTagCompound());
         }
     }
 
-    public TileEntityInventory getInventory()
-    {
+    public TileEntityInventory getInventory() {
         return inventory;
     }
 
@@ -132,7 +117,7 @@ public class TileEntityTritaniumCrate extends MOTileEntity implements IInventory
 
     @Override
     public ItemStack decrStackSize(int slot, int amount) {
-        return inventory.decrStackSize(slot,amount);
+        return inventory.decrStackSize(slot, amount);
     }
 
     @Override
@@ -142,12 +127,11 @@ public class TileEntityTritaniumCrate extends MOTileEntity implements IInventory
 
     @Override
     public void setInventorySlotContents(int slot, ItemStack stack) {
-        inventory.setInventorySlotContents(slot,stack);
+        inventory.setInventorySlotContents(slot, stack);
     }
 
     @Override
-    public String getInventoryName()
-    {
+    public String getInventoryName() {
         return inventory.getInventoryName();
     }
 
@@ -178,6 +162,6 @@ public class TileEntityTritaniumCrate extends MOTileEntity implements IInventory
 
     @Override
     public boolean isItemValidForSlot(int slot, ItemStack stack) {
-        return inventory.isItemValidForSlot(slot,stack);
+        return inventory.isItemValidForSlot(slot, stack);
     }
 }

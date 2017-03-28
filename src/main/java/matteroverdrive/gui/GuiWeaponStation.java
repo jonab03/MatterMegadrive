@@ -40,28 +40,25 @@ import org.lwjgl.util.vector.Vector2f;
 /**
  * Created by Simeon on 4/13/2015.
  */
-public class GuiWeaponStation extends MOGuiMachine<TileEntityWeaponStation>
-{
-    public static final ScaleTexture BG = new ScaleTexture(new ResourceLocation(Reference.PATH_GUI + "weapon_station.png"),255,141).setOffsets(213,34,42,94);
+public class GuiWeaponStation extends MOGuiMachine<TileEntityWeaponStation> {
+    public static final ScaleTexture BG = new ScaleTexture(new ResourceLocation(Reference.PATH_GUI + "weapon_station.png"), 255, 141).setOffsets(213, 34, 42, 94);
 
     ElementModelPreview weaponPreview;
     ElementSlot[] module_slots = new ElementSlot[5];
-    String[] module_slots_info = {"battery","color","barrel","sights","other"};
+    String[] module_slots_info = {"battery", "color", "barrel", "sights", "other"};
 
-    public GuiWeaponStation(InventoryPlayer inventoryPlayer, TileEntityWeaponStation machine)
-    {
-        super(new ContainerWeaponStation(inventoryPlayer, machine), machine,255,237);
+    public GuiWeaponStation(InventoryPlayer inventoryPlayer, TileEntityWeaponStation machine) {
+        super(new ContainerWeaponStation(inventoryPlayer, machine), machine, 255, 237);
         texW = 255;
         texH = 237;
         name = "weapon_station";
 
         background = BG;
-        weaponPreview = new ElementModelPreview(this,130,90,xSize,ySize);
+        weaponPreview = new ElementModelPreview(this, 130, 90, xSize, ySize);
 
-        for (int i = 0;i < module_slots.length;i++)
-        {
-            module_slots[i] = new ElementInventorySlot(this,(MOSlot)inventorySlots.getSlot(i+1),20,20,"holo",machine.getInventoryContainer().getSlot(i).getHoloIcon());
-            module_slots[i].setColor(Reference.COLOR_MATTER.getIntR(),Reference.COLOR_MATTER.getIntG(),Reference.COLOR_MATTER.getIntB(),78);
+        for (int i = 0; i < module_slots.length; i++) {
+            module_slots[i] = new ElementInventorySlot(this, (MOSlot) inventorySlots.getSlot(i + 1), 20, 20, "holo", machine.getInventoryContainer().getSlot(i).getHoloIcon());
+            module_slots[i].setColor(Reference.COLOR_MATTER.getIntR(), Reference.COLOR_MATTER.getIntG(), Reference.COLOR_MATTER.getIntB(), 78);
             module_slots[i].setInfo("module." + module_slots_info[i] + ".name");
         }
 
@@ -72,13 +69,11 @@ public class GuiWeaponStation extends MOGuiMachine<TileEntityWeaponStation>
     }
 
     @Override
-    public void initGui()
-    {
+    public void initGui() {
         super.initGui();
         pages.get(0).addElement(weaponPreview);
 
-        for (int i = 0;i < module_slots.length;i++)
-        {
+        for (int i = 0; i < module_slots.length; i++) {
             pages.get(0).addElement(module_slots[i]);
         }
 
@@ -87,38 +82,31 @@ public class GuiWeaponStation extends MOGuiMachine<TileEntityWeaponStation>
     }
 
     @Override
-    protected void updateElementInformation()
-    {
+    protected void updateElementInformation() {
         super.updateElementInformation();
 
         ItemStack item = machine.getStackInSlot(machine.INPUT_SLOT);
         weaponPreview.setItemStack(item);
 
-        if (WeaponHelper.isWeapon(item))
-        {
-            IWeapon weapon = (IWeapon)item.getItem();
+        if (WeaponHelper.isWeapon(item)) {
+            IWeapon weapon = (IWeapon) item.getItem();
             IItemRenderer renderer = MinecraftForgeClient.getItemRenderer(item, IItemRenderer.ItemRenderType.INVENTORY);
             weaponPreview.setRenderer(renderer);
 
-            for (int i = 0;i < module_slots.length;i++)
-            {
-                if (weapon.supportsModule(i,item))
-                {
-                    Vector2f pos = weapon.getSlotPosition(i,item);
-                    module_slots[i].setColor(Reference.COLOR_MATTER.getIntR(),Reference.COLOR_MATTER.getIntG(),Reference.COLOR_MATTER.getIntB(),78);
+            for (int i = 0; i < module_slots.length; i++) {
+                if (weapon.supportsModule(i, item)) {
+                    Vector2f pos = weapon.getSlotPosition(i, item);
+                    module_slots[i].setColor(Reference.COLOR_MATTER.getIntR(), Reference.COLOR_MATTER.getIntG(), Reference.COLOR_MATTER.getIntB(), 78);
                     module_slots[i].setPosition((int) pos.x, (int) pos.y);
-                }
-                else
-                {
-                    module_slots[i].setColor(30,30,30,78);
+                } else {
+                    module_slots[i].setColor(30, 30, 30, 78);
                     ResetModuleSlotPos(i);
                 }
             }
 
-        }else {
-            for (int i = 0; i < module_slots.length; i++)
-            {
-                module_slots[i].setColor(30,30,30,78);
+        } else {
+            for (int i = 0; i < module_slots.length; i++) {
+                module_slots[i].setColor(30, 30, 30, 78);
                 ResetModuleSlotPos(i);
             }
 
@@ -126,32 +114,26 @@ public class GuiWeaponStation extends MOGuiMachine<TileEntityWeaponStation>
         }
     }
 
-    private void ResetModuleSlotPos(int i)
-    {
-        if (i < module_slots.length)
-        {
-            module_slots[i].setPosition(216,121 + i * 22);
+    private void ResetModuleSlotPos(int i) {
+        if (i < module_slots.length) {
+            module_slots[i].setPosition(216, 121 + i * 22);
         }
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
-    {
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         super.drawGuiContainerForegroundLayer(mouseX, mouseY);
 
         ItemStack item = machine.getStackInSlot(machine.INPUT_SLOT);
-        if (WeaponHelper.isWeapon(item) && pages.get(0).isVisible())
-        {
+        if (WeaponHelper.isWeapon(item) && pages.get(0).isVisible()) {
             GL11.glDisable(GL11.GL_TEXTURE_2D);
             GL11.glPushMatrix();
             GL11.glLineWidth(1f);
             GL11.glColor4f(Reference.COLOR_MATTER.getFloatR(), Reference.COLOR_MATTER.getFloatG(), Reference.COLOR_MATTER.getFloatB(), 1);
 
-            IWeapon weapon = (IWeapon)item.getItem();
-            for (int i = 0; i < module_slots.length;i++)
-            {
-                if (weapon.supportsModule(i,item))
-                {
+            IWeapon weapon = (IWeapon) item.getItem();
+            for (int i = 0; i < module_slots.length; i++) {
+                if (weapon.supportsModule(i, item)) {
                     GL11.glBegin(GL11.GL_LINES);
                     Vector2f slotPos = weapon.getSlotPosition(i, item);
                     Vector2f modulePos = weapon.getModuleScreenPosition(i, item);
@@ -168,23 +150,22 @@ public class GuiWeaponStation extends MOGuiMachine<TileEntityWeaponStation>
         }
     }
 
-    Vector2f getClosestOnSlot(Vector2f slotPos,Vector2f modulePos)
-    {
+    Vector2f getClosestOnSlot(Vector2f slotPos, Vector2f modulePos) {
         int slotWidth = 18;
         int slotHeight = 18;
-        Vector2f center = new Vector2f(slotPos.x + slotWidth/2,slotPos.y + slotHeight/2);
+        Vector2f center = new Vector2f(slotPos.x + slotWidth / 2, slotPos.y + slotHeight / 2);
 
         Vector2f intersect = null;
-        intersect = MOMathHelper.Intersects(slotPos,new Vector2f(slotPos.x + slotWidth,slotPos.y),modulePos,center);
+        intersect = MOMathHelper.Intersects(slotPos, new Vector2f(slotPos.x + slotWidth, slotPos.y), modulePos, center);
         if (intersect != null)
             return intersect;
-        intersect = MOMathHelper.Intersects(slotPos,new Vector2f(slotPos.x,slotPos.y + slotHeight),modulePos,center);
+        intersect = MOMathHelper.Intersects(slotPos, new Vector2f(slotPos.x, slotPos.y + slotHeight), modulePos, center);
         if (intersect != null)
             return intersect;
-        intersect = MOMathHelper.Intersects(new Vector2f(slotPos.x + slotWidth,slotPos.y + slotHeight),new Vector2f(slotPos.x,slotPos.y + slotHeight),modulePos,center);
+        intersect = MOMathHelper.Intersects(new Vector2f(slotPos.x + slotWidth, slotPos.y + slotHeight), new Vector2f(slotPos.x, slotPos.y + slotHeight), modulePos, center);
         if (intersect != null)
             return intersect;
-        intersect = MOMathHelper.Intersects(new Vector2f(slotPos.x + slotWidth,slotPos.y + slotHeight),new Vector2f(slotPos.x + slotWidth,slotPos.y),modulePos,center);
+        intersect = MOMathHelper.Intersects(new Vector2f(slotPos.x + slotWidth, slotPos.y + slotHeight), new Vector2f(slotPos.x + slotWidth, slotPos.y), modulePos, center);
         if (intersect != null)
             return intersect;
         return center;

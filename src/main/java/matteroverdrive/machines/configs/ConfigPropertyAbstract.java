@@ -21,13 +21,11 @@ package matteroverdrive.machines.configs;
 /**
  * Created by Simeon on 8/16/2015.
  */
-public abstract class ConfigPropertyAbstract implements IConfigProperty
-{
+public abstract class ConfigPropertyAbstract implements IConfigProperty {
     protected String key;
     protected String unlocalizedName;
 
-    public ConfigPropertyAbstract(String key,String unlocalizedName)
-    {
+    public ConfigPropertyAbstract(String key, String unlocalizedName) {
         this.key = key;
         this.unlocalizedName = unlocalizedName;
     }
@@ -38,8 +36,7 @@ public abstract class ConfigPropertyAbstract implements IConfigProperty
     }
 
     @Override
-    public String getUnlocalizedName()
-    {
+    public String getUnlocalizedName() {
         return unlocalizedName;
     }
 }

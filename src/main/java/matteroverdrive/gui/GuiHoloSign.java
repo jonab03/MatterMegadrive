@@ -33,54 +33,47 @@ import java.util.EnumSet;
 /**
  * Created by Simeon on 8/15/2015.
  */
-public class GuiHoloSign extends MOGuiMachine<TileEntityHoloSign>
-{
+public class GuiHoloSign extends MOGuiMachine<TileEntityHoloSign> {
     MOElementTextField textField;
     AutoConfigPage configPage;
 
-    public GuiHoloSign(InventoryPlayer inventoryPlayer,TileEntityHoloSign sign)
-    {
-        super(ContainerFactory.createMachineContainer(sign,inventoryPlayer),sign);
-        textField = new MOElementTextField(this,this,50,36,150,115);
+    public GuiHoloSign(InventoryPlayer inventoryPlayer, TileEntityHoloSign sign) {
+        super(ContainerFactory.createMachineContainer(sign, inventoryPlayer), sign);
+        textField = new MOElementTextField(this, this, 50, 36, 150, 115);
         textField.setBackground(MOElementButton.HOVER_TEXTURE_DARK);
         textField.setMultiline(true);
-        textField.setMaxLength((short)1024);
-        textField.setTextOffset(4,4);
+        textField.setMaxLength((short) 1024);
+        textField.setTextOffset(4, 4);
     }
 
     @Override
-    public void initGui()
-    {
+    public void initGui() {
         super.initGui();
         pages.get(0).addElement(textField);
         textField.setText(machine.getText());
     }
 
     @Override
-    public void registerPages(MOBaseContainer container,TileEntityHoloSign machine)
-    {
+    public void registerPages(MOBaseContainer container, TileEntityHoloSign machine) {
         super.registerPages(container, machine);
-        configPage = new AutoConfigPage(this,48,32,xSize-76,ySize,machine.getComponent(ComponentConfigs.class));
+        configPage = new AutoConfigPage(this, 48, 32, xSize - 76, ySize, machine.getComponent(ComponentConfigs.class));
         elements.remove(pages.get(1));
         pages.set(1, configPage);
     }
 
     @Override
-    public void ListSelectionChange(String name, int selected)
-    {
+    public void ListSelectionChange(String name, int selected) {
 
     }
 
     @Override
-    public void textChanged(String elementName, String text, boolean typed)
-    {
+    public void textChanged(String elementName, String text, boolean typed) {
         machine.setText(text);
     }
 
     @Override
-    public void onGuiClosed()
-    {
+    public void onGuiClosed() {
         super.onGuiClosed();
-        machine.sendNBTToServer(EnumSet.of(MachineNBTCategory.GUI),true);
+        machine.sendNBTToServer(EnumSet.of(MachineNBTCategory.GUI), true);
     }
 }

@@ -32,8 +32,7 @@ import java.util.UUID;
 /**
  * Created by Simeon on 6/30/2015.
  */
-public class BioticStatAttack extends AbstractBioticStat
-{
+public class BioticStatAttack extends AbstractBioticStat {
     public final UUID modifierID = UUID.fromString("caf3f2ba-75f5-4f2f-84b9-ddfab1fcef25");
 
     public BioticStatAttack(String name, int xp) {
@@ -47,8 +46,7 @@ public class BioticStatAttack extends AbstractBioticStat
     }
 
     @Override
-    public void onActionKeyPress(AndroidPlayer androidPlayer, int level, boolean server)
-    {
+    public void onActionKeyPress(AndroidPlayer androidPlayer, int level, boolean server) {
 
     }
 
@@ -58,14 +56,12 @@ public class BioticStatAttack extends AbstractBioticStat
     }
 
     @Override
-    public void onLivingEvent(AndroidPlayer androidPlayer, int level, LivingEvent event)
-    {
+    public void onLivingEvent(AndroidPlayer androidPlayer, int level, LivingEvent event) {
 
     }
 
     @Override
-    public void changeAndroidStats(AndroidPlayer androidPlayer, int level, boolean enabled)
-    {
+    public void changeAndroidStats(AndroidPlayer androidPlayer, int level, boolean enabled) {
 
     }
 
@@ -73,7 +69,7 @@ public class BioticStatAttack extends AbstractBioticStat
     @SuppressWarnings("unchecked")
     public Multimap attributes(AndroidPlayer androidPlayer, int level) {
         Multimap multimap = HashMultimap.create();
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(),new MOAttributeModifier(modifierID, "Android Attack Damage", getAttackPower(level), 1).setSaved(false));
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new MOAttributeModifier(modifierID, "Android Attack Damage", getAttackPower(level), 1).setSaved(false));
         return multimap;
     }
 
@@ -83,19 +79,16 @@ public class BioticStatAttack extends AbstractBioticStat
     }
 
     @Override
-    public int getDelay(AndroidPlayer androidPlayer, int level)
-    {
+    public int getDelay(AndroidPlayer androidPlayer, int level) {
         return 0;
     }
 
     @Override
-    public String getDetails(int level)
-    {
+    public String getDetails(int level) {
         return String.format(super.getDetails(level), EnumChatFormatting.GREEN + DecimalFormat.getPercentInstance().format(getAttackPower(level)) + EnumChatFormatting.GRAY);
     }
 
-    public float getAttackPower(int level)
-    {
+    public float getAttackPower(int level) {
         return (level + 1) * 0.05f;
     }
 }

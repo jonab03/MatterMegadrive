@@ -32,33 +32,26 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 4/13/2015.
  */
-public class ModuleSlot extends Slot
-{
+public class ModuleSlot extends Slot {
     int type;
     WeaponSlot weaponSlot;
 
-    public ModuleSlot(boolean isMainSlot, int type,WeaponSlot weaponSlot)
-    {
+    public ModuleSlot(boolean isMainSlot, int type, WeaponSlot weaponSlot) {
         super(isMainSlot);
         this.type = type;
         this.weaponSlot = weaponSlot;
     }
 
     @Override
-    public boolean isValidForSlot(ItemStack item)
-    {
-        switch (type)
-        {
+    public boolean isValidForSlot(ItemStack item) {
+        switch (type) {
             case Reference.MODULE_BATTERY:
                 return MOEnergyHelper.isEnergyContainerItem(item) && !WeaponHelper.isWeapon(item);
             default:
-                if(WeaponHelper.isWeaponModule(item))
-                {
-                    if (((IWeaponModule)item.getItem()).getSlot(item) == type)
-                    {
-                        if (weaponSlot != null && weaponSlot.getItem() != null && weaponSlot.getItem().getItem() instanceof IWeapon)
-                        {
-                            return ((IWeapon) weaponSlot.getItem().getItem()).supportsModule(weaponSlot.getItem(),item);
+                if (WeaponHelper.isWeaponModule(item)) {
+                    if (((IWeaponModule) item.getItem()).getSlot(item) == type) {
+                        if (weaponSlot != null && weaponSlot.getItem() != null && weaponSlot.getItem().getItem() instanceof IWeapon) {
+                            return ((IWeapon) weaponSlot.getItem().getItem()).supportsModule(weaponSlot.getItem(), item);
                         }
                         return true;
                     }
@@ -69,10 +62,8 @@ public class ModuleSlot extends Slot
 
     @Override
     @SideOnly(Side.CLIENT)
-    public HoloIcon getHoloIcon()
-    {
-        switch (type)
-        {
+    public HoloIcon getHoloIcon() {
+        switch (type) {
             case Reference.MODULE_BATTERY:
                 return ClientProxy.holoIcons.getIcon("battery");
             case Reference.MODULE_COLOR:
@@ -87,5 +78,7 @@ public class ModuleSlot extends Slot
     }
 
     @Override
-    public int getMaxStackSize(){return 1;}
+    public int getMaxStackSize() {
+        return 1;
+    }
 }

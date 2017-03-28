@@ -28,8 +28,7 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 9/30/2015.
  */
-public class PacketResetBioStats extends PacketAbstract
-{
+public class PacketResetBioStats extends PacketAbstract {
     @Override
     public void fromBytes(ByteBuf buf) {
 
@@ -40,15 +39,12 @@ public class PacketResetBioStats extends PacketAbstract
 
     }
 
-    public static class ServerHandler extends AbstractServerPacketHandler<PacketResetBioStats>
-    {
+    public static class ServerHandler extends AbstractServerPacketHandler<PacketResetBioStats> {
 
         @Override
-        public IMessage handleServerMessage(EntityPlayer player, PacketResetBioStats message, MessageContext ctx)
-        {
+        public IMessage handleServerMessage(EntityPlayer player, PacketResetBioStats message, MessageContext ctx) {
             AndroidPlayer androidPlayer = AndroidPlayer.get(player);
-            if (androidPlayer != null && androidPlayer.isAndroid())
-            {
+            if (androidPlayer != null && androidPlayer.isAndroid()) {
                 player.addExperienceLevel(androidPlayer.resetUnlocked());
             }
             return null;

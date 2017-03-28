@@ -24,8 +24,7 @@ import net.minecraft.util.WeightedRandom;
 /**
  * Created by Simeon on 12/23/2015.
  */
-public class WeightedRandomItemStack extends WeightedRandom.Item
-{
+public class WeightedRandomItemStack extends WeightedRandom.Item {
     private final ItemStack stack;
 
     public WeightedRandomItemStack(ItemStack stack) {

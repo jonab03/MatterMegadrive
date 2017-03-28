@@ -23,8 +23,7 @@ import io.netty.buffer.ByteBuf;
 /**
  * Created by Simeon on 10/22/2015.
  */
-public class WeaponShot
-{
+public class WeaponShot {
     protected int seed;
     protected float damage;
     protected float accuracy;
@@ -32,19 +31,16 @@ public class WeaponShot
     protected int range;
     protected int count = 1;
 
-    public WeaponShot(WeaponShot shot)
-    {
-        this(shot.seed,shot.damage,shot.accuracy,shot.color,shot.range);
+    public WeaponShot(WeaponShot shot) {
+        this(shot.seed, shot.damage, shot.accuracy, shot.color, shot.range);
     }
 
-    public WeaponShot(ByteBuf buf)
-    {
-        this(buf.readInt(), buf.readFloat(), buf.readFloat(), buf.readInt(),buf.readShort());
+    public WeaponShot(ByteBuf buf) {
+        this(buf.readInt(), buf.readFloat(), buf.readFloat(), buf.readInt(), buf.readShort());
         setCount(buf.readByte());
     }
 
-    public WeaponShot(int seed, float damage, float accuracy, int color,int range)
-    {
+    public WeaponShot(int seed, float damage, float accuracy, int color, int range) {
         this.seed = seed;
         this.damage = damage;
         this.accuracy = accuracy;
@@ -52,8 +48,7 @@ public class WeaponShot
         this.range = range;
     }
 
-    public void writeTo(ByteBuf buf)
-    {
+    public void writeTo(ByteBuf buf) {
         buf.writeInt(seed);
         buf.writeFloat(damage);
         buf.writeFloat(accuracy);
@@ -94,11 +89,19 @@ public class WeaponShot
         this.color = color;
     }
 
-    public int getRange(){return range;}
+    public int getRange() {
+        return range;
+    }
 
-    public void setRange(int range){this.range = range;}
+    public void setRange(int range) {
+        this.range = range;
+    }
 
-    public int getCount(){return count;}
+    public int getCount() {
+        return count;
+    }
 
-    public void setCount(int count){this.count = count;}
+    public void setCount(int count) {
+        this.count = count;
+    }
 }

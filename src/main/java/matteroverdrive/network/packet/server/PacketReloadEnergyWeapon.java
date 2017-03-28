@@ -28,32 +28,26 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 8/2/2015.
  */
-public class PacketReloadEnergyWeapon extends PacketAbstract
-{
-    public PacketReloadEnergyWeapon(){}
+public class PacketReloadEnergyWeapon extends PacketAbstract {
+    public PacketReloadEnergyWeapon() {
+    }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
 
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
 
     }
 
-    public static class ServerHandler extends AbstractServerPacketHandler<PacketReloadEnergyWeapon>
-    {
+    public static class ServerHandler extends AbstractServerPacketHandler<PacketReloadEnergyWeapon> {
         @Override
-        public IMessage handleServerMessage(EntityPlayer player, PacketReloadEnergyWeapon message, MessageContext ctx)
-        {
-            if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof EnergyWeapon)
-            {
-                if (((EnergyWeapon) player.getHeldItem().getItem()).needsRecharge(player.getHeldItem()))
-                {
-                    ((EnergyWeapon) player.getHeldItem().getItem()).chargeFromEnergyPack(player.getHeldItem(),player);
+        public IMessage handleServerMessage(EntityPlayer player, PacketReloadEnergyWeapon message, MessageContext ctx) {
+            if (player.getHeldItem() != null && player.getHeldItem().getItem() instanceof EnergyWeapon) {
+                if (((EnergyWeapon) player.getHeldItem().getItem()).needsRecharge(player.getHeldItem())) {
+                    ((EnergyWeapon) player.getHeldItem().getItem()).chargeFromEnergyPack(player.getHeldItem(), player);
                 }
             }
             return null;

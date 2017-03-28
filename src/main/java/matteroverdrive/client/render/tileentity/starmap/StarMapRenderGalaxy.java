@@ -37,29 +37,24 @@ import static org.lwjgl.opengl.GL11.*;
  * Created by Simeon on 6/17/2015.
  */
 @SideOnly(Side.CLIENT)
-public class StarMapRenderGalaxy extends StarMapRendererStars
-{
+public class StarMapRenderGalaxy extends StarMapRendererStars {
     @Override
-    public void renderBody(Galaxy galaxy, SpaceBody spaceBody, TileEntityMachineStarMap starMap, float partialTicks,float viewerDistance)
-    {
+    public void renderBody(Galaxy galaxy, SpaceBody spaceBody, TileEntityMachineStarMap starMap, float partialTicks, float viewerDistance) {
         double distanceMultiply = 2;
         glDepthMask(false);
 
         glLineWidth(1);
 
-        for (Quadrant quadrant : galaxy.getQuadrants())
-        {
-            renderStars(quadrant, starMap,distanceMultiply,2);
+        for (Quadrant quadrant : galaxy.getQuadrants()) {
+            renderStars(quadrant, starMap, distanceMultiply, 2);
         }
 
         glDisable(GL_TEXTURE_2D);
 
 
-        for (int i = 0;i < galaxy.getTravelEvents().size();i++)
-        {
+        for (int i = 0; i < galaxy.getTravelEvents().size(); i++) {
             TravelEvent travelEvent = galaxy.getTravelEvents().get(i);
-            if (travelEvent.isValid(GalaxyClient.getInstance().getTheGalaxy()))
-            {
+            if (travelEvent.isValid(GalaxyClient.getInstance().getTheGalaxy())) {
 
                 Vec3 from = GalaxyClient.getInstance().getTheGalaxy().getPlanet(travelEvent.getFrom()).getStar().getPosition(2);
                 Vec3 to = GalaxyClient.getInstance().getTheGalaxy().getPlanet(travelEvent.getTo()).getStar().getPosition(2);
@@ -74,7 +69,7 @@ public class StarMapRenderGalaxy extends StarMapRendererStars
                 RenderUtils.drawShip(0, 0, 0, 0.02);
                 glPopMatrix();
 
-                glPolygonMode(GL_FRONT_AND_BACK,GL_FILL);
+                glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
                 RenderUtils.applyColorWithMultipy(Reference.COLOR_HOLO_PURPLE, 0.5f);
                 glBegin(GL_LINE_STRIP);
                 glVertex3d(from.xCoord, from.yCoord, from.zCoord);
@@ -86,8 +81,7 @@ public class StarMapRenderGalaxy extends StarMapRendererStars
     }
 
     @Override
-    public void renderGUIInfo(Galaxy galaxy, SpaceBody spaceBody,TileEntityMachineStarMap starMap, float partialTicks, float opacity)
-    {
+    public void renderGUIInfo(Galaxy galaxy, SpaceBody spaceBody, TileEntityMachineStarMap starMap, float partialTicks, float opacity) {
         glEnable(GL_ALPHA_TEST);
         int ownedSystemCount = galaxy.getOwnedSystemCount(Minecraft.getMinecraft().thePlayer);
         int enemySystemCount = galaxy.getEnemySystemCount(Minecraft.getMinecraft().thePlayer);
@@ -107,8 +101,7 @@ public class StarMapRenderGalaxy extends StarMapRendererStars
         ClientProxy.holoIcons.renderIcon("page_icon_star", 128, -30);
         RenderUtils.drawString(String.format("x%s", freeSystemCount), 152, -23, color, opacity);
 
-        for (int i = 0; i < galaxy.getTravelEvents().size(); i++)
-        {
+        for (int i = 0; i < galaxy.getTravelEvents().size(); i++) {
             TravelEvent travelEvent = galaxy.getTravelEvents().get(i);
             if (travelEvent.isValid(GalaxyClient.getInstance().getTheGalaxy())) {
                 Planet from = GalaxyClient.getInstance().getTheGalaxy().getPlanet(travelEvent.getFrom());

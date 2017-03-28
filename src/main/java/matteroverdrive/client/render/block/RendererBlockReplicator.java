@@ -39,20 +39,17 @@ import org.lwjgl.util.vector.Vector3f;
 /**
  * Created by Simeon on 7/9/2015.
  */
-public class RendererBlockReplicator implements ISimpleBlockRenderingHandler
-{
+public class RendererBlockReplicator implements ISimpleBlockRenderingHandler {
     public static int renderID;
     private IModelCustom model;
 
-    public RendererBlockReplicator()
-    {
+    public RendererBlockReplicator() {
         renderID = RenderingRegistry.getNextAvailableRenderId();
         model = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.MODEL_REPLICATOR));
     }
 
     @Override
-    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer)
-    {
+    public void renderInventoryBlock(Block block, int metadata, int modelId, RenderBlocks renderer) {
         Tessellator.instance.startDrawing(GL11.GL_TRIANGLES);
         Matrix4f mat = new Matrix4f();
         mat.translate(new Vector3f(-0.5f, 0, -0.5f));
@@ -61,8 +58,7 @@ public class RendererBlockReplicator implements ISimpleBlockRenderingHandler
     }
 
     @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer)
-    {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
         Matrix4f rot = new Matrix4f();
         rot.translate(new Vector3f(0, 0.5f, 0));
         RenderUtils.rotateFromBlock(rot, world, x, y, z);
@@ -70,8 +66,7 @@ public class RendererBlockReplicator implements ISimpleBlockRenderingHandler
         return true;
     }
 
-    protected void renderBlock(Matrix4f mat,int x,int y,int z,int brightness)
-    {
+    protected void renderBlock(Matrix4f mat, int x, int y, int z, int brightness) {
         Tessellator.instance.draw();
         Tessellator.instance.startDrawing(GL11.GL_TRIANGLES);
         GroupObject front = ((WavefrontObject) model).groupObjects.get(0);

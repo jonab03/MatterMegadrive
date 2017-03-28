@@ -31,46 +31,37 @@ import java.util.Map;
 /**
  * Created by Simeon on 12/7/2015.
  */
-public class CommonWeaponHandler
-{
+public class CommonWeaponHandler {
     private static final PacketFirePlasmaShot.BiHandler firePlasmaShotHandler = new PacketFirePlasmaShot.BiHandler();
     Map<EntityPlayer, Long> weaponTimestamps;
 
-    public CommonWeaponHandler()
-    {
+    public CommonWeaponHandler() {
         weaponTimestamps = new HashMap<>();
     }
 
-    public void addTimestamp(EntityPlayer player, long timestamp)
-    {
+    public void addTimestamp(EntityPlayer player, long timestamp) {
         weaponTimestamps.put(player, timestamp);
     }
 
-    public boolean hasTimestamp(EntityPlayer player)
-    {
+    public boolean hasTimestamp(EntityPlayer player) {
         return weaponTimestamps.containsKey(player);
     }
 
-    public long getTimestamp(EntityPlayer entityPlayer)
-    {
+    public long getTimestamp(EntityPlayer entityPlayer) {
         return weaponTimestamps.get(entityPlayer);
     }
 
-    public void handlePlasmaShotFire(EntityPlayer entityPlayer, PacketFirePlasmaShot plasmaShot, long timeStamp)
-    {
+    public void handlePlasmaShotFire(EntityPlayer entityPlayer, PacketFirePlasmaShot plasmaShot, long timeStamp) {
         int delay = (int) (timeStamp - getTimestamp(entityPlayer));
         firePlasmaShotHandler.handleServerShot(entityPlayer, plasmaShot, delay);
         MatterOverdrive.packetPipeline.sendToAllAround(plasmaShot, entityPlayer, plasmaShot.getShot().getRange() + 64);
     }
 
     @SubscribeEvent
-    public void onEnergyWeaponEvent(MOEventEnergyWeapon eventEnergyWeapon)
-    {
-        if (eventEnergyWeapon.entityLiving != null && eventEnergyWeapon.entityLiving instanceof EntityPlayer)
-        {
-            AndroidPlayer androidPlayer = AndroidPlayer.get((EntityPlayer)eventEnergyWeapon.entityLiving);
-            if (androidPlayer != null)
-            {
+    public void onEnergyWeaponEvent(MOEventEnergyWeapon eventEnergyWeapon) {
+        if (eventEnergyWeapon.entityLiving != null && eventEnergyWeapon.entityLiving instanceof EntityPlayer) {
+            AndroidPlayer androidPlayer = AndroidPlayer.get((EntityPlayer) eventEnergyWeapon.entityLiving);
+            if (androidPlayer != null) {
                 androidPlayer.onWeaponEvent(eventEnergyWeapon);
             }
         }

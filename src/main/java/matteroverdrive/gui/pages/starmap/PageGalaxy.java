@@ -30,38 +30,34 @@ import matteroverdrive.tile.TileEntityMachineStarMap;
 /**
  * Created by Simeon on 6/27/2015.
  */
-public class PageGalaxy extends ElementBaseGroup implements IListHandler
-{
+public class PageGalaxy extends ElementBaseGroup implements IListHandler {
     public static int scroll;
     TileEntityMachineStarMap starMap;
     ElementGroupList quadrantList;
 
-    public PageGalaxy(GuiStarMap gui, int posX, int posY, int width, int height,TileEntityMachineStarMap starMap) {
+    public PageGalaxy(GuiStarMap gui, int posX, int posY, int width, int height, TileEntityMachineStarMap starMap) {
         super(gui, posX, posY, width, height);
         this.starMap = starMap;
-        quadrantList = new ElementGroupList(gui,this,16,16,0,0);
+        quadrantList = new ElementGroupList(gui, this, 16, 16, 0, 0);
         quadrantList.setName("Quadrants");
     }
 
-    private void loadStars()
-    {
+    private void loadStars() {
         quadrantList.init();
-        for (Quadrant quadrant : GalaxyClient.getInstance().getTheGalaxy().getQuadrants())
-        {
-            quadrantList.addElement(new ElementQuadrantEntry((GuiStarMap)gui,quadrantList,128+64,32,quadrant));
+        for (Quadrant quadrant : GalaxyClient.getInstance().getTheGalaxy().getQuadrants()) {
+            quadrantList.addElement(new ElementQuadrantEntry((GuiStarMap) gui, quadrantList, 128 + 64, 32, quadrant));
 
             if (starMap.getDestination().equals(quadrant)) {
-                quadrantList.setSelectedIndex(quadrantList.getElements().size()-1);
+                quadrantList.setSelectedIndex(quadrantList.getElements().size() - 1);
             }
         }
         quadrantList.limitScroll();
     }
 
     @Override
-    public void init()
-    {
+    public void init() {
         super.init();
-        quadrantList.setSize(sizeX,sizeY-100-32);
+        quadrantList.setSize(sizeX, sizeY - 100 - 32);
         quadrantList.setScroll(scroll);
         quadrantList.resetSmoothScroll();
         addElement(quadrantList);
@@ -70,15 +66,13 @@ public class PageGalaxy extends ElementBaseGroup implements IListHandler
     }
 
     @Override
-    public void ListSelectionChange(String name, int selected)
-    {
+    public void ListSelectionChange(String name, int selected) {
 
     }
 
     @Override
-    public void update(int mouseX, int mouseY)
-    {
-        super.update(mouseX,mouseY);
+    public void update(int mouseX, int mouseY) {
+        super.update(mouseX, mouseY);
         scroll = quadrantList.getScroll();
     }
 }

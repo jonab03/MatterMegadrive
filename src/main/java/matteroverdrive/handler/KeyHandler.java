@@ -40,53 +40,45 @@ import org.lwjgl.input.Keyboard;
  * Created by Simeon on 3/6/2015.
  */
 @SideOnly(Side.CLIENT)
-public class KeyHandler
-{
-    public static  final int MATTER_SCANNER_KEY = 0;
+public class KeyHandler {
+    public static final int MATTER_SCANNER_KEY = 0;
     public static final int ABILITY_USE_KEY = 1;
     public static final int ABILITY_SWITCH_KEY = 2;
-    private static  final String[] keyDesc = {"Open Matter Scanner GUI","Android Ability key","Android Switch Ability key"};
-    private  static  final  int[] keyValues = {Keyboard.KEY_C,Keyboard.KEY_X,Keyboard.KEY_TAB};
-    private  final KeyBinding[] keys;
+    private static final String[] keyDesc = {"Open Matter Scanner GUI", "Android Ability key", "Android Switch Ability key"};
+    private static final int[] keyValues = {Keyboard.KEY_C, Keyboard.KEY_X, Keyboard.KEY_TAB};
+    private final KeyBinding[] keys;
 
-    public  KeyHandler()
-    {
+    public KeyHandler() {
         keys = new KeyBinding[keyValues.length];
-        for(int i = 0;i < keys.length;i++)
-        {
-            keys[i] = new KeyBinding(keyDesc[i],keyValues[i],"Matter Overdrive");
+        for (int i = 0; i < keys.length; i++) {
+            keys[i] = new KeyBinding(keyDesc[i], keyValues[i], "Matter Overdrive");
             ClientRegistry.registerKeyBinding(keys[i]);
         }
     }
 
     @SubscribeEvent
-    public  void onKeyInput(InputEvent.KeyInputEvent event)
-    {
-        if(!FMLClientHandler.instance().isGUIOpen(GuiChat.class))
-        {
+    public void onKeyInput(InputEvent.KeyInputEvent event) {
+        if (!FMLClientHandler.instance().isGUIOpen(GuiChat.class)) {
             int key = Keyboard.getEventKey();
             boolean isDown = Keyboard.getEventKeyState();
 
             //Matter Scanner key
-            if(isDown && keys[MATTER_SCANNER_KEY].getKeyCode() == key)
-            {
+            if (isDown && keys[MATTER_SCANNER_KEY].getKeyCode() == key) {
                 //send packet to open gui
                 MatterScanner.DisplayGuiScreen();
             }
 
-            manageBiostats(key,isDown);
+            manageBiostats(key, isDown);
         }
     }
 
     @SubscribeEvent
-    public void onClientTick(TickEvent.ClientTickEvent event)
-    {
+    public void onClientTick(TickEvent.ClientTickEvent event) {
         if (Minecraft.getMinecraft().thePlayer == null || Minecraft.getMinecraft().theWorld == null || Minecraft.getMinecraft().isGamePaused() || Minecraft.getMinecraft().currentScreen != null)
             return;
 
         AndroidPlayer androidPlayer = AndroidPlayer.get(FMLClientHandler.instance().getClientPlayerEntity());
-        if (androidPlayer.isAndroid() && ClientProxy.keyHandler.getBinding(KeyHandler.ABILITY_USE_KEY).isPressed())
-        {
+        if (androidPlayer.isAndroid() && ClientProxy.keyHandler.getBinding(KeyHandler.ABILITY_USE_KEY).isPressed()) {
             for (IBionicStat stat : MatterOverdrive.statRegistry.getStats()) {
                 int level = androidPlayer.getUnlockedLevel(stat);
                 if (level > 0 && stat.isEnabled(androidPlayer, level)) {
@@ -97,11 +89,9 @@ public class KeyHandler
         }
     }
 
-    public void manageBiostats(int keyCode,boolean state)
-    {
+    public void manageBiostats(int keyCode, boolean state) {
         AndroidPlayer androidPlayer = AndroidPlayer.get(FMLClientHandler.instance().getClientPlayerEntity());
-        if (androidPlayer.isAndroid())
-        {
+        if (androidPlayer.isAndroid()) {
             for (IBionicStat stat : MatterOverdrive.statRegistry.getStats()) {
                 int level = androidPlayer.getUnlockedLevel(stat);
                 if (level > 0 && stat.isEnabled(androidPlayer, level)) {
@@ -111,8 +101,7 @@ public class KeyHandler
         }
     }
 
-    public KeyBinding getBinding(int id)
-    {
+    public KeyBinding getBinding(int id) {
         return keys[id];
     }
 }

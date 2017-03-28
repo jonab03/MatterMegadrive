@@ -27,8 +27,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
  * Triggered by most {@link IBionicStat}.
  * For example the {@link matteroverdrive.data.biostats.BioticStatTeleport} triggers the event when used by the player.
  */
-public class MOEventBionicStat extends PlayerEvent
-{
+public class MOEventBionicStat extends PlayerEvent {
     /**
      * The android player using the ability.
      */
@@ -49,9 +48,9 @@ public class MOEventBionicStat extends PlayerEvent
         this.stat = stat;
         this.level = level;
     }
+
     @Override
-    public boolean isCancelable()
-    {
+    public boolean isCancelable() {
         return true;
     }
 }

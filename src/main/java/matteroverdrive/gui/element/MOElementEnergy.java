@@ -30,15 +30,13 @@ import java.util.List;
 /**
  * Created by Simeon on 4/7/2015.
  */
-public class MOElementEnergy extends MOElementBase
-{
+public class MOElementEnergy extends MOElementBase {
     protected int energyRequired;
     protected int energyRequiredPerTick;
     protected IEnergyStorage storage;
     protected boolean alwaysShowMinimum = false;
 
-    public MOElementEnergy(MOGuiBase gui, int posX, int posY, IEnergyStorage storage)
-    {
+    public MOElementEnergy(MOGuiBase gui, int posX, int posY, IEnergyStorage storage) {
         super(gui, posX, posY);
         this.storage = storage;
         setTexture(Reference.TEXTURE_ENERGY_METER, 32, 64);
@@ -49,40 +47,31 @@ public class MOElementEnergy extends MOElementBase
     }
 
     @Override
-    public void updateInfo()
-    {
+    public void updateInfo() {
 
     }
 
     @Override
-    public void init()
-    {
+    public void init() {
 
     }
 
     @Override
-    public void addTooltip(List<String> list,int mouseX,int mouseY)
-    {
-        if(this.storage.getMaxEnergyStored() < 0) {
+    public void addTooltip(List<String> list, int mouseX, int mouseY) {
+        if (this.storage.getMaxEnergyStored() < 0) {
             list.add("Infinite RF");
         } else {
             list.add(this.storage.getEnergyStored() + " / " + this.storage.getMaxEnergyStored() + " RF");
         }
 
-        if(energyRequired > 0)
-        {
-            list.add(EnumChatFormatting.GREEN + "+" +String.valueOf(energyRequired) + MOEnergyHelper.ENERGY_UNIT + EnumChatFormatting.RESET);
+        if (energyRequired > 0) {
+            list.add(EnumChatFormatting.GREEN + "+" + String.valueOf(energyRequired) + MOEnergyHelper.ENERGY_UNIT + EnumChatFormatting.RESET);
+        } else if (energyRequired < 0) {
+            list.add(EnumChatFormatting.RED + String.valueOf(energyRequired) + MOEnergyHelper.ENERGY_UNIT + EnumChatFormatting.RESET);
         }
-        else if(energyRequired < 0)
-        {
-            list.add(EnumChatFormatting.RED +String.valueOf(energyRequired) + MOEnergyHelper.ENERGY_UNIT + EnumChatFormatting.RESET);
-        }
-        if (energyRequiredPerTick > 0)
-        {
-            list.add(EnumChatFormatting.GREEN + "+" +String.valueOf(energyRequiredPerTick) + MOEnergyHelper.ENERGY_UNIT + "/t" + EnumChatFormatting.RESET);
-        }
-        else if(energyRequiredPerTick < 0)
-        {
+        if (energyRequiredPerTick > 0) {
+            list.add(EnumChatFormatting.GREEN + "+" + String.valueOf(energyRequiredPerTick) + MOEnergyHelper.ENERGY_UNIT + "/t" + EnumChatFormatting.RESET);
+        } else if (energyRequiredPerTick < 0) {
             list.add(EnumChatFormatting.RED + String.valueOf(energyRequiredPerTick) + MOEnergyHelper.ENERGY_UNIT + "/t" + EnumChatFormatting.RESET);
         }
     }
@@ -98,30 +87,27 @@ public class MOElementEnergy extends MOElementBase
     }
 
     protected int getScaled() {
-        if(this.storage.getMaxEnergyStored() <= 0) {
+        if (this.storage.getMaxEnergyStored() <= 0) {
             return this.sizeY;
         } else {
-            long var1 = (long)this.storage.getEnergyStored() * (long)this.sizeY / (long)this.storage.getMaxEnergyStored();
-            return this.alwaysShowMinimum && (int) this.storage.getEnergyStored() > 0 ? (int) Math.max(1, Math.round((double)var1)) : (int)Math.round((double)var1);
+            long var1 = (long) this.storage.getEnergyStored() * (long) this.sizeY / (long) this.storage.getMaxEnergyStored();
+            return this.alwaysShowMinimum && this.storage.getEnergyStored() > 0 ? (int) Math.max(1, Math.round((double) var1)) : (int) Math.round((double) var1);
         }
     }
 
-    public int getEnergyRequired()
-    {
+    public int getEnergyRequired() {
         return energyRequired;
     }
-    public int getEnergyRequiredPerTick()
-    {
+
+    public int getEnergyRequiredPerTick() {
         return energyRequiredPerTick;
     }
 
-    public void setEnergyRequired(int energyRequired)
-    {
+    public void setEnergyRequired(int energyRequired) {
         this.energyRequired = energyRequired;
     }
 
-    public void setEnergyRequiredPerTick(int energyRequired)
-    {
+    public void setEnergyRequiredPerTick(int energyRequired) {
         this.energyRequiredPerTick = energyRequired;
     }
 }

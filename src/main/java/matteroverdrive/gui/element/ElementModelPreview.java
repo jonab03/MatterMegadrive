@@ -29,8 +29,7 @@ import java.util.List;
 /**
  * Created by Simeon on 4/13/2015.
  */
-public class ElementModelPreview extends MOElementBase
-{
+public class ElementModelPreview extends MOElementBase {
     IItemRenderer renderer;
     ItemStack itemStack;
 
@@ -43,20 +42,17 @@ public class ElementModelPreview extends MOElementBase
     }
 
     @Override
-    public void updateInfo()
-    {
+    public void updateInfo() {
 
     }
 
     @Override
-    public void init()
-    {
+    public void init() {
 
     }
 
     @Override
-    public void addTooltip(List<String> var1, int mouseX, int mouseY)
-    {
+    public void addTooltip(List<String> var1, int mouseX, int mouseY) {
 
     }
 
@@ -66,10 +62,8 @@ public class ElementModelPreview extends MOElementBase
     }
 
     @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
-        if (renderer != null && itemStack != null)
-        {
+    public void drawForeground(int mouseX, int mouseY) {
+        if (renderer != null && itemStack != null) {
             GL11.glPushMatrix();
             Transform();
             RenderUtils.enable3DRender();
@@ -79,8 +73,7 @@ public class ElementModelPreview extends MOElementBase
         }
     }
 
-    public void Transform()
-    {
+    public void Transform() {
         GL11.glTranslatef(posX, posY, 80);
         GL11.glScaled(60, 60, 60);
         GL11.glRotatef(-90, 0, 1, 0);

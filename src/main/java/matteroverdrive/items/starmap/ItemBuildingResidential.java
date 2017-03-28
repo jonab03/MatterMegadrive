@@ -29,41 +29,34 @@ import java.util.List;
 /**
  * Created by Simeon on 12/20/2015.
  */
-public class ItemBuildingResidential extends ItemBuildingAbstract implements IPlanetStatChange
-{
+public class ItemBuildingResidential extends ItemBuildingAbstract implements IPlanetStatChange {
     private static final int POPULATION_COUNT = 10000;
     private static final int ENERGY_DRAIN = 4;
     private static final int MATTER_DRAIN = 2;
     private static final int BUILDING_SIZE_INCREASE = 4;
 
-    public ItemBuildingResidential(String name)
-    {
+    public ItemBuildingResidential(String name) {
         super(name);
     }
 
     @Override
-    public BuildingType getType(ItemStack building)
-    {
+    public BuildingType getType(ItemStack building) {
         return BuildingType.RESIDENTIAL;
     }
 
     @Override
-    protected int getBuildLengthUnscaled(ItemStack buildableStack, Planet planet)
-    {
-        return 20*60*5;
+    protected int getBuildLengthUnscaled(ItemStack buildableStack, Planet planet) {
+        return 20 * 60 * 5;
     }
 
     @Override
-    public boolean canBuild(ItemStack building, Planet planet, List<String> info)
-    {
+    public boolean canBuild(ItemStack building, Planet planet, List<String> info) {
         return true;
     }
 
     @Override
-    public float changeStat(ItemStack stack, Planet planet, PlanetStatType statType, float original)
-    {
-        switch (statType)
-        {
+    public float changeStat(ItemStack stack, Planet planet, PlanetStatType statType, float original) {
+        switch (statType) {
             case POPULATION_COUNT:
                 return original + POPULATION_COUNT;
             case ENERGY_PRODUCTION:
@@ -73,14 +66,13 @@ public class ItemBuildingResidential extends ItemBuildingAbstract implements IPl
             case BUILDINGS_SIZE:
                 return original + BUILDING_SIZE_INCREASE;
             case HAPPINESS:
-                return original + calculateHappiness(stack,planet);
+                return original + calculateHappiness(stack, planet);
             default:
                 return original;
         }
     }
 
-    public float calculateHappiness(ItemStack stack, Planet planet)
-    {
+    public float calculateHappiness(ItemStack stack, Planet planet) {
         float happiness = 0;
         happiness += planet.getPowerProducation() >= 0 ? 0.5f : -0.4f;
         float matterProdruction = planet.getMatterProduction();

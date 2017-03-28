@@ -26,50 +26,42 @@ import java.io.Serializable;
 /**
  * Created by Simeon on 11/19/2015.
  */
-public class WorldPosition3D implements Serializable
-{
-    int x,y,z;
+public class WorldPosition3D implements Serializable {
+    int x, y, z;
 
-    public WorldPosition3D(int x, int y, int z)
-    {
+    public WorldPosition3D(int x, int y, int z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
-    public WorldPosition3D(NBTTagCompound tagCompound)
-    {
+    public WorldPosition3D(NBTTagCompound tagCompound) {
         readFromNBT(tagCompound);
     }
 
-    public WorldPosition3D(ByteBuf byteBuf)
-    {
+    public WorldPosition3D(ByteBuf byteBuf) {
         readFromBuffer(byteBuf);
     }
 
-    public void writeToNBT(NBTTagCompound tagCompound)
-    {
-        tagCompound.setInteger("wp_x",x);
-        tagCompound.setInteger("wp_y",y);
-        tagCompound.setInteger("wp_z",z);
+    public void writeToNBT(NBTTagCompound tagCompound) {
+        tagCompound.setInteger("wp_x", x);
+        tagCompound.setInteger("wp_y", y);
+        tagCompound.setInteger("wp_z", z);
     }
 
-    public void writeToBuffer(ByteBuf byteBuf)
-    {
+    public void writeToBuffer(ByteBuf byteBuf) {
         byteBuf.writeInt(x);
         byteBuf.writeInt(y);
         byteBuf.writeInt(z);
     }
 
-    public void readFromNBT(NBTTagCompound tagCompound)
-    {
+    public void readFromNBT(NBTTagCompound tagCompound) {
         x = tagCompound.getInteger("wp_x");
         y = tagCompound.getInteger("wp_y");
         z = tagCompound.getInteger("wp_z");
     }
 
-    public void readFromBuffer(ByteBuf byteBuf)
-    {
+    public void readFromBuffer(ByteBuf byteBuf) {
         x = byteBuf.readInt();
         y = byteBuf.readInt();
         z = byteBuf.readInt();

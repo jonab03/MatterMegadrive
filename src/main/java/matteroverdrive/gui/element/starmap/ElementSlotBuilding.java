@@ -35,8 +35,7 @@ import java.util.List;
 /**
  * Created by Simeon on 6/23/2015.
  */
-public class ElementSlotBuilding extends ElementInventorySlot
-{
+public class ElementSlotBuilding extends ElementInventorySlot {
     TileEntityMachineStarMap starMap;
 
     public ElementSlotBuilding(MOGuiBase gui, MOSlot slot, int posX, int posY, int width, int height, String type, HoloIcon icon, TileEntityMachineStarMap starMap) {
@@ -45,26 +44,22 @@ public class ElementSlotBuilding extends ElementInventorySlot
     }
 
     @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
+    public void drawForeground(int mouseX, int mouseY) {
         if (starMap.getPlanet() != null) {
             if (getSlot().getStack() != null) {
-                if (getSlot().getStack().getItem() instanceof IBuilding)
-                {
+                if (getSlot().getStack().getItem() instanceof IBuilding) {
                     List<String> info = new ArrayList<>();
 
-                    if (starMap.getPlanet().canBuild((IBuilding)getSlot().getStack().getItem(),getSlot().getStack(),info)) {
+                    if (starMap.getPlanet().canBuild((IBuilding) getSlot().getStack().getItem(), getSlot().getStack(), info)) {
                         ItemStack buildingStack = getSlot().getStack();
                         long remainningTime = ((IBuilding) buildingStack.getItem()).getRemainingBuildTimeTicks(buildingStack, starMap.getPlanet(), Minecraft.getMinecraft().theWorld) / 20;
-                        if (remainningTime >= 0)
-                        {
+                        if (remainningTime >= 0) {
                             String time = MOStringHelper.formatRemainingTime(remainningTime);
                             int timeWidth = getFontRenderer().getStringWidth(time);
                             getFontRenderer().drawString(time, posX - timeWidth - 4, posY + 6, Reference.COLOR_HOLO.getColor());
                         }
-                    }else
-                    {
-                        String infoText = String.join(". ",info);
+                    } else {
+                        String infoText = String.join(". ", info);
                         int width = getFontRenderer().getStringWidth(infoText);
                         getFontRenderer().drawString(infoText, posX - width - 4, posY + 7, Reference.COLOR_HOLO_RED.getColor());
                     }

@@ -36,46 +36,40 @@ import matteroverdrive.util.MOStringHelper;
 /**
  * Created by Simeon on 4/8/2015.
  */
-public class MOGuiMachine<T extends MOTileEntityMachine> extends MOGuiBase
-{
+public class MOGuiMachine<T extends MOTileEntityMachine> extends MOGuiBase {
     T machine;
     ElementSlotsList slotsList;
     ElementIndicator indicator;
 
 
-    public MOGuiMachine(ContainerMachine<T> container,T machine)
-    {
-        this(container,machine,225,186);
+    public MOGuiMachine(ContainerMachine<T> container, T machine) {
+        this(container, machine, 225, 186);
     }
 
-    public MOGuiMachine(ContainerMachine<T> container,T machine,int width,int height)
-    {
+    public MOGuiMachine(ContainerMachine<T> container, T machine, int width, int height) {
         super(container, width, height);
         this.machine = machine;
 
-        indicator = new ElementIndicator(this,6,ySize - 18);
+        indicator = new ElementIndicator(this, 6, ySize - 18);
 
-        slotsList = new ElementSlotsList(this,5,52,80,200,machine.getInventoryContainer(),0);
+        slotsList = new ElementSlotsList(this, 5, 52, 80, 200, machine.getInventoryContainer(), 0);
         slotsList.setMargin(5);
 
-        registerPages(container,machine);
+        registerPages(container, machine);
     }
 
-    public void registerPages(MOBaseContainer container,T machine)
-    {
-        ElementBaseGroup homePage = new ElementBaseGroup(this,0,0,xSize,ySize);
+    public void registerPages(MOBaseContainer container, T machine) {
+        ElementBaseGroup homePage = new ElementBaseGroup(this, 0, 0, xSize, ySize);
         homePage.setName("Home");
-        AutoConfigPage configPage = new AutoConfigPage(this,48,32,xSize-76,ySize,machine.getConfigs());
+        AutoConfigPage configPage = new AutoConfigPage(this, 48, 32, xSize - 76, ySize, machine.getConfigs());
         configPage.setName("Configurations");
 
-        AddPage(homePage, ClientProxy.holoIcons.getIcon("page_icon_home"),MOStringHelper.translateToLocal("gui.tooltip.page.home")).setIconColor(Reference.COLOR_MATTER);
+        AddPage(homePage, ClientProxy.holoIcons.getIcon("page_icon_home"), MOStringHelper.translateToLocal("gui.tooltip.page.home")).setIconColor(Reference.COLOR_MATTER);
         AddPage(configPage, ClientProxy.holoIcons.getIcon("page_icon_config"), MOStringHelper.translateToLocal("gui.tooltip.page.configurations"));
 
         boolean hasUpgrades = false;
-        for (Slot slot : machine.getInventoryContainer().getSlots())
-        {
-            if (slot instanceof UpgradeSlot)
-            {
+        for (Slot slot : machine.getInventoryContainer().getSlots()) {
+            if (slot instanceof UpgradeSlot) {
                 hasUpgrades = true;
             }
         }
@@ -89,44 +83,36 @@ public class MOGuiMachine<T extends MOTileEntityMachine> extends MOGuiBase
     }
 
     @Override
-    public void initGui()
-    {
+    public void initGui() {
         super.initGui();
         this.addElement(slotsList);
         this.addElement(indicator);
     }
 
     @Override
-    protected void updateElementInformation()
-    {
+    protected void updateElementInformation() {
         super.updateElementInformation();
 
-        if (machine.isActive())
-        {
+        if (machine.isActive()) {
             indicator.setIndication(1);
-        }else
-        {
+        } else {
             indicator.setIndication(0);
         }
     }
 
     @Override
-    public void textChanged(String elementName, String text, boolean typed)
-    {
+    public void textChanged(String elementName, String text, boolean typed) {
 
     }
 
     @Override
-    public  void ListSelectionChange(String name,int selected)
-    {
+    public void ListSelectionChange(String name, int selected) {
 
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
-    {
-        if(name != null && !name.isEmpty())
-        {
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        if (name != null && !name.isEmpty()) {
             String n = MOStringHelper.translateToLocal("gui." + name + ".name");
             fontRendererObj.drawString(n, 125 - (fontRendererObj.getStringWidth(n) / 2), 7, new Color(44, 54, 52).getColor());
         }
@@ -134,8 +120,7 @@ public class MOGuiMachine<T extends MOTileEntityMachine> extends MOGuiBase
         drawElements(0, true);
     }
 
-    public T getMachine()
-    {
+    public T getMachine() {
         return machine;
     }
 }

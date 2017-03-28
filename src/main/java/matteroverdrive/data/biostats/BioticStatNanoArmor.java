@@ -29,44 +29,36 @@ import java.text.DecimalFormat;
 /**
  * Created by Simeon on 5/29/2015.
  */
-public class BioticStatNanoArmor extends AbstractBioticStat
-{
-    public BioticStatNanoArmor(String name, int xp)
-    {
+public class BioticStatNanoArmor extends AbstractBioticStat {
+    public BioticStatNanoArmor(String name, int xp) {
         super(name, xp);
         setMaxLevel(4);
         setShowOnHud(true);
     }
 
     @Override
-    public void onAndroidUpdate(AndroidPlayer android, int level)
-    {
+    public void onAndroidUpdate(AndroidPlayer android, int level) {
 
     }
 
     @Override
-    public void onActionKeyPress(AndroidPlayer androidPlayer, int level, boolean server)
-    {
+    public void onActionKeyPress(AndroidPlayer androidPlayer, int level, boolean server) {
 
     }
 
     @Override
-    public void onKeyPress(AndroidPlayer androidPlayer, int level, int keycode, boolean down)
-    {
+    public void onKeyPress(AndroidPlayer androidPlayer, int level, int keycode, boolean down) {
 
     }
 
     @Override
-    public String getDetails(int level)
-    {
+    public String getDetails(int level) {
         return String.format(super.getDetails(level), EnumChatFormatting.GREEN + DecimalFormat.getPercentInstance().format(getDamageNegate(level)) + EnumChatFormatting.GRAY);
     }
 
     @Override
-    public void onLivingEvent(AndroidPlayer androidPlayer, int level, LivingEvent event)
-    {
-        if (event instanceof LivingHurtEvent)
-        {
+    public void onLivingEvent(AndroidPlayer androidPlayer, int level, LivingEvent event) {
+        if (event instanceof LivingHurtEvent) {
             ((LivingHurtEvent) event).ammount *= (1 - getDamageNegate(level));
         }
     }
@@ -83,23 +75,20 @@ public class BioticStatNanoArmor extends AbstractBioticStat
 
     @Override
     public boolean isEnabled(AndroidPlayer android, int level) {
-        return super.isEnabled(android,level) && android.getEnergyStored() > 0;
+        return super.isEnabled(android, level) && android.getEnergyStored() > 0;
     }
 
     @Override
-    public boolean isActive(AndroidPlayer androidPlayer, int level)
-    {
+    public boolean isActive(AndroidPlayer androidPlayer, int level) {
         return false;
     }
 
     @Override
-    public int getDelay(AndroidPlayer androidPlayer, int level)
-    {
+    public int getDelay(AndroidPlayer androidPlayer, int level) {
         return 0;
     }
 
-    public float getDamageNegate(int level)
-    {
+    public float getDamageNegate(int level) {
         return (1 + level) * 0.06f;
     }
 }

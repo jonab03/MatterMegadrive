@@ -29,15 +29,14 @@ import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldServer;
 
-public class PacketDigBlock  extends PacketAbstract
-{
+public class PacketDigBlock extends PacketAbstract {
     int typeOfDig;
-    int x,y,z,side;
+    int x, y, z, side;
 
-    public PacketDigBlock(){}
+    public PacketDigBlock() {
+    }
 
-    public PacketDigBlock(int x,int y,int z,int typeOfDig,int side)
-    {
+    public PacketDigBlock(int x, int y, int z, int typeOfDig, int side) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -63,39 +62,28 @@ public class PacketDigBlock  extends PacketAbstract
         buf.writeByte(typeOfDig);
     }
 
-    public static class ServerHandler extends AbstractServerPacketHandler<PacketDigBlock>
-    {
+    public static class ServerHandler extends AbstractServerPacketHandler<PacketDigBlock> {
         @Override
         public IMessage handleServerMessage(EntityPlayer player, PacketDigBlock message, MessageContext ctx) {
             WorldServer worldserver = MinecraftServer.getServer().worldServerForDimension(player.dimension);
-            EntityPlayerMP playerMP = (EntityPlayerMP)player;
+            EntityPlayerMP playerMP = (EntityPlayerMP) player;
 
-            if (message.typeOfDig == 0)
-            {
-                if (!MinecraftServer.getServer().isBlockProtected(worldserver, message.x, message.y, message.z, player))
-                {
-                    playerMP.theItemInWorldManager.onBlockClicked(message.x, message.y,message.z, message.side);
-                }
-                else
-                {
+            if (message.typeOfDig == 0) {
+                if (!MinecraftServer.getServer().isBlockProtected(worldserver, message.x, message.y, message.z, player)) {
+                    playerMP.theItemInWorldManager.onBlockClicked(message.x, message.y, message.z, message.side);
+                } else {
                     playerMP.playerNetServerHandler.sendPacket(new S23PacketBlockChange(message.x, message.y, message.z, worldserver));
                 }
-            }
-            else if (message.typeOfDig == 2)
-            {
+            } else if (message.typeOfDig == 2) {
                 playerMP.theItemInWorldManager.uncheckedTryHarvestBlock(message.x, message.y, message.z);
 
-                if (worldserver.getBlock(message.x, message.y, message.z).getMaterial() != Material.air)
-                {
-                    playerMP.playerNetServerHandler.sendPacket(new S23PacketBlockChange(message.x,message.y, message.z, worldserver));
+                if (worldserver.getBlock(message.x, message.y, message.z).getMaterial() != Material.air) {
+                    playerMP.playerNetServerHandler.sendPacket(new S23PacketBlockChange(message.x, message.y, message.z, worldserver));
                 }
-            }
-            else if (message.typeOfDig == 1)
-            {
+            } else if (message.typeOfDig == 1) {
                 playerMP.theItemInWorldManager.cancelDestroyingBlock(message.x, message.y, message.z);
 
-                if (worldserver.getBlock(message.x, message.y, message.z).getMaterial() != Material.air)
-                {
+                if (worldserver.getBlock(message.x, message.y, message.z).getMaterial() != Material.air) {
                     playerMP.playerNetServerHandler.sendPacket(new S23PacketBlockChange(message.x, message.y, message.z, worldserver));
                 }
             }

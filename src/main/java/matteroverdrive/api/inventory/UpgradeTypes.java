@@ -22,8 +22,7 @@ package matteroverdrive.api.inventory;
  * Created by Simeon on 4/11/2015.
  * All the stat that machines have, and can be changed by {@link IUpgrade}.
  */
-public enum UpgradeTypes
-{
+public enum UpgradeTypes {
     /**
      * The speed of the Machine
      */

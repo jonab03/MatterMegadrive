@@ -36,11 +36,11 @@ import org.lwjgl.opengl.GL11;
 import java.util.Random;
 
 import static org.lwjgl.opengl.GL11.*;
+
 /**
  * Created by Simeon on 7/25/2015.
  */
-public class ItemRendererPhaserRifle extends WeaponItemRenderer
-{
+public class ItemRendererPhaserRifle extends WeaponItemRenderer {
     public static final String TEXTURE = Reference.PATH_ITEM + "phaser_rifle.png";
     public static final String MODEL = Reference.PATH_MODEL + "item/phaser_rifle.obj";
     public static final String FLASH_TEXTURE = Reference.PATH_FX + "phaser_rifle_flash.png";
@@ -52,9 +52,8 @@ public class ItemRendererPhaserRifle extends WeaponItemRenderer
 
     public static ResourceLocation flashTexture;
 
-    public ItemRendererPhaserRifle()
-    {
-        super(new ResourceLocation(MODEL),new ResourceLocation(TEXTURE));
+    public ItemRendererPhaserRifle() {
+        super(new ResourceLocation(MODEL), new ResourceLocation(TEXTURE));
         flashTexture = new ResourceLocation(FLASH_TEXTURE);
         random = new Random();
     }
@@ -70,53 +69,42 @@ public class ItemRendererPhaserRifle extends WeaponItemRenderer
     }
 
     @Override
-    public void renderItem(ItemRenderType type, ItemStack item, Object... data)
-    {
-        if(type == ItemRenderType.EQUIPPED_FIRST_PERSON)
-        {
+    public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+        if (type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
             renderFirstPerson(item);
-        }
-        else if(type == ItemRenderType.INVENTORY)
-        {
+        } else if (type == ItemRenderType.INVENTORY) {
             renderItem(item);
-        }
-        else if(type == ItemRenderType.ENTITY)
-        {
+        } else if (type == ItemRenderType.ENTITY) {
             renderDrop(item);
-        }
-        else
-        {
-            renderThirdPerson(type,item);
+        } else {
+            renderThirdPerson(type, item);
         }
     }
 
-    void renderItem(ItemStack item)
-    {
+    void renderItem(ItemStack item) {
         glPushMatrix();
         glTranslated(0, 0, -0.4);
         glRotated(0, 0, 1, 0);
         glScaled(ITEM_SCALE, ITEM_SCALE, ITEM_SCALE);
-        renderGun(ItemRenderType.INVENTORY,item);
+        renderGun(ItemRenderType.INVENTORY, item);
         glPopMatrix();
     }
 
-    void renderThirdPerson(ItemRenderType renderType, ItemStack item)
-    {
+    void renderThirdPerson(ItemRenderType renderType, ItemStack item) {
         glPushMatrix();
         glTranslated(1, 0.83, 1);
         glRotated(-135, 0, 1, 0);
         glRotated(60, 1, 0, 0);
         glScaled(THIRD_PERSON_SCALE, THIRD_PERSON_SCALE, THIRD_PERSON_SCALE);
-        renderGun(renderType,item);
+        renderGun(renderType, item);
         glPopMatrix();
     }
 
-    void renderDrop(ItemStack item)
-    {
+    void renderDrop(ItemStack item) {
         glPushMatrix();
         glTranslated(0, 0, -0.7);
         glScaled(SCALE_DROP, SCALE_DROP, SCALE_DROP);
-        renderGun(ItemRenderType.ENTITY,item);
+        renderGun(ItemRenderType.ENTITY, item);
         glPopMatrix();
     }
 
@@ -176,7 +164,7 @@ public class ItemRendererPhaserRifle extends WeaponItemRenderer
         renderMuzzle(item, recoilValue, zoomValue);
     }
 
-    private void renderMuzzle(ItemStack item,float recoilValue,float zoomValue) {
+    private void renderMuzzle(ItemStack item, float recoilValue, float zoomValue) {
         glPushMatrix();
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE);
@@ -191,14 +179,14 @@ public class ItemRendererPhaserRifle extends WeaponItemRenderer
         glRotated(15, -1, 0, 0);
         float scale = MOEasing.Quart.easeIn(recoilValue, 0, 1, 1);
         int color = WeaponHelper.getColor(item);
-        RenderUtils.applyColorWithMultipy(color,scale);
+        RenderUtils.applyColorWithMultipy(color, scale);
 
         Minecraft.getMinecraft().renderEngine.bindTexture(flashTexture);
         Tessellator.instance.startDrawingQuads();
         Tessellator.instance.addVertexWithUV(-size, -size, 0, 0, 0);
         Tessellator.instance.addVertexWithUV(-size, size, 0, 0, 1);
-        Tessellator.instance.addVertexWithUV(size,size,0,1,1);
-        Tessellator.instance.addVertexWithUV(size,-size,0,1,0);
+        Tessellator.instance.addVertexWithUV(size, size, 0, 1, 1);
+        Tessellator.instance.addVertexWithUV(size, -size, 0, 1, 0);
         Tessellator.instance.draw();
 
         RenderUtils.enableLightmap();
@@ -208,8 +196,7 @@ public class ItemRendererPhaserRifle extends WeaponItemRenderer
         glPopMatrix();
     }
 
-    void renderGun(ItemRenderType renderType, ItemStack item)
-    {
+    void renderGun(ItemRenderType renderType, ItemStack item) {
         RenderUtils.applyColor(WeaponHelper.getColor(item));
         Minecraft.getMinecraft().renderEngine.bindTexture(weaponTexture);
         renderScope(item);
@@ -217,8 +204,7 @@ public class ItemRendererPhaserRifle extends WeaponItemRenderer
         weaponModel.renderAll();
     }
 
-    public boolean isRifleZoomed(ItemStack itemStack)
-    {
+    public boolean isRifleZoomed(ItemStack itemStack) {
         return Minecraft.getMinecraft().currentScreen == null
                 && Minecraft.getMinecraft().thePlayer.getHeldItem() != null
                 && Minecraft.getMinecraft().thePlayer.getHeldItem().getItem() instanceof PhaserRifle

@@ -34,16 +34,14 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 5/14/2015.
  */
-public class TileEntityRendererFusionReactorController extends TileEntitySpecialRenderer
-{
-    public TileEntityRendererFusionReactorController(){
+public class TileEntityRendererFusionReactorController extends TileEntitySpecialRenderer {
+    public TileEntityRendererFusionReactorController() {
 
     }
 
     @Override
-    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float ticks)
-    {
-        TileEntityMachineFusionReactorController controller = (TileEntityMachineFusionReactorController)tileEntity;
+    public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float ticks) {
+        TileEntityMachineFusionReactorController controller = (TileEntityMachineFusionReactorController) tileEntity;
         if (!controller.isValidStructure()) {
             int back = tileEntity.getWorldObj().getBlockMetadata(tileEntity.xCoord, tileEntity.yCoord, tileEntity.zCoord);
 
@@ -51,7 +49,7 @@ public class TileEntityRendererFusionReactorController extends TileEntitySpecial
             glTranslated(x, y, z);
 
             for (int i = 0; i < TileEntityMachineFusionReactorController.positionsCount; i++) {
-                Vec3 pos = controller.getPosition(i,back);
+                Vec3 pos = controller.getPosition(i, back);
 
                 glPushMatrix();
                 glTranslated(pos.xCoord, pos.yCoord, pos.zCoord);
@@ -88,8 +86,7 @@ public class TileEntityRendererFusionReactorController extends TileEntitySpecial
 
     }
 
-    private FontRenderer fontRenderer()
-    {
+    private FontRenderer fontRenderer() {
         return Minecraft.getMinecraft().fontRenderer;
     }
 }

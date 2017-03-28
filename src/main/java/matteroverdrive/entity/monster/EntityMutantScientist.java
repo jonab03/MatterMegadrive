@@ -29,10 +29,8 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 11/27/2015.
  */
-public class EntityMutantScientist extends EntityMob
-{
-    public EntityMutantScientist(World p_i1738_1_)
-    {
+public class EntityMutantScientist extends EntityMob {
+    public EntityMutantScientist(World p_i1738_1_) {
         super(p_i1738_1_);
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(2, new EntityAIAttackOnCollide(this, EntityLivingBase.class, 1, false));
@@ -42,13 +40,12 @@ public class EntityMutantScientist extends EntityMob
         this.tasks.addTask(8, new EntityAILookIdle(this));
 
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLivingBase.class, 0, true, false,new TargetSelector()));
-        setSize(1,2.3f);
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLivingBase.class, 0, true, false, new TargetSelector()));
+        setSize(1, 2.3f);
     }
 
     @Override
-    protected boolean isAIEnabled()
-    {
+    protected boolean isAIEnabled() {
         return true;
     }
 
@@ -60,11 +57,9 @@ public class EntityMutantScientist extends EntityMob
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4D);
     }
 
-    private class TargetSelector implements IEntitySelector
-    {
+    private class TargetSelector implements IEntitySelector {
         @Override
-        public boolean isEntityApplicable(Entity entity)
-        {
+        public boolean isEntityApplicable(Entity entity) {
             return !(entity instanceof EntityMutantScientist);
         }
     }

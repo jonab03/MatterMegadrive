@@ -35,8 +35,7 @@ import java.util.List;
 /**
  * Created by Simeon on 6/24/2015.
  */
-public class ElementSlotShip extends ElementInventorySlot
-{
+public class ElementSlotShip extends ElementInventorySlot {
     TileEntityMachineStarMap starMap;
 
     public ElementSlotShip(MOGuiBase gui, MOSlot slot, int posX, int posY, int width, int height, String type, HoloIcon icon, TileEntityMachineStarMap starMap) {
@@ -45,21 +44,18 @@ public class ElementSlotShip extends ElementInventorySlot
     }
 
     @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
+    public void drawForeground(int mouseX, int mouseY) {
         if (starMap.getPlanet() != null) {
             if (getSlot().getStack() != null) {
-                if (getSlot().getStack().getItem() instanceof IShip)
-                {
+                if (getSlot().getStack().getItem() instanceof IShip) {
                     List<String> info = new ArrayList<>();
-                    if (starMap.getPlanet().canBuild((IShip)getSlot().getStack().getItem(),getSlot().getStack(),info)) {
+                    if (starMap.getPlanet().canBuild((IShip) getSlot().getStack().getItem(), getSlot().getStack(), info)) {
                         ItemStack shipStack = getSlot().getStack();
                         String time = MOStringHelper.formatRemainingTime(((IShip) shipStack.getItem()).getRemainingBuildTimeTicks(shipStack, starMap.getPlanet(), Minecraft.getMinecraft().theWorld) / 20);
                         int length = getFontRenderer().getStringWidth(time);
                         getFontRenderer().drawString(time, posX - length - 4, posY + 6, Reference.COLOR_HOLO.getColor());
-                    }else
-                    {
-                        String infoText = String.join(". ",info);
+                    } else {
+                        String infoText = String.join(". ", info);
                         int width = getFontRenderer().getStringWidth(infoText);
                         getFontRenderer().drawString(infoText, posX - width - 4, posY + 7, Reference.COLOR_HOLO_RED.getColor());
                     }

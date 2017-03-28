@@ -6,44 +6,32 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 1/5/2016.
  */
-public abstract class QuestLogicBlock extends AbstractQuestLogic
-{
+public abstract class QuestLogicBlock extends AbstractQuestLogic {
     protected Block block;
     protected int blockMetadata;
     protected ItemStack blockStack;
 
-    public QuestLogicBlock(Block block,int blockMetadata)
-    {
+    public QuestLogicBlock(Block block, int blockMetadata) {
         this.block = block;
         this.blockMetadata = blockMetadata;
     }
 
-    public QuestLogicBlock(ItemStack blockStack)
-    {
+    public QuestLogicBlock(ItemStack blockStack) {
         this.blockStack = blockStack;
     }
 
-    protected boolean areBlockStackTheSame(ItemStack stack)
-    {
-        if (blockStack.isItemEqual(stack) && ItemStack.areItemStackTagsEqual(blockStack,stack))
-        {
-            return true;
-        }
-        return false;
+    protected boolean areBlockStackTheSame(ItemStack stack) {
+        return blockStack.isItemEqual(stack) && ItemStack.areItemStackTagsEqual(blockStack, stack);
     }
 
-    protected boolean areBlocksTheSame(Block block,int blockMetadata)
-    {
-        return this.block == block && (this.blockMetadata >= 0 ? this.blockMetadata == blockMetadata : true);
+    protected boolean areBlocksTheSame(Block block, int blockMetadata) {
+        return this.block == block && (this.blockMetadata < 0 || this.blockMetadata == blockMetadata);
     }
 
-    protected String replaceBlockNameInText(String text)
-    {
-        if (blockStack != null)
-        {
+    protected String replaceBlockNameInText(String text) {
+        if (blockStack != null) {
             text = text.replace("$block", blockStack.getDisplayName());
-        }else
-        {
+        } else {
             text = text.replace("$block", block.getLocalizedName());
         }
         return text;

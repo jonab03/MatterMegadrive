@@ -15,8 +15,7 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 4/9/2015.
  */
-public class BlockSolarPanel extends MOMatterEnergyStorageBlock
-{
+public class BlockSolarPanel extends MOMatterEnergyStorageBlock {
     IIcon iconTop;
 
     public BlockSolarPanel(Material material, String name) {
@@ -30,32 +29,27 @@ public class BlockSolarPanel extends MOMatterEnergyStorageBlock
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int meta)
-    {
+    public TileEntity createNewTileEntity(World world, int meta) {
         return new TileEntityMachineSolarPanel();
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister registrar)
-    {
+    public void registerBlockIcons(IIconRegister registrar) {
         this.iconTop = registrar.registerIcon(Reference.MOD_ID + ":solar_panel");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int metadata)
-    {
+    public IIcon getIcon(int side, int metadata) {
         return side == 1 ? iconTop : MatterOverdriveIcons.Base;
     }
 
-    public boolean isOpaqueCube()
-    {
+    public boolean isOpaqueCube() {
         return false;
     }
 
-    public boolean renderAsNormalBlock()
-	{
-		return false;
-	}
+    public boolean renderAsNormalBlock() {
+        return false;
+    }
 }

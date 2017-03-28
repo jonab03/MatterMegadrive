@@ -27,10 +27,8 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 8/9/2015.
  */
-public class EntityFakePlayer extends EntityPlayer
-{
-    public EntityFakePlayer(World world, GameProfile gameProfile)
-    {
+public class EntityFakePlayer extends EntityPlayer {
+    public EntityFakePlayer(World world, GameProfile gameProfile) {
         super(world, gameProfile);
     }
 

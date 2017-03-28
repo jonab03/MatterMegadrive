@@ -45,8 +45,7 @@ import java.util.List;
 /**
  * Created by Simeon on 4/13/2015.
  */
-public class TileEntityWeaponStation extends MOTileEntityMachine implements IWailaBodyProvider
-{
+public class TileEntityWeaponStation extends MOTileEntityMachine implements IWailaBodyProvider {
     public int INPUT_SLOT;
     public int BATTERY_MODULE;
     public int COLOR_MODULE;
@@ -54,8 +53,7 @@ public class TileEntityWeaponStation extends MOTileEntityMachine implements IWai
     public int SIGHTS_MODULE;
     public int OTHER_MODULE;
 
-    public TileEntityWeaponStation()
-    {
+    public TileEntityWeaponStation() {
         super(0);
     }
 
@@ -65,23 +63,20 @@ public class TileEntityWeaponStation extends MOTileEntityMachine implements IWai
     }
 
     @Override
-    protected void RegisterSlots(Inventory inventory)
-    {
+    protected void RegisterSlots(Inventory inventory) {
         WeaponSlot weaponSlot = new WeaponSlot(true);
-        BATTERY_MODULE = inventory.AddSlot(new ModuleSlot(false, Reference.MODULE_BATTERY,weaponSlot));
-        COLOR_MODULE = inventory.AddSlot(new ModuleSlot(false,Reference.MODULE_COLOR,weaponSlot));
-        BARREL_MODULE = inventory.AddSlot(new ModuleSlot(false,Reference.MODULE_BARREL,weaponSlot));
-        SIGHTS_MODULE = inventory.AddSlot(new ModuleSlot(false,Reference.MODULE_SIGHTS,weaponSlot));
-        OTHER_MODULE = inventory.AddSlot(new ModuleSlot(false,Reference.MODULE_OTHER,weaponSlot));
+        BATTERY_MODULE = inventory.AddSlot(new ModuleSlot(false, Reference.MODULE_BATTERY, weaponSlot));
+        COLOR_MODULE = inventory.AddSlot(new ModuleSlot(false, Reference.MODULE_COLOR, weaponSlot));
+        BARREL_MODULE = inventory.AddSlot(new ModuleSlot(false, Reference.MODULE_BARREL, weaponSlot));
+        SIGHTS_MODULE = inventory.AddSlot(new ModuleSlot(false, Reference.MODULE_SIGHTS, weaponSlot));
+        OTHER_MODULE = inventory.AddSlot(new ModuleSlot(false, Reference.MODULE_OTHER, weaponSlot));
         INPUT_SLOT = inventory.AddSlot(weaponSlot);
         super.RegisterSlots(inventory);
     }
 
-    public IInventory getActiveInventory()
-    {
-        if (inventory.getSlot(INPUT_SLOT).getItem() != null && WeaponHelper.isWeapon(inventory.getSlot(INPUT_SLOT).getItem()))
-        {
-            return new ItemInventoryWrapper(inventory.getSlot(INPUT_SLOT).getItem(),5);
+    public IInventory getActiveInventory() {
+        if (inventory.getSlot(INPUT_SLOT).getItem() != null && WeaponHelper.isWeapon(inventory.getSlot(INPUT_SLOT).getItem())) {
+            return new ItemInventoryWrapper(inventory.getSlot(INPUT_SLOT).getItem(), 5);
         }
         return inventory;
     }
@@ -112,85 +107,67 @@ public class TileEntityWeaponStation extends MOTileEntityMachine implements IWai
     }
 
     @Override
-    public boolean shouldRenderInPass(int pass)
-    {
+    public boolean shouldRenderInPass(int pass) {
         return pass == 1;
     }
 
     //region Inventory Functions
     @Override
-    public ItemStack getStackInSlot(int slot)
-    {
-        if (slot != INPUT_SLOT)
-        {
+    public ItemStack getStackInSlot(int slot) {
+        if (slot != INPUT_SLOT) {
             return getActiveInventory().getStackInSlot(slot);
-        }else
-        {
+        } else {
             return super.getStackInSlot(slot);
         }
     }
 
-    public boolean isItemValidForSlot(int slot, ItemStack item)
-    {
-        if (slot != INPUT_SLOT)
-        {
-            return getActiveInventory().isItemValidForSlot(slot,item);
-        }else
-        {
+    public boolean isItemValidForSlot(int slot, ItemStack item) {
+        if (slot != INPUT_SLOT) {
+            return getActiveInventory().isItemValidForSlot(slot, item);
+        } else {
             return super.isItemValidForSlot(slot, item);
         }
     }
 
     @Override
-    public ItemStack decrStackSize(int slot, int size)
-    {
-        if (slot != INPUT_SLOT)
-        {
+    public ItemStack decrStackSize(int slot, int size) {
+        if (slot != INPUT_SLOT) {
             return getActiveInventory().decrStackSize(slot, size);
-        }else
-        {
+        } else {
             return super.decrStackSize(slot, size);
         }
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int slot)
-    {
-        if (slot != INPUT_SLOT)
-        {
+    public ItemStack getStackInSlotOnClosing(int slot) {
+        if (slot != INPUT_SLOT) {
             return getActiveInventory().getStackInSlotOnClosing(slot);
-        }else
-        {
+        } else {
             return super.getStackInSlotOnClosing(slot);
         }
     }
 
     @Override
-    public void setInventorySlotContents(int slot, ItemStack itemStack)
-    {
-        if (slot != INPUT_SLOT)
-        {
+    public void setInventorySlotContents(int slot, ItemStack itemStack) {
+        if (slot != INPUT_SLOT) {
             getActiveInventory().setInventorySlotContents(slot, itemStack);
-        }else
-        {
-            super.setInventorySlotContents(slot,itemStack);
+        } else {
+            super.setInventorySlotContents(slot, itemStack);
         }
     }
     //endregion
 
     //region Upgrades
     @Override
-    public boolean isAffectedByUpgrade(UpgradeTypes type)
-    {
+    public boolean isAffectedByUpgrade(UpgradeTypes type) {
         return false;
     }
     //endregion
 
     @Override
     @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getRenderBoundingBox()
-    {
-        return AxisAlignedBB.getBoundingBox(xCoord,yCoord,zCoord,xCoord + 1,yCoord + 2,zCoord + 1);
+    public AxisAlignedBB getRenderBoundingBox() {
+        return AxisAlignedBB.getBoundingBox(xCoord, yCoord, zCoord, xCoord + 1, yCoord + 2, zCoord + 1);
     }
 
     @Override
@@ -208,24 +185,24 @@ public class TileEntityWeaponStation extends MOTileEntityMachine implements IWai
 
     }
 
-//	WAILA
-	@Override
-	@Optional.Method(modid = "Waila")
-	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-		TileEntity te = accessor.getTileEntity();
+    //	WAILA
+    @Override
+    @Optional.Method(modid = "Waila")
+    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        TileEntity te = accessor.getTileEntity();
 
-		if (te instanceof TileEntityWeaponStation) {
-			TileEntityWeaponStation weaponStation = (TileEntityWeaponStation)te;
+        if (te instanceof TileEntityWeaponStation) {
+            TileEntityWeaponStation weaponStation = (TileEntityWeaponStation) te;
 
-			if (weaponStation.getStackInSlot(INPUT_SLOT) != null) {
-				String name = weaponStation.getStackInSlot(INPUT_SLOT).getDisplayName();
-				currenttip.add(EnumChatFormatting.YELLOW + "Current Weapon: " + EnumChatFormatting.WHITE + name);
-			}
+            if (weaponStation.getStackInSlot(INPUT_SLOT) != null) {
+                String name = weaponStation.getStackInSlot(INPUT_SLOT).getDisplayName();
+                currenttip.add(EnumChatFormatting.YELLOW + "Current Weapon: " + EnumChatFormatting.WHITE + name);
+            }
 
-		} else {
-			throw new RuntimeException("Weapon Station WAILA provider is being used for something that is not a Weapon Station: " + te.getClass());
-		}
+        } else {
+            throw new RuntimeException("Weapon Station WAILA provider is being used for something that is not a Weapon Station: " + te.getClass());
+        }
 
-		return currenttip;
-	}
+        return currenttip;
+    }
 }

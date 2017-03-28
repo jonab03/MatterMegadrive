@@ -39,33 +39,27 @@ import static org.lwjgl.opengl.GL11.*;
  * Created by Simeon on 6/17/2015.
  */
 @SideOnly(Side.CLIENT)
-public abstract class StarMapRendererStars extends StarMapRendererAbstract
-{
-    protected void renderStars(Quadrant quadrant, TileEntityMachineStarMap starMap, double distanceMultiply, double starSizeMultiply)
-    {
+public abstract class StarMapRendererStars extends StarMapRendererAbstract {
+    protected void renderStars(Quadrant quadrant, TileEntityMachineStarMap starMap, double distanceMultiply, double starSizeMultiply) {
         EntityPlayer player = Minecraft.getMinecraft().thePlayer;
         glColor4d(1, 1, 1, 1);
         Vec3 pos = Vec3.createVectorHelper(0, 0, 0);
 
-        if (quadrant != null)
-        {
+        if (quadrant != null) {
             glLineWidth(1);
 
             Tessellator.instance.startDrawingQuads();
             Star from = null, to = null;
             bindTexture(ClientProxy.renderHandler.getRenderParticlesHandler().getAdditiveTextureSheet());
-            for (Star star : quadrant.getStars())
-            {
+            for (Star star : quadrant.getStars()) {
                 pos.xCoord = star.getPosition().xCoord * distanceMultiply;
                 pos.yCoord = star.getPosition().yCoord * distanceMultiply;
                 pos.zCoord = star.getPosition().zCoord * distanceMultiply;
                 drawStarParticle(quadrant, star, pos, player, starMap, starSizeMultiply);
-                if (starMap.getGalaxyPosition().equals(star))
-                {
+                if (starMap.getGalaxyPosition().equals(star)) {
                     from = star;
                 }
-                if (starMap.getDestination().equals(star))
-                {
+                if (starMap.getDestination().equals(star)) {
                     to = star;
                 }
             }
@@ -76,45 +70,38 @@ public abstract class StarMapRendererStars extends StarMapRendererAbstract
         }
     }
 
-    protected void drawConnection(Star from,Star to,double distanceMultiply)
-    {
+    protected void drawConnection(Star from, Star to, double distanceMultiply) {
         glDisable(GL_TEXTURE_2D);
         RenderUtils.applyColorWithMultipy(Reference.COLOR_HOLO, 0.3f);
         glBegin(GL_LINE_STRIP);
-        glVertex3d(from.getX() * distanceMultiply, from.getY() * distanceMultiply,from.getZ() * distanceMultiply);
+        glVertex3d(from.getX() * distanceMultiply, from.getY() * distanceMultiply, from.getZ() * distanceMultiply);
         glVertex3d(to.getX() * distanceMultiply, to.getY() * distanceMultiply, to.getZ() * distanceMultiply);
         glEnd();
         glEnable(GL_TEXTURE_2D);
     }
 
-    protected void drawStarParticle(Quadrant quadrant, Star star, Vec3 pos, EntityPlayer player, TileEntityMachineStarMap starMap, double starSizeMultiply)
-    {
+    protected void drawStarParticle(Quadrant quadrant, Star star, Vec3 pos, EntityPlayer player, TileEntityMachineStarMap starMap, double starSizeMultiply) {
         Color color = getStarColor(star, player);
         double size = 0.01;
-        if (starMap.getDestination().equals(star))
-        {
+        if (starMap.getDestination().equals(star)) {
             size = 0.035;
             RenderUtils.tessalateParticle(Minecraft.getMinecraft().renderViewEntity, selectedIcon, star.getSize() * 0.05 * starSizeMultiply, pos, color);
         }
-        if (starMap.getGalaxyPosition().equals(star))
-        {
+        if (starMap.getGalaxyPosition().equals(star)) {
             size = 0.035;
             RenderUtils.tessalateParticle(Minecraft.getMinecraft().renderViewEntity, currentIcon, star.getSize() * 0.05 * starSizeMultiply, pos, color);
         }
-        if (star.isClaimed(player) == 3)
-        {
+        if (star.isClaimed(player) == 3) {
             size = 0.025;
         }
         RenderUtils.tessalateParticle(Minecraft.getMinecraft().renderViewEntity, star_icon, star.getSize() * size * starSizeMultiply, pos, color);
     }
 
-    private void bindTexture(ResourceLocation location)
-    {
+    private void bindTexture(ResourceLocation location) {
         Minecraft.getMinecraft().renderEngine.bindTexture(location);
     }
 
-    public static Color getStarColor(Star star, EntityPlayer player)
-    {
+    public static Color getStarColor(Star star, EntityPlayer player) {
         return new Color(star.getColor());
     }
 }

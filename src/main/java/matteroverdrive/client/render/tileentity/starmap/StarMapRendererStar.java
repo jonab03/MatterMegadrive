@@ -50,20 +50,18 @@ import static org.lwjgl.opengl.GL11.*;
 @SideOnly(Side.CLIENT)
 public class StarMapRendererStar extends StarMapRendererAbstract {
 
-    public StarMapRendererStar()
-    {
+    public StarMapRendererStar() {
         sphere = new Sphere();
         random = new Random();
     }
 
     @Override
-    public void renderBody(Galaxy galaxy, SpaceBody spaceBody, TileEntityMachineStarMap starMap, float partialTicks,float distance)
-    {
+    public void renderBody(Galaxy galaxy, SpaceBody spaceBody, TileEntityMachineStarMap starMap, float partialTicks, float distance) {
         if (spaceBody instanceof Star) {
 
             glLineWidth(1);
 
-            Star star = (Star)spaceBody;
+            Star star = (Star) spaceBody;
             random.setSeed(star.getSeed());
 
             double time = Minecraft.getMinecraft().theWorld.getWorldTime();
@@ -86,8 +84,7 @@ public class StarMapRendererStar extends StarMapRendererAbstract {
             glPointSize(10 / (float) Math.max(0.1, distance));
 
             sphere_model.renderAll();
-            if (Minecraft.getMinecraft().theWorld.getWorldTime() % 120 > 80)
-            {
+            if (Minecraft.getMinecraft().theWorld.getWorldTime() % 120 > 80) {
                 double t = ((Minecraft.getMinecraft().theWorld.getWorldTime() % 120) - 80) / 40d;
                 RenderUtils.applyColorWithMultipy(Reference.COLOR_HOLO_YELLOW, (float) MOMathHelper.easeIn(1 - t, 0, 0.1, 1));
                 s = MOMathHelper.easeIn(t, 0.0, 10, 1);
@@ -98,11 +95,9 @@ public class StarMapRendererStar extends StarMapRendererAbstract {
             glPolygonMode(GL_FRONT, GL_LINE);
 
             int planetID = 0;
-            for (Planet planet : star.getPlanets())
-            {
+            for (Planet planet : star.getPlanets()) {
                 float sizeMultiply = 1;
-                if (starMap.getDestination().equals(planet))
-                {
+                if (starMap.getDestination().equals(planet)) {
                     sizeMultiply = 1.2f;
                 }
 
@@ -113,7 +108,7 @@ public class StarMapRendererStar extends StarMapRendererAbstract {
                 glPushMatrix();
                 double axisRotation = random.nextInt(30) - 15;
                 glRotated(axisRotation, 1, 0, 0);
-                double radius = planet.getOrbit() * 2 + (star.getSize()/2 + 0.1);
+                double radius = planet.getOrbit() * 2 + (star.getSize() / 2 + 0.1);
                 float planetSize = planet.getSize();
                 drawPlanetOrbit(planet, radius);
 
@@ -122,16 +117,14 @@ public class StarMapRendererStar extends StarMapRendererAbstract {
                 glPolygonMode(GL_FRONT, GL_FILL);
                 glEnable(GL_TEXTURE_2D);
 
-                if (starMap.getDestination().equals(planet))
-                {
+                if (starMap.getDestination().equals(planet)) {
                     bindTexture(ClientProxy.renderHandler.getRenderParticlesHandler().getAdditiveTextureSheet());
                     Tessellator.instance.startDrawingQuads();
                     RenderUtils.tessalateParticle(Minecraft.getMinecraft().renderViewEntity, selectedIcon, planet.getSize() * 0.15f * sizeMultiply, Vec3.createVectorHelper(0, 0, 0), planetColor);
                     Tessellator.instance.draw();
                 }
 
-                if (starMap.getGalaxyPosition().equals(planet))
-                {
+                if (starMap.getGalaxyPosition().equals(planet)) {
                     bindTexture(ClientProxy.renderHandler.getRenderParticlesHandler().getAdditiveTextureSheet());
                     Tessellator.instance.startDrawingQuads();
                     RenderUtils.tessalateParticle(Minecraft.getMinecraft().renderViewEntity, currentIcon, planet.getSize() * 0.25f, Vec3.createVectorHelper(0, 0, 0), planetColor);
@@ -149,7 +142,7 @@ public class StarMapRendererStar extends StarMapRendererAbstract {
                 RenderUtils.applyColorWithMultipy(planetColor, 0.3f * (1f / distance));
                 glRotated(100, 1, 0, 0);
                 glRotated(time * 2, 0, 0, 1);
-                sphere.draw(planetSize * 0.1f * sizeMultiply, (int)(16 + planetSize * 2), (int)(8 + planetSize * 2));
+                sphere.draw(planetSize * 0.1f * sizeMultiply, (int) (16 + planetSize * 2), (int) (8 + planetSize * 2));
                 planetID++;
                 glPopMatrix();
             }
@@ -159,22 +152,17 @@ public class StarMapRendererStar extends StarMapRendererAbstract {
     }
 
     @Override
-    public void renderGUIInfo(Galaxy galaxy, SpaceBody spaceBody,TileEntityMachineStarMap starMap, float partialTicks,float opacity)
-    {
+    public void renderGUIInfo(Galaxy galaxy, SpaceBody spaceBody, TileEntityMachineStarMap starMap, float partialTicks, float opacity) {
         if (spaceBody instanceof Star) {
             RenderUtils.applyColorWithMultipy(Reference.COLOR_HOLO, opacity);
             glEnable(GL_ALPHA_TEST);
 
             Planet planet = galaxy.getPlanet(starMap.getDestination());
-            if (planet != null)
-            {
-                if (GalaxyClient.getInstance().canSeePlanetInfo(planet,Minecraft.getMinecraft().thePlayer))
-                {
+            if (planet != null) {
+                if (GalaxyClient.getInstance().canSeePlanetInfo(planet, Minecraft.getMinecraft().thePlayer)) {
                     RenderUtils.drawString(planet.getName(), 72, -42, Reference.COLOR_HOLO, opacity);
-                }
-                else
-                {
-                    RenderUtils.drawString(Minecraft.getMinecraft().standardGalacticFontRenderer,planet.getName(), 72, -42, Reference.COLOR_HOLO, opacity);
+                } else {
+                    RenderUtils.drawString(Minecraft.getMinecraft().standardGalacticFontRenderer, planet.getName(), 72, -42, Reference.COLOR_HOLO, opacity);
                 }
 
                 RenderUtils.applyColorWithMultipy(Reference.COLOR_HOLO, opacity);
@@ -238,14 +226,12 @@ public class StarMapRendererStar extends StarMapRendererAbstract {
         }
     }
 
-    private void drawPlanetOrbit(Planet planet,double radius)
-    {
+    private void drawPlanetOrbit(Planet planet, double radius) {
         glDisable(GL_TEXTURE_2D);
         glPolygonMode(GL_FRONT, GL_LINE);
         Tessellator.instance.startDrawing(GL_LINES);
         Tessellator.instance.setColorRGBA_F(Planet.getGuiColor(planet).getFloatR() * 0.1f, Planet.getGuiColor(planet).getFloatG() * 0.1f, Planet.getGuiColor(planet).getFloatB() * 0.1f, Planet.getGuiColor(planet).getFloatA() * 0.1f);
-        for (int i = 0; i < 32; i++)
-        {
+        for (int i = 0; i < 32; i++) {
             double angleStep = (Math.PI * 2) / 32;
             Tessellator.instance.addVertex(Math.sin(angleStep * i) * radius, 0, Math.cos(angleStep * i) * radius);
             Tessellator.instance.addVertex(Math.sin(angleStep * (i + 1)) * radius, 0, Math.cos(angleStep * (i + 1)) * radius);
@@ -254,9 +240,7 @@ public class StarMapRendererStar extends StarMapRendererAbstract {
     }
 
 
-
-    private void bindTexture(ResourceLocation location)
-    {
+    private void bindTexture(ResourceLocation location) {
         Minecraft.getMinecraft().renderEngine.bindTexture(location);
     }
 }

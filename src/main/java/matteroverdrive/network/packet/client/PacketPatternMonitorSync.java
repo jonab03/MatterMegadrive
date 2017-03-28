@@ -37,25 +37,23 @@ import java.util.List;
 /**
  * Created by Simeon on 4/26/2015.
  */
-public class PacketPatternMonitorSync extends TileEntityUpdatePacket
-{
+public class PacketPatternMonitorSync extends TileEntityUpdatePacket {
     List<ItemPattern> patterns;
 
-    public PacketPatternMonitorSync(){super();}
-    public PacketPatternMonitorSync(TileEntityMachinePatternMonitor monitor)
-    {
-        super(monitor);
-        loadPatternsFromDatabases(monitor.getWorldObj(),monitor.getDatabases());
+    public PacketPatternMonitorSync() {
+        super();
     }
 
-    public void loadPatternsFromDatabases(World world,HashSet<BlockPos> databases)
-    {
+    public PacketPatternMonitorSync(TileEntityMachinePatternMonitor monitor) {
+        super(monitor);
+        loadPatternsFromDatabases(monitor.getWorldObj(), monitor.getDatabases());
+    }
+
+    public void loadPatternsFromDatabases(World world, HashSet<BlockPos> databases) {
         patterns = new ArrayList<>();
-        for (BlockPos pos : databases)
-        {
+        for (BlockPos pos : databases) {
             TileEntity tileEntity = pos.getTileEntity(world);
-            if (tileEntity instanceof IMatterDatabase)
-            {
+            if (tileEntity instanceof IMatterDatabase) {
                 List<ItemPattern> itemStacks = ((IMatterDatabase) tileEntity).getPatterns();
                 patterns.addAll(itemStacks);
             }
@@ -63,38 +61,32 @@ public class PacketPatternMonitorSync extends TileEntityUpdatePacket
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         super.fromBytes(buf);
         int size = buf.readInt();
         patterns = new ArrayList<>();
-        for (int i = 0; i < size;i++)
-        {
+        for (int i = 0; i < size; i++) {
             patterns.add(new ItemPattern(buf));
         }
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         super.toBytes(buf);
         buf.writeInt(patterns.size());
-        for (ItemPattern pattern : patterns)
-        {
+        for (ItemPattern pattern : patterns) {
             pattern.writeToBuffer(buf);
         }
     }
 
-    public static class ClientHandler extends AbstractClientPacketHandler<PacketPatternMonitorSync>
-    {
+    public static class ClientHandler extends AbstractClientPacketHandler<PacketPatternMonitorSync> {
         @Override
-        public IMessage handleClientMessage(EntityPlayer player, PacketPatternMonitorSync message, MessageContext ctx)
-        {
+        public IMessage handleClientMessage(EntityPlayer player, PacketPatternMonitorSync message, MessageContext ctx) {
             TileEntity entity = message.getTileEntity(player.worldObj);
 
             if (entity != null && entity instanceof TileEntityMachinePatternMonitor) {
 
-                TileEntityMachinePatternMonitor monitor = (TileEntityMachinePatternMonitor)entity;
+                TileEntityMachinePatternMonitor monitor = (TileEntityMachinePatternMonitor) entity;
                 monitor.setGuiPatterns(message.patterns);
                 monitor.forceSearch(true);
             }

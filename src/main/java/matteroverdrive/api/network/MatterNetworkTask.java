@@ -34,8 +34,7 @@ import java.util.UUID;
  * This class is used by all machines that send commands to other machines, or just have internal tasks that need to be completed.
  * This is just an Entity class that holds information. Mainly in the form of NBT. Processing of the tasks is left to the Machines.
  */
-public abstract class MatterNetworkTask
-{
+public abstract class MatterNetworkTask {
     /**
      * The individual ID of each Task
      */
@@ -75,17 +74,16 @@ public abstract class MatterNetworkTask
     /**
      * Default constructor
      */
-    public MatterNetworkTask()
-    {
+    public MatterNetworkTask() {
         init();
     }
 
     /**
      * Constructor with the sender parameter.
+     *
      * @param sender The sender/creator of the task
      */
-    public MatterNetworkTask(IMatterNetworkConnection sender)
-    {
+    public MatterNetworkTask(IMatterNetworkConnection sender) {
         setSender(sender);
         init();
     }
@@ -94,8 +92,7 @@ public abstract class MatterNetworkTask
      * Initialization method.
      * Used to assign the individual ID from a random UUID.
      */
-    protected void init()
-    {
+    protected void init() {
         id = UUID.randomUUID().getMostSignificantBits();
     }
 
@@ -105,11 +102,11 @@ public abstract class MatterNetworkTask
      * It checks if the sender/creator is valid.
      * It is crustal that the sender is valid, because task are stored in the sender.
      * If this returns false the task is usually discarded.
+     *
      * @param world the world of the sender/creator. This is where the creator must reside.
      * @return is the task valid.
      */
-    public boolean isValid(World world)
-    {
+    public boolean isValid(World world) {
         IMatterNetworkDispatcher dispatcher = getSender(world);
         return dispatcher != null;
     }
@@ -117,10 +114,10 @@ public abstract class MatterNetworkTask
 
     /**
      * Read the NBT data of the task.
+     *
      * @param compound the NBT data.
      */
-    public void readFromNBT(NBTTagCompound compound)
-    {
+    public void readFromNBT(NBTTagCompound compound) {
         if (compound != null) {
             this.senderPos = new BlockPos(compound);
             this.state = MatterNetworkTaskState.get(compound.getInteger("State"));
@@ -134,16 +131,15 @@ public abstract class MatterNetworkTask
      * This is mainly used to store data on the task itself.
      * For example {@link matteroverdrive.matter_network.tasks.MatterNetworkTaskReplicatePattern} stores the pattern info in the task's NBT.
      * All the processing is left to the Machines.
+     *
      * @param compound the NBT tag.
      */
-    public void writeToNBT(NBTTagCompound compound)
-    {
-        if (compound != null)
-        {
+    public void writeToNBT(NBTTagCompound compound) {
+        if (compound != null) {
             senderPos.writeToNBT(compound);
-            compound.setInteger("State",state.ordinal());
-            compound.setBoolean("isAlive",isAlive);
-            compound.setLong("id",id);
+            compound.setInteger("State", state.ordinal());
+            compound.setBoolean("isAlive", isAlive);
+            compound.setLong("id", id);
         }
     }
     //endregion
@@ -151,34 +147,29 @@ public abstract class MatterNetworkTask
     /**
      * This method is called by the tooltip of the task.
      * All the lines in list will be displayed on the task's tooltip.
+     *
      * @param list the list of tooltip lines.
      *             You must add the lines in this list in order for them to be displayed.
      */
-    public void addInfo(List<String> list)
-    {
+    public void addInfo(List<String> list) {
         list.add(getColorForState(state) + "[ " + MOStringHelper.translateToLocal("task.state." + getState() + ".name") + " ]");
         String unlocalizedDescription = "task." + getUnlocalizedName() + ".state." + state + ".description";
         String[] infos;
-        if(MOStringHelper.hasTranslation(unlocalizedDescription))
-        {
+        if (MOStringHelper.hasTranslation(unlocalizedDescription)) {
             infos = MOStringHelper.translateToLocal(unlocalizedDescription).split("\n");
-        }
-        else
-        {
+        } else {
             infos = MOStringHelper.translateToLocal("task.state." + state + ".description").split("\n");
         }
 
-		Collections.addAll(list, infos);
+        Collections.addAll(list, infos);
     }
 
     /**
      * @param state the state of the task.
      * @return the chat color based on the state.
      */
-    private EnumChatFormatting getColorForState(MatterNetworkTaskState state)
-    {
-        switch (state)
-        {
+    private EnumChatFormatting getColorForState(MatterNetworkTaskState state) {
+        switch (state) {
             case WAITING:
                 return EnumChatFormatting.AQUA;
             case QUEUED:
@@ -197,6 +188,7 @@ public abstract class MatterNetworkTask
     /**
      * Gets the name of the task.
      * Not to be confused with the unlocalized name of the task.
+     *
      * @return the name of the task.
      */
     public String getName() {
@@ -205,6 +197,7 @@ public abstract class MatterNetworkTask
 
     /**
      * Sets the name of the task.
+     *
      * @param name the new name of the task.
      */
     public void setName(String name) {
@@ -213,6 +206,7 @@ public abstract class MatterNetworkTask
 
     /**
      * Gets the unlocalized name of the task
+     *
      * @return the unlocalized name of the task.
      */
     public String getUnlocalizedName() {
@@ -221,6 +215,7 @@ public abstract class MatterNetworkTask
 
     /**
      * Sets the unlocalized name of the task.
+     *
      * @param unlocalizedName the new unlocalized name of the task.
      */
     public void setUnlocalizedName(String unlocalizedName) {
@@ -230,16 +225,15 @@ public abstract class MatterNetworkTask
     /**
      * This method tries to retrieve the sender/creator of the task by searching the world for it's block coordinates.
      * This method may return null if the sender/creator was not found at the coordinates.
+     *
      * @param world the world in which the sender/creator resides in. This is where it will search for the sender/creator.
      * @return the sender/creator of the task. May return null if sender/creator was not found in the world.
      */
-    public IMatterNetworkDispatcher getSender(World world)
-    {
-        if (world != null && senderPos != null)
-        {
+    public IMatterNetworkDispatcher getSender(World world) {
+        if (world != null && senderPos != null) {
             TileEntity entity = senderPos.getTileEntity(world);
             if (entity instanceof IMatterNetworkDispatcher) {
-                return (IMatterNetworkDispatcher)entity;
+                return (IMatterNetworkDispatcher) entity;
             }
         }
         return null;
@@ -247,15 +241,16 @@ public abstract class MatterNetworkTask
 
     /**
      * Sets the sender of the task
+     *
      * @param sender the sender connection
      */
-    public void setSender(IMatterNetworkConnection sender)
-    {
+    public void setSender(IMatterNetworkConnection sender) {
         this.senderPos = sender.getPosition();
     }
 
     /**
      * Gets the Alive state of the task
+     *
      * @return is the task alive.
      */
     public boolean isAlive() {
@@ -264,6 +259,7 @@ public abstract class MatterNetworkTask
 
     /**
      * Sets the task to true or false
+     *
      * @param isAlive then new value of the alive state.
      */
     public void setAlive(boolean isAlive) {
@@ -272,28 +268,28 @@ public abstract class MatterNetworkTask
 
     /**
      * Gets the individual id of the task.
+     *
      * @return the current state of the task.
      */
-    public long getId()
-	{
-		return id;
-	}
+    public long getId() {
+        return id;
+    }
 
     /**
      * Gets the current state of the task.
+     *
      * @return the current state of the task.
      */
-    public MatterNetworkTaskState getState()
-    {
+    public MatterNetworkTaskState getState() {
         return state;
     }
 
     /**
      * Sets the current state of the task.
+     *
      * @param state the new state of the task.
      */
-    public void setState(MatterNetworkTaskState state)
-    {
+    public void setState(MatterNetworkTaskState state) {
         this.state = state;
     }
     //endregion

@@ -32,10 +32,8 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 5/26/2015.
  */
-public class EntityMeleeRougeAndroidMob extends EntityRougeAndroidMob
-{
-    public EntityMeleeRougeAndroidMob(World world)
-    {
+public class EntityMeleeRougeAndroidMob extends EntityRougeAndroidMob {
+    public EntityMeleeRougeAndroidMob(World world) {
         super(world);
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, new EntityAIAndroidAttackOnCollide(this, EntityLivingBase.class, 1.0D, false));
@@ -49,55 +47,46 @@ public class EntityMeleeRougeAndroidMob extends EntityRougeAndroidMob
     }
 
     @Override
-    protected boolean isAIEnabled()
-    {
+    protected boolean isAIEnabled() {
         return true;
     }
 
     @Override
-    protected void applyEntityAttributes()
-    {
+    protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(64.0D);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.3D);
         this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(24);
     }
 
-    public void setAndroidLevel(int level)
-    {
+    public void setAndroidLevel(int level) {
         super.setAndroidLevel(level);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D + level);
     }
 
-    public void setLegendary(boolean legendary)
-    {
+    public void setLegendary(boolean legendary) {
         super.setLegendary(legendary);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(8);
     }
 
     @Override
-    protected void dropRareDrop(int i)
-    {
+    protected void dropRareDrop(int i) {
 
     }
 
     @Override
-    protected void dropFewItems(boolean hit, int looting)
-    {
-        if (recentlyHit > 0)
-        {
+    protected void dropFewItems(boolean hit, int looting) {
+        if (recentlyHit > 0) {
             float lootingModifier = (Math.min(looting, 10) / 10f);
-            if (rand.nextFloat() < (0.1f + lootingModifier) || getIsLegendary())
-            {
+            if (rand.nextFloat() < (0.1f + lootingModifier) || getIsLegendary()) {
 
-                this.entityDropItem(MatterOverdrive.androidPartsFactory.generateRandomDecoratedPart(new AndroidPartsFactory.AndroidPartFactoryContext(getAndroidLevel(),this,getIsLegendary())), 0.0F);
+                this.entityDropItem(MatterOverdrive.androidPartsFactory.generateRandomDecoratedPart(new AndroidPartsFactory.AndroidPartFactoryContext(getAndroidLevel(), this, getIsLegendary())), 0.0F);
             }
         }
     }
 
     @Override
-    public IEntityLivingData onSpawnWithEgg(IEntityLivingData entityLivingData)
-    {
+    public IEntityLivingData onSpawnWithEgg(IEntityLivingData entityLivingData) {
         entityLivingData = super.onSpawnWithEgg(entityLivingData);
         this.addRandomArmor();
         this.enchantEquipment();

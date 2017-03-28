@@ -34,12 +34,10 @@ import static matteroverdrive.util.MOBlockHelper.RotationType;
 /**
  * Created by Simeon on 5/1/2015.
  */
-public class BlockNetworkSwitch extends MOBlockMachine
-{
+public class BlockNetworkSwitch extends MOBlockMachine {
     IIcon activeIcon;
 
-    public BlockNetworkSwitch(Material material, String name)
-    {
+    public BlockNetworkSwitch(Material material, String name) {
         super(material, name);
         setHardness(20.0F);
         this.setResistance(9.0f);
@@ -49,21 +47,17 @@ public class BlockNetworkSwitch extends MOBlockMachine
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister registrar)
-    {
+    public void registerBlockIcons(IIconRegister registrar) {
         activeIcon = registrar.registerIcon(this.getTextureName() + "_active");
         this.blockIcon = registrar.registerIcon(this.getTextureName());
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int meta)
-    {
-        TileEntity entity = world.getTileEntity(x,y,z);
-        if (entity instanceof TileEntityMachineNetworkSwitch)
-        {
-            if (((TileEntityMachineNetworkSwitch) entity).isActive())
-            {
+    public IIcon getIcon(IBlockAccess world, int x, int y, int z, int meta) {
+        TileEntity entity = world.getTileEntity(x, y, z);
+        if (entity instanceof TileEntityMachineNetworkSwitch) {
+            if (((TileEntityMachineNetworkSwitch) entity).isActive()) {
                 return activeIcon;
             }
         }
@@ -71,8 +65,7 @@ public class BlockNetworkSwitch extends MOBlockMachine
     }
 
     @Override
-    public TileEntity createNewTileEntity(World world, int meta)
-    {
+    public TileEntity createNewTileEntity(World world, int meta) {
         return new TileEntityMachineNetworkSwitch();
     }
 }

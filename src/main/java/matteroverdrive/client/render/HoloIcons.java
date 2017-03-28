@@ -107,20 +107,19 @@ public class HoloIcons {
         reg("list", 16);
         reg("grid", 16);
         reg("sort_random", 16);
-        reg("minimap_target",21);
-        reg("question_mark",20);
-        reg("android_feature_icon_bg_black",22);
-        reg("smile",16);
+        reg("minimap_target", 21);
+        reg("question_mark", 20);
+        reg("android_feature_icon_bg_black", 22);
+        reg("smile", 16);
 
         MatterOverdrive.statRegistry.registerIcons(this);
     }
 
     private void reg(String iconName, int originalSize) {
-        registerIcon(iconName,originalSize);
+        registerIcon(iconName, originalSize);
     }
 
-    public HoloIcon registerIcon(String iconName,int originalSize)
-    {
+    public HoloIcon registerIcon(String iconName, int originalSize) {
         HoloIcon holoIcon = new HoloIcon(textureMap.registerIcon(Reference.MOD_ID + ":" + iconName), originalSize, originalSize);
         iconMap.put(iconName, holoIcon);
         return holoIcon;
@@ -143,32 +142,26 @@ public class HoloIcons {
         renderIcon(getIcon(name), x, y, width, height);
     }
 
-    public void renderIcon(HoloIcon icon, double x, double y)
-    {
+    public void renderIcon(HoloIcon icon, double x, double y) {
         renderIcon(icon, x, y, icon.getOriginalWidth(), icon.getOriginalHeight());
     }
 
-    public void renderIcon(HoloIcon icon, double x, double y, int width, int height)
-    {
-        if (icon != null)
-        {
+    public void renderIcon(HoloIcon icon, double x, double y, int width, int height) {
+        if (icon != null) {
             bindSheet();
             RenderUtils.renderIcon(x, y, 0, icon.getIcon(), width, height);
         }
     }
 
-    public static void tessalateParticleIcon(IIcon icon, double x, double y, double z, float size, Color color)
-    {
+    public static void tessalateParticleIcon(IIcon icon, double x, double y, double z, float size, Color color) {
         RenderUtils.tessalateParticle(Minecraft.getMinecraft().renderViewEntity, icon, size, Vec3.createVectorHelper(x, y, z), color);
     }
 
-    public static void tessalateStaticIcon(IIcon icon, double x, double y, double z, float size, Color color)
-    {
+    public static void tessalateStaticIcon(IIcon icon, double x, double y, double z, float size, Color color) {
         tessalateStaticIcon(icon, x, y, z, size, color, 1);
     }
 
-    public static void tessalateStaticIcon(IIcon icon, double x, double y, double z, float size, Color color, float multiply)
-    {
+    public static void tessalateStaticIcon(IIcon icon, double x, double y, double z, float size, Color color, float multiply) {
         float halfSize = size / 2;
         float uMin = icon.getMinU();
         float uMax = icon.getMaxU();
@@ -177,8 +170,8 @@ public class HoloIcons {
 
         Tessellator.instance.setColorRGBA_F(color.getFloatR() * multiply, color.getFloatG() * multiply, color.getFloatB() * multiply, color.getFloatA());
         Tessellator.instance.addVertexWithUV(x - halfSize, y - halfSize, z, uMax, vMax);
-        Tessellator.instance.addVertexWithUV(x + halfSize,y - halfSize,z,uMin,vMax);
-        Tessellator.instance.addVertexWithUV(x + halfSize,y + halfSize,z,uMin,vMin);
-        Tessellator.instance.addVertexWithUV(x - halfSize,y + halfSize,z,uMax,vMin);
+        Tessellator.instance.addVertexWithUV(x + halfSize, y - halfSize, z, uMin, vMax);
+        Tessellator.instance.addVertexWithUV(x + halfSize, y + halfSize, z, uMin, vMin);
+        Tessellator.instance.addVertexWithUV(x - halfSize, y + halfSize, z, uMax, vMin);
     }
 }

@@ -33,8 +33,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 4/8/2015.
  */
-public abstract class MOElementBase
-{
+public abstract class MOElementBase {
     protected MOGuiBase gui;
     protected ResourceLocation texture;
     private FontRenderer fontRenderer;
@@ -47,16 +46,16 @@ public abstract class MOElementBase
     protected String name;
     private boolean visible = true;
     private boolean enabled = true;
-    private Color color = new Color(255,255,255);
+    private Color color = new Color(255, 255, 255);
     public MOElementBase parent;
-    public MOElementBase(MOGuiBase gui, int posX, int posY)
-    {
+
+    public MOElementBase(MOGuiBase gui, int posX, int posY) {
         this.gui = gui;
         this.posX = posX;
         this.posY = posY;
     }
-    public MOElementBase(MOGuiBase gui, int posX, int posY, int width, int height)
-    {
+
+    public MOElementBase(MOGuiBase gui, int posX, int posY, int width, int height) {
         this.gui = gui;
         this.posX = posX;
         this.posY = posY;
@@ -68,45 +67,37 @@ public abstract class MOElementBase
         return color;
     }
 
-    public void setColor(int r,int g,int b,int alpha)
-    {
-        this.color = new Color(r,g,b,alpha);
+    public void setColor(int r, int g, int b, int alpha) {
+        this.color = new Color(r, g, b, alpha);
     }
 
-    public void setColor(Color color)
-    {
+    public void setColor(Color color) {
         this.color = color;
     }
 
-    protected void ApplyColor()
-    {
+    protected void ApplyColor() {
         if (color != null) {
             RenderUtils.applyColor(color);
         }
     }
 
-    protected void ResetColor()
-    {
+    protected void ResetColor() {
         GL11.glColor3f(1, 1, 1);
     }
 
-    protected int getGlobalX()
-    {
+    protected int getGlobalX() {
         int x = posX;
 
-        if (parent != null)
-        {
+        if (parent != null) {
             x += parent.getGlobalX();
         }
         return x;
     }
 
-    protected int getGlobalY()
-    {
+    protected int getGlobalY() {
         int y = posY;
 
-        if (parent != null)
-        {
+        if (parent != null) {
             y += parent.getGlobalY();
         }
         return y;
@@ -162,9 +153,13 @@ public abstract class MOElementBase
     }
 
     public abstract void updateInfo();
+
     public abstract void init();
-    public abstract void addTooltip(List<String> var1,int mouseX,int mouseY);
+
+    public abstract void addTooltip(List<String> var1, int mouseX, int mouseY);
+
     public abstract void drawBackground(int var1, int var2, float var3);
+
     public abstract void drawForeground(int var1, int var2);
 
     public void drawModalRect(int var1, int var2, int var3, int var4, int var5) {
@@ -196,7 +191,7 @@ public abstract class MOElementBase
     }
 
     public void drawTexturedModalRect(int var1, int var2, int var3, int var4, int var5, int var6) {
-        this.gui.drawSizedTexturedModalRect(var1, var2, var3, var4, var5, var6, (float)this.texW, (float)this.texH);
+        this.gui.drawSizedTexturedModalRect(var1, var2, var3, var4, var5, var6, (float) this.texW, (float) this.texH);
     }
 
     public void drawCenteredString(FontRenderer var1, String var2, int var3, int var4, int var5) {
@@ -223,7 +218,7 @@ public abstract class MOElementBase
     }
 
     public FontRenderer getFontRenderer() {
-        return this.fontRenderer == null?this.gui.getFontRenderer():this.fontRenderer;
+        return this.fontRenderer == null ? this.gui.getFontRenderer() : this.fontRenderer;
     }
 
     public MOElementBase setFontRenderer(FontRenderer var1) {

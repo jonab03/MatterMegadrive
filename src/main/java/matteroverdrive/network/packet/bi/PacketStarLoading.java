@@ -32,60 +32,51 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 12/19/2015.
  */
-public class PacketStarLoading extends PacketAbstract
-{
+public class PacketStarLoading extends PacketAbstract {
     int quadrantID;
     int starID;
     Star star;
 
-    public PacketStarLoading(){}
+    public PacketStarLoading() {
+    }
 
-    public PacketStarLoading(int quadrantID,int starID)
-    {
+    public PacketStarLoading(int quadrantID, int starID) {
         this.quadrantID = quadrantID;
         this.starID = starID;
     }
 
-    public PacketStarLoading(int quadrantID,Star star)
-    {
+    public PacketStarLoading(int quadrantID, Star star) {
         this.quadrantID = quadrantID;
         this.star = star;
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         quadrantID = buf.readInt();
         starID = buf.readInt();
         star = new Star();
-        if (buf.readBoolean())
-        {
+        if (buf.readBoolean()) {
             star = new Star();
             star.readFromBuffer(buf);
         }
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         buf.writeInt(quadrantID);
         buf.writeInt(starID);
         buf.writeBoolean(star != null);
-        if (star != null)
-        {
+        if (star != null) {
             star.writeToBuffer(buf);
         }
     }
 
-    public static class BiHandler extends AbstractBiPacketHandler<PacketStarLoading>
-    {
+    public static class BiHandler extends AbstractBiPacketHandler<PacketStarLoading> {
 
         @Override
-        public IMessage handleClientMessage(EntityPlayer player, PacketStarLoading message, MessageContext ctx)
-        {
+        public IMessage handleClientMessage(EntityPlayer player, PacketStarLoading message, MessageContext ctx) {
             Quadrant quadrant = GalaxyClient.getInstance().getTheGalaxy().getQuadrantMap().get(message.quadrantID);
-            if (quadrant != null && message.star != null)
-            {
+            if (quadrant != null && message.star != null) {
                 quadrant.addStar(message.star);
                 message.star.setQuadrant(quadrant);
             }
@@ -93,15 +84,12 @@ public class PacketStarLoading extends PacketAbstract
         }
 
         @Override
-        public IMessage handleServerMessage(EntityPlayer player, PacketStarLoading message, MessageContext ctx)
-        {
+        public IMessage handleServerMessage(EntityPlayer player, PacketStarLoading message, MessageContext ctx) {
             Quadrant quadrant = GalaxyServer.getInstance().getTheGalaxy().getQuadrantMap().get(message.quadrantID);
-            if (quadrant != null)
-            {
+            if (quadrant != null) {
                 Star star = quadrant.getStarMap().get(message.starID);
-                if (star != null)
-                {
-                    return new PacketStarLoading(message.quadrantID,star);
+                if (star != null) {
+                    return new PacketStarLoading(message.quadrantID, star);
                 }
             }
             return null;

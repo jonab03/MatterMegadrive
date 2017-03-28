@@ -7,8 +7,7 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Created by Simeon on 3/18/2015.
  */
-public class MachineSound extends PositionedSound implements ITickableSound
-{
+public class MachineSound extends PositionedSound implements ITickableSound {
     private boolean donePlaying;
 
     public MachineSound(ResourceLocation sound, float x, float y, float z, float volume, float pitch) {
@@ -21,40 +20,33 @@ public class MachineSound extends PositionedSound implements ITickableSound
     }
 
     @Override
-    public boolean isDonePlaying()
-    {
+    public boolean isDonePlaying() {
         return donePlaying;
     }
 
-    public void stopPlaying()
-    {
+    public void stopPlaying() {
         donePlaying = true;
     }
 
-    public void startPlaying()
-    {
+    public void startPlaying() {
         donePlaying = false;
     }
 
-    public void setRepeat(boolean repeat)
-    {
+    public void setRepeat(boolean repeat) {
         this.repeat = repeat;
     }
 
-    public void setVolume(float volume)
-    {
+    public void setVolume(float volume) {
         this.volume = volume;
     }
 
-    public void setPosition(float x,float y,float z)
-    {
+    public void setPosition(float x, float y, float z) {
         this.xPosF = x;
         this.yPosF = y;
         this.zPosF = z;
     }
 
     @Override
-    public void update()
-    {
+    public void update() {
     }
 }

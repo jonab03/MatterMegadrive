@@ -39,17 +39,13 @@ import java.util.List;
 /**
  * Created by Simeon on 11/22/2015.
  */
-public class Contract extends MOBaseItem
-{
-    public Contract(String name)
-    {
+public class Contract extends MOBaseItem {
+    public Contract(String name) {
         super(name);
     }
 
-    public QuestStack getQuest(ItemStack itemStack)
-    {
-        if (itemStack.getTagCompound() != null)
-        {
+    public QuestStack getQuest(ItemStack itemStack) {
+        if (itemStack.getTagCompound() != null) {
             QuestStack questStack = QuestStack.loadFromNBT(itemStack.getTagCompound());
             return questStack;
         }
@@ -57,12 +53,13 @@ public class Contract extends MOBaseItem
     }
 
     @Override
-    public boolean hasDetails(ItemStack stack){return true;}
+    public boolean hasDetails(ItemStack stack) {
+        return true;
+    }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos)
-    {
+    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos) {
         QuestStack questStack = QuestStack.loadFromNBT(itemstack.getTagCompound());
         if (questStack != null) {
             for (int i = 0; i < questStack.getObjectivesCount(player); i++) {
@@ -71,28 +68,22 @@ public class Contract extends MOBaseItem
         }
     }
 
-    public String getItemStackDisplayName(ItemStack itemStack)
-    {
-        if (itemStack.getTagCompound() != null)
-        {
+    public String getItemStackDisplayName(ItemStack itemStack) {
+        if (itemStack.getTagCompound() != null) {
             QuestStack questStack = QuestStack.loadFromNBT(itemStack.getTagCompound());
             return questStack.getTitle();
         }
         return super.getItemStackDisplayName(itemStack);
     }
 
-    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer)
-    {
-        if (world.isRemote)
-        {
+    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
+        if (world.isRemote) {
             openGui(itemstack);
-        }else
-        {
+        } else {
             QuestStack questStack = getQuest(itemstack);
-            if (questStack == null)
-            {
+            if (questStack == null) {
                 Quest quest = ((WeightedRandomQuest) WeightedRandom.getRandomItem(itemRand, MatterOverdriveQuests.contractGeneration)).getQuest();
-                questStack = MatterOverdrive.questFactory.generateQuestStack(itemRand,quest);
+                questStack = MatterOverdrive.questFactory.generateQuestStack(itemRand, quest);
                 NBTTagCompound questTag = new NBTTagCompound();
                 questStack.writeToNBT(questTag);
                 itemstack.setTagCompound(questTag);
@@ -102,11 +93,9 @@ public class Contract extends MOBaseItem
     }
 
     @SideOnly(Side.CLIENT)
-    private void openGui(ItemStack stack)
-    {
+    private void openGui(ItemStack stack) {
         QuestStack questStack = getQuest(stack);
-        if (questStack != null)
-        {
+        if (questStack != null) {
             Minecraft.getMinecraft().displayGuiScreen(new GuiQuestPreview(getQuest(stack)));
         }
     }

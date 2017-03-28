@@ -42,8 +42,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 8/9/2015.
  */
-public class GuiDialog extends GuiScreen
-{
+public class GuiDialog extends GuiScreen {
     private static final int INTERACTION_DELAY = 20;
     public static final ResourceLocation separator_texture = new ResourceLocation(Reference.PATH_ELEMENTS + "dialog_separator.png");
     private IDialogNpc npc;
@@ -53,25 +52,21 @@ public class GuiDialog extends GuiScreen
     private IDialogMessage currentMessage;
     private float lastInteractionTime;
 
-    public GuiDialog(IDialogNpc npc, EntityPlayer player)
-    {
+    public GuiDialog(IDialogNpc npc, EntityPlayer player) {
         this.npc = npc;
         this.player = player;
         seed = random.nextLong();
         currentMessage = npc.getStartDialogMessage(player);
     }
 
-    public void initGui()
-    {
+    public void initGui() {
 
     }
 
-    public void drawScreen(int mouseX, int mouseY, float ticks)
-    {
+    public void drawScreen(int mouseX, int mouseY, float ticks) {
         super.drawScreen(mouseX, mouseY, ticks);
 
-        if (npc == null || npc.getEntity().isDead)
-        {
+        if (npc == null || npc.getEntity().isDead) {
             player.closeScreen();
             return;
         }
@@ -88,31 +83,26 @@ public class GuiDialog extends GuiScreen
         glEnable(GL_ALPHA_TEST);
         glEnable(GL_TEXTURE_2D);
 
-        drawDialog(mouseX,mouseY,ticks);
+        drawDialog(mouseX, mouseY, ticks);
 
-        if (lastInteractionTime > 0)
-        {
-            lastInteractionTime = Math.max(0,lastInteractionTime-ticks);
+        if (lastInteractionTime > 0) {
+            lastInteractionTime = Math.max(0, lastInteractionTime - ticks);
         }
     }
 
-    public void drawDialog(int mouseX,int mouseY, float ticks)
-    {
+    public void drawDialog(int mouseX, int mouseY, float ticks) {
         if (currentMessage instanceof IDialogMessageSeedable)
             ((IDialogMessageSeedable) currentMessage).setSeed(seed);
 
         int messageWidth;
         String message = currentMessage.getMessageText(npc, player);
-        if (message != null && !message.isEmpty())
-        {
+        if (message != null && !message.isEmpty()) {
             List<String> splitMessage = new ArrayList<>();
             String[] list = message.split("<br>");
-            for (int i = 0; i < list.length; i++)
-            {
+            for (int i = 0; i < list.length; i++) {
                 splitMessage.addAll(fontRendererObj.listFormattedStringToWidth(list[i], width / 3));
             }
-            for (int i = 0; i < splitMessage.size(); i++)
-            {
+            for (int i = 0; i < splitMessage.size(); i++) {
                 String m = splitMessage.get(i).toString();
                 messageWidth = fontRendererObj.getStringWidth(m);
                 fontRendererObj.drawString(m, width / 2 - messageWidth - 16, height - height / 8 - 64 - (splitMessage.size() * fontRendererObj.FONT_HEIGHT / 2) + fontRendererObj.FONT_HEIGHT * i, Reference.COLOR_HOLO.getColor());
@@ -126,21 +116,18 @@ public class GuiDialog extends GuiScreen
         func_146110_a(width / 2 - 5, height - height / 8 - 128, 0, 0, 11, 128, 11, 128);
         glDisable(GL_BLEND);
 
-        List<IDialogMessage> options = currentMessage.getOptions(npc,player);
+        List<IDialogMessage> options = currentMessage.getOptions(npc, player);
         int visibleOptionsCount = 0;
-        for (IDialogMessage option : options)
-        {
-            if (option.isVisible(npc,player))
-                visibleOptionsCount ++;
+        for (IDialogMessage option : options) {
+            if (option.isVisible(npc, player))
+                visibleOptionsCount++;
         }
         int optionPos = 0;
-        for (IDialogMessage option : options)
-        {
+        for (IDialogMessage option : options) {
             if (option instanceof IDialogMessageSeedable)
                 ((IDialogMessageSeedable) option).setSeed(seed);
 
-            if (option.isVisible(npc,player))
-            {
+            if (option.isVisible(npc, player)) {
                 int messageX = width / 2 + 26;
                 int messageY = height - height / 8 - 60 + (18 * optionPos) - ((visibleOptionsCount * 18) / 2);
                 messageWidth = fontRendererObj.getStringWidth(option.getQuestionText(npc, player));
@@ -179,22 +166,19 @@ public class GuiDialog extends GuiScreen
     }
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int button)
-    {
-        super.mouseClicked(mouseX,mouseY,button);
+    protected void mouseClicked(int mouseX, int mouseY, int button) {
+        super.mouseClicked(mouseX, mouseY, button);
 
         List<IDialogMessage> options = currentMessage.getOptions(npc, player);
         int visibleOptionsCount = 0;
-        for (IDialogMessage option : options)
-        {
-            if (option.isVisible(npc,player))
-                visibleOptionsCount ++;
+        for (IDialogMessage option : options) {
+            if (option.isVisible(npc, player))
+                visibleOptionsCount++;
         }
         int optionPos = 0;
         int optionIndex = 0;
-        for (IDialogMessage option : options)
-        {
-            if (option.isVisible(npc,player)) {
+        for (IDialogMessage option : options) {
+            if (option.isVisible(npc, player)) {
                 if (option.canInteract(npc, player)) {
                     if (option instanceof IDialogMessageSeedable)
                         ((IDialogMessageSeedable) option).setSeed(seed);
@@ -214,9 +198,8 @@ public class GuiDialog extends GuiScreen
         }
     }
 
-    protected void onQuestionClick(IDialogMessage message,int option) {
-        if (lastInteractionTime <= 0)
-        {
+    protected void onQuestionClick(IDialogMessage message, int option) {
+        if (lastInteractionTime <= 0) {
             lastInteractionTime = INTERACTION_DELAY;
             message.onOptionsInteract(npc, player, option);
             MatterOverdrive.packetPipeline.sendToServer(new PacketConversationInteract(npc, message, option));
@@ -228,38 +211,31 @@ public class GuiDialog extends GuiScreen
         MatterOverdrive.packetPipeline.sendToServer(new PacketManageConversation(npc, false));
     }
 
-    public IDialogNpc getNpc()
-    {
+    public IDialogNpc getNpc() {
         return npc;
     }
 
-    public EntityPlayer getPlayer()
-    {
+    public EntityPlayer getPlayer() {
         return player;
     }
 
-    public EntityLivingBase getCharacterInView()
-    {
+    public EntityLivingBase getCharacterInView() {
         return npc.getEntity();
     }
 
-    public boolean doesGuiPauseGame()
-    {
+    public boolean doesGuiPauseGame() {
         return false;
     }
 
-    public long getSeed()
-    {
+    public long getSeed() {
         return seed;
     }
 
-    public IDialogMessage getCurrentMessage()
-    {
+    public IDialogMessage getCurrentMessage() {
         return currentMessage;
     }
 
-    public void setCurrentMessage(IDialogMessage dialogMessage)
-    {
+    public void setCurrentMessage(IDialogMessage dialogMessage) {
         seed = random.nextLong();
         this.currentMessage = dialogMessage;
     }

@@ -31,47 +31,47 @@ import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 
-public class CommonProxy
-{
+public class CommonProxy {
     private CommonWeaponHandler commonWeaponHandler;
     protected GoogleAnalyticsCommon googleAnalyticsCommon;
 
-    public CommonProxy()
-    {
+    public CommonProxy() {
         commonWeaponHandler = new CommonWeaponHandler();
         googleAnalyticsCommon = new GoogleAnalyticsCommon();
     }
 
-	public void registerProxies()
-	{
+    public void registerProxies() {
         MinecraftForge.EVENT_BUS.register(GalaxyServer.getInstance());
         MinecraftForge.EVENT_BUS.register(getWeaponHandler());
         FMLCommonHandler.instance().bus().register(GalaxyServer.getInstance());
         MatterOverdrive.configHandler.subscribe(GalaxyServer.getInstance());
         MatterOverdrive.configHandler.subscribe(GalaxyServer.getInstance().getGalaxyGenerator());
         MatterOverdrive.configHandler.subscribe(googleAnalyticsCommon);
-	}
+    }
 
-    public void registerCompatModules()
-    {
+    public void registerCompatModules() {
         MatterOverdriveCompat.registerModules();
     }
 
-    public void registerBlockIcons(IIconRegister register) {}
+    public void registerBlockIcons(IIconRegister register) {
+    }
 
-    public EntityPlayer getPlayerEntity(MessageContext ctx)
-    {
+    public EntityPlayer getPlayerEntity(MessageContext ctx) {
         return ctx.getServerHandler().playerEntity;
     }
 
-    public void init(FMLInitializationEvent event)
-    {
+    public void init(FMLInitializationEvent event) {
         registerProxies();
     }
 
-    public void postInit(FMLPostInitializationEvent event){}
+    public void postInit(FMLPostInitializationEvent event) {
+    }
 
-    public CommonWeaponHandler getWeaponHandler(){return commonWeaponHandler;}
+    public CommonWeaponHandler getWeaponHandler() {
+        return commonWeaponHandler;
+    }
 
-    public GoogleAnalyticsCommon getGoogleAnalytics(){return googleAnalyticsCommon;}
+    public GoogleAnalyticsCommon getGoogleAnalytics() {
+        return googleAnalyticsCommon;
+    }
 }

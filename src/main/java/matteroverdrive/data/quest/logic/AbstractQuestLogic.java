@@ -31,52 +31,48 @@ import java.util.Random;
 /**
  * Created by Simeon on 12/5/2015.
  */
-public abstract class AbstractQuestLogic implements IQuestLogic
-{
+public abstract class AbstractQuestLogic implements IQuestLogic {
     protected boolean autoComplete;
     protected String id;
 
     @Override
-    public String modifyTitle(QuestStack questStack, String original)
-    {
+    public String modifyTitle(QuestStack questStack, String original) {
         return original;
     }
+
     @Override
     public boolean canAccept(QuestStack questStack, EntityPlayer entityPlayer) {
         return true;
     }
+
     @Override
     public int modifyObjectiveCount(QuestStack questStack, EntityPlayer entityPlayer, int count) {
         return count;
     }
+
     @Override
     public boolean areQuestStacksEqual(QuestStack questStackOne, QuestStack questStackTwo) {
         return true;
     }
+
     @Override
     public int modifyXP(QuestStack questStack, EntityPlayer entityPlayer, int originalXp) {
         return originalXp;
     }
 
-    public int random(Random random,int min,int max)
-    {
+    public int random(Random random, int min, int max) {
         int randomCount = max - min;
         return min + (randomCount > 0 ? random.nextInt(randomCount) : 0);
     }
 
-    protected String getEntityClassName(Class<? extends Entity> entityClass,String unknownTargetName)
-    {
-        if (entityClass != null)
-        {
+    protected String getEntityClassName(Class<? extends Entity> entityClass, String unknownTargetName) {
+        if (entityClass != null) {
             EntityRegistry.EntityRegistration entityRegistration = EntityRegistry.instance().lookupModSpawn(entityClass, true);
-            if (entityRegistration != null)
-            {
+            if (entityRegistration != null) {
                 return entityRegistration.getEntityName();
-            } else
-            {
+            } else {
                 String name = (String) EntityList.classToStringMapping.get(entityClass);
-                if (name != null)
-                {
+                if (name != null) {
                     return name;
                 }
             }
@@ -84,60 +80,46 @@ public abstract class AbstractQuestLogic implements IQuestLogic
         return unknownTargetName;
     }
 
-    public AbstractQuestLogic setAutoComplete(boolean autoComplete)
-    {
+    public AbstractQuestLogic setAutoComplete(boolean autoComplete) {
         this.autoComplete = autoComplete;
         return this;
     }
 
     @Override
-    public String getID()
-    {
+    public String getID() {
         return id;
     }
 
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
-    protected boolean hasTag(QuestStack questStack)
-    {
-        if (getID() == null)
-        {
+    protected boolean hasTag(QuestStack questStack) {
+        if (getID() == null) {
             return questStack.getTagCompound() != null;
-        }else
-        {
+        } else {
             return questStack.getTagCompound() != null && questStack.getTagCompound().hasKey(getID());
         }
     }
 
-    protected void initTag(QuestStack questStack)
-    {
-        if (!hasTag(questStack))
-        {
-            if (getID() == null)
-            {
+    protected void initTag(QuestStack questStack) {
+        if (!hasTag(questStack)) {
+            if (getID() == null) {
                 questStack.setTagCompound(new NBTTagCompound());
-            }
-            else
-            {
+            } else {
                 NBTTagCompound tagCompound = questStack.getTagCompound();
                 if (tagCompound == null)
                     tagCompound = new NBTTagCompound();
-                tagCompound.setTag(getID(),new NBTTagCompound());
+                tagCompound.setTag(getID(), new NBTTagCompound());
                 questStack.setTagCompound(tagCompound);
             }
         }
     }
 
-    protected NBTTagCompound getTag(QuestStack questStack)
-    {
-        if (getID() == null)
-        {
+    protected NBTTagCompound getTag(QuestStack questStack) {
+        if (getID() == null) {
             return questStack.getTagCompound();
-        }else
-        {
+        } else {
             return questStack.getTagCompound().getCompoundTag(getID());
         }
     }

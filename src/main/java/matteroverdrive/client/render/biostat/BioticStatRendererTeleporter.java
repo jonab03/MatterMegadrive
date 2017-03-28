@@ -36,18 +36,14 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 6/13/2015.
  */
-public class BioticStatRendererTeleporter implements IBioticStatRenderer<BioticStatTeleport>
-{
+public class BioticStatRendererTeleporter implements IBioticStatRenderer<BioticStatTeleport> {
     @Override
-    public void onWorldRender(BioticStatTeleport stat,int level,RenderWorldLastEvent event)
-    {
+    public void onWorldRender(BioticStatTeleport stat, int level, RenderWorldLastEvent event) {
         AndroidPlayer androidPlayer = AndroidPlayer.get(Minecraft.getMinecraft().thePlayer);
 
-        if (androidPlayer != null && androidPlayer.isAndroid() && androidPlayer.isUnlocked(MatterOverdriveBioticStats.teleport, MatterOverdriveBioticStats.teleport.maxLevel()) && MatterOverdriveBioticStats.teleport.isEnabled(androidPlayer, 0) && MatterOverdriveBioticStats.teleport.getHasPressedKey())
-        {
+        if (androidPlayer != null && androidPlayer.isAndroid() && androidPlayer.isUnlocked(MatterOverdriveBioticStats.teleport, MatterOverdriveBioticStats.teleport.maxLevel()) && MatterOverdriveBioticStats.teleport.isEnabled(androidPlayer, 0) && MatterOverdriveBioticStats.teleport.getHasPressedKey()) {
             Vec3 playerPos = androidPlayer.getPlayer().getPosition(event.partialTicks);
-            if(ClientProxy.keyHandler.getBinding(KeyHandler.ABILITY_USE_KEY).getIsKeyPressed())
-            {
+            if (ClientProxy.keyHandler.getBinding(KeyHandler.ABILITY_USE_KEY).getIsKeyPressed()) {
                 glPushMatrix();
                 glEnable(GL_BLEND);
                 glBlendFunc(GL_ONE, GL_ONE);
@@ -57,8 +53,7 @@ public class BioticStatRendererTeleporter implements IBioticStatRenderer<BioticS
                 //mob.rotationYawHead = androidPlayer.getPlayer().rotationYawHead;
 
                 Vec3 pos = MatterOverdriveBioticStats.teleport.getPos(androidPlayer);
-                if (pos != null)
-                {
+                if (pos != null) {
                     Minecraft.getMinecraft().renderEngine.bindTexture(TileEntityRendererGravitationalAnomaly.glow);
                     glTranslated(pos.xCoord, pos.yCoord, pos.zCoord);
                     glRotated(androidPlayer.getPlayer().rotationYaw, 0, -1, 0);

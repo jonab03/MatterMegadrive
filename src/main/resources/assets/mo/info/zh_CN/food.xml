@@ -20,6 +20,8 @@
     <page class="padded-page">
         <title size="2" class="matter-text small-title">食物</title>
         <preview index="0" size="2" style="float:left;margin-right:7px"></preview>
-        <text class="matter-text text-block" style="width:210px;margin-top:1px">应急营养单元,也被称作压缩干粮,作战口粮或应急口粮, 它是一种当食物短缺且常用食物无法获取时的应急食物. 它们的营养值和牛肉相同且仅能够通过物质重组进行获取.</text>
+        <text class="matter-text text-block" style="width:210px;margin-top:1px">应急营养单元,也被称作压缩干粮,作战口粮或应急口粮,
+            它是一种当食物短缺且常用食物无法获取时的应急食物. 它们的营养值和牛肉相同且仅能够通过物质重组进行获取.
+        </text>
     </page>
 </entry>

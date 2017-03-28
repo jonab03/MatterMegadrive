@@ -28,30 +28,29 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 3/27/2015.
  */
-public class PatternStorageSlot extends Slot
-{
+public class PatternStorageSlot extends Slot {
     public PatternStorageSlot(boolean isMainSlot) {
         super(isMainSlot);
     }
 
     @Override
-    public boolean isValidForSlot(ItemStack item)
-    {
+    public boolean isValidForSlot(ItemStack item) {
         return item.getItem() instanceof IMatterPatternStorage;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public HoloIcon getHoloIcon()
-    {
+    public HoloIcon getHoloIcon() {
         return ClientProxy.holoIcons.getIcon("pattern_storage");
     }
 
     @Override
-    public int getMaxStackSize(){return 1;}
+    public int getMaxStackSize() {
+        return 1;
+    }
 
     @Override
-    public String getUnlocalizedTooltip(){
+    public String getUnlocalizedTooltip() {
         return "gui.tooltip.slot.pattern_storage";
     }
 }

@@ -47,67 +47,54 @@ import java.util.UUID;
 /**
  * Created by Simeon on 5/28/2015.
  */
-public class RougeAndroidParts extends BionicPart implements IBionicPart
-{
-    String[] names = new String[]{"head","arms","legs","chest"};
-    String[] healtModifiersIDs = new String[]{"1bb8df41-63d1-4f58-92c4-43adea7528b2","73983b14-e605-40be-8567-36a9dec51d4f","29419afc-63ad-4b74-87e2-38219e867119","e4b38c80-7407-48fd-b837-8f36ae516c4d"};
+public class RougeAndroidParts extends BionicPart implements IBionicPart {
+    String[] names = new String[]{"head", "arms", "legs", "chest"};
+    String[] healtModifiersIDs = new String[]{"1bb8df41-63d1-4f58-92c4-43adea7528b2", "73983b14-e605-40be-8567-36a9dec51d4f", "29419afc-63ad-4b74-87e2-38219e867119", "e4b38c80-7407-48fd-b837-8f36ae516c4d"};
     IIcon[] icons = new IIcon[names.length];
 
-    public RougeAndroidParts(String name)
-    {
+    public RougeAndroidParts(String name) {
         super(name);
         setHasSubtypes(true);
     }
 
-    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos)
-    {
-        if (itemstack.getTagCompound() != null)
-        {
-            if (itemstack.getTagCompound().getByte("Type") == 1)
-            {
+    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos) {
+        if (itemstack.getTagCompound() != null) {
+            if (itemstack.getTagCompound().getByte("Type") == 1) {
                 infos.add(EnumChatFormatting.AQUA + MOStringHelper.translateToLocal("item.rouge_android_part.range"));
-            }else
-            {
+            } else {
                 infos.add(EnumChatFormatting.GOLD + MOStringHelper.translateToLocal("item.rouge_android_part.melee"));
             }
-        }else
-        {
+        } else {
             infos.add(EnumChatFormatting.GOLD + MOStringHelper.translateToLocal("item.rouge_android_part.melee"));
         }
-        super.addDetails(itemstack,player,infos);
+        super.addDetails(itemstack, player, infos);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister)
-    {
-        for (int i = 0;i < names.length;i++)
-        {
+    public void registerIcons(IIconRegister iconRegister) {
+        for (int i = 0; i < names.length; i++) {
             icons[i] = iconRegister.registerIcon(Reference.MOD_ID + ":" + "rouge_android_" + names[i]);
         }
     }
 
     @Override
-    public String getUnlocalizedName(ItemStack stack)
-    {
+    public String getUnlocalizedName(ItemStack stack) {
         int i = MathHelper.clamp_int(stack.getItemDamage(), 0, 3);
-        return super.getUnlocalizedName() + "." + names[MathHelper.clamp_int(i,0,names.length-1)];
+        return super.getUnlocalizedName() + "." + names[MathHelper.clamp_int(i, 0, names.length - 1)];
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void getSubItems(Item item, CreativeTabs creativeTabs, List list)
-    {
-        for (int i = 0;i < names.length;i++)
-        {
-            list.add(new ItemStack(this,1,i));
+    public void getSubItems(Item item, CreativeTabs creativeTabs, List list) {
+        for (int i = 0; i < names.length; i++) {
+            list.add(new ItemStack(this, 1, i));
         }
     }
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamage(int damage)
-    {
-        int j = MathHelper.clamp_int(damage, 0, names.length-1);
+    public IIcon getIconFromDamage(int damage) {
+        int j = MathHelper.clamp_int(damage, 0, names.length - 1);
         return this.icons[j];
     }
 
@@ -123,9 +110,8 @@ public class RougeAndroidParts extends BionicPart implements IBionicPart
 
     @Override
     public Multimap<String, AttributeModifier> getModifiers(AndroidPlayer player, ItemStack itemStack) {
-        Multimap multimap = super.getModifiers(player,itemStack);
-        if (multimap.isEmpty())
-        {
+        Multimap multimap = super.getModifiers(player, itemStack);
+        if (multimap.isEmpty()) {
             multimap.put(SharedMonsterAttributes.maxHealth.getAttributeUnlocalizedName(), new AttributeModifier(UUID.fromString(healtModifiersIDs[itemStack.getItemDamage()]), MOStringHelper.translateToLocal("attribute.name." + SharedMonsterAttributes.maxHealth.getAttributeUnlocalizedName()), 1f, 0));
         }
         return multimap;
@@ -133,12 +119,9 @@ public class RougeAndroidParts extends BionicPart implements IBionicPart
 
     @SideOnly(Side.CLIENT)
     @Override
-    public ResourceLocation getTexture(AndroidPlayer androidPlayer, ItemStack itemStack)
-    {
-        if (itemStack.getTagCompound() != null)
-        {
-            if (itemStack.getTagCompound().getByte("Type") == 1)
-            {
+    public ResourceLocation getTexture(AndroidPlayer androidPlayer, ItemStack itemStack) {
+        if (itemStack.getTagCompound() != null) {
+            if (itemStack.getTagCompound().getByte("Type") == 1) {
                 return EntityRendererRangedRougeAndroid.texture;
             }
         }
@@ -147,14 +130,11 @@ public class RougeAndroidParts extends BionicPart implements IBionicPart
 
     @SideOnly(Side.CLIENT)
     @Override
-    public ModelBiped getModel(AndroidPlayer androidPlayer, ItemStack itemStack)
-    {
+    public ModelBiped getModel(AndroidPlayer androidPlayer, ItemStack itemStack) {
         int type = getType(itemStack);
         ModelBiped model = ClientProxy.renderHandler.modelMeleeRogueAndroidParts;
-        if (itemStack.getTagCompound() != null)
-        {
-            if (itemStack.getTagCompound().getByte("Type") == 1)
-            {
+        if (itemStack.getTagCompound() != null) {
+            if (itemStack.getTagCompound().getByte("Type") == 1) {
                 model = ClientProxy.renderHandler.modelRangedRogueAndroidParts;
             }
         }

@@ -23,15 +23,13 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 11/12/2015.
  */
-public class InscriberRecipe
-{
-    private final ItemStack main,sec;
+public class InscriberRecipe {
+    private final ItemStack main, sec;
     private final ItemStack recipeOutput;
     private final int energy;
     private final int time;
 
-    public InscriberRecipe(ItemStack main,ItemStack sec,ItemStack recipeOutput,int energy,int time)
-    {
+    public InscriberRecipe(ItemStack main, ItemStack sec, ItemStack recipeOutput, int energy, int time) {
         this.main = main;
         this.sec = sec;
         this.recipeOutput = recipeOutput;
@@ -39,11 +37,11 @@ public class InscriberRecipe
         this.time = time;
     }
 
-    public boolean matches(ItemStack main,ItemStack sec) {
+    public boolean matches(ItemStack main, ItemStack sec) {
         return this.main.isItemEqual(main) && main.stackSize > 0 && this.sec.isItemEqual(sec) && sec.stackSize > 0;
     }
 
-    public ItemStack getCraftingResult(ItemStack main,ItemStack sec) {
+    public ItemStack getCraftingResult(ItemStack main, ItemStack sec) {
         return recipeOutput.copy();
     }
 
@@ -51,23 +49,19 @@ public class InscriberRecipe
         return recipeOutput;
     }
 
-    public ItemStack getMain()
-    {
+    public ItemStack getMain() {
         return main;
     }
 
-    public ItemStack getSec()
-    {
+    public ItemStack getSec() {
         return sec;
     }
 
-    public int getEnergy()
-    {
+    public int getEnergy() {
         return energy;
     }
 
-    public int getTime()
-    {
+    public int getTime() {
         return this.time;
     }
 }

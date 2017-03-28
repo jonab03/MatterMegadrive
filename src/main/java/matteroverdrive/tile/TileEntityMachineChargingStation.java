@@ -45,8 +45,7 @@ public class TileEntityMachineChargingStation extends MOTileEntityMachineEnergy 
     public static int BASE_MAX_RANGE = 8;
     private static UpgradeHandler upgradeHandler = new UpgradeHandler();
 
-    public TileEntityMachineChargingStation()
-    {
+    public TileEntityMachineChargingStation() {
         super(2);
         energyStorage.setCapacity(ENERGY_CAPACITY);
         energyStorage.setMaxExtract(ENERGY_TRANSFER);
@@ -56,42 +55,37 @@ public class TileEntityMachineChargingStation extends MOTileEntityMachineEnergy 
     }
 
     @Override
-    public void updateEntity()
-    {
+    public void updateEntity() {
         super.updateEntity();
         manageAndroidCharging();
     }
 
-    private void manageAndroidCharging()
-    {
+    private void manageAndroidCharging() {
         if (!worldObj.isRemote && getEnergyStored(ForgeDirection.UNKNOWN) > 0) {
             int range = getRage();
             AxisAlignedBB radius = AxisAlignedBB.getBoundingBox(xCoord - range, yCoord - range, zCoord - range, xCoord + range, yCoord + range, zCoord + range);
             List<EntityPlayer> players = worldObj.getEntitiesWithinAABB(EntityPlayer.class, radius);
             for (EntityPlayer player : players) {
                 if (AndroidPlayer.get(player).isAndroid()) {
-					int required = getRequiredEnergy(player,range);
-					int max = Math.min(getEnergyStored(ForgeDirection.UNKNOWN),getMaxCharging());
-					int toExtract = Math.min(required, max);
-					extractEnergy(ForgeDirection.UNKNOWN, AndroidPlayer.get(player).receiveEnergy(toExtract, false), false);
+                    int required = getRequiredEnergy(player, range);
+                    int max = Math.min(getEnergyStored(ForgeDirection.UNKNOWN), getMaxCharging());
+                    int toExtract = Math.min(required, max);
+                    extractEnergy(ForgeDirection.UNKNOWN, AndroidPlayer.get(player).receiveEnergy(toExtract, false), false);
                 }
             }
         }
     }
 
-    public int getRage()
-    {
-        return (int)(BASE_MAX_RANGE * getUpgradeMultiply(UpgradeTypes.Range));
+    public int getRage() {
+        return (int) (BASE_MAX_RANGE * getUpgradeMultiply(UpgradeTypes.Range));
     }
 
-    public int getMaxCharging()
-    {
-        return (int)(ENERGY_TRANSFER / getUpgradeMultiply(UpgradeTypes.PowerUsage));
+    public int getMaxCharging() {
+        return (int) (ENERGY_TRANSFER / getUpgradeMultiply(UpgradeTypes.PowerUsage));
     }
 
-    private int getRequiredEnergy(EntityPlayer player,int maxRange)
-    {
-        return (int)(ENERGY_TRANSFER * (1.0D - MathHelper.clamp_double((Vec3.createVectorHelper(player.posX,player.posY,player.posZ).subtract(Vec3.createVectorHelper(xCoord,yCoord,zCoord)).lengthVector() / (double)maxRange),0,1)));
+    private int getRequiredEnergy(EntityPlayer player, int maxRange) {
+        return (int) (ENERGY_TRANSFER * (1.0D - MathHelper.clamp_double((Vec3.createVectorHelper(player.posX, player.posY, player.posZ).subtract(Vec3.createVectorHelper(xCoord, yCoord, zCoord)).lengthVector() / (double) maxRange), 0, 1)));
     }
 
     @Override
@@ -135,8 +129,7 @@ public class TileEntityMachineChargingStation extends MOTileEntityMachineEnergy 
     }
 
     @Override
-    public boolean isAffectedByUpgrade(UpgradeTypes type)
-    {
+    public boolean isAffectedByUpgrade(UpgradeTypes type) {
         return type.equals(UpgradeTypes.Range) || type.equals(UpgradeTypes.PowerStorage) || type.equals(UpgradeTypes.PowerUsage);
     }
 
@@ -146,32 +139,30 @@ public class TileEntityMachineChargingStation extends MOTileEntityMachineEnergy 
     }
 
     @SideOnly(Side.CLIENT)
-    public double getMaxRenderDistanceSquared()
-    {
+    public double getMaxRenderDistanceSquared() {
         return 8192.0D;
     }
 
-	@Override
-	public List<BlockPos> getBoundingBlocks() {
-		List<BlockPos> coords = new ArrayList<>();
+    @Override
+    public List<BlockPos> getBoundingBlocks() {
+        List<BlockPos> coords = new ArrayList<>();
 
-		coords.add(new BlockPos(xCoord, yCoord + 1, zCoord));
-		coords.add(new BlockPos(xCoord, yCoord + 2, zCoord));
+        coords.add(new BlockPos(xCoord, yCoord + 1, zCoord));
+        coords.add(new BlockPos(xCoord, yCoord + 2, zCoord));
 
-		return coords;
-	}
+        return coords;
+    }
 
-    public IUpgradeHandler getUpgradeHandler(){return upgradeHandler;}
+    public IUpgradeHandler getUpgradeHandler() {
+        return upgradeHandler;
+    }
 
-    public static class UpgradeHandler implements IUpgradeHandler
-    {
+    public static class UpgradeHandler implements IUpgradeHandler {
 
         @Override
-        public double affectUpgrade(UpgradeTypes type, double multiply)
-        {
-            if (type.equals(UpgradeTypes.Range))
-            {
-                return Math.min(8,multiply);
+        public double affectUpgrade(UpgradeTypes type, double multiply) {
+            if (type.equals(UpgradeTypes.Range)) {
+                return Math.min(8, multiply);
             }
             return multiply;
         }

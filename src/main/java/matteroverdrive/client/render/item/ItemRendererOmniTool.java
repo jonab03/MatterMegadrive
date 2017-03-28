@@ -33,8 +33,7 @@ import java.util.Random;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class ItemRendererOmniTool extends WeaponItemRenderer
-{
+public class ItemRendererOmniTool extends WeaponItemRenderer {
     public static final String TEXTURE = Reference.PATH_ITEM + "wielder.png";
     public static final String MODEL = Reference.PATH_MODEL + "item/wielder.obj";
     public static final float SCALE = 7f;
@@ -43,9 +42,8 @@ public class ItemRendererOmniTool extends WeaponItemRenderer
     public static final float SCALE_DROP = 2.5f;
     private Random random;
 
-    public ItemRendererOmniTool()
-    {
-        super(new ResourceLocation(MODEL),new ResourceLocation(TEXTURE));
+    public ItemRendererOmniTool() {
+        super(new ResourceLocation(MODEL), new ResourceLocation(TEXTURE));
         random = new Random();
     }
 
@@ -60,59 +58,47 @@ public class ItemRendererOmniTool extends WeaponItemRenderer
     }
 
     @Override
-    public void renderItem(ItemRenderType type, ItemStack item, Object... data)
-    {
-        if(type == ItemRenderType.EQUIPPED_FIRST_PERSON)
-        {
+    public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+        if (type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
             renderFirstPerson(item);
-        }
-        else if(type == ItemRenderType.INVENTORY)
-        {
+        } else if (type == ItemRenderType.INVENTORY) {
             renderItem(item);
-        }
-        else if(type == ItemRenderType.ENTITY)
-        {
+        } else if (type == ItemRenderType.ENTITY) {
             renderDrop(item);
-        }
-        else
-        {
-            renderThirdPerson(type,item);
+        } else {
+            renderThirdPerson(type, item);
         }
     }
 
-    void renderItem(ItemStack item)
-    {
+    void renderItem(ItemStack item) {
         glPushMatrix();
         glScaled(ITEM_SCALE, ITEM_SCALE, ITEM_SCALE);
         glTranslated(0, 0, -0.25);
         glRotated(180, 0, 1, 0);
-        renderGun(ItemRenderType.INVENTORY,item);
+        renderGun(ItemRenderType.INVENTORY, item);
         glPopMatrix();
     }
 
-    void renderThirdPerson(ItemRenderType renderType, ItemStack item)
-    {
+    void renderThirdPerson(ItemRenderType renderType, ItemStack item) {
         glPushMatrix();
         glScaled(THIRD_PERSON_SCALE, THIRD_PERSON_SCALE, THIRD_PERSON_SCALE);
         glTranslated(0.3, 0.3, 0.3);
         glRotated(60, -1, 0, 1);
         glRotated(40, 0, 1, 0);
-        renderGun(renderType,item);
+        renderGun(renderType, item);
         glPopMatrix();
     }
 
-    void renderDrop(ItemStack item)
-    {
+    void renderDrop(ItemStack item) {
         glPushMatrix();
         glScaled(SCALE_DROP, SCALE_DROP, SCALE_DROP);
         glTranslated(0, 0, 0);
         glRotated(15, 1, 0, 0);
-        renderGun(ItemRenderType.ENTITY,item);
+        renderGun(ItemRenderType.ENTITY, item);
         glPopMatrix();
     }
 
-    void renderFirstPerson(ItemStack item)
-    {
+    void renderFirstPerson(ItemStack item) {
         glPushMatrix();
         float recoilValue = MOEasing.Quad.easeInOut(getRecoilTime(), 0, 1, 1f);
 
@@ -127,45 +113,40 @@ public class ItemRendererOmniTool extends WeaponItemRenderer
 
         glPushMatrix();
         glScaled(SCALE, SCALE, SCALE);
-        if(Minecraft.getMinecraft().thePlayer.isUsingItem())
-        {
+        if (Minecraft.getMinecraft().thePlayer.isUsingItem()) {
             glTranslated(0.15, 0.03, -0.0);
             glRotated(35, 0, -1, 0);
             glRotated(25, 1, 0, 0);
             glScaled(1, 1, 0.7);
-        }
-        else
-        {
+        } else {
             glTranslated(0.15, 0.03, -0.0);
             glRotated(40, 0, -1, 0);
             glRotated(5, 1, 0, 0);
             glScaled(1, 1, 0.7);
         }
-        renderGun(ItemRenderType.EQUIPPED_FIRST_PERSON,item);
+        renderGun(ItemRenderType.EQUIPPED_FIRST_PERSON, item);
         glPopMatrix();
         glPopMatrix();
     }
 
-    void renderGun(ItemRenderType renderType, ItemStack item)
-    {
+    void renderGun(ItemRenderType renderType, ItemStack item) {
         glEnable(GL_NORMALIZE);
         bindTexture(weaponTexture);
-        weaponModel.renderOnly("welder_arms_base","wielder_arms","grip");
+        weaponModel.renderOnly("welder_arms_base", "wielder_arms", "grip");
         renderBarrel(item);
 
         RenderUtils.applyColor(WeaponHelper.getColor(item));
-        weaponModel.renderOnly("hull", "sights_rail","side_rail");
+        weaponModel.renderOnly("hull", "sights_rail", "side_rail");
 
         glDisable(GL_LIGHTING);
         RenderUtils.disableLightmap();
-        glColor3f(1,1,1);
+        glColor3f(1, 1, 1);
         weaponModel.renderPart("indicator");
         glEnable(GL_LIGHTING);
         RenderUtils.enableLightmap();
     }
 
-    void renderHand()
-    {
+    void renderHand() {
         if (!Minecraft.getMinecraft().thePlayer.isInvisible()) {
             GL11.glPushMatrix();
             ResourceLocation skin = Minecraft.getMinecraft().thePlayer.getLocationSkin();
@@ -196,8 +177,7 @@ public class ItemRendererOmniTool extends WeaponItemRenderer
         }
     }
 
-    public WavefrontObject getModel()
-    {
+    public WavefrontObject getModel() {
         return weaponModel;
     }
 }

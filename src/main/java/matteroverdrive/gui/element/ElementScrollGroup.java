@@ -27,36 +27,31 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 12/6/2015.
  */
-public class ElementScrollGroup extends ElementBaseGroup
-{
+public class ElementScrollGroup extends ElementBaseGroup {
     int contentTotalHeight;
     int scroll;
     float scrollSmooth;
     int scrollSpeed = 10;
     int scrollerColor;
 
-    public ElementScrollGroup(MOGuiBase gui, int posX, int posY, int width, int height)
-    {
+    public ElementScrollGroup(MOGuiBase gui, int posX, int posY, int width, int height) {
         super(gui, posX, posY, width, height);
     }
 
-    private void manageDrag(int maxHeight)
-    {
-        scrollSmooth = MOMathHelper.Lerp(scrollSmooth,scroll,0.1f);
+    private void manageDrag(int maxHeight) {
+        scrollSmooth = MOMathHelper.Lerp(scrollSmooth, scroll, 0.1f);
     }
 
     @Override
-    public void drawBackground(int mouseX, int mouseY, float gameTicks)
-    {
+    public void drawBackground(int mouseX, int mouseY, float gameTicks) {
         contentTotalHeight = 0;
-        for (MOElementBase element : elements)
-        {
+        for (MOElementBase element : elements) {
             element.setPosition(element.getPosX(), Math.round(contentTotalHeight + scrollSmooth));
             element.setVisible(true);
             contentTotalHeight += element.getHeight();
         }
 
-        manageDrag(Math.max(0,contentTotalHeight-sizeY));
+        manageDrag(Math.max(0, contentTotalHeight - sizeY));
 
         RenderUtils.beginStencil();
         drawStencil(posX, posY, posX + sizeX, posY + sizeY, 1);
@@ -65,10 +60,9 @@ public class ElementScrollGroup extends ElementBaseGroup
     }
 
     @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
+    public void drawForeground(int mouseX, int mouseY) {
         RenderUtils.beginDrawingDepthMask();
-        RenderUtils.drawPlane(posX,posY,100,sizeX,sizeY);
+        RenderUtils.drawPlane(posX, posY, 100, sizeX, sizeY);
         //drawStencil(posX, posY, sizeX + posX, sizeY + posY, 1);
         RenderUtils.beginDepthMasking();
         super.drawForeground(mouseX, mouseY);
@@ -76,9 +70,8 @@ public class ElementScrollGroup extends ElementBaseGroup
 
         glDisable(GL_TEXTURE_2D);
         RenderUtils.applyColor(scrollerColor);
-        if (contentTotalHeight-sizeY > 0)
-        {
-            int maxScroll = contentTotalHeight-sizeY;
+        if (contentTotalHeight - sizeY > 0) {
+            int maxScroll = contentTotalHeight - sizeY;
             float scrollPercent = -scrollSmooth / (float) maxScroll;
             int scrollerSize = (int) (((float) sizeY / (float) contentTotalHeight) * sizeY);
             int scrollerY = sizeY - scrollerSize;
@@ -100,25 +93,27 @@ public class ElementScrollGroup extends ElementBaseGroup
         return true;
     }
 
-    public void scrollDown()
-    {
-        scroll-=scrollSpeed;
-        scroll = Math.max(scroll,-Math.max(0,contentTotalHeight-sizeY));
+    public void scrollDown() {
+        scroll -= scrollSpeed;
+        scroll = Math.max(scroll, -Math.max(0, contentTotalHeight - sizeY));
     }
 
     public void scrollUp() {
 
-        if(scroll < 0)
-        {
-            scroll = Math.min(scroll + scrollSpeed,0);
+        if (scroll < 0) {
+            scroll = Math.min(scroll + scrollSpeed, 0);
         }
     }
 
-    public void setScrollerColor(int color)
-    {
+    public void setScrollerColor(int color) {
         scrollerColor = color;
     }
 
-    public int getScroll(){return scroll;}
-    public void setScroll(int scroll){this.scroll = scroll;}
+    public int getScroll() {
+        return scroll;
+    }
+
+    public void setScroll(int scroll) {
+        this.scroll = scroll;
+    }
 }

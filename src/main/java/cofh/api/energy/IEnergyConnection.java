@@ -9,13 +9,12 @@ import net.minecraftforge.common.util.ForgeDirection;
  * Note that {@link IEnergyHandler} is an extension of this.
  *
  * @author King Lemming
- *
  */
 public interface IEnergyConnection {
 
-	/**
-	 * Returns TRUE if the TileEntity can connect on a given side.
-	 */
-	boolean canConnectEnergy(ForgeDirection from);
+    /**
+     * Returns TRUE if the TileEntity can connect on a given side.
+     */
+    boolean canConnectEnergy(ForgeDirection from);
 
 }

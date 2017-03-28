@@ -25,12 +25,10 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Created by Simeon on 4/16/2015.
  */
-public class WeaponSound extends PositionedSound implements ITickableSound
-{
+public class WeaponSound extends PositionedSound implements ITickableSound {
     private boolean donePlaying;
 
-    public WeaponSound(ResourceLocation sound, float x, float y, float z, float volume, float pitch)
-    {
+    public WeaponSound(ResourceLocation sound, float x, float y, float z, float volume, float pitch) {
         super(sound);
         setPosition(x, y, z);
         this.volume = volume;
@@ -39,37 +37,31 @@ public class WeaponSound extends PositionedSound implements ITickableSound
         this.field_147665_h = 0;
     }
 
-    public void setRepeat(boolean repeat)
-    {
+    public void setRepeat(boolean repeat) {
         this.repeat = repeat;
     }
 
     @Override
-    public boolean isDonePlaying()
-    {
+    public boolean isDonePlaying() {
         return donePlaying;
     }
 
-    public void stopPlaying()
-    {
+    public void stopPlaying() {
         donePlaying = true;
     }
 
-    public void startPlaying()
-    {
+    public void startPlaying() {
         donePlaying = false;
     }
 
-    public void setPosition(float x,float y,float z)
-    {
+    public void setPosition(float x, float y, float z) {
         this.xPosF = x;
         this.yPosF = y;
         this.zPosF = z;
     }
 
     @Override
-    public void update()
-    {
+    public void update() {
 
     }
 }

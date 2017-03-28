@@ -29,25 +29,22 @@ import java.util.Random;
 /**
  * Created by Simeon on 8/31/2015.
  */
-public class GuideElementPreview extends GuideElementAbstract
-{
+public class GuideElementPreview extends GuideElementAbstract {
     private static Random random = new Random();
     double size = 1;
     ItemStack itemStack;
 
     @Override
-    public void drawElement(int width,int mouseX,int mouseY)
-    {
-        if (itemStack != null)
-        {
+    public void drawElement(int width, int mouseX, int mouseY) {
+        if (itemStack != null) {
             GL11.glPushMatrix();
 
             if (textAlign == 1)
-                GL11.glTranslated(width/2 - 8*size,0,0);
+                GL11.glTranslated(width / 2 - 8 * size, 0, 0);
             else if (textAlign == 2)
-                GL11.glTranslated(width - 16*size,0,0);
+                GL11.glTranslated(width - 16 * size, 0, 0);
 
-            GL11.glTranslated(marginLeft,marginTop,0);
+            GL11.glTranslated(marginLeft, marginTop, 0);
             GL11.glScaled(size, size, size);
             RenderUtils.renderStack(0, 0, itemStack);
             GL11.glPopMatrix();
@@ -56,24 +53,20 @@ public class GuideElementPreview extends GuideElementAbstract
 
     @Override
     protected void loadContent(MOGuideEntry entry, Element element, int width, int height) {
-        if (element.hasAttribute("item"))
-        {
+        if (element.hasAttribute("item")) {
             itemStack = shortCodeToStack(decodeShortcode(element.getAttribute("item")));
-        }else if (entry.getStackIcons() != null && entry.getStackIcons().length > 0)
-        {
+        } else if (entry.getStackIcons() != null && entry.getStackIcons().length > 0) {
             int index = random.nextInt(entry.getStackIcons().length);
-            if (element.hasAttribute("index"))
-            {
+            if (element.hasAttribute("index")) {
                 index = Integer.parseInt(element.getAttribute("index"));
             }
-            index = MathHelper.clamp_int(index,0,entry.getStackIcons().length-1);
+            index = MathHelper.clamp_int(index, 0, entry.getStackIcons().length - 1);
             itemStack = entry.getStackIcons()[index];
         }
-        if (element.hasAttribute("size"))
-        {
+        if (element.hasAttribute("size")) {
             size = Double.parseDouble(element.getAttribute("size"));
         }
-        this.height = (int)(16*size);
-        this.width = (int)(16*size);
+        this.height = (int) (16 * size);
+        this.width = (int) (16 * size);
     }
 }

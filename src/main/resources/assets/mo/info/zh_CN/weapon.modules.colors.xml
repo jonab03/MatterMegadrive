@@ -19,8 +19,12 @@
 <entry stylesheet="mo:info/styles/guide.css">
     <page class="padded-page">
         <title size="2" class="matter-text small-title">武器颜色模块</title>
-        <text class="matter-text text-block">所有能量武器包括[item name=phaser], [item name=phaser_rifle]以及[item name=omni_tool]均可通过模块升级. 其中之一就是武器颜色模块.</text>
-        <text class="matter-text text-block">武器颜色模块通过改变外壳颜色来改变武器外观. 它们同样可以改变[item name=phaser]和[item name=omni_tool]的射线颜色还有[item name=phaser_rifle]和[item name=omni_tool]发射的子弹颜色.</text>
+        <text class="matter-text text-block">所有能量武器包括[item name=phaser], [item name=phaser_rifle]以及[item
+            name=omni_tool]均可通过模块升级. 其中之一就是武器颜色模块.
+        </text>
+        <text class="matter-text text-block">武器颜色模块通过改变外壳颜色来改变武器外观. 它们同样可以改变[item name=phaser]和[item
+            name=omni_tool]的射线颜色还有[item name=phaser_rifle]和[item name=omni_tool]发射的子弹颜色.
+        </text>
         <text class="matter-text text-block">颜色模块仅能够在地牢箱子中被找到, 它们既不能被复制重组也不能被合成.</text>
     </page>
 </entry>

@@ -24,22 +24,19 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 11/12/2015.
  */
-public class InscriberSlot extends Slot
-{
+public class InscriberSlot extends Slot {
     boolean isSecSolt;
 
-    public InscriberSlot(boolean isMainSlot,boolean isSecSlot) {
+    public InscriberSlot(boolean isMainSlot, boolean isSecSlot) {
         super(isMainSlot);
         this.isSecSolt = isSecSlot;
     }
 
-    public boolean isValidForSlot(ItemStack item)
-    {
-        return InscriberRecipes.containedInRecipe(item,!isSecSolt);
+    public boolean isValidForSlot(ItemStack item) {
+        return InscriberRecipes.containedInRecipe(item, !isSecSolt);
     }
 
-    public int getMaxStackSize()
-    {
+    public int getMaxStackSize() {
         if (isSecSolt)
             return 64;
         else

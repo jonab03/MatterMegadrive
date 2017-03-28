@@ -2,26 +2,28 @@ package mekanism.api.energy;
 
 /**
  * Mekanism-specific energy storage for TileEntities, already implemented in IStrictEnergyAcceptor.
- * @author aidancbrady
  *
+ * @author aidancbrady
  */
-public interface IStrictEnergyStorage
-{
-	/**
-	 * Gets the amount of energy this TileEntity is currently storing.
-	 * @return stored energy
-	 */
-	public double getEnergy();
+public interface IStrictEnergyStorage {
+    /**
+     * Gets the amount of energy this TileEntity is currently storing.
+     *
+     * @return stored energy
+     */
+    double getEnergy();
 
-	/**
-	 * Sets the amount of stored energy of this TileEntity to a new amount.
-	 * @param energy - new energy value
-	 */
-	public void setEnergy(double energy);
+    /**
+     * Sets the amount of stored energy of this TileEntity to a new amount.
+     *
+     * @param energy - new energy value
+     */
+    void setEnergy(double energy);
 
-	/**
-	 * Gets the maximum amount of energy this TileEntity can store.
-	 * @return maximum energy
-	 */
-	public double getMaxEnergy();
+    /**
+     * Gets the maximum amount of energy this TileEntity can store.
+     *
+     * @return maximum energy
+     */
+    double getMaxEnergy();
 }

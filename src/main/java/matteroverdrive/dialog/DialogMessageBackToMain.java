@@ -28,17 +28,19 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 11/22/2015.
  */
-public class DialogMessageBackToMain extends DialogMessageBack
-{
-    public DialogMessageBackToMain(){super();}
-    public DialogMessageBackToMain(String message){super(message);}
+public class DialogMessageBackToMain extends DialogMessageBack {
+    public DialogMessageBackToMain() {
+        super();
+    }
+
+    public DialogMessageBackToMain(String message) {
+        super(message);
+    }
 
     @SideOnly(Side.CLIENT)
     @Override
-    protected void setAsGuiActiveMessage(IDialogNpc npc, EntityPlayer player)
-    {
-        if (Minecraft.getMinecraft().currentScreen instanceof GuiDialog)
-        {
+    protected void setAsGuiActiveMessage(IDialogNpc npc, EntityPlayer player) {
+        if (Minecraft.getMinecraft().currentScreen instanceof GuiDialog) {
             ((GuiDialog) Minecraft.getMinecraft().currentScreen).setCurrentMessage(npc.getStartDialogMessage(player));
         }
     }

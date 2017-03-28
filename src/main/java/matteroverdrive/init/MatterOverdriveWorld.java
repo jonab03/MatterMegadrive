@@ -27,25 +27,21 @@ import matteroverdrive.world.MOWorldGen;
 /**
  * Created by Simeon on 3/23/2015.
  */
-public class MatterOverdriveWorld
-{
+public class MatterOverdriveWorld {
     public MOWorldGen worldGen;
 
-    public MatterOverdriveWorld(ConfigurationHandler configurationHandler)
-    {
+    public MatterOverdriveWorld(ConfigurationHandler configurationHandler) {
         worldGen = new MOWorldGen(configurationHandler);
         configurationHandler.subscribe(worldGen);
     }
 
-    public void onWorldTick(TickEvent.WorldTickEvent event)
-    {
+    public void onWorldTick(TickEvent.WorldTickEvent event) {
         if (event.side.equals(Side.SERVER)) {
             worldGen.manageBuildingGeneration(event);
         }
     }
 
-    public void register()
-    {
-        GameRegistry.registerWorldGenerator(worldGen,0);
+    public void register() {
+        GameRegistry.registerWorldGenerator(worldGen, 0);
     }
 }

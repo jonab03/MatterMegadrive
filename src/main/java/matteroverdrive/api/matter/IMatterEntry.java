@@ -23,16 +23,17 @@ package matteroverdrive.api.matter;
  * All matter values for items stored in instances of this class.
  * Used in the {@link IMatterRegistry} to store matter values on items.
  */
-public interface IMatterEntry
-{
+public interface IMatterEntry {
     /**
      * The amount of matter the entry is composed of.
+     *
      * @return The matter amount of the entry.
      */
     int getMatter();
 
     /**
      * Sets the matter amount of the entry.
+     *
      * @param matter
      */
     void setMatter(int matter);

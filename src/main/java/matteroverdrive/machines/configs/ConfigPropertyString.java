@@ -25,65 +25,54 @@ import java.util.regex.Pattern;
 /**
  * Created by Simeon on 12/10/2015.
  */
-public class ConfigPropertyString extends ConfigPropertyAbstract
-{
+public class ConfigPropertyString extends ConfigPropertyAbstract {
     String value;
     short maxLength = Short.MAX_VALUE;
     Pattern pattern;
 
-    public ConfigPropertyString(String key, String unlocalizedName,String def)
-    {
+    public ConfigPropertyString(String key, String unlocalizedName, String def) {
         super(key, unlocalizedName);
         value = def;
     }
 
     @Override
-    public Object getValue()
-    {
+    public Object getValue() {
         return value;
     }
 
     @Override
-    public void setValue(Object value)
-    {
+    public void setValue(Object value) {
         this.value = value.toString();
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound nbt)
-    {
-        nbt.setString(getKey(),value);
+    public void writeToNBT(NBTTagCompound nbt) {
+        nbt.setString(getKey(), value);
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound nbt)
-    {
+    public void readFromNBT(NBTTagCompound nbt) {
         value = nbt.getString(getKey());
     }
 
     @Override
-    public Class getType()
-    {
+    public Class getType() {
         return String.class;
     }
 
-    public void setMaxLength(short maxLength)
-    {
+    public void setMaxLength(short maxLength) {
         this.maxLength = maxLength;
     }
 
-    public short getMaxLength()
-    {
+    public short getMaxLength() {
         return maxLength;
     }
 
-    public void setPattern(Pattern pattern)
-    {
+    public void setPattern(Pattern pattern) {
         this.pattern = pattern;
     }
 
-    public Pattern getPattern()
-    {
+    public Pattern getPattern() {
         return this.pattern;
     }
 }

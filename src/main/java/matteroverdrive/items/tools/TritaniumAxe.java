@@ -25,10 +25,8 @@ import net.minecraft.item.ItemAxe;
 /**
  * Created by Simeon on 11/1/2015.
  */
-public class TritaniumAxe extends ItemAxe
-{
-    public TritaniumAxe(String name)
-    {
+public class TritaniumAxe extends ItemAxe {
+    public TritaniumAxe(String name) {
         super(MatterOverdriveItems.toolMaterialTritanium);
         this.setUnlocalizedName(name);
         this.setTextureName(Reference.MOD_ID + ":" + name);

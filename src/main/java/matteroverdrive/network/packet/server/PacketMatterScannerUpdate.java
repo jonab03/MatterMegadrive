@@ -31,19 +31,18 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 3/9/2015.
  */
-public class PacketMatterScannerUpdate extends PacketAbstract
-{
+public class PacketMatterScannerUpdate extends PacketAbstract {
     private ItemPattern selected;
     private short page;
     //private boolean panelOpen;
     private short slot;
 
-    public PacketMatterScannerUpdate(){}
+    public PacketMatterScannerUpdate() {
+    }
 
-    public PacketMatterScannerUpdate(ItemStack scanner,short slot)
-    {
+    public PacketMatterScannerUpdate(ItemStack scanner, short slot) {
         selected = MatterScanner.getSelectedAsPattern(scanner);
-        if(scanner.hasTagCompound()) {
+        if (scanner.hasTagCompound()) {
             this.page = scanner.getTagCompound().getByte(MatterScanner.PAGE_TAG_NAME);
             //this.panelOpen = scanner.getTagCompound().getBoolean(MatterScanner.PANEL_OPEN_TAG_NAME);
         }
@@ -51,8 +50,7 @@ public class PacketMatterScannerUpdate extends PacketAbstract
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         this.selected = new ItemPattern(buf);
         this.page = buf.readShort();
         //this.panelOpen = buffer.readBoolean();
@@ -60,21 +58,19 @@ public class PacketMatterScannerUpdate extends PacketAbstract
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         selected.writeToBuffer(buf);
         buf.writeShort(this.page);
         //buffer.writeBoolean(this.panelOpen);
         buf.writeShort(slot);
     }
 
-    public static class ServerHandler extends AbstractServerPacketHandler<PacketMatterScannerUpdate>
-    {
-        public ServerHandler(){}
+    public static class ServerHandler extends AbstractServerPacketHandler<PacketMatterScannerUpdate> {
+        public ServerHandler() {
+        }
 
         @Override
-        public IMessage handleServerMessage(EntityPlayer player, PacketMatterScannerUpdate message, MessageContext ctx)
-        {
+        public IMessage handleServerMessage(EntityPlayer player, PacketMatterScannerUpdate message, MessageContext ctx) {
             if (message.slot < player.inventory.getSizeInventory()) {
                 ItemStack scanner = player.inventory.getStackInSlot(message.slot);
                 if (MatterHelper.isMatterScanner(scanner)) {

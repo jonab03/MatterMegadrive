@@ -35,12 +35,10 @@ import static matteroverdrive.util.MOBlockHelper.getOppositeSide;
 /**
  * Created by Simeon on 3/27/2015.
  */
-public class BlockPatternStorage extends MOBlockMachine
-{
+public class BlockPatternStorage extends MOBlockMachine {
     public boolean hasVentParticles;
 
-    public BlockPatternStorage(Material material, String name)
-    {
+    public BlockPatternStorage(Material material, String name) {
         super(material, name);
         setHardness(20.0F);
         this.setResistance(9.0f);
@@ -50,10 +48,8 @@ public class BlockPatternStorage extends MOBlockMachine
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIcon(int side, int metadata)
-    {
-        if(side == getOppositeSide(metadata))
-        {
+    public IIcon getIcon(int side, int metadata) {
+        if (side == getOppositeSide(metadata)) {
             return MatterOverdriveIcons.Vent;
         }
 
@@ -66,19 +62,16 @@ public class BlockPatternStorage extends MOBlockMachine
     }
 
     @Override
-    public int getRenderType()
-    {
+    public int getRenderType() {
         return RendererBlockPatternStorage.renderID;
     }
 
     @Override
-    public boolean isOpaqueCube()
-    {
+    public boolean isOpaqueCube() {
         return false;
     }
 
-    public void onConfigChanged(ConfigurationHandler config)
-    {
+    public void onConfigChanged(ConfigurationHandler config) {
         super.onConfigChanged(config);
         hasVentParticles = config.getMachineBool(getUnlocalizedName(), "particles.vent", true, "Should vent particles be displayed");
         TileEntityMachinePatternStorage.ENERGY_CAPACITY = config.getMachineInt(getUnlocalizedName(), "storage.energy", 64000, String.format("How much energy can the %s hold", getLocalizedName()));

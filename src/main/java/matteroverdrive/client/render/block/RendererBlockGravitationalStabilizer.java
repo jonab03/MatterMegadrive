@@ -9,21 +9,17 @@ import net.minecraftforge.common.util.ForgeDirection;
 /**
  * Created by Simeon on 5/18/2015.
  */
-public class RendererBlockGravitationalStabilizer extends MOBlockRenderer
-{
+public class RendererBlockGravitationalStabilizer extends MOBlockRenderer {
     public static int renderID;
 
-    public RendererBlockGravitationalStabilizer()
-    {
+    public RendererBlockGravitationalStabilizer() {
         renderID = RenderingRegistry.getNextAvailableRenderId();
     }
 
     @Override
-    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer)
-    {
+    public boolean renderWorldBlock(IBlockAccess world, int x, int y, int z, Block block, int modelId, RenderBlocks renderer) {
         int meta = world.getBlockMetadata(x, y, z);
-        if (meta == ForgeDirection.WEST.ordinal() || meta == ForgeDirection.EAST.ordinal())
-        {
+        if (meta == ForgeDirection.WEST.ordinal() || meta == ForgeDirection.EAST.ordinal()) {
             renderer.uvRotateTop = 1;
             renderer.uvRotateBottom = 1;
         }
@@ -35,8 +31,7 @@ public class RendererBlockGravitationalStabilizer extends MOBlockRenderer
     }
 
     @Override
-    public int getRenderId()
-    {
+    public int getRenderId() {
         return renderID;
     }
 }

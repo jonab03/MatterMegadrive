@@ -13,39 +13,32 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 4/24/2015.
  */
-public class EarlGrayTea extends ItemFood
-{
-    public EarlGrayTea(String name)
-    {
+public class EarlGrayTea extends ItemFood {
+    public EarlGrayTea(String name) {
         super(4, 0.8F, false);
         setUnlocalizedName(name);
         setTextureName(Reference.MOD_ID + ":" + name);
         setAlwaysEdible();
     }
 
-    public void Register()
-    {
+    public void Register() {
         setCreativeTab(MatterOverdrive.tabMatterOverdrive_food);
         GameRegistry.registerItem(this, this.getUnlocalizedName().substring(5));
     }
 
     @Override
-    public ItemStack onEaten(ItemStack itemStack, World world, EntityPlayer player)
-    {
-        super.onEaten(itemStack,world,player);
+    public ItemStack onEaten(ItemStack itemStack, World world, EntityPlayer player) {
+        super.onEaten(itemStack, world, player);
 
-        if (!player.capabilities.isCreativeMode)
-        {
+        if (!player.capabilities.isCreativeMode) {
             --itemStack.stackSize;
         }
 
-        if (!world.isRemote)
-        {
+        if (!world.isRemote) {
             player.curePotionEffects(itemStack);
         }
 
-        if (itemStack.stackSize > 0)
-        {
+        if (itemStack.stackSize > 0) {
             player.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle));
         }
 
@@ -53,8 +46,7 @@ public class EarlGrayTea extends ItemFood
     }
 
     @Override
-    public EnumAction getItemUseAction(ItemStack itemStack)
-    {
+    public EnumAction getItemUseAction(ItemStack itemStack) {
         return EnumAction.drink;
     }
 }

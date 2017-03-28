@@ -26,18 +26,16 @@ import java.util.*;
 /**
  * Created by Simeon on 11/19/2015.
  */
-public class Quests
-{
+public class Quests {
     private static final int MIN_QUEST_BIT = 0;
     private static final int MAX_QUEST_IDS = Short.MAX_VALUE;
     private BitSet bitSet;
-    private Map<Integer,IQuest> questMap;
-    private Map<IQuest,Integer> questIntegerMap;
-    private Map<String,IQuest> stringQuestMap;
+    private Map<Integer, IQuest> questMap;
+    private Map<IQuest, Integer> questIntegerMap;
+    private Map<String, IQuest> stringQuestMap;
     public final Random random;
 
-    public Quests()
-    {
+    public Quests() {
         bitSet = new BitSet(MAX_QUEST_IDS);
         questMap = new HashMap<>();
         questIntegerMap = new HashMap<>();
@@ -45,44 +43,37 @@ public class Quests
         random = new Random();
     }
 
-    public IQuest getQuestWithID(int questID)
-    {
+    public IQuest getQuestWithID(int questID) {
         return questMap.get(questID);
     }
 
-    public int getQuestID(IQuest quest)
-    {
+    public int getQuestID(IQuest quest) {
         return questIntegerMap.get(quest);
     }
 
-    public IQuest getQuestByName(String name)
-    {
+    public IQuest getQuestByName(String name) {
         return stringQuestMap.get(name);
     }
 
-    public void registerQuest(String name,Quest quest)
-    {
-        if(questIntegerMap.containsKey(name))
-        {
+    public void registerQuest(String name, Quest quest) {
+        if (questIntegerMap.containsKey(name)) {
             throw new RuntimeException(name + " Quest is already registered");
         }
         int id = bitSet.nextClearBit(MIN_QUEST_BIT);
-        questMap.put(id,quest);
-        questIntegerMap.put(quest,id);
-        stringQuestMap.put(name,quest);
-        bitSet.set(id,true);
+        questMap.put(id, quest);
+        questIntegerMap.put(quest, id);
+        stringQuestMap.put(name, quest);
+        bitSet.set(id, true);
     }
 
-    public void registerQuestAt(Integer id,String name,IQuest quest)
-    {
-        questMap.put(id,quest);
-        questIntegerMap.put(quest,id);
-        bitSet.set(id,true);
-        stringQuestMap.put(name,quest);
+    public void registerQuestAt(Integer id, String name, IQuest quest) {
+        questMap.put(id, quest);
+        questIntegerMap.put(quest, id);
+        bitSet.set(id, true);
+        stringQuestMap.put(name, quest);
     }
 
-    public Set<String> getAllQuestName()
-    {
+    public Set<String> getAllQuestName() {
         return stringQuestMap.keySet();
     }
 }

@@ -37,21 +37,19 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 8/20/2015.
  */
-public class MatterContainer extends MOBaseItem
-{
+public class MatterContainer extends MOBaseItem {
     IIcon centerFill;
     IIcon bottomFill;
     boolean isFull;
 
-    public MatterContainer(String name,boolean isFull) {
+    public MatterContainer(String name, boolean isFull) {
         super(name);
         this.isFull = isFull;
         setMaxStackSize(8);
     }
 
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister iconRegister)
-    {
+    public void registerIcons(IIconRegister iconRegister) {
         this.itemIcon = iconRegister.registerIcon(Reference.MOD_ID + ":" + "container");
         centerFill = iconRegister.registerIcon(Reference.MOD_ID + ":" + "container_center_fill");
         bottomFill = iconRegister.registerIcon(Reference.MOD_ID + ":" + "container_bottom_fill");
@@ -59,105 +57,82 @@ public class MatterContainer extends MOBaseItem
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean requiresMultipleRenderPasses()
-    {
+    public boolean requiresMultipleRenderPasses() {
         return isFull;
     }
 
     @Override
-    public int getRenderPasses(int metadata)
-    {
+    public int getRenderPasses(int metadata) {
         return isFull ? 3 : 1;
     }
 
-    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer)
-    {
+    public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer entityPlayer) {
         MovingObjectPosition movingobjectposition = this.getMovingObjectPositionFromPlayer(world, entityPlayer, !isFull);
 
-        if (movingobjectposition == null)
-        {
+        if (movingobjectposition == null) {
             return itemStack;
-        }
-        else
-        {
-            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
-            {
+        } else {
+            if (movingobjectposition.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
                 int i = movingobjectposition.blockX;
                 int j = movingobjectposition.blockY;
                 int k = movingobjectposition.blockZ;
 
-                if (!world.canMineBlock(entityPlayer, i, j, k))
-                {
+                if (!world.canMineBlock(entityPlayer, i, j, k)) {
                     return itemStack;
                 }
 
-                if (!isFull)
-                {
-                    if (!entityPlayer.canPlayerEdit(i, j, k, movingobjectposition.sideHit, itemStack))
-                    {
+                if (!isFull) {
+                    if (!entityPlayer.canPlayerEdit(i, j, k, movingobjectposition.sideHit, itemStack)) {
                         return itemStack;
                     }
 
                     Block block = world.getBlock(i, j, k);
                     int l = world.getBlockMetadata(i, j, k);
 
-                    if (block == MatterOverdriveBlocks.blockMatterPlasma && l == 0)
-                    {
+                    if (block == MatterOverdriveBlocks.blockMatterPlasma && l == 0) {
                         world.setBlockToAir(i, j, k);
                         return this.darinFluid(itemStack, entityPlayer, MatterOverdriveItems.matterContainerFull);
                     }
-                }
-                else
-                {
-                    if (!this.isFull)
-                    {
+                } else {
+                    if (!this.isFull) {
                         return new ItemStack(MatterOverdriveItems.matterContainer);
                     }
 
-                    if (movingobjectposition.sideHit == 0)
-                    {
+                    if (movingobjectposition.sideHit == 0) {
                         --j;
                     }
 
-                    if (movingobjectposition.sideHit == 1)
-                    {
+                    if (movingobjectposition.sideHit == 1) {
                         ++j;
                     }
 
-                    if (movingobjectposition.sideHit == 2)
-                    {
+                    if (movingobjectposition.sideHit == 2) {
                         --k;
                     }
 
-                    if (movingobjectposition.sideHit == 3)
-                    {
+                    if (movingobjectposition.sideHit == 3) {
                         ++k;
                     }
 
-                    if (movingobjectposition.sideHit == 4)
-                    {
+                    if (movingobjectposition.sideHit == 4) {
                         --i;
                     }
 
-                    if (movingobjectposition.sideHit == 5)
-                    {
+                    if (movingobjectposition.sideHit == 5) {
                         ++i;
                     }
 
-                    if (!entityPlayer.canPlayerEdit(i, j, k, movingobjectposition.sideHit, itemStack))
-                    {
+                    if (!entityPlayer.canPlayerEdit(i, j, k, movingobjectposition.sideHit, itemStack)) {
                         return itemStack;
                     }
 
-                    if (this.tryPlaceContainedLiquid(world, i, j, k) && !entityPlayer.capabilities.isCreativeMode)
-                    {
+                    if (this.tryPlaceContainedLiquid(world, i, j, k) && !entityPlayer.capabilities.isCreativeMode) {
                         itemStack.stackSize--;
                         if (itemStack.stackSize > 1) {
                             if (!entityPlayer.inventory.addItemStackToInventory(new ItemStack(MatterOverdriveItems.matterContainer))) {
                                 entityPlayer.dropPlayerItemWithRandomChoice(new ItemStack(MatterOverdriveItems.matterContainer), false);
                             }
-                        }else if (itemStack.stackSize <= 0)
-                        {
+                        } else if (itemStack.stackSize <= 0) {
                             return new ItemStack(MatterOverdriveItems.matterContainer);
                         }
                     }
@@ -167,20 +142,13 @@ public class MatterContainer extends MOBaseItem
         return itemStack;
     }
 
-    private ItemStack darinFluid(ItemStack itemStack, EntityPlayer entityPlayer, Item item)
-    {
-        if (entityPlayer.capabilities.isCreativeMode)
-        {
+    private ItemStack darinFluid(ItemStack itemStack, EntityPlayer entityPlayer, Item item) {
+        if (entityPlayer.capabilities.isCreativeMode) {
             return itemStack;
-        }
-        else if (--itemStack.stackSize <= 0)
-        {
+        } else if (--itemStack.stackSize <= 0) {
             return new ItemStack(item);
-        }
-        else
-        {
-            if (!entityPlayer.inventory.addItemStackToInventory(new ItemStack(item)))
-            {
+        } else {
+            if (!entityPlayer.inventory.addItemStackToInventory(new ItemStack(item))) {
                 entityPlayer.dropPlayerItemWithRandomChoice(new ItemStack(item, 1, 0), false);
             }
 
@@ -188,24 +156,16 @@ public class MatterContainer extends MOBaseItem
         }
     }
 
-    public boolean tryPlaceContainedLiquid(World world, int x, int y, int z)
-    {
-        if (!isFull)
-        {
+    public boolean tryPlaceContainedLiquid(World world, int x, int y, int z) {
+        if (!isFull) {
             return false;
-        }
-        else
-        {
+        } else {
             Material material = world.getBlock(x, y, z).getMaterial();
 
-            if (!world.isAirBlock(x, y, z))
-            {
+            if (!world.isAirBlock(x, y, z)) {
                 return false;
-            }
-            else
-            {
-                if (!world.isRemote && !material.isLiquid())
-                {
+            } else {
+                if (!world.isRemote && !material.isLiquid()) {
                     world.func_147480_a(x, y, z, true);
                 }
 
@@ -218,31 +178,24 @@ public class MatterContainer extends MOBaseItem
 
     @Override
     @SideOnly(Side.CLIENT)
-    public IIcon getIconFromDamageForRenderPass(int damage, int pass)
-    {
-        if (pass == 1 && isFull)
-        {
+    public IIcon getIconFromDamageForRenderPass(int damage, int pass) {
+        if (pass == 1 && isFull) {
             return centerFill;
-        }else if (pass == 2 && isFull)
-        {
+        } else if (pass == 2 && isFull) {
             return bottomFill;
-        }else
-        {
+        } else {
             return itemIcon;
         }
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack itemStack, int pass)
-    {
-        if (pass == 1 && isFull)
-        {
+    public int getColorFromItemStack(ItemStack itemStack, int pass) {
+        if (pass == 1 && isFull) {
             return Reference.COLOR_MATTER.getColor();
-        }else if (pass == 2 && isFull)
-        {
+        } else if (pass == 2 && isFull) {
             return Reference.COLOR_YELLOW_STRIPES.getColor();
         }
-        return super.getColorFromItemStack(itemStack,pass);
+        return super.getColorFromItemStack(itemStack, pass);
     }
 }

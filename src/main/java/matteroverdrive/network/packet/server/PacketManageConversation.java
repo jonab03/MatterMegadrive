@@ -34,25 +34,21 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 8/11/2015.
  */
-public class PacketManageConversation extends PacketAbstract
-{
+public class PacketManageConversation extends PacketAbstract {
     public boolean start;
     public int npcID;
 
-    public PacketManageConversation()
-    {
+    public PacketManageConversation() {
 
     }
 
-    public PacketManageConversation(IDialogNpc npc,boolean start)
-    {
+    public PacketManageConversation(IDialogNpc npc, boolean start) {
         npcID = npc.getEntity().getEntityId();
         this.start = start;
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         npcID = buf.readInt();
         start = buf.readBoolean();
     }
@@ -63,21 +59,17 @@ public class PacketManageConversation extends PacketAbstract
         buf.writeBoolean(start);
     }
 
-    public static class BiHandler extends AbstractBiPacketHandler<PacketManageConversation>
-    {
+    public static class BiHandler extends AbstractBiPacketHandler<PacketManageConversation> {
         @Override
         @SideOnly(Side.CLIENT)
-        public IMessage handleClientMessage(EntityPlayer player, PacketManageConversation message, MessageContext ctx)
-        {
+        public IMessage handleClientMessage(EntityPlayer player, PacketManageConversation message, MessageContext ctx) {
             Entity npcEntity = player.worldObj.getEntityByID(message.npcID);
             if (npcEntity instanceof IDialogNpc) {
-                if (message.start)
-                {
-                    ((IDialogNpc) npcEntity).onPlayerInteract(player,null);
+                if (message.start) {
+                    ((IDialogNpc) npcEntity).onPlayerInteract(player, null);
                     ((IDialogNpc) npcEntity).setDialogPlayer(player);
                     Minecraft.getMinecraft().displayGuiScreen(new GuiDialog((IDialogNpc) npcEntity, player));
-                }else
-                {
+                } else {
                     ((IDialogNpc) npcEntity).setDialogPlayer(null);
                 }
             }
@@ -85,19 +77,15 @@ public class PacketManageConversation extends PacketAbstract
         }
 
         @Override
-        public IMessage handleServerMessage(EntityPlayer player, PacketManageConversation message, MessageContext ctx)
-        {
+        public IMessage handleServerMessage(EntityPlayer player, PacketManageConversation message, MessageContext ctx) {
             Entity npcEntity = player.worldObj.getEntityByID(message.npcID);
-            if (npcEntity instanceof IDialogNpc)
-            {
+            if (npcEntity instanceof IDialogNpc) {
                 if (message.start) {
-                    if (((IDialogNpc) npcEntity).getDialogPlayer() == null && ((IDialogNpc) npcEntity).canTalkTo(player))
-                    {
+                    if (((IDialogNpc) npcEntity).getDialogPlayer() == null && ((IDialogNpc) npcEntity).canTalkTo(player)) {
                         ((IDialogNpc) npcEntity).setDialogPlayer(player);
                         return message;
                     }
-                }else
-                {
+                } else {
                     ((IDialogNpc) npcEntity).setDialogPlayer(null);
                     return message;
                 }

@@ -12,36 +12,29 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Created by Simeon on 1/1/2016.
  */
-public class PacketBioticActionKey extends PacketAbstract
-{
-    public PacketBioticActionKey(){}
+public class PacketBioticActionKey extends PacketAbstract {
+    public PacketBioticActionKey() {
+    }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
 
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
 
     }
 
-    public static class ServerHandler extends AbstractServerPacketHandler<PacketBioticActionKey>
-    {
+    public static class ServerHandler extends AbstractServerPacketHandler<PacketBioticActionKey> {
 
         @Override
-        public IMessage handleServerMessage(EntityPlayer player, PacketBioticActionKey message, MessageContext ctx)
-        {
+        public IMessage handleServerMessage(EntityPlayer player, PacketBioticActionKey message, MessageContext ctx) {
             AndroidPlayer androidPlayer = AndroidPlayer.get(player);
-            if (androidPlayer.isAndroid())
-            {
-                for (IBionicStat stat : MatterOverdrive.statRegistry.getStats())
-                {
+            if (androidPlayer.isAndroid()) {
+                for (IBionicStat stat : MatterOverdrive.statRegistry.getStats()) {
                     int unlockedLevel = androidPlayer.getUnlockedLevel(stat);
-                    if (unlockedLevel > 0 && stat.isEnabled(androidPlayer, unlockedLevel))
-                    {
+                    if (unlockedLevel > 0 && stat.isEnabled(androidPlayer, unlockedLevel)) {
                         stat.onActionKeyPress(androidPlayer, unlockedLevel, true);
                     }
                 }

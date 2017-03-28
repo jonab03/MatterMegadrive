@@ -42,185 +42,162 @@ import net.minecraftforge.fluids.IFluidHandler;
 import java.util.EnumSet;
 import java.util.List;
 
-public abstract class MOTileEntityMachineMatter extends MOTileEntityMachineEnergy implements IMatterHandler, IWailaBodyProvider, IFluidHandler
-{
-	protected MachineMatterStorage matterStorage;
+public abstract class MOTileEntityMachineMatter extends MOTileEntityMachineEnergy implements IMatterHandler, IWailaBodyProvider, IFluidHandler {
+    protected MachineMatterStorage matterStorage;
 
-	public MOTileEntityMachineMatter(int upgradesCount)
-	{
+    public MOTileEntityMachineMatter(int upgradesCount) {
         super(upgradesCount);
-		matterStorage = new MachineMatterStorage(this,32768);
-	}
+        matterStorage = new MachineMatterStorage(this, 32768);
+    }
 
-	@Override
-	public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk)
-	{
-		super.writeCustomNBT(nbt, categories, toDisk);
-		if (categories.contains(MachineNBTCategory.DATA) && getMatterStorage() != null) {
-			getMatterStorage().writeToNBT(nbt);
-		}
+    @Override
+    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
+        super.writeCustomNBT(nbt, categories, toDisk);
+        if (categories.contains(MachineNBTCategory.DATA) && getMatterStorage() != null) {
+            getMatterStorage().writeToNBT(nbt);
+        }
 
-	}
+    }
 
-	@Override
-	public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories)
-	{
-		super.readCustomNBT(nbt, categories);
-		if (categories.contains(MachineNBTCategory.DATA) && getMatterStorage() != null) {
-			getMatterStorage().readFromNBT(nbt);
-		}
+    @Override
+    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories) {
+        super.readCustomNBT(nbt, categories);
+        if (categories.contains(MachineNBTCategory.DATA) && getMatterStorage() != null) {
+            getMatterStorage().readFromNBT(nbt);
+        }
 
-	}
+    }
 
-	@Override
-	public int getMatterStored()
-	{
-		if (getMatterStorage() != null)
-			return this.getMatterStorage().getMatterStored();
-		return 0;
-	}
+    @Override
+    public int getMatterStored() {
+        if (getMatterStorage() != null)
+            return this.getMatterStorage().getMatterStored();
+        return 0;
+    }
 
-	@Override
-	public int getMatterCapacity()
-	{
-		if (getMatterStorage() != null)
-			return getMatterStorage().getCapacity();
-		return 0;
-	}
+    @Override
+    public int getMatterCapacity() {
+        if (getMatterStorage() != null)
+            return getMatterStorage().getCapacity();
+        return 0;
+    }
 
-	@Override
-	public int receiveMatter(ForgeDirection side, int amount, boolean simulate)
-	{
-		if (getMatterStorage() != null)
-			return getMatterStorage().receiveMatter(side,amount,simulate);
-		return 0;
-	}
+    @Override
+    public int receiveMatter(ForgeDirection side, int amount, boolean simulate) {
+        if (getMatterStorage() != null)
+            return getMatterStorage().receiveMatter(side, amount, simulate);
+        return 0;
+    }
 
-	@Override
-	public int extractMatter(ForgeDirection direction, int amount, boolean simulate)
-	{
-		if (getMatterStorage() != null)
-			return getMatterStorage().extractMatter(direction,amount,simulate);
-		return 0;
-	}
+    @Override
+    public int extractMatter(ForgeDirection direction, int amount, boolean simulate) {
+        if (getMatterStorage() != null)
+            return getMatterStorage().extractMatter(direction, amount, simulate);
+        return 0;
+    }
 
-    protected int modifyEnergyStored(int amount)
-    {
+    protected int modifyEnergyStored(int amount) {
         int energyModified = energyStorage.modifyEnergyStored(amount);
-        if (energyModified != 0)
-        {
+        if (energyModified != 0) {
             UpdateClientPower();
         }
         return energyModified;
     }
 
-	@Override
-	public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
-	{
-		if (getMatterStorage() != null)
-			return getMatterStorage().fill(resource,doFill);
-		return 0;
-	}
+    @Override
+    public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+        if (getMatterStorage() != null)
+            return getMatterStorage().fill(resource, doFill);
+        return 0;
+    }
 
-	@Override
-	public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain)
-	{
-		if (getMatterStorage() != null)
-			return getMatterStorage().drain(resource.amount,doDrain);
-		else return null;
-	}
+    @Override
+    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
+        if (getMatterStorage() != null)
+            return getMatterStorage().drain(resource.amount, doDrain);
+        else return null;
+    }
 
-	@Override
-	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain)
-	{
-		if (getMatterStorage() != null)
-			return getMatterStorage().drain(maxDrain,doDrain);
-		return null;
-	}
+    @Override
+    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+        if (getMatterStorage() != null)
+            return getMatterStorage().drain(maxDrain, doDrain);
+        return null;
+    }
 
-	@Override
-	public boolean canFill(ForgeDirection from, Fluid fluid)
-	{
-		return fluid instanceof FluidMatterPlasma;
-	}
+    @Override
+    public boolean canFill(ForgeDirection from, Fluid fluid) {
+        return fluid instanceof FluidMatterPlasma;
+    }
 
-	@Override
-	public boolean canDrain(ForgeDirection from, Fluid fluid)
-	{
-		return fluid instanceof FluidMatterPlasma;
-	}
+    @Override
+    public boolean canDrain(ForgeDirection from, Fluid fluid) {
+        return fluid instanceof FluidMatterPlasma;
+    }
 
-	@Override
-	public FluidTankInfo[] getTankInfo(ForgeDirection from)
-	{
-		if (getMatterStorage() != null)
-			return new FluidTankInfo[]{getMatterStorage().getInfo()};
-		return new FluidTankInfo[0];
-	}
-	
-	public MachineMatterStorage getMatterStorage()
+    @Override
+    public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+        if (getMatterStorage() != null)
+            return new FluidTankInfo[]{getMatterStorage().getInfo()};
+        return new FluidTankInfo[0];
+    }
 
-	{
-		return this.matterStorage;
-	}
+    public MachineMatterStorage getMatterStorage()
 
-	public void setMatterStored(int matter)
-	{
-		if (getMatterStorage() != null)
-			getMatterStorage().setMatterStored(matter);
-	}
+    {
+        return this.matterStorage;
+    }
 
-	public void updateClientMatter()
-	{
-		MatterOverdrive.packetPipeline.sendToAllAround(new PacketMatterUpdate(this), this, 64);
-	}
+    public void setMatterStored(int matter) {
+        if (getMatterStorage() != null)
+            getMatterStorage().setMatterStored(matter);
+    }
 
-	@Override
-	public void readFromPlaceItem(ItemStack itemStack)
-	{
-		super.readFromPlaceItem(itemStack);
+    public void updateClientMatter() {
+        MatterOverdrive.packetPipeline.sendToAllAround(new PacketMatterUpdate(this), this, 64);
+    }
 
-		if(itemStack != null && getMatterStorage() != null)
-		{
-			if(itemStack.hasTagCompound())
-			{
-				getMatterStorage().readFromNBT(itemStack.getTagCompound());
-			}
-		}
-	}
+    @Override
+    public void readFromPlaceItem(ItemStack itemStack) {
+        super.readFromPlaceItem(itemStack);
 
-	@Override
-	public void writeToDropItem(ItemStack itemStack)
-	{
-		super.writeToDropItem(itemStack);
+        if (itemStack != null && getMatterStorage() != null) {
+            if (itemStack.hasTagCompound()) {
+                getMatterStorage().readFromNBT(itemStack.getTagCompound());
+            }
+        }
+    }
 
-		if(itemStack != null && getMatterStorage() != null)
-		{
-			if(getMatterStorage().getMatterStored() > 0) {
-				if (!itemStack.hasTagCompound())
-					itemStack.setTagCompound(new NBTTagCompound());
+    @Override
+    public void writeToDropItem(ItemStack itemStack) {
+        super.writeToDropItem(itemStack);
 
-				getMatterStorage().writeToNBT(itemStack.getTagCompound());
-				itemStack.getTagCompound().setInteger("MaxMatter", matterStorage.getCapacity());
-				itemStack.getTagCompound().setInteger("MatterSend", matterStorage.getMaxExtract());
-				itemStack.getTagCompound().setInteger("MatterReceive", matterStorage.getMaxReceive());
-			}
-		}
-	}
+        if (itemStack != null && getMatterStorage() != null) {
+            if (getMatterStorage().getMatterStored() > 0) {
+                if (!itemStack.hasTagCompound())
+                    itemStack.setTagCompound(new NBTTagCompound());
 
-//	WAILA
-	@Optional.Method(modid = "Waila")
-	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-		TileEntity te = accessor.getTileEntity();
+                getMatterStorage().writeToNBT(itemStack.getTagCompound());
+                itemStack.getTagCompound().setInteger("MaxMatter", matterStorage.getCapacity());
+                itemStack.getTagCompound().setInteger("MatterSend", matterStorage.getMaxExtract());
+                itemStack.getTagCompound().setInteger("MatterReceive", matterStorage.getMaxReceive());
+            }
+        }
+    }
 
-		if (te instanceof MOTileEntityMachineMatter) {
-			MOTileEntityMachineMatter machine = (MOTileEntityMachineMatter)te;
-			currenttip.add(EnumChatFormatting.AQUA + String.format("%s / %s %s",machine.getMatterStored(),machine.getMatterCapacity(), MatterHelper.MATTER_UNIT));
+    //	WAILA
+    @Optional.Method(modid = "Waila")
+    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        TileEntity te = accessor.getTileEntity();
 
-		} else {
-			throw new RuntimeException("MOTileEntityMachineMatter WAILA provider is being used for something that is not a MOTileEntityMachineMatter: " + te.getClass());
-		}
+        if (te instanceof MOTileEntityMachineMatter) {
+            MOTileEntityMachineMatter machine = (MOTileEntityMachineMatter) te;
+            currenttip.add(EnumChatFormatting.AQUA + String.format("%s / %s %s", machine.getMatterStored(), machine.getMatterCapacity(), MatterHelper.MATTER_UNIT));
 
-		return currenttip;
-	}
+        } else {
+            throw new RuntimeException("MOTileEntityMachineMatter WAILA provider is being used for something that is not a MOTileEntityMachineMatter: " + te.getClass());
+        }
+
+        return currenttip;
+    }
 }

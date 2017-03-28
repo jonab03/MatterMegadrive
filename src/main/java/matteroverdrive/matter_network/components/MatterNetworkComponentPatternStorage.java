@@ -37,39 +37,32 @@ import net.minecraft.nbt.NBTTagCompound;
 /**
  * Created by Simeon on 7/15/2015.
  */
-public class MatterNetworkComponentPatternStorage extends MatterNetworkComponentClient<TileEntityMachinePatternStorage>
-{
+public class MatterNetworkComponentPatternStorage extends MatterNetworkComponentClient<TileEntityMachinePatternStorage> {
     private TimeTracker taskProcessingTracker;
 
-    public MatterNetworkComponentPatternStorage(TileEntityMachinePatternStorage patternStorage)
-    {
+    public MatterNetworkComponentPatternStorage(TileEntityMachinePatternStorage patternStorage) {
         super(patternStorage);
         taskProcessingTracker = new TimeTracker();
         handlers.add(BASIC_CONNECTIONS_HANDLER);
     }
 
     @Override
-    protected void executePacket(MatterNetworkPacket packet)
-    {
+    protected void executePacket(MatterNetworkPacket packet) {
         super.executePacket(packet);
 
-        if (packet instanceof MatterNetworkTaskPacket)
-        {
-            MatterNetworkTask task = ((MatterNetworkTaskPacket)packet).getTask(getWorldObj());
-            if (task != null)
-            {
+        if (packet instanceof MatterNetworkTaskPacket) {
+            MatterNetworkTask task = ((MatterNetworkTaskPacket) packet).getTask(getWorldObj());
+            if (task != null) {
                 executeTasks((MatterNetworkTaskPacket) packet, task);
             }
-        }else if (packet instanceof MatterNetworkRequestPacket)
-        {
+        } else if (packet instanceof MatterNetworkRequestPacket) {
             executeRequests((MatterNetworkRequestPacket) packet);
         }
     }
 
 
-    protected void executeTasks(MatterNetworkTaskPacket packet, MatterNetworkTask task)
-    {
-        if (taskProcessingTracker.hasDelayPassed(rootClient.getWorldObj(), rootClient.TASK_PROCESS_DELAY) && task.getState().belowOrEqual(MatterNetworkTaskState.QUEUED)) {
+    protected void executeTasks(MatterNetworkTaskPacket packet, MatterNetworkTask task) {
+        if (taskProcessingTracker.hasDelayPassed(rootClient.getWorldObj(), TileEntityMachinePatternStorage.TASK_PROCESS_DELAY) && task.getState().belowOrEqual(MatterNetworkTaskState.QUEUED)) {
             if (task instanceof MatterNetworkTaskStorePattern) {
                 if (rootClient.addItem(((MatterNetworkTaskStorePattern) task).getItemStack(), ((MatterNetworkTaskStorePattern) task).getProgress(), false, null)) {
                     //if the task is finished and the item is in the database
@@ -83,10 +76,8 @@ public class MatterNetworkComponentPatternStorage extends MatterNetworkComponent
         }
     }
 
-    protected void executeRequests(MatterNetworkRequestPacket packet)
-    {
-        if (packet.getRequestType() == Reference.PACKET_REQUEST_PATTERN_SEARCH)
-        {
+    protected void executeRequests(MatterNetworkRequestPacket packet) {
+        if (packet.getRequestType() == Reference.PACKET_REQUEST_PATTERN_SEARCH) {
             if (packet.getRequest() instanceof ItemPattern) {
                 ItemPattern packPattern = (ItemPattern) packet.getRequest();
                 ItemPattern storagePattern = rootClient.getPattern(packPattern);
@@ -96,24 +87,19 @@ public class MatterNetworkComponentPatternStorage extends MatterNetworkComponent
                     MatterNetworkHelper.respondToRequest(getWorldObj(), rootClient, packet, Reference.PACKET_RESPONCE_VALID, patternNBT);
                 }
             }
-        }else if (packet.getRequestType() == Reference.PACKET_REQUEST_VALID_PATTERN_DESTINATION)
-        {
-            if (packet.getRequest() instanceof ItemPattern)
-            {
-                ItemPattern packetPattern = (ItemPattern)packet.getRequest();
+        } else if (packet.getRequestType() == Reference.PACKET_REQUEST_VALID_PATTERN_DESTINATION) {
+            if (packet.getRequest() instanceof ItemPattern) {
+                ItemPattern packetPattern = (ItemPattern) packet.getRequest();
                 ItemPattern storagePattern = rootClient.getPattern(packetPattern);
                 NBTTagCompound packetPatternNBT = new NBTTagCompound();
                 packetPattern.writeToNBT(packetPatternNBT);
-                if (storagePattern != null)
-                {
+                if (storagePattern != null) {
                     //return not valid when there is already a pattern in storage with full progress
-                    MatterNetworkHelper.respondToRequest(getWorldObj(), rootClient, packet,storagePattern.getProgress() >= MatterDatabaseHelper.MAX_ITEM_PROGRESS ? Reference.PACKET_RESPONCE_INVALID : Reference.PACKET_RESPONCE_VALID, packetPatternNBT);
-                }else
-                {
+                    MatterNetworkHelper.respondToRequest(getWorldObj(), rootClient, packet, storagePattern.getProgress() >= MatterDatabaseHelper.MAX_ITEM_PROGRESS ? Reference.PACKET_RESPONCE_INVALID : Reference.PACKET_RESPONCE_VALID, packetPatternNBT);
+                } else {
                     ItemStack itemStack = packetPattern.toItemStack(false);
-                    boolean canAddItem = rootClient.addItem(itemStack,20,true,null);
-                    if (canAddItem)
-                    {
+                    boolean canAddItem = rootClient.addItem(itemStack, 20, true, null);
+                    if (canAddItem) {
 
                         MatterNetworkHelper.respondToRequest(getWorldObj(), rootClient, packet, Reference.PACKET_RESPONCE_VALID, packetPatternNBT);
                     }

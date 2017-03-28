@@ -27,35 +27,30 @@ import java.util.Map;
 /**
  * Created by Simeon on 8/13/2015.
  */
-public class DialogRegistry implements IDialogRegistry
-{
+public class DialogRegistry implements IDialogRegistry {
     int nextMessageID = 0;
-    Map<Integer,IDialogMessage> messageMap;
-    Map<IDialogMessage,Integer> messageIntegerMap;
+    Map<Integer, IDialogMessage> messageMap;
+    Map<IDialogMessage, Integer> messageIntegerMap;
 
-    public DialogRegistry()
-    {
+    public DialogRegistry() {
         messageMap = new HashMap<>();
         messageIntegerMap = new HashMap<>();
     }
 
-    public IDialogMessage getMessage(int id)
-    {
+    public IDialogMessage getMessage(int id) {
         return messageMap.get(id);
     }
 
-    public int getMessageId(IDialogMessage dialogMessage)
-    {
+    public int getMessageId(IDialogMessage dialogMessage) {
         Integer id = messageIntegerMap.get(dialogMessage);
         if (id == null)
             return -1;
         else return id;
     }
 
-    public void registerMessage(IDialogMessage message)
-    {
-        messageMap.put(nextMessageID,message);
-        messageIntegerMap.put(message,nextMessageID);
+    public void registerMessage(IDialogMessage message) {
+        messageMap.put(nextMessageID, message);
+        messageIntegerMap.put(message, nextMessageID);
         nextMessageID++;
     }
 }

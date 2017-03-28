@@ -34,64 +34,54 @@ import java.util.HashSet;
 /**
  * Created by Simeon on 4/20/2015.
  */
-public class MatterNetworkTaskPacket extends MatterNetworkPacket
-{
+public class MatterNetworkTaskPacket extends MatterNetworkPacket {
     private long taskID;
     private byte queueID = -1;
 
-    public MatterNetworkTaskPacket()
-    {
+    public MatterNetworkTaskPacket() {
         super();
     }
 
-    public MatterNetworkTaskPacket(IMatterNetworkDispatcher sender,long taskID,byte queueID,ForgeDirection port)
-    {
-        this(sender.getPosition(), taskID,queueID,port);
+    public MatterNetworkTaskPacket(IMatterNetworkDispatcher sender, long taskID, byte queueID, ForgeDirection port) {
+        this(sender.getPosition(), taskID, queueID, port);
     }
 
-    public MatterNetworkTaskPacket(IMatterNetworkDispatcher sender,MatterNetworkTask task,byte queueID,ForgeDirection port)
-    {
-        this(sender.getPosition(), task.getId(),queueID,port);
+    public MatterNetworkTaskPacket(IMatterNetworkDispatcher sender, MatterNetworkTask task, byte queueID, ForgeDirection port) {
+        this(sender.getPosition(), task.getId(), queueID, port);
     }
 
-    public MatterNetworkTaskPacket(IMatterNetworkDispatcher sender,MatterNetworkTask task,byte queueID,ForgeDirection port,NBTTagCompound filter)
-    {
-        this(sender.getPosition(), task.getId(),queueID,port,filter);
+    public MatterNetworkTaskPacket(IMatterNetworkDispatcher sender, MatterNetworkTask task, byte queueID, ForgeDirection port, NBTTagCompound filter) {
+        this(sender.getPosition(), task.getId(), queueID, port, filter);
     }
 
-    public MatterNetworkTaskPacket(BlockPos sender, long taskID, byte queueID, ForgeDirection port)
-    {
-        this(sender, taskID,queueID,port,null);
+    public MatterNetworkTaskPacket(BlockPos sender, long taskID, byte queueID, ForgeDirection port) {
+        this(sender, taskID, queueID, port, null);
     }
 
-    public MatterNetworkTaskPacket(BlockPos sender, long taskID, byte queueID, ForgeDirection port, NBTTagCompound filter)
-    {
-        super(sender,port);
+    public MatterNetworkTaskPacket(BlockPos sender, long taskID, byte queueID, ForgeDirection port, NBTTagCompound filter) {
+        super(sender, port);
         this.taskID = taskID;
         this.queueID = queueID;
         this.filter = filter;
     }
 
-    public MatterNetworkTaskPacket copy(IMatterNetworkConnection connection)
-    {
-        MatterNetworkTaskPacket newPacket = new MatterNetworkTaskPacket(senderPos,taskID,queueID,senderPos.orientation,filter);
+    public MatterNetworkTaskPacket copy(IMatterNetworkConnection connection) {
+        MatterNetworkTaskPacket newPacket = new MatterNetworkTaskPacket(senderPos, taskID, queueID, senderPos.orientation, filter);
         newPacket.path = new HashSet<>(path);
-        addToPath(connection,ForgeDirection.UNKNOWN);
+        addToPath(connection, ForgeDirection.UNKNOWN);
         return newPacket;
     }
 
-    public MatterNetworkTask getTask(World world)
-    {
+    public MatterNetworkTask getTask(World world) {
         IMatterNetworkConnection sender = getSender(world);
         if (sender != null && sender instanceof IMatterNetworkDispatcher) {
-            return ((IMatterNetworkDispatcher)(sender)).getTaskQueue(queueID).getWithID(taskID);
+            return ((IMatterNetworkDispatcher) (sender)).getTaskQueue(queueID).getWithID(taskID);
         }
         return null;
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tagCompound)
-    {
+    public void readFromNBT(NBTTagCompound tagCompound) {
         super.readFromNBT(tagCompound);
 
         if (tagCompound != null) {
@@ -101,43 +91,35 @@ public class MatterNetworkTaskPacket extends MatterNetworkPacket
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tagCompound)
-    {
+    public void writeToNBT(NBTTagCompound tagCompound) {
         super.writeToNBT(tagCompound);
-        if (tagCompound != null)
-        {
+        if (tagCompound != null) {
             tagCompound.setLong("TaskID", taskID);
-            tagCompound.setByte("QueueID",queueID);
+            tagCompound.setByte("QueueID", queueID);
         }
     }
 
-    public boolean isValid(World world)
-    {
-        return queueID >= (byte)0 && getTask(world) != null && getTask(world).getState() != MatterNetworkTaskState.INVALID;
+    public boolean isValid(World world) {
+        return queueID >= (byte) 0 && getTask(world) != null && getTask(world).getState() != MatterNetworkTaskState.INVALID;
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return "Task Packet";
     }
 
     @Override
-    public void tickAlive(World world,boolean isAlive)
-    {
-        super.tickAlive(world,isAlive);
+    public void tickAlive(World world, boolean isAlive) {
+        super.tickAlive(world, isAlive);
         getTask(world).setAlive(isAlive);
     }
 
     @Override
-    public void onAddedToQueue(World world,MatterNetworkPacketQueue packetQueue,int queueID)
-    {
+    public void onAddedToQueue(World world, MatterNetworkPacketQueue packetQueue, int queueID) {
         super.onAddedToQueue(world, packetQueue, queueID);
         MatterNetworkTask task = getTask(world);
-        if (task != null)
-        {
-            if (task.getState().below(MatterNetworkTaskState.QUEUED) && task.getState().above(MatterNetworkTaskState.INVALID))
-            {
+        if (task != null) {
+            if (task.getState().below(MatterNetworkTaskState.QUEUED) && task.getState().above(MatterNetworkTaskState.INVALID)) {
                 task.setState(MatterNetworkTaskState.QUEUED);
             }
         }

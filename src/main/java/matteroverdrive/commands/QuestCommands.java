@@ -36,8 +36,7 @@ import java.util.Random;
 /**
  * Created by Simeon on 11/19/2015.
  */
-public class QuestCommands extends CommandBase
-{
+public class QuestCommands extends CommandBase {
     private Random random = new Random();
 
     @Override
@@ -46,68 +45,47 @@ public class QuestCommands extends CommandBase
     }
 
     @Override
-    public int getRequiredPermissionLevel()
-    {
+    public int getRequiredPermissionLevel() {
         return 2;
     }
 
     @Override
-    public String getCommandUsage(ICommandSender commandSender)
-    {
+    public String getCommandUsage(ICommandSender commandSender) {
         return "quest <action> [parameters] <name> <player>";
     }
 
     @Override
-    public void processCommand(ICommandSender commandSender, String[] parameters)
-    {
-        if (parameters.length > 0)
-        {
-            if (parameters[0].equalsIgnoreCase("add"))
-            {
-                if (parameters.length > 1)
-                {
+    public void processCommand(ICommandSender commandSender, String[] parameters) {
+        if (parameters.length > 0) {
+            if (parameters[0].equalsIgnoreCase("add")) {
+                if (parameters.length > 1) {
                     EntityPlayer entityPlayer;
-                    if (parameters.length > 2)
-                    {
-                        entityPlayer = getPlayer(commandSender,parameters[2]);
-                    }else
-                    {
+                    if (parameters.length > 2) {
+                        entityPlayer = getPlayer(commandSender, parameters[2]);
+                    } else {
                         entityPlayer = commandSender.getEntityWorld().getPlayerEntityByName(commandSender.getCommandSenderName());
                     }
 
-                    if (entityPlayer != null)
-                    {
+                    if (entityPlayer != null) {
                         MOExtendedProperties extendedProperties = MOExtendedProperties.get(entityPlayer);
                         QuestStack questStack = MatterOverdrive.questFactory.generateQuestStack(parameters[1]);
-                        if (questStack != null)
-                        {
+                        if (questStack != null) {
                             extendedProperties.addQuest(questStack);
-                        }
-                        else
-                        {
+                        } else {
                             throw new CommandException("Could not find a quest with the given name.");
                         }
-                    }
-                    else
-                    {
+                    } else {
                         throw new CommandException("Invalid Player.");
                     }
-                }
-                else
-                {
+                } else {
                     throw new CommandException("No random quest parameters.");
                 }
-            }
-            else if (parameters[0].equalsIgnoreCase("remove"))
-            {
-                if (parameters.length > 1)
-                {
+            } else if (parameters[0].equalsIgnoreCase("remove")) {
+                if (parameters.length > 1) {
                     EntityPlayer entityPlayer;
-                    if (parameters.length > 2)
-                    {
-                        entityPlayer = getPlayer(commandSender,parameters[2]);
-                    }else
-                    {
+                    if (parameters.length > 2) {
+                        entityPlayer = getPlayer(commandSender, parameters[2]);
+                    } else {
                         entityPlayer = commandSender.getEntityWorld().getPlayerEntityByName(commandSender.getCommandSenderName());
                     }
 
@@ -123,87 +101,61 @@ public class QuestCommands extends CommandBase
                         } else if (parameters[1].equalsIgnoreCase("completed")) {
                             extendedProperties.getQuestData().clearCompletedQuests();
                             extendedProperties.sync(EnumSet.of(PlayerQuestData.DataType.COMPLETED_QUESTS));
-                        }else
-                        {
+                        } else {
                             throw new CommandException("Invalid quest type.");
                         }
-                    }
-                    else
-                    {
+                    } else {
                         throw new CommandException("Invalid Player.");
                     }
-                }
-                else
-                {
+                } else {
                     throw new CommandException("No remove quests parameters.");
                 }
-            }
-            else if (parameters[0].equalsIgnoreCase("contract"))
-            {
-                if (parameters.length > 1)
-                {
+            } else if (parameters[0].equalsIgnoreCase("contract")) {
+                if (parameters.length > 1) {
                     IQuest quest = MatterOverdrive.quests.getQuestByName(parameters[1]);
-                    if (quest != null)
-                    {
+                    if (quest != null) {
                         EntityPlayer entityPlayer;
-                        if (parameters.length > 2)
-                        {
-                            entityPlayer = getPlayer(commandSender,parameters[2]);
-                        }else
-                        {
+                        if (parameters.length > 2) {
+                            entityPlayer = getPlayer(commandSender, parameters[2]);
+                        } else {
                             entityPlayer = commandSender.getEntityWorld().getPlayerEntityByName(commandSender.getCommandSenderName());
                         }
 
-                        QuestStack questStack = MatterOverdrive.questFactory.generateQuestStack(random,quest);
+                        QuestStack questStack = MatterOverdrive.questFactory.generateQuestStack(random, quest);
                         entityPlayer.inventory.addItemStackToInventory(questStack.getContract());
-                    }else
-                    {
+                    } else {
                         throw new CommandException("No such quest.");
                     }
                 }
-            }
-            else
-            {
+            } else {
                 throw new CommandException("Invalid quest command.");
             }
-        }
-        else
-        {
+        } else {
             throw new CommandException("Invalid command.");
         }
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender commandSender, String[] parameters)
-    {
+    public List addTabCompletionOptions(ICommandSender commandSender, String[] parameters) {
         List<String> commands = new ArrayList<>();
 
-        if (parameters.length == 2)
-        {
-            if (parameters[0].equalsIgnoreCase("add") || parameters[0].equalsIgnoreCase("contract"))
-            {
-                for (String questName : MatterOverdrive.quests.getAllQuestName())
-                {
+        if (parameters.length == 2) {
+            if (parameters[0].equalsIgnoreCase("add") || parameters[0].equalsIgnoreCase("contract")) {
+                for (String questName : MatterOverdrive.quests.getAllQuestName()) {
                     commands.add(questName);
                 }
-            }else if (parameters[0].equalsIgnoreCase("remove"))
-            {
+            } else if (parameters[0].equalsIgnoreCase("remove")) {
                 commands.add("all");
                 commands.add("active");
                 commands.add("completed");
             }
-        }
-        else if (parameters.length == 1)
-        {
+        } else if (parameters.length == 1) {
             commands.add("add");
             commands.add("remove");
             commands.add("contract");
-        }
-        else if (parameters.length == 3)
-        {
-            for (Object player : commandSender.getEntityWorld().playerEntities)
-            {
-                commands.add(((EntityPlayer)player).getCommandSenderName());
+        } else if (parameters.length == 3) {
+            for (Object player : commandSender.getEntityWorld().playerEntities) {
+                commands.add(((EntityPlayer) player).getCommandSenderName());
             }
         }
         return commands;

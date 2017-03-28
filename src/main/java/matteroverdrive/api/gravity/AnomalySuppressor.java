@@ -23,19 +23,16 @@ import net.minecraft.nbt.NBTTagCompound;
 /**
  * Created by Simeon on 10/23/2015.
  */
-public class AnomalySuppressor
-{
+public class AnomalySuppressor {
     int x, y, z;
     int time;
     float amount;
 
-    public AnomalySuppressor(NBTTagCompound tagCompound)
-    {
+    public AnomalySuppressor(NBTTagCompound tagCompound) {
 
     }
 
-    public AnomalySuppressor(int x, int y, int z, int time, float amount)
-    {
+    public AnomalySuppressor(int x, int y, int z, int time, float amount) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -43,8 +40,7 @@ public class AnomalySuppressor
         this.amount = amount;
     }
 
-    public boolean update(AnomalySuppressor suppressor)
-    {
+    public boolean update(AnomalySuppressor suppressor) {
         if (suppressor.x == x && suppressor.y == y && suppressor.z == z) {
             if (time < suppressor.time) {
                 this.time = suppressor.time;
@@ -55,17 +51,15 @@ public class AnomalySuppressor
         return false;
     }
 
-    public void writeToNBT(NBTTagCompound tagCompound)
-    {
+    public void writeToNBT(NBTTagCompound tagCompound) {
         tagCompound.setInteger("block_x", x);
         tagCompound.setInteger("block_y", y);
         tagCompound.setInteger("block_z", z);
-        tagCompound.setByte("time", (byte)time);
+        tagCompound.setByte("time", (byte) time);
         tagCompound.setFloat("amount", amount);
     }
 
-    public void readFromNBT(NBTTagCompound tagCompound)
-    {
+    public void readFromNBT(NBTTagCompound tagCompound) {
         x = tagCompound.getInteger("block_x");
         y = tagCompound.getInteger("block_y");
         z = tagCompound.getInteger("block_z");
@@ -73,13 +67,11 @@ public class AnomalySuppressor
         amount = tagCompound.getFloat("amount");
     }
 
-    public void tick()
-    {
+    public void tick() {
         time--;
     }
 
-    public boolean isValid()
-    {
+    public boolean isValid() {
         return time > 0;
     }
 

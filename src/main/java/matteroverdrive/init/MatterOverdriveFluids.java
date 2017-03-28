@@ -30,13 +30,11 @@ import net.minecraftforge.fluids.FluidStack;
 /**
  * Created by Simeon on 8/20/2015.
  */
-public class MatterOverdriveFluids
-{
+public class MatterOverdriveFluids {
     public static FluidMatterPlasma matterPlasma;
     public static FluidMoltenTritanium moltenTritanium;
 
-    public static void init(FMLPreInitializationEvent event)
-    {
+    public static void init(FMLPreInitializationEvent event) {
         matterPlasma = new FluidMatterPlasma("matter_plasma");
         matterPlasma.setViscosity(8000);
         matterPlasma.setLuminosity(15);
@@ -49,8 +47,7 @@ public class MatterOverdriveFluids
         FluidRegistry.registerFluid(moltenTritanium);
     }
 
-    public static void register(FMLInitializationEvent event)
-    {
-        FluidContainerRegistry.registerFluidContainer(new FluidStack(matterPlasma,32),new ItemStack(MatterOverdriveItems.matterContainerFull),new ItemStack(MatterOverdriveItems.matterContainer));
+    public static void register(FMLInitializationEvent event) {
+        FluidContainerRegistry.registerFluidContainer(new FluidStack(matterPlasma, 32), new ItemStack(MatterOverdriveItems.matterContainerFull), new ItemStack(MatterOverdriveItems.matterContainer));
     }
 }

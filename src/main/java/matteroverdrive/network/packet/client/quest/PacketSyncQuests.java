@@ -37,48 +37,40 @@ import java.util.EnumSet;
 /**
  * Created by Simeon on 11/19/2015.
  */
-public class PacketSyncQuests extends PacketAbstract
-{
+public class PacketSyncQuests extends PacketAbstract {
     int questTypes;
     NBTTagCompound data;
 
-    public PacketSyncQuests()
-    {
+    public PacketSyncQuests() {
         this.data = new NBTTagCompound();
     }
 
-    public PacketSyncQuests(PlayerQuestData questData,EnumSet<PlayerQuestData.DataType> dataTypes)
-    {
+    public PacketSyncQuests(PlayerQuestData questData, EnumSet<PlayerQuestData.DataType> dataTypes) {
         this();
-        questData.writeToNBT(data,dataTypes);
+        questData.writeToNBT(data, dataTypes);
         questTypes = MOEnumHelper.encode(dataTypes);
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         questTypes = buf.readInt();
         data = ByteBufUtils.readTag(buf);
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         buf.writeInt(questTypes);
-        ByteBufUtils.writeTag(buf,data);
+        ByteBufUtils.writeTag(buf, data);
     }
 
-    public static class ClientHandler extends AbstractClientPacketHandler<PacketSyncQuests>
-    {
+    public static class ClientHandler extends AbstractClientPacketHandler<PacketSyncQuests> {
         @Override
-        public IMessage handleClientMessage(EntityPlayer player, PacketSyncQuests message, MessageContext ctx)
-        {
+        public IMessage handleClientMessage(EntityPlayer player, PacketSyncQuests message, MessageContext ctx) {
             MOExtendedProperties extendedProperties = MOExtendedProperties.get(player);
             if (extendedProperties != null && extendedProperties.getQuestData() != null) {
-                extendedProperties.getQuestData().readFromNBT(message.data,MOEnumHelper.decode(message.questTypes,PlayerQuestData.DataType.class));
+                extendedProperties.getQuestData().readFromNBT(message.data, MOEnumHelper.decode(message.questTypes, PlayerQuestData.DataType.class));
             }
-            if (Minecraft.getMinecraft().currentScreen instanceof GuiDataPad)
-            {
+            if (Minecraft.getMinecraft().currentScreen instanceof GuiDataPad) {
                 ((GuiDataPad) Minecraft.getMinecraft().currentScreen).refreshQuests(extendedProperties);
             }
             return null;

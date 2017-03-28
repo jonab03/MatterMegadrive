@@ -31,31 +31,24 @@ import net.minecraft.nbt.NBTTagCompound;
 /**
  * Created by Simeon on 8/28/2015.
  */
-public class PacketDataPadCommands extends PacketAbstract
-{
+public class PacketDataPadCommands extends PacketAbstract {
     public static final int COMMAND_ORDERING = 1;
     NBTTagCompound data;
     int command;
 
-    public PacketDataPadCommands()
-    {
+    public PacketDataPadCommands() {
 
     }
 
-    public PacketDataPadCommands(ItemStack dataPad)
-    {
-        this(dataPad,0);
+    public PacketDataPadCommands(ItemStack dataPad) {
+        this(dataPad, 0);
     }
 
-    public PacketDataPadCommands(ItemStack dataPad,int command)
-    {
+    public PacketDataPadCommands(ItemStack dataPad, int command) {
         data = new NBTTagCompound();
-        if (dataPad != null)
-        {
-            if (dataPad.hasTagCompound())
-            {
-                if (command == 0)
-                {
+        if (dataPad != null) {
+            if (dataPad.hasTagCompound()) {
+                if (command == 0) {
                     data = dataPad.getTagCompound();
                 }
             }
@@ -63,30 +56,24 @@ public class PacketDataPadCommands extends PacketAbstract
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         command = buf.readInt();
         data = ByteBufUtils.readTag(buf);
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         buf.writeInt(command);
-        ByteBufUtils.writeTag(buf,data);
+        ByteBufUtils.writeTag(buf, data);
     }
 
-    public static class ServerHandler extends AbstractServerPacketHandler<PacketDataPadCommands>
-    {
+    public static class ServerHandler extends AbstractServerPacketHandler<PacketDataPadCommands> {
 
         @Override
-        public IMessage handleServerMessage(EntityPlayer player, PacketDataPadCommands message, MessageContext ctx)
-        {
+        public IMessage handleServerMessage(EntityPlayer player, PacketDataPadCommands message, MessageContext ctx) {
             ItemStack dataPadStack = player.getHeldItem();
-            if (dataPadStack != null && dataPadStack.getItem() instanceof DataPad)
-            {
-                if (message.command == 0)
-                {
+            if (dataPadStack != null && dataPadStack.getItem() instanceof DataPad) {
+                if (message.command == 0) {
                     dataPadStack.setTagCompound(message.data);
                 }
             }

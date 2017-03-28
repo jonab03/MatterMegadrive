@@ -24,10 +24,12 @@ import net.minecraft.util.Vec3;
 /**
  * Created by Simeon on 12/13/2015.
  */
-public interface IPathableMob<T extends EntityCreature>
-{
+public interface IPathableMob<T extends EntityCreature> {
     Vec3 getCurrentTarget();
+
     void onTargetReached(Vec3 pos);
+
     boolean isNearTarget(Vec3 pos);
+
     T getEntity();
 }

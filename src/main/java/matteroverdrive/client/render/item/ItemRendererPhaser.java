@@ -33,8 +33,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 3/11/2015.
  */
-public class ItemRendererPhaser extends WeaponItemRenderer
-{
+public class ItemRendererPhaser extends WeaponItemRenderer {
     public static final String TEXTURE = Reference.PATH_ITEM + "phaser2.png";
     private static final String TEXTURE_COLOR_MASK = Reference.PATH_ITEM + "phaser_color_mask.png";
     public static final String MODEL = Reference.PATH_MODEL + "item/phaser2.obj";
@@ -46,68 +45,54 @@ public class ItemRendererPhaser extends WeaponItemRenderer
 
     public static ResourceLocation phaserTextureColorMask;
 
-    public ItemRendererPhaser()
-    {
-        super(new ResourceLocation(MODEL),new ResourceLocation(TEXTURE));
+    public ItemRendererPhaser() {
+        super(new ResourceLocation(MODEL), new ResourceLocation(TEXTURE));
         phaserTextureColorMask = new ResourceLocation(TEXTURE_COLOR_MASK);
     }
 
     @Override
-    public boolean handleRenderType(ItemStack item, ItemRenderType type)
-    {
+    public boolean handleRenderType(ItemStack item, ItemRenderType type) {
         return true;
     }
 
     @Override
-    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper)
-    {
+    public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
         return true;
     }
 
     @Override
-    public void renderItem(ItemRenderType type, ItemStack item, Object... data)
-    {
-        if(type == ItemRenderType.EQUIPPED_FIRST_PERSON)
-        {
-        	renderFirstPerson(item);
-        }
-        else if(type == ItemRenderType.INVENTORY)
-        {
-        	renderItem(item);
-        }
-        else if(type == ItemRenderType.ENTITY)
-        {
-        	renderDrop(item);
-        }
-        else
-        {
-        	renderThirdPerson(type,item);
+    public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
+        if (type == ItemRenderType.EQUIPPED_FIRST_PERSON) {
+            renderFirstPerson(item);
+        } else if (type == ItemRenderType.INVENTORY) {
+            renderItem(item);
+        } else if (type == ItemRenderType.ENTITY) {
+            renderDrop(item);
+        } else {
+            renderThirdPerson(type, item);
         }
     }
 
-    void renderItem(ItemStack item)
-    {
-    	glPushMatrix();
+    void renderItem(ItemStack item) {
+        glPushMatrix();
         glScaled(ITEM_SCALE, ITEM_SCALE, ITEM_SCALE);
         glTranslated(0, -0, -0.15);
         glRotated(0, 0, 1, 0);
-        renderGun(ItemRenderType.INVENTORY,item);
+        renderGun(ItemRenderType.INVENTORY, item);
         glPopMatrix();
     }
 
-    void renderThirdPerson(ItemRenderType renderType, ItemStack item)
-    {
+    void renderThirdPerson(ItemRenderType renderType, ItemStack item) {
         glPushMatrix();
         glScaled(THIRD_PERSON_SCALE, THIRD_PERSON_SCALE, THIRD_PERSON_SCALE);
         glTranslated(0.32, 0.23, 0.32);
         glRotated(-135, 0, 1, 0);
         glRotated(60, 1, 0, 0);
-        renderGun(renderType,item);
+        renderGun(renderType, item);
         glPopMatrix();
     }
 
-    void renderDrop(ItemStack item)
-    {
+    void renderDrop(ItemStack item) {
         glPushMatrix();
         glScaled(SCALE_DROP, SCALE_DROP, SCALE_DROP);
         glTranslated(0, 0, 0);
@@ -116,34 +101,29 @@ public class ItemRendererPhaser extends WeaponItemRenderer
         glPopMatrix();
     }
 
-    void renderFirstPerson(ItemStack item)
-    {
+    void renderFirstPerson(ItemStack item) {
         glPushMatrix();
         renderHand();
         glPopMatrix();
 
         glPushMatrix();
         glScaled(SCALE, SCALE, SCALE);
-        if(Minecraft.getMinecraft().thePlayer.isUsingItem())
-        {
+        if (Minecraft.getMinecraft().thePlayer.isUsingItem()) {
             glTranslated(0.3, -0.07, 0);
             glRotated(150, 0, 1, 0);
             glRotated(-26, 1, 0, 0);
             glRotated(-5, 1, 0, 1);
-        }
-        else
-        {
+        } else {
             glTranslated(0.15, -0.06, 0.05);
             glRotated(137.5, 0, 1, 0);
             glRotated(-6, 1, 0, 0);
         }
 
-        renderGun(ItemRenderType.EQUIPPED_FIRST_PERSON,item);
+        renderGun(ItemRenderType.EQUIPPED_FIRST_PERSON, item);
         glPopMatrix();
     }
 
-    void renderHand()
-    {
+    void renderHand() {
         if (!Minecraft.getMinecraft().thePlayer.isInvisible()) {
             GL11.glPushMatrix();
             ResourceLocation skin = Minecraft.getMinecraft().thePlayer.getLocationSkin();
@@ -174,27 +154,25 @@ public class ItemRendererPhaser extends WeaponItemRenderer
         }
     }
 
-    void renderGun(ItemRenderType renderType, ItemStack item)
-    {
+    void renderGun(ItemRenderType renderType, ItemStack item) {
         bindTexture(weaponTexture);
         weaponModel.renderOnly("grip");
 
         renderBarrel(item);
 
         RenderUtils.applyColor(WeaponHelper.getColor(item));
-        weaponModel.renderOnly("Base","display");
-        glColor3f(1,1,1);
+        weaponModel.renderOnly("Base", "display");
+        glColor3f(1, 1, 1);
 
         glDisable(GL_LIGHTING);
         RenderUtils.disableLightmap();
         renderLevelSlider(item);
         glEnable(GL_LIGHTING);
         RenderUtils.enableLightmap();
-        glColor3f(1,1,1);
+        glColor3f(1, 1, 1);
     }
 
-    private void renderLevelSlider(ItemStack item)
-    {
+    private void renderLevelSlider(ItemStack item) {
         glDisable(GL_TEXTURE_2D);
 
         glDisable(GL_LIGHTING);
@@ -203,7 +181,7 @@ public class ItemRendererPhaser extends WeaponItemRenderer
         weaponModel.renderPart("level_bg");
         setIndicatorColor(item);
         glPushMatrix();
-        double power = ((double)item.getTagCompound().getByte("power") + 1) / (double) Phaser.MAX_LEVEL;
+        double power = ((double) item.getTagCompound().getByte("power") + 1) / (double) Phaser.MAX_LEVEL;
         glTranslated(0.042, 0, 0);
         glScaled(power, 1, 1);
         weaponModel.renderPart("level_slider");
@@ -212,14 +190,10 @@ public class ItemRendererPhaser extends WeaponItemRenderer
         glEnable(GL_TEXTURE_2D);
     }
 
-    private void setIndicatorColor(ItemStack item)
-    {
-        if (Phaser.isKillMode(item))
-        {
+    private void setIndicatorColor(ItemStack item) {
+        if (Phaser.isKillMode(item)) {
             glColor3d(1, 0, 0);
-        }
-        else
-        {
+        } else {
             glColor3d(0, 1, 0);
         }
     }

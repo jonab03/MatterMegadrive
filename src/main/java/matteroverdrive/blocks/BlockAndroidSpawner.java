@@ -27,18 +27,15 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 12/10/2015.
  */
-public class BlockAndroidSpawner extends MOBlockMachine
-{
-    public BlockAndroidSpawner(Material material, String name)
-    {
+public class BlockAndroidSpawner extends MOBlockMachine {
+    public BlockAndroidSpawner(Material material, String name) {
         super(material, name);
         blockHardness = -1;
         setHasGui(true);
     }
 
     @Override
-    public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_)
-    {
+    public TileEntity createNewTileEntity(World p_149915_1_, int p_149915_2_) {
         return new TileEntityAndroidSpawner();
     }
 }

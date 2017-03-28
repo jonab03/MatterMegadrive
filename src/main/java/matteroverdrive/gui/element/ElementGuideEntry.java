@@ -32,52 +32,45 @@ import java.util.List;
 /**
  * Created by Simeon on 4/4/2015.
  */
-public class ElementGuideEntry extends MOElementBase
-{
+public class ElementGuideEntry extends MOElementBase {
     public static final ResourceLocation BG = new ResourceLocation(Reference.PATH_ELEMENTS + "quide_element_bg.png");
     private MOGuideEntry entry;
     private IButtonHandler buttonHandler;
     private boolean showLabel;
 
-    public ElementGuideEntry(MOGuiBase gui,IButtonHandler buttonHandler, int posX, int posY,MOGuideEntry entry)
-    {
+    public ElementGuideEntry(MOGuiBase gui, IButtonHandler buttonHandler, int posX, int posY, MOGuideEntry entry) {
         super(gui, posX, posY);
         this.entry = entry;
-        this.setSize(22,22);
+        this.setSize(22, 22);
         this.buttonHandler = buttonHandler;
     }
 
     @Override
-    public void updateInfo()
-    {
+    public void updateInfo() {
 
     }
 
     @Override
-    public void init()
-    {
+    public void init() {
 
     }
 
     @Override
-    public void addTooltip(List<String> list,int mouseX,int mouseY)
-    {
+    public void addTooltip(List<String> list, int mouseX, int mouseY) {
         list.add(entry.getDisplayName());
     }
 
     @Override
-    public void drawBackground(int mouseX, int mouseY, float gameTicks)
-    {
+    public void drawBackground(int mouseX, int mouseY, float gameTicks) {
         GL11.glColor3f(1, 1, 1);
         gui.bindTexture(BG);
         gui.drawSizedTexturedModalRect(this.posX, this.posY, 0, 0, 22, 22, 22, 22);
     }
 
     @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
-        int iconIndex = (int)((Minecraft.getMinecraft().theWorld.getWorldTime()/20) % entry.getStackIcons().length);
-        RenderUtils.renderStack(this.posX+3,this.posY+3,entry.getStackIcons()[iconIndex]);
+    public void drawForeground(int mouseX, int mouseY) {
+        int iconIndex = (int) ((Minecraft.getMinecraft().theWorld.getWorldTime() / 20) % entry.getStackIcons().length);
+        RenderUtils.renderStack(this.posX + 3, this.posY + 3, entry.getStackIcons()[iconIndex]);
 
         if (showLabel) {
             getFontRenderer().setUnicodeFlag(true);
@@ -86,19 +79,16 @@ public class ElementGuideEntry extends MOElementBase
         }
     }
 
-    public boolean onMousePressed(int mouseX, int mouseY, int mouseButton)
-    {
+    public boolean onMousePressed(int mouseX, int mouseY, int mouseButton) {
         buttonHandler.handleElementButtonClick(this, name, mouseButton);
         return true;
     }
 
-    public MOGuideEntry getEntry()
-    {
+    public MOGuideEntry getEntry() {
         return entry;
     }
 
-    public void setShowLabel(boolean showLabel)
-    {
+    public void setShowLabel(boolean showLabel) {
         this.showLabel = showLabel;
     }
 }

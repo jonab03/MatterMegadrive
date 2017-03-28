@@ -41,28 +41,21 @@ import java.util.EnumSet;
 public class TileEntityNetworkPipe extends TileEntityPipe implements IMatterNetworkCable, IMatterNetworkConnection {
 
     @Override
-    public boolean canConnectTo(TileEntity entity, ForgeDirection direction)
-    {
-        if (entity instanceof IMatterNetworkConnection)
-        {
-            if (entity instanceof TileEntityNetworkPipe)
-            {
-                TileEntityNetworkPipe networkPipe = (TileEntityNetworkPipe)entity;
+    public boolean canConnectTo(TileEntity entity, ForgeDirection direction) {
+        if (entity instanceof IMatterNetworkConnection) {
+            if (entity instanceof TileEntityNetworkPipe) {
+                TileEntityNetworkPipe networkPipe = (TileEntityNetworkPipe) entity;
                 int pipeConnections = networkPipe.getConnectionsMask();
-                if (MOMathHelper.getBoolean(pipeConnections,direction.ordinal())) {
+                if (MOMathHelper.getBoolean(pipeConnections, direction.ordinal())) {
                     return true;
-                }
-                else
-                {
+                } else {
                     int pipeConnectionsCount = 0;
                     for (int i = 0; i < 6; i++) {
                         pipeConnectionsCount += ((pipeConnections >> i) & 1);
                     }
                     return pipeConnectionsCount < 2;
                 }
-            }
-            else
-            {
+            } else {
                 return ((IMatterNetworkConnection) entity).canConnectFromSide(direction);
             }
         }
@@ -80,8 +73,7 @@ public class TileEntityNetworkPipe extends TileEntityPipe implements IMatterNetw
     }
 
     @Override
-    public void onDestroyed()
-    {
+    public void onDestroyed() {
 
     }
 
@@ -101,12 +93,9 @@ public class TileEntityNetworkPipe extends TileEntityPipe implements IMatterNetw
     }
 
     @Override
-    public void broadcast(MatterNetworkPacket packet,ForgeDirection direction)
-    {
-        if (isValid())
-        {
-            for (int i = 0; i < 6; i++)
-            {
+    public void broadcast(MatterNetworkPacket packet, ForgeDirection direction) {
+        if (isValid()) {
+            for (int i = 0; i < 6; i++) {
                 if (direction.getOpposite().ordinal() != i)
                     MatterNetworkHelper.broadcastPacketInDirection(worldObj, packet, this, ForgeDirection.getOrientation(i));
             }
@@ -119,22 +108,19 @@ public class TileEntityNetworkPipe extends TileEntityPipe implements IMatterNetw
     }
 
     @Override
-    public boolean canConnectFromSide(ForgeDirection side)
-    {
-        return MOMathHelper.getBoolean(getConnectionsMask(),side.ordinal());
+    public boolean canConnectFromSide(ForgeDirection side) {
+        return MOMathHelper.getBoolean(getConnectionsMask(), side.ordinal());
     }
 
     @Override
-    public void updateSides(boolean notify)
-    {
+    public void updateSides(boolean notify) {
         int connections = 0;
         int connectionCount = 0;
 
         for (int i = 0; i < 6; i++) {
             TileEntity t = this.worldObj.getTileEntity(ForgeDirection.values()[i].offsetX + this.xCoord, ForgeDirection.values()[i].offsetY + this.yCoord, ForgeDirection.values()[i].offsetZ + this.zCoord);
 
-            if (connectionCount < 2 && canConnectTo(t, ForgeDirection.getOrientation(ForgeDirection.OPPOSITES[i])))
-            {
+            if (connectionCount < 2 && canConnectTo(t, ForgeDirection.getOrientation(ForgeDirection.OPPOSITES[i]))) {
                 connections |= ForgeDirection.values()[i].flag;
                 connectionCount++;
             }

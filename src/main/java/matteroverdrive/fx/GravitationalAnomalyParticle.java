@@ -11,40 +11,34 @@ import net.minecraft.world.World;
  * Created by Simeon on 5/13/2015.
  */
 @SideOnly(Side.CLIENT)
-public class GravitationalAnomalyParticle extends EntityFX
-{
+public class GravitationalAnomalyParticle extends EntityFX {
     float smokeParticleScale;
     Vec3 center;
 
-    public GravitationalAnomalyParticle(World world, double x, double y, double z, Vec3 center)
-    {
+    public GravitationalAnomalyParticle(World world, double x, double y, double z, Vec3 center) {
         this(world, x, y, z, center, 1.0F);
     }
 
-    public GravitationalAnomalyParticle(World world, double x, double y, double z, Vec3 center, float f)
-    {
+    public GravitationalAnomalyParticle(World world, double x, double y, double z, Vec3 center, float f) {
         super(world, x, y, z, 0.0D, 0.0D, 0.0D);
-        this.particleRed = this.particleGreen = this.particleBlue = (float)(Math.random() * 0.30000001192092896D);
+        this.particleRed = this.particleGreen = this.particleBlue = (float) (Math.random() * 0.30000001192092896D);
         this.particleScale *= 0.75F;
         this.particleScale *= f;
         this.smokeParticleScale = this.particleScale;
-        this.particleMaxAge = (int)(8.0D / (Math.random() * 0.8D + 0.2D));
-        this.particleMaxAge = (int)((float)this.particleMaxAge * f);
+        this.particleMaxAge = (int) (8.0D / (Math.random() * 0.8D + 0.2D));
+        this.particleMaxAge = (int) ((float) this.particleMaxAge * f);
         this.noClip = true;
         this.center = center;
     }
 
-    public void renderParticle(Tessellator tessellator, float p_70539_2_, float p_70539_3_, float p_70539_4_, float p_70539_5_, float p_70539_6_, float p_70539_7_)
-    {
-        float f6 = ((float)this.particleAge + p_70539_2_) / (float)this.particleMaxAge * 32.0F;
+    public void renderParticle(Tessellator tessellator, float p_70539_2_, float p_70539_3_, float p_70539_4_, float p_70539_5_, float p_70539_6_, float p_70539_7_) {
+        float f6 = ((float) this.particleAge + p_70539_2_) / (float) this.particleMaxAge * 32.0F;
 
-        if (f6 < 0.0F)
-        {
+        if (f6 < 0.0F) {
             f6 = 0.0F;
         }
 
-        if (f6 > 1.0F)
-        {
+        if (f6 > 1.0F) {
             f6 = 1.0F;
         }
 
@@ -55,14 +49,12 @@ public class GravitationalAnomalyParticle extends EntityFX
     /**
      * Called to update the entity's position/logic.
      */
-    public void onUpdate()
-    {
+    public void onUpdate() {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
 
-        if (this.particleAge++ >= this.particleMaxAge)
-        {
+        if (this.particleAge++ >= this.particleMaxAge) {
             this.setDead();
         }
 

@@ -9,17 +9,14 @@ import net.minecraft.util.ResourceLocation;
 /**
  * Created by Simeon on 5/28/2015.
  */
-public class EntityRendererFailedPig extends RenderPig
-{
+public class EntityRendererFailedPig extends RenderPig {
     public static final ResourceLocation pig_texture = new ResourceLocation(Reference.PATH_ENTITIES + "failed_pig.png");
 
-    public EntityRendererFailedPig(ModelBase model1, ModelBase model2, float f)
-    {
+    public EntityRendererFailedPig(ModelBase model1, ModelBase model2, float f) {
         super(model1, model2, f);
     }
 
-    protected ResourceLocation getEntityTexture(EntityPig entity)
-    {
+    protected ResourceLocation getEntityTexture(EntityPig entity) {
         return pig_texture;
     }
 }

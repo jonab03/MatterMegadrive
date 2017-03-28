@@ -11,39 +11,35 @@ import net.minecraft.tileentity.TileEntity;
 /**
  * Created by Simeon on 4/22/2015.
  */
-public class PacketMatterUpdate extends TileEntityUpdatePacket
-{
+public class PacketMatterUpdate extends TileEntityUpdatePacket {
     private int matter = 0;
 
-    public PacketMatterUpdate(){}
+    public PacketMatterUpdate() {
+    }
 
-    public PacketMatterUpdate(MOTileEntityMachineMatter entityMachineEnergy)
-    {
-        super(entityMachineEnergy.xCoord,entityMachineEnergy.yCoord,entityMachineEnergy.zCoord);
+    public PacketMatterUpdate(MOTileEntityMachineMatter entityMachineEnergy) {
+        super(entityMachineEnergy.xCoord, entityMachineEnergy.yCoord, entityMachineEnergy.zCoord);
         matter = entityMachineEnergy.getMatterStored();
     }
 
     @Override
-    public void fromBytes(ByteBuf buf)
-    {
+    public void fromBytes(ByteBuf buf) {
         super.fromBytes(buf);
         matter = buf.readInt();
     }
 
     @Override
-    public void toBytes(ByteBuf buf)
-    {
+    public void toBytes(ByteBuf buf) {
         super.toBytes(buf);
         buf.writeInt(matter);
     }
 
-    public static class ClientHandler extends AbstractClientPacketHandler<PacketMatterUpdate>
-    {
-        public ClientHandler(){}
+    public static class ClientHandler extends AbstractClientPacketHandler<PacketMatterUpdate> {
+        public ClientHandler() {
+        }
 
         @Override
-        public IMessage handleClientMessage(EntityPlayer player, PacketMatterUpdate message, MessageContext ctx)
-        {
+        public IMessage handleClientMessage(EntityPlayer player, PacketMatterUpdate message, MessageContext ctx) {
             if (player != null && player.worldObj != null) {
                 TileEntity tileEntity = player.worldObj.getTileEntity(message.x, message.y, message.z);
 

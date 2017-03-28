@@ -39,21 +39,19 @@ import java.util.EnumSet;
 /**
  * Created by Simeon on 11/9/2015.
  */
-public class TileEntityInscriber extends MOTileEntityMachineEnergy
-{
+public class TileEntityInscriber extends MOTileEntityMachineEnergy {
     @SideOnly(Side.CLIENT)
-    private float nextHeadX,nextHeadY;
+    private float nextHeadX, nextHeadY;
     @SideOnly(Side.CLIENT)
-    private float lastHeadX,lastHeadY;
+    private float lastHeadX, lastHeadY;
     @SideOnly(Side.CLIENT)
     private float headAnimationTime;
     private int inscribeTime;
 
-    public static int MAIN_INPUT_SLOT_ID,SEC_INPUT_SLOT_ID,OUTPUT_SLOT_ID;
+    public static int MAIN_INPUT_SLOT_ID, SEC_INPUT_SLOT_ID, OUTPUT_SLOT_ID;
     private InscriberRecipe cachedRecipe;
 
-    public TileEntityInscriber()
-    {
+    public TileEntityInscriber() {
         super(4);
         energyStorage.setCapacity(512000);
         energyStorage.setMaxTransfer(256);
@@ -62,28 +60,22 @@ public class TileEntityInscriber extends MOTileEntityMachineEnergy
     }
 
     @Override
-    protected void RegisterSlots(Inventory inventory)
-    {
-        MAIN_INPUT_SLOT_ID = inventory.AddSlot(new InscriberSlot(true,false).setSendToClient(true));
-        SEC_INPUT_SLOT_ID = inventory.AddSlot(new InscriberSlot(true,true));
+    protected void RegisterSlots(Inventory inventory) {
+        MAIN_INPUT_SLOT_ID = inventory.AddSlot(new InscriberSlot(true, false).setSendToClient(true));
+        SEC_INPUT_SLOT_ID = inventory.AddSlot(new InscriberSlot(true, true));
         OUTPUT_SLOT_ID = inventory.AddSlot(new RemoveOnlySlot(false).setSendToClient(true));
         super.RegisterSlots(inventory);
     }
 
-    protected void manageInscription()
-    {
-        if(!worldObj.isRemote)
-        {
-            if (this.isInscribing())
-            {
-                if(this.energyStorage.getEnergyStored() >= getEnergyDrainPerTick())
-                {
+    protected void manageInscription() {
+        if (!worldObj.isRemote) {
+            if (this.isInscribing()) {
+                if (this.energyStorage.getEnergyStored() >= getEnergyDrainPerTick()) {
                     this.inscribeTime++;
                     energyStorage.modifyEnergyStored(-getEnergyDrainPerTick());
                     UpdateClientPower();
 
-                    if (this.inscribeTime >= getSpeed())
-                    {
+                    if (this.inscribeTime >= getSpeed()) {
                         this.inscribeTime = 0;
                         this.inscribeItem();
                     }
@@ -91,55 +83,42 @@ public class TileEntityInscriber extends MOTileEntityMachineEnergy
             }
         }
 
-        if (!this.isInscribing())
-        {
+        if (!this.isInscribing()) {
             this.inscribeTime = 0;
         }
     }
 
-    public boolean canPutInOutput()
-    {
+    public boolean canPutInOutput() {
         ItemStack outputStack = inventory.getStackInSlot(OUTPUT_SLOT_ID);
-        if (outputStack != null)
-        {
-            return false;
-        }
-        return true;
+        return outputStack == null;
     }
 
-    public void inscribeItem()
-    {
-        if (cachedRecipe != null && canPutInOutput())
-        {
+    public void inscribeItem() {
+        if (cachedRecipe != null && canPutInOutput()) {
             ItemStack outputSlot = inventory.getStackInSlot(OUTPUT_SLOT_ID);
-            if (outputSlot != null)
-            {
+            if (outputSlot != null) {
                 outputSlot.stackSize++;
-            }
-            else
-            {
-                inventory.setInventorySlotContents(OUTPUT_SLOT_ID,cachedRecipe.getCraftingResult(inventory.getStackInSlot(MAIN_INPUT_SLOT_ID),inventory.getStackInSlot(SEC_INPUT_SLOT_ID)));
+            } else {
+                inventory.setInventorySlotContents(OUTPUT_SLOT_ID, cachedRecipe.getCraftingResult(inventory.getStackInSlot(MAIN_INPUT_SLOT_ID), inventory.getStackInSlot(SEC_INPUT_SLOT_ID)));
             }
 
-            inventory.decrStackSize(MAIN_INPUT_SLOT_ID,1);
-            inventory.decrStackSize(SEC_INPUT_SLOT_ID,1);
+            inventory.decrStackSize(MAIN_INPUT_SLOT_ID, 1);
+            inventory.decrStackSize(SEC_INPUT_SLOT_ID, 1);
 
             calculateRecipe();
         }
     }
 
     @Override
-    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk)
-    {
+    public void writeCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories, boolean toDisk) {
         super.writeCustomNBT(nbt, categories, toDisk);
         if (categories.contains(MachineNBTCategory.DATA)) {
-            nbt.setInteger("inscribeTime",inscribeTime);
+            nbt.setInteger("inscribeTime", inscribeTime);
         }
     }
 
     @Override
-    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories)
-    {
+    public void readCustomNBT(NBTTagCompound nbt, EnumSet<MachineNBTCategory> categories) {
         super.readCustomNBT(nbt, categories);
         if (categories.contains(MachineNBTCategory.DATA)) {
             inscribeTime = nbt.getInteger("inscribeTime");
@@ -147,13 +126,11 @@ public class TileEntityInscriber extends MOTileEntityMachineEnergy
     }
 
     @Override
-    public boolean getServerActive()
-    {
+    public boolean getServerActive() {
         return isInscribing() && this.energyStorage.getEnergyStored() >= getEnergyDrainPerTick();
     }
 
-    public int getEnergyDrainPerTick()
-    {
+    public int getEnergyDrainPerTick() {
         int maxEnergy = getEnergyDrainMax();
         int speed = getSpeed();
         if (speed > 0) {
@@ -162,26 +139,21 @@ public class TileEntityInscriber extends MOTileEntityMachineEnergy
         return 0;
     }
 
-    public int getEnergyDrainMax()
-    {
-        if (cachedRecipe != null)
-        {
-            return (int)(cachedRecipe.getEnergy() * getUpgradeMultiply(UpgradeTypes.PowerUsage));
+    public int getEnergyDrainMax() {
+        if (cachedRecipe != null) {
+            return (int) (cachedRecipe.getEnergy() * getUpgradeMultiply(UpgradeTypes.PowerUsage));
         }
         return 0;
     }
 
-    public int getSpeed()
-    {
-        if (cachedRecipe != null)
-        {
-            return (int)(cachedRecipe.getTime() * getUpgradeMultiply(UpgradeTypes.Speed));
+    public int getSpeed() {
+        if (cachedRecipe != null) {
+            return (int) (cachedRecipe.getTime() * getUpgradeMultiply(UpgradeTypes.Speed));
         }
         return 0;
     }
 
-    public boolean isInscribing()
-    {
+    public boolean isInscribing() {
         return cachedRecipe != null && canPutInOutput();
     }
 
@@ -206,19 +178,16 @@ public class TileEntityInscriber extends MOTileEntityMachineEnergy
     }
 
     @Override
-    public void updateEntity()
-    {
+    public void updateEntity() {
         super.updateEntity();
-        if (worldObj.isRemote && isActive())
-        {
+        if (worldObj.isRemote && isActive()) {
             handleHeadAnimation();
         }
         manageInscription();
     }
 
     @Override
-    public void onAdded(World world, int x, int y, int z)
-    {
+    public void onAdded(World world, int x, int y, int z) {
 
     }
 
@@ -233,32 +202,27 @@ public class TileEntityInscriber extends MOTileEntityMachineEnergy
     }
 
     @Override
-    public int[] getAccessibleSlotsFromSide(int side)
-    {
-        return new int[]{MAIN_INPUT_SLOT_ID,SEC_INPUT_SLOT_ID,OUTPUT_SLOT_ID};
+    public int[] getAccessibleSlotsFromSide(int side) {
+        return new int[]{MAIN_INPUT_SLOT_ID, SEC_INPUT_SLOT_ID, OUTPUT_SLOT_ID};
     }
 
     @Override
-    public boolean canExtractItem(int slot, ItemStack item, int side)
-    {
+    public boolean canExtractItem(int slot, ItemStack item, int side) {
         return slot == OUTPUT_SLOT_ID;
     }
 
     @Override
-    public boolean isAffectedByUpgrade(UpgradeTypes type)
-    {
+    public boolean isAffectedByUpgrade(UpgradeTypes type) {
         return type.equals(UpgradeTypes.PowerUsage) || type.equals(UpgradeTypes.Speed) || type.equals(UpgradeTypes.PowerStorage) || type.equals(UpgradeTypes.PowerTransfer);
     }
 
     @Override
-    protected void onAwake(Side side)
-    {
+    protected void onAwake(Side side) {
         calculateRecipe();
     }
 
     @Override
-    public float getProgress()
-    {
+    public float getProgress() {
         float speed = (float) getSpeed();
         if (speed > 0) {
             return (float) (inscribeTime) / speed;
@@ -267,14 +231,12 @@ public class TileEntityInscriber extends MOTileEntityMachineEnergy
     }
 
     @SideOnly(Side.CLIENT)
-    protected void handleHeadAnimation()
-    {
-        if (headAnimationTime >= 1)
-        {
+    protected void handleHeadAnimation() {
+        if (headAnimationTime >= 1) {
             lastHeadX = nextHeadX;
             lastHeadY = nextHeadY;
-            nextHeadX = MathHelper.clamp_float((float) random.nextGaussian(),-1,1);
-            nextHeadY = MathHelper.clamp_float((float) random.nextGaussian(),-1,1);
+            nextHeadX = MathHelper.clamp_float((float) random.nextGaussian(), -1, 1);
+            nextHeadY = MathHelper.clamp_float((float) random.nextGaussian(), -1, 1);
             headAnimationTime = 0;
         }
 
@@ -283,19 +245,16 @@ public class TileEntityInscriber extends MOTileEntityMachineEnergy
     }
 
     @SideOnly(Side.CLIENT)
-    public float geatHeadX()
-    {
-        return MOMathHelper.Lerp(lastHeadX,nextHeadX,headAnimationTime);
+    public float geatHeadX() {
+        return MOMathHelper.Lerp(lastHeadX, nextHeadX, headAnimationTime);
     }
 
     @SideOnly(Side.CLIENT)
-    public float geatHeadY()
-    {
-        return MOMathHelper.Lerp(lastHeadY,nextHeadY,headAnimationTime);
+    public float geatHeadY() {
+        return MOMathHelper.Lerp(lastHeadY, nextHeadY, headAnimationTime);
     }
 
-    public void calculateRecipe()
-    {
+    public void calculateRecipe() {
         ItemStack mainStack = inventory.getStackInSlot(MAIN_INPUT_SLOT_ID);
         ItemStack secStack = inventory.getStackInSlot(SEC_INPUT_SLOT_ID);
         if (mainStack != null && secStack != null) {
@@ -307,16 +266,14 @@ public class TileEntityInscriber extends MOTileEntityMachineEnergy
 
     //region Inventory
     @Override
-    public ItemStack decrStackSize(int slot, int size)
-    {
-        ItemStack stack = super.decrStackSize(slot,size);
+    public ItemStack decrStackSize(int slot, int size) {
+        ItemStack stack = super.decrStackSize(slot, size);
         calculateRecipe();
         return stack;
     }
 
-    public void setInventorySlotContents(int slot, ItemStack itemStack)
-    {
-        super.setInventorySlotContents(slot,itemStack);
+    public void setInventorySlotContents(int slot, ItemStack itemStack) {
+        super.setInventorySlotContents(slot, itemStack);
         calculateRecipe();
     }
     //endregion

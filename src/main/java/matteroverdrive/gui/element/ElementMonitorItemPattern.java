@@ -30,24 +30,20 @@ import org.lwjgl.opengl.GL11;
 /**
  * Created by Simeon on 4/29/2015.
  */
-public class ElementMonitorItemPattern extends ElementItemPattern
-{
+public class ElementMonitorItemPattern extends ElementItemPattern {
     IButtonHandler buttonHandler;
     boolean expanded;
 
-    public ElementMonitorItemPattern(MOGuiBase gui, ItemPattern pattern, IButtonHandler buttonHandler)
-    {
-        super(gui, pattern,"big",22,22);
+    public ElementMonitorItemPattern(MOGuiBase gui, ItemPattern pattern, IButtonHandler buttonHandler) {
+        super(gui, pattern, "big", 22, 22);
         this.buttonHandler = buttonHandler;
     }
 
     @Override
-    public void drawForeground(int mouseX, int mouseY)
-    {
+    public void drawForeground(int mouseX, int mouseY) {
         RenderUtils.renderStack(posX + 3, posY + 3, itemStack);
 
-        if (!expanded && amount > 0)
-        {
+        if (!expanded && amount > 0) {
             GL11.glPushMatrix();
             GL11.glTranslatef(0, 0, 100);
             gui.drawCenteredString(getFontRenderer(), Integer.toString(amount), posX + 17, posY + 12, 0xFFFFFF);
@@ -56,12 +52,10 @@ public class ElementMonitorItemPattern extends ElementItemPattern
     }
 
     @Override
-    public void drawBackground(int mouseX, int mouseY, float gameTicks)
-    {
-        super.drawBackground(mouseX,mouseY,gameTicks);
+    public void drawBackground(int mouseX, int mouseY, float gameTicks) {
+        super.drawBackground(mouseX, mouseY, gameTicks);
 
-        if (expanded)
-        {
+        if (expanded) {
             ApplyColor();
             MOElementButton.NORMAL_TEXTURE.render(posX + 22, posY + 2, 18, 18);
             getFontRenderer().drawString(EnumChatFormatting.BOLD + "+", posX + 28, posY + 7, Reference.COLOR_MATTER.getColor());
@@ -75,39 +69,26 @@ public class ElementMonitorItemPattern extends ElementItemPattern
         ResetColor();
     }
 
-    public boolean onMousePressed(int mouseX, int mouseY, int mouseButton)
-    {
-        if (expanded)
-        {
-            if (mouseX < posX +22 && mouseY < posY + 22)
-            {
+    public boolean onMousePressed(int mouseX, int mouseY, int mouseButton) {
+        if (expanded) {
+            if (mouseX < posX + 22 && mouseY < posY + 22) {
                 setExpanded(false);
-            }
-            else if (mouseX > posX + 24 && mouseY < posY + 22)
-            {
+            } else if (mouseX > posX + 24 && mouseY < posY + 22) {
                 amount = Math.min(amount + (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) | Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? 16 : 1), 64);
-            }
-            else if (mouseX > posX + 24 && mouseY > posY + 24)
-            {
+            } else if (mouseX > posX + 24 && mouseY > posY + 24) {
                 amount = Math.max(amount - (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) | Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? 16 : 1), 0);
             }
-        }
-        else
-        {
+        } else {
             setExpanded(true);
         }
         return true;
     }
 
-    public void setExpanded(boolean expanded)
-    {
-        if (!expanded)
-        {
+    public void setExpanded(boolean expanded) {
+        if (!expanded) {
             this.expanded = expanded;
             this.setSize(22, 22);
-        }
-        else
-        {
+        } else {
             this.expanded = expanded;
             this.setSize(44, 44);
         }

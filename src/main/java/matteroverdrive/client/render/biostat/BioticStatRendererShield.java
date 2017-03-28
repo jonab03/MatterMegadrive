@@ -39,8 +39,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * Created by Simeon on 6/7/2015.
  */
-public class BioticStatRendererShield implements IBioticStatRenderer<BioticStatShield>
-{
+public class BioticStatRendererShield implements IBioticStatRenderer<BioticStatShield> {
     public static final ResourceLocation forcefield_damage_tex = new ResourceLocation(Reference.PATH_FX + "shield_damage.png");
     public static final ResourceLocation forcefield_tex = new ResourceLocation(Reference.PATH_FX + "forcefield_plasma.png");
     public static final ResourceLocation forcefield_plasma_tex = new ResourceLocation(Reference.PATH_FX + "forcefield_plasma_2.png");
@@ -52,29 +51,24 @@ public class BioticStatRendererShield implements IBioticStatRenderer<BioticStatS
 
     float opacityLerp;
 
-    public BioticStatRendererShield()
-    {
+    public BioticStatRendererShield() {
         shield_model = AdvancedModelLoader.loadModel(model_path);
         normal_sphere = AdvancedModelLoader.loadModel(new ResourceLocation(Reference.MODEL_SPHERE));
         opacityLerp = 0;
     }
 
     @Override
-    public void onWorldRender(BioticStatShield stat,int level,RenderWorldLastEvent event)
-    {
-        for (Object entity : Minecraft.getMinecraft().theWorld.playerEntities)
-        {
-            renderPlayerShield(event, (EntityPlayer)entity);
+    public void onWorldRender(BioticStatShield stat, int level, RenderWorldLastEvent event) {
+        for (Object entity : Minecraft.getMinecraft().theWorld.playerEntities) {
+            renderPlayerShield(event, (EntityPlayer) entity);
         }
     }
 
-    private void renderPlayerShield(RenderWorldLastEvent event, EntityPlayer player)
-    {
+    private void renderPlayerShield(RenderWorldLastEvent event, EntityPlayer player) {
         AndroidPlayer androidPlayer = AndroidPlayer.get(player);
-        boolean isVisible = manageOpacityLerp(androidPlayer,event.partialTicks);
+        boolean isVisible = manageOpacityLerp(androidPlayer, event.partialTicks);
 
-        if (isVisible)
-        {
+        if (isVisible) {
             double time = Minecraft.getMinecraft().theWorld.getWorldTime();
 
             glPushMatrix();
@@ -87,12 +81,10 @@ public class BioticStatRendererShield implements IBioticStatRenderer<BioticStatS
             Vec3 clientPosition = Minecraft.getMinecraft().thePlayer.getPosition(event.partialTicks);
             RenderUtils.applyColorWithMultipy(Reference.COLOR_HOLO, 0.2f * getOpacityLerp(player));
             Minecraft.getMinecraft().renderEngine.bindTexture(shield_texture);
-            if (!isClient(player))
-            {
+            if (!isClient(player)) {
                 glTranslated(0, player.height - 0.5, 0);
                 glEnable(GL_CULL_FACE);
-            }else
-            {
+            } else {
                 if (Minecraft.getMinecraft().gameSettings.thirdPersonView > 0) {
                     glEnable(GL_CULL_FACE);
                 }
@@ -126,52 +118,39 @@ public class BioticStatRendererShield implements IBioticStatRenderer<BioticStatS
         }
     }
 
-    private boolean manageOpacityLerp(AndroidPlayer androidPlayer, float partialTicks)
-    {
-        if (MatterOverdriveBioticStats.shield.getShieldState(androidPlayer))
-        {
-            if (isClient(androidPlayer.getPlayer()))
-            {
+    private boolean manageOpacityLerp(AndroidPlayer androidPlayer, float partialTicks) {
+        if (MatterOverdriveBioticStats.shield.getShieldState(androidPlayer)) {
+            if (isClient(androidPlayer.getPlayer())) {
                 if (opacityLerp < 1) {
                     opacityLerp = Math.min(1, opacityLerp + partialTicks * 0.1f);
                 }
             }
 
             return true;
-        }
-		else
-        {
-            if (isClient(androidPlayer.getPlayer()) && opacityLerp > 0)
-            {
-                opacityLerp = Math.max(0,opacityLerp - partialTicks * 0.2f);
+        } else {
+            if (isClient(androidPlayer.getPlayer()) && opacityLerp > 0) {
+                opacityLerp = Math.max(0, opacityLerp - partialTicks * 0.2f);
                 return true;
-            }
-			else
-            {
+            } else {
                 return false;
             }
         }
     }
 
-    private boolean isClient(EntityPlayer player)
-    {
+    private boolean isClient(EntityPlayer player) {
         return player == Minecraft.getMinecraft().thePlayer;
     }
 
-    private float getOpacityLerp(EntityPlayer player)
-    {
-        if (Minecraft.getMinecraft().thePlayer == player)
-        {
+    private float getOpacityLerp(EntityPlayer player) {
+        if (Minecraft.getMinecraft().thePlayer == player) {
             return opacityLerp;
         }
         return 1;
     }
 
-    private void renderAttacks(AndroidPlayer androidPlayer)
-    {
+    private void renderAttacks(AndroidPlayer androidPlayer) {
         float opacity = getOpacityLerp(androidPlayer.getPlayer());
-        if (androidPlayer.getEffects().hasKey(BioticStatShield.TAG_HITS))
-        {
+        if (androidPlayer.getEffects().hasKey(BioticStatShield.TAG_HITS)) {
             NBTTagList hits = androidPlayer.getEffects().getTagList(BioticStatShield.TAG_HITS, 10);
             for (int i = 0; i < hits.tagCount(); i++) {
                 renderAttack(new Vector3f(hits.getCompoundTagAt(i).getFloat("x"), -hits.getCompoundTagAt(i).getFloat("y"), -hits.getCompoundTagAt(i).getFloat("z")).normalise(null), (hits.getCompoundTagAt(i).getInteger("time") / 10f) * opacity);
@@ -179,8 +158,7 @@ public class BioticStatRendererShield implements IBioticStatRenderer<BioticStatS
         }
     }
 
-    private void renderAttack(Vector3f dir,float percent)
-    {
+    private void renderAttack(Vector3f dir, float percent) {
         glPushMatrix();
         Vector3f front = new Vector3f(1, 0, 0);
         Vector3f c = Vector3f.cross(dir, front, null);

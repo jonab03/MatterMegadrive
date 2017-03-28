@@ -8,10 +8,8 @@ import net.minecraft.world.World;
 /**
  * Created by Simeon on 5/29/2015.
  */
-public class EntityFailedSheep extends EntitySheep
-{
-    public EntityFailedSheep(World world,EntitySheep sheep)
-    {
+public class EntityFailedSheep extends EntitySheep {
+    public EntityFailedSheep(World world, EntitySheep sheep) {
         super(world);
         setFleeceColor(sheep.getFleeceColor());
     }
@@ -21,24 +19,20 @@ public class EntityFailedSheep extends EntitySheep
     }
 
     @Override
-    protected String getLivingSound()
-    {
+    protected String getLivingSound() {
         return Reference.MOD_ID + ":failed_animal_idle_sheep";
     }
 
-    protected String getHurtSound()
-    {
+    protected String getHurtSound() {
         return Reference.MOD_ID + ":failed_animal_idle_sheep";
     }
 
     @Override
-    protected String getDeathSound()
-    {
+    protected String getDeathSound() {
         return Reference.MOD_ID + ":failed_animal_die_" + rand.nextInt(2);
     }
 
-    public EntitySheep createChild(EntityAgeable entity)
-    {
-        return new EntityFailedSheep(worldObj,super.createChild(entity));
+    public EntitySheep createChild(EntityAgeable entity) {
+        return new EntityFailedSheep(worldObj, super.createChild(entity));
     }
 }

@@ -31,18 +31,17 @@ import net.minecraft.entity.player.InventoryPlayer;
 /**
  * Created by Simeon on 11/12/2015.
  */
-public class GuiInscriber extends MOGuiMachine<TileEntityInscriber>
-{
+public class GuiInscriber extends MOGuiMachine<TileEntityInscriber> {
     MOElementEnergy energyElement;
     ElementDualScaled inscribe_progress;
     ElementSlot outputSlot;
 
     public GuiInscriber(InventoryPlayer inventoryPlayer, TileEntityInscriber machine) {
-        super(new ContainerInscriber(inventoryPlayer,machine), machine);
-        name="inscriber";
-        energyElement = new MOElementEnergy(this,100,39,machine.getEnergyStorage());
-        inscribe_progress = new ElementDualScaled(this,32,55);
-        outputSlot = new ElementInventorySlot(this,getContainer().getSlotAt(machine.OUTPUT_SLOT_ID),129,55,22,22,"big");
+        super(new ContainerInscriber(inventoryPlayer, machine), machine);
+        name = "inscriber";
+        energyElement = new MOElementEnergy(this, 100, 39, machine.getEnergyStorage());
+        inscribe_progress = new ElementDualScaled(this, 32, 55);
+        outputSlot = new ElementInventorySlot(this, getContainer().getSlotAt(TileEntityInscriber.OUTPUT_SLOT_ID), 129, 55, 22, 22, "big");
 
         inscribe_progress.setMode(1);
         inscribe_progress.setSize(24, 16);
@@ -51,8 +50,7 @@ public class GuiInscriber extends MOGuiMachine<TileEntityInscriber>
     }
 
     @Override
-    public void initGui()
-    {
+    public void initGui() {
         super.initGui();
 
         pages.get(0).addElement(outputSlot);
@@ -60,14 +58,13 @@ public class GuiInscriber extends MOGuiMachine<TileEntityInscriber>
         this.addElement(inscribe_progress);
 
         AddMainPlayerSlots(this.inventorySlots, pages.get(0));
-        AddHotbarPlayerSlots(this.inventorySlots,this);
+        AddHotbarPlayerSlots(this.inventorySlots, this);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float p_146976_1_,
-                                                   int p_146976_2_, int p_146976_3_)
-    {
+                                                   int p_146976_2_, int p_146976_3_) {
         super.drawGuiContainerBackgroundLayer(p_146976_1_, p_146976_2_, p_146976_3_);
-        inscribe_progress.setQuantity(Math.round((((ContainerMachine)getContainer()).getProgress() * 24)));
+        inscribe_progress.setQuantity(Math.round((((ContainerMachine) getContainer()).getProgress() * 24)));
     }
 }

@@ -27,12 +27,9 @@ import org.lwjgl.opengl.GL11;
 /**
  * Created by Simeon on 9/20/2015.
  */
-public abstract class BionicPartRenderer implements IBionicPartRenderer
-{
-    protected void translateFromPlayer(EntityPlayer entityPlayer,float partialRenderTick)
-    {
-        if (entityPlayer != Minecraft.getMinecraft().thePlayer)
-        {
+public abstract class BionicPartRenderer implements IBionicPartRenderer {
+    protected void translateFromPlayer(EntityPlayer entityPlayer, float partialRenderTick) {
+        if (entityPlayer != Minecraft.getMinecraft().thePlayer) {
             Vec3 clientPos = Minecraft.getMinecraft().thePlayer.getPosition(partialRenderTick);
             Vec3 pos = entityPlayer.getPosition(partialRenderTick);
             GL11.glTranslated(pos.xCoord - clientPos.xCoord, pos.yCoord - clientPos.yCoord + entityPlayer.getEyeHeight() - 0.2, pos.zCoord - clientPos.zCoord);

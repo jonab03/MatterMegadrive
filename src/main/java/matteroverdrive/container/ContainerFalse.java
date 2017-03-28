@@ -24,11 +24,9 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by Simeon on 5/1/2015.
  */
-public class ContainerFalse extends MOBaseContainer
-{
+public class ContainerFalse extends MOBaseContainer {
 
-    public ContainerFalse()
-    {
+    public ContainerFalse() {
         super(null);
     }
 
@@ -38,8 +36,7 @@ public class ContainerFalse extends MOBaseContainer
     }
 
     @Override
-    public void putStackInSlot(int p_75141_1_, ItemStack p_75141_2_)
-    {
+    public void putStackInSlot(int p_75141_1_, ItemStack p_75141_2_) {
 
     }
 }

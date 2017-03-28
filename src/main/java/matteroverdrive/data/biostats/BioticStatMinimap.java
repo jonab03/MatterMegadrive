@@ -25,10 +25,8 @@ import net.minecraftforge.event.entity.living.LivingEvent;
 /**
  * Created by Simeon on 9/12/2015.
  */
-public class BioticStatMinimap extends AbstractBioticStat
-{
-    public BioticStatMinimap(String name, int xp)
-    {
+public class BioticStatMinimap extends AbstractBioticStat {
+    public BioticStatMinimap(String name, int xp) {
         super(name, xp);
     }
 
@@ -68,8 +66,7 @@ public class BioticStatMinimap extends AbstractBioticStat
     }
 
     @Override
-    public int getDelay(AndroidPlayer androidPlayer, int level)
-    {
+    public int getDelay(AndroidPlayer androidPlayer, int level) {
         return 0;
     }
 }
