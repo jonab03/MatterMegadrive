@@ -4,8 +4,6 @@ import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * An optional way of managing and/or storing gasses. Would be very useful in TileEntity and Entity gas storage.
- *
- * @author aidancbrady
  */
 public class GasTank {
     public GasStack stored;

@@ -10,9 +10,6 @@ import net.minecraft.util.ChatStyle;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 
-/**
- * Created by Simeon on 1/3/2016.
- */
 public class MachineHelper {
     public static boolean canOpenMachine(World world, int x, int y, int z, EntityPlayer player, boolean hasGui, String errorMessage) {
         if (world.isRemote) {

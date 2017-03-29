@@ -20,8 +20,6 @@ package com.brsanthu.googleanalytics;
  * This interface helps creating the GA request in lazily inside the async thread
  * so the cost of constructing the Request is not part of user related thread or
  * cost is completely avoided if GA is disabled (via {@link GoogleAnalyticsConfig.setEnabled})
- *
- * @author Santhosh Kumar
  */
 public interface RequestProvider {
 

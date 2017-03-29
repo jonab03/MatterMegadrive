@@ -9,9 +9,6 @@ import matteroverdrive.network.packet.TileEntityUpdatePacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
-/**
- * Created by Simeon on 12/30/2015.
- */
 public class PacketSyncTaskQueue extends TileEntityUpdatePacket {
     int queueID;
     ByteBuf byteBuf;

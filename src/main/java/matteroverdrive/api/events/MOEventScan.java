@@ -6,9 +6,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 
-/**
- * Created by Simeon on 1/5/2016.
- */
 public class MOEventScan extends PlayerEvent {
     public final ItemStack scannerStack;
     public final MovingObjectPosition position;

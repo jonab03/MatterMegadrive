@@ -21,8 +21,6 @@ import java.util.ArrayList;
 /**
  * Coord4D - an integer-based way to keep track of and perform operations on blocks in a Minecraft-based environment. This also takes
  * in account the dimension the coordinate is in.
- *
- * @author aidancbrady
  */
 public class Coord4D {
     public int xCoord;

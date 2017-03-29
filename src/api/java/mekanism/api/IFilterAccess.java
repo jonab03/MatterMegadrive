@@ -5,8 +5,6 @@ import net.minecraft.nbt.NBTTagCompound;
 /**
  * Implement this in your TileEntity class if you wish for Mekanism filters to be able to store any of their
  * information.
- *
- * @author aidancbrady
  */
 public interface IFilterAccess {
     /**

@@ -3,9 +3,6 @@ package matteroverdrive.data;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 
-/**
- * Created by Simeon on 5/4/2015.
- */
 public class EntityPosition {
     int entityID;
     public double x, y, z;

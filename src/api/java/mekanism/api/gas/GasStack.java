@@ -4,8 +4,6 @@ import net.minecraft.nbt.NBTTagCompound;
 
 /**
  * GasStack - a specified amount of a defined Gas with certain properties.
- *
- * @author aidancbrady
  */
 public class GasStack {
     private Gas type;

@@ -13,9 +13,6 @@ import net.minecraftforge.client.model.AdvancedModelLoader;
 import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 
-/**
- * Created by Simeon on 3/19/2015.
- */
 public class TileEntityRendererReplicator extends TileEntitySpecialRenderer {
     EntityItem itemEntity;
 

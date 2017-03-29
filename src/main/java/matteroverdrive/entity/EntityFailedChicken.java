@@ -5,9 +5,6 @@ import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.world.World;
 
-/**
- * Created by Simeon on 5/28/2015.
- */
 public class EntityFailedChicken extends EntityChicken {
     public EntityFailedChicken(World world) {
         super(world);

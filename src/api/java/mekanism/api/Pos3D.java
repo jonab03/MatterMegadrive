@@ -9,8 +9,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Pos3D - a way of performing operations on objects in a three dimensional environment.
- *
- * @author aidancbrady
  */
 public class Pos3D {
     public double xPos;

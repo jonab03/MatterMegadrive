@@ -12,9 +12,6 @@ import net.minecraft.tileentity.TileEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Simeon on 4/26/2015.
- */
 public class PacketPatternMonitorCommands extends TileEntityUpdatePacket {
     public static final int COMMAND_SEARCH = 0;
     public static final int COMMAND_REQUEST = 1;

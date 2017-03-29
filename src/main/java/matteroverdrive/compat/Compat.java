@@ -7,8 +7,6 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation used to mark a class that is an inter-mod compatibility module.
- *
- * @author shadowfacts
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

@@ -10,9 +10,6 @@ import matteroverdrive.network.packet.TileEntityUpdatePacket;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
-/**
- * Created by Simeon on 4/28/2015.
- */
 public class PacketRemoveTask extends TileEntityUpdatePacket {
     int taskIndex;
     byte queueID;

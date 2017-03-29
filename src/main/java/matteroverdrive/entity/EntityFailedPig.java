@@ -5,9 +5,6 @@ import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.world.World;
 
-/**
- * Created by Simeon on 5/28/2015.
- */
 public class EntityFailedPig extends EntityPig {
     public EntityFailedPig(World world) {
         super(world);

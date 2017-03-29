@@ -8,9 +8,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import matteroverdrive.MatterOverdrive;
 import net.minecraft.entity.player.EntityPlayer;
 
-/**
- * Created by Simeon on 4/22/2015.
- */
 public abstract class AbstractPacketHandler<T extends IMessage> implements IMessageHandler<T, IMessage> {
     @SideOnly(Side.CLIENT)
     public abstract IMessage handleClientMessage(EntityPlayer player, T message, MessageContext ctx);

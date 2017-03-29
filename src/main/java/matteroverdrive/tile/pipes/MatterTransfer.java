@@ -3,9 +3,6 @@ package matteroverdrive.tile.pipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.ForgeDirection;
 
-/**
- * Created by Simeon on 3/7/2015.
- */
 public class MatterTransfer {
     public static final String LIFE_KEY = "transfer_life";
     public static final String DIRECTION_KEY = "transfer_direction";

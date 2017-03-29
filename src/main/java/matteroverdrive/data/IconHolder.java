@@ -3,9 +3,6 @@ package matteroverdrive.data;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.ResourceLocation;
 
-/**
- * Created by Simeon on 5/14/2015.
- */
 public class IconHolder implements IIcon {
     public float minX, minY, maxX, maxY;
     public int width;

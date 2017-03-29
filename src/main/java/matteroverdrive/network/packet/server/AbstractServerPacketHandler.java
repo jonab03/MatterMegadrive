@@ -5,9 +5,6 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import matteroverdrive.network.packet.AbstractPacketHandler;
 import net.minecraft.entity.player.EntityPlayer;
 
-/**
- * Created by Simeon on 4/22/2015.
- */
 public abstract class AbstractServerPacketHandler<T extends IMessage> extends AbstractPacketHandler<T> {
     public AbstractServerPacketHandler() {
     }

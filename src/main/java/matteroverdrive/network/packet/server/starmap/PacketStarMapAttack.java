@@ -12,9 +12,6 @@ import matteroverdrive.starmap.GalaxyServer;
 import matteroverdrive.starmap.data.TravelEvent;
 import net.minecraft.entity.player.EntityPlayer;
 
-/**
- * Created by Simeon on 6/28/2015.
- */
 public class PacketStarMapAttack extends PacketAbstract {
     GalacticPosition from, to;
     int shipID;

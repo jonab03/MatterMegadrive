@@ -6,9 +6,6 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 
-/**
- * Created by Simeon on 5/18/2015.
- */
 public class RendererBlockGravitationalStabilizer extends MOBlockRenderer {
     public static int renderID;
 

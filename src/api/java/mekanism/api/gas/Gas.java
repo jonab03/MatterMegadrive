@@ -8,8 +8,6 @@ import net.minecraftforge.fluids.FluidRegistry;
 
 /**
  * Gas - a class used to set specific properties of gasses when used or seen in-game.
- *
- * @author aidancbrady
  */
 public class Gas {
     private String name;

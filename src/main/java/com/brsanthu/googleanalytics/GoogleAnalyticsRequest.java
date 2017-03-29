@@ -24,8 +24,6 @@ import static com.brsanthu.googleanalytics.GoogleAnalyticsParameter.*;
  * <p>It also provides type safe getter/setters for all parameters that are applicable
  * for all hit types. Hit specific setters/getters are available in corresponding
  * Hit specific request objects (like {@link EventHit} or {@link PageViewHit} etc)
- *
- * @author Santhosh Kumar
  */
 @SuppressWarnings("unchecked")
 public class GoogleAnalyticsRequest<T> {

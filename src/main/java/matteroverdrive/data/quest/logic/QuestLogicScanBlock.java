@@ -12,9 +12,6 @@ import net.minecraft.util.MovingObjectPosition;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by Simeon on 1/5/2016.
- */
 public class QuestLogicScanBlock extends QuestLogicBlock {
     private int minBlockScan;
     private int maxBlockScan;

@@ -3,9 +3,6 @@ package matteroverdrive.data.quest.logic;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 
-/**
- * Created by Simeon on 1/5/2016.
- */
 public abstract class QuestLogicBlock extends AbstractQuestLogic {
     protected Block block;
     protected int blockMetadata;

@@ -6,9 +6,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 
-/**
- * Created by Simeon on 3/8/2015.
- */
 public class ItemRendererPipe implements IItemRenderer {
     private TileEntitySpecialRenderer renderer;
     private TileEntity pipe;

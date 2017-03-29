@@ -9,8 +9,6 @@ import net.minecraft.nbt.NBTTagCompound;
  * The purpose of this class is to show how to use and provide an interface for Thermal Foundation's IMC Lexicon Blacklist manipulation.
  * <p>
  * This is really the only safe way to do this. Please do not attempt any direct Lexicon manipulation.
- *
- * @author King Lemming
  */
 public class ThermalFoundationHelper {
 

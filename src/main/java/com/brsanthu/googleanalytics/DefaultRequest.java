@@ -22,8 +22,6 @@ import static com.brsanthu.googleanalytics.GoogleAnalyticsParameter.*;
  * Default request that captures default value for any of the parameters. Create an instance of
  * this object and specify as constructor parameter to {@link GoogleAnalytics} or set one any time using
  * {@link GoogleAnalytics#setDefaultRequest(DefaultRequest)} method.
- *
- * @author Santhosh Kumar
  */
 public class DefaultRequest extends GoogleAnalyticsRequest<DefaultRequest> {
 

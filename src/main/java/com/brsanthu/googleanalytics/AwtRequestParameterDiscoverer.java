@@ -10,8 +10,6 @@ import static com.brsanthu.googleanalytics.GaUtils.isEmpty;
  * <li>Screen Resolution</li>
  * <li>Screen Colors</li>
  * </ul>
- *
- * @author Santhosh Kumar
  */
 public class AwtRequestParameterDiscoverer extends DefaultRequestParameterDiscoverer {
 

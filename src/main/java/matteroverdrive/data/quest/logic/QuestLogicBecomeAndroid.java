@@ -14,9 +14,6 @@ import net.minecraft.util.EnumChatFormatting;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by Simeon on 12/24/2015.
- */
 public class QuestLogicBecomeAndroid extends AbstractQuestLogic {
     boolean talkToComplete;
 

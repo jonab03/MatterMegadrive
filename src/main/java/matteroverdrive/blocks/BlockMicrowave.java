@@ -11,9 +11,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 
-/**
- * Created by Simeon on 4/17/2015.
- */
 public class BlockMicrowave extends MOBlock {
     private IIcon frontIcon;
     private IIcon backIcon;

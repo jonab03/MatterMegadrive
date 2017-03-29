@@ -7,9 +7,6 @@ import matteroverdrive.entity.player.MOExtendedProperties;
 import net.minecraft.block.Block;
 import net.minecraftforge.event.world.BlockEvent;
 
-/**
- * Created by Simeon on 12/24/2015.
- */
 public class BlockHandler {
     @SubscribeEvent
     public void onHarvestDropsEvent(BlockEvent.HarvestDropsEvent event) {

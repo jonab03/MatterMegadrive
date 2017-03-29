@@ -5,8 +5,6 @@ import net.minecraft.util.StatCollector;
 
 /**
  * The types of infuse currently available in Mekanism.
- *
- * @author AidanBrady
  */
 public final class InfuseType {
     /**

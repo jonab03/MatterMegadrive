@@ -4,9 +4,6 @@ import net.minecraft.client.audio.ITickableSound;
 import net.minecraft.client.audio.PositionedSound;
 import net.minecraft.util.ResourceLocation;
 
-/**
- * Created by Simeon on 3/18/2015.
- */
 public class MachineSound extends PositionedSound implements ITickableSound {
     private boolean donePlaying;
 

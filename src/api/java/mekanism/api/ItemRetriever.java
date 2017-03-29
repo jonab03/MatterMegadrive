@@ -7,8 +7,6 @@ import net.minecraft.item.ItemStack;
 /**
  * Use this class's 'getItem()' method to retrieve ItemStacks from the 'Mekanism'
  * class.
- *
- * @author AidanBrady
  */
 public final class ItemRetriever {
     /**

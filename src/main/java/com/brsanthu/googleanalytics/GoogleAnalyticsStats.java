@@ -18,8 +18,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Collects the basic stats about successful events that have been posted to GA.
- *
- * @author Santhosh Kumar
  */
 public class GoogleAnalyticsStats {
     private AtomicLong pageViewHits = new AtomicLong();

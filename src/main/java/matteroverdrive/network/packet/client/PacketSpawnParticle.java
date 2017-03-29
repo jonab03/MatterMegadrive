@@ -15,9 +15,6 @@ import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 
-/**
- * Created by Simeon on 6/2/2015.
- */
 public class PacketSpawnParticle extends PacketAbstract {
     String particleType;
     double x, y, z;

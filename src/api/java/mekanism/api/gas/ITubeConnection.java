@@ -4,8 +4,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Implement this if your block can connect to Pressurized Tubes.
- *
- * @author AidanBrady
  */
 public interface ITubeConnection {
     /**

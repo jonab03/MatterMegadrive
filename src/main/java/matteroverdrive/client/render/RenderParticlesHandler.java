@@ -22,9 +22,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
-/**
- * Created by Simeon on 5/13/2015.
- */
 public class RenderParticlesHandler implements IWorldLastRenderer {
     ResourceLocation additiveTextureSheet = new ResourceLocation(Reference.PATH_PARTICLE + "particles_additive.png");
     private TextureManager renderer;

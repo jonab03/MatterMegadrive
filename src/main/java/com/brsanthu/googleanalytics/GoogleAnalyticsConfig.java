@@ -23,8 +23,6 @@ package com.brsanthu.googleanalytics;
  * <p>
  * All properties of this config object supports method chaining. So for example, you could do,
  * <code>new GoogleAnalyticsConfig().setMaxThreads(2).setThreadNameFormat("name");</code>
- *
- * @author Santhosh Kumar
  */
 public class GoogleAnalyticsConfig {
     private String threadNameFormat = "googleanalytics-thread-{0}";

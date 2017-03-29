@@ -17,9 +17,6 @@ import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import java.util.EnumSet;
 import java.util.List;
 
-/**
- * Created by Simeon on 1/1/2016.
- */
 public class BioticStatShockwave extends AbstractBioticStat {
     public static final int DELAY = 20 * 12;
 

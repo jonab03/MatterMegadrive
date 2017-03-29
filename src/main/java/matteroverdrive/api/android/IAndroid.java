@@ -4,9 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraftforge.common.IExtendedEntityProperties;
 
-/**
- * Created by Simeon on 1/9/2016.
- */
 public interface IAndroid extends IInventory, IExtendedEntityProperties {
     String EXT_PROP_NAME = "AndroidPlayer";
 

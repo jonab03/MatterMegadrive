@@ -16,8 +16,6 @@ package com.brsanthu.googleanalytics;
 
 /**
  * Any exception thrown (usually due to validation), it would be of this type.
- *
- * @author Santhosh Kumar
  */
 public class GoogleAnalyticsException extends RuntimeException {
 

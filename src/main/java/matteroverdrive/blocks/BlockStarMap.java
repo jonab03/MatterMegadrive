@@ -13,9 +13,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-/**
- * Created by Simeon on 6/13/2015.
- */
 public class BlockStarMap extends MOBlockMachine {
     private IIcon topIcon;
     private IIcon bottomIcon;

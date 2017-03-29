@@ -19,8 +19,6 @@ import static com.brsanthu.googleanalytics.GoogleAnalyticsParameter.*;
  * GA request to track events.
  * <p>
  * <p>For more information, see <a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#events">GA Parameters Reference</a></p>
- *
- * @author Santhosh Kumar
  */
 public class EventHit extends GoogleAnalyticsRequest<EventHit> {
 

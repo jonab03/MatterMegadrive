@@ -5,9 +5,6 @@ import matteroverdrive.api.transport.IPipeNetwork;
 
 import java.util.Collection;
 
-/**
- * Created by Simeon on 12/28/2015.
- */
 public abstract class AbstractPipeNetwork<T extends IPipe> implements IPipeNetwork<T> {
     public void invalidateNetwork() {
         for (IPipe pipe : getNetworkPipes()) {

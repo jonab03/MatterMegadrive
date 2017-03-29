@@ -8,9 +8,6 @@ import matteroverdrive.tile.MOTileEntityMachineMatter;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
-/**
- * Created by Simeon on 4/22/2015.
- */
 public class PacketMatterUpdate extends TileEntityUpdatePacket {
     private int matter = 0;
 

@@ -7,8 +7,6 @@ import java.util.Map;
 
 /**
  * Use this class to add a new object that registers as an infuse object.
- *
- * @author AidanBrady
  */
 public class InfuseRegistry {
     /**

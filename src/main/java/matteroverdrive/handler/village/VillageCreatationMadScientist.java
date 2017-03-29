@@ -9,9 +9,6 @@ import net.minecraft.world.gen.structure.StructureVillagePieces;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by Simeon on 5/30/2015.
- */
 public class VillageCreatationMadScientist implements VillagerRegistry.IVillageCreationHandler {
     public VillageCreatationMadScientist() {
         MapGenStructureIO.func_143031_a(MadScientistHouse.class, "ViBHMS");

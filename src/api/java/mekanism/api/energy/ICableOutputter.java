@@ -4,8 +4,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Implement this if your TileEntity is capable of outputting energy to cables, overriding Mekanism's default implementation.
- *
- * @author AidanBrady
  */
 public interface ICableOutputter {
     /**

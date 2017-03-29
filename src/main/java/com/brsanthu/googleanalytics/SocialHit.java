@@ -19,8 +19,6 @@ import static com.brsanthu.googleanalytics.GoogleAnalyticsParameter.*;
  * GA request to track social interactions
  * <p>
  * <p>For more information, see <a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#social">GA Parameters Reference</a></p>
- *
- * @author Santhosh Kumar
  */
 public class SocialHit extends GoogleAnalyticsRequest<SocialHit> {
 

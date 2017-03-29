@@ -7,9 +7,6 @@ import matteroverdrive.init.MatterOverdriveBlocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-/**
- * @author shadowfacts
- */
 @Compat("MineFactoryReloaded")
 public class CompatMFR {
 

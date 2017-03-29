@@ -10,8 +10,6 @@ import java.util.ArrayList;
 
 /**
  * Compatibility for Ender IO
- *
- * @author shadowfacts
  */
 @Compat("EnderIO")
 public class CompatEnderIO {

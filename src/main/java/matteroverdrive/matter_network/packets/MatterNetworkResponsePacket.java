@@ -6,9 +6,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-/**
- * Created by Simeon on 4/30/2015.
- */
 public class MatterNetworkResponsePacket extends MatterNetworkPacket {
     int responseType;
     int requestType;

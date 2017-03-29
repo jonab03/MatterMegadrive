@@ -7,9 +7,6 @@ import net.minecraft.client.particle.EntityFX;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
-/**
- * Created by Simeon on 4/17/2015.
- */
 @SideOnly(Side.CLIENT)
 public class VentParticle extends EntityFX {
     public static final ResourceLocation texture = new ResourceLocation(Reference.PATH_PARTICLE + "steam_particle.png");

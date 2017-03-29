@@ -7,9 +7,6 @@ import matteroverdrive.entity.player.AndroidPlayer;
 import matteroverdrive.network.packet.PacketAbstract;
 import net.minecraft.entity.player.EntityPlayer;
 
-/**
- * Created by Simeon on 12/24/2015.
- */
 public class PacketAndroidTransformation extends PacketAbstract {
     public PacketAndroidTransformation() {
     }

@@ -16,9 +16,6 @@ import org.lwjgl.util.glu.Sphere;
 
 import java.util.Random;
 
-/**
- * Created by Simeon on 6/17/2015.
- */
 @SideOnly(Side.CLIENT)
 public abstract class StarMapRendererAbstract implements ISpaceBodyHoloRenderer {
     protected IIcon star_icon = new IconHolder(0, 0, 32f / 128f, 32f / 128f, 32, 32);

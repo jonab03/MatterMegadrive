@@ -12,9 +12,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.World;
 
-/**
- * Created by Simeon on 4/9/2015.
- */
 public class BlockSolarPanel extends MOMatterEnergyStorageBlock {
     IIcon iconTop;
 

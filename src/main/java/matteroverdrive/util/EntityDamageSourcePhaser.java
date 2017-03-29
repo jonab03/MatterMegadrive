@@ -8,9 +8,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.IChatComponent;
 
-/**
- * Created by Simeon on 4/16/2015.
- */
 public class EntityDamageSourcePhaser extends EntityDamageSource {
     protected Entity damageSourceEntity;
 

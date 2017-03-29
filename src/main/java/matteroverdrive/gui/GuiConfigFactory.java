@@ -6,9 +6,6 @@ import net.minecraft.client.gui.GuiScreen;
 
 import java.util.Set;
 
-/**
- * Created by Simeon on 5/9/2015.
- */
 public class GuiConfigFactory implements IModGuiFactory {
     @Override
     public void initialize(Minecraft minecraftInstance) {

@@ -4,8 +4,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Implement this if your tile entity accepts gas from an external source.
- *
- * @author AidanBrady
  */
 public interface IGasHandler {
     /**

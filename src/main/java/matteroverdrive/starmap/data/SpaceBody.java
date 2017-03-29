@@ -5,9 +5,6 @@ import io.netty.buffer.ByteBuf;
 import matteroverdrive.starmap.GalaxyGenerator;
 import net.minecraft.nbt.NBTTagCompound;
 
-/**
- * Created by Simeon on 6/13/2015.
- */
 public abstract class SpaceBody {
     //region Protected Vars
     protected int id;

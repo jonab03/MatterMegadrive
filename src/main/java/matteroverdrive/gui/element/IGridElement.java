@@ -1,8 +1,5 @@
 package matteroverdrive.gui.element;
 
-/**
- * Created by Simeon on 3/14/2015.
- */
 public interface IGridElement {
     int getHeight();
 

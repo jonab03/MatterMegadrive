@@ -10,9 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Simeon on 1/5/2016.
- */
 public class WorldGenCommands extends CommandBase {
 
     @Override

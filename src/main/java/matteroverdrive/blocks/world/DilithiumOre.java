@@ -11,9 +11,6 @@ import net.minecraft.world.World;
 
 import java.util.Random;
 
-/**
- * Created by Simeon on 3/23/2015.
- */
 public class DilithiumOre extends MOBlock {
 
     public DilithiumOre(Material material, String name) {

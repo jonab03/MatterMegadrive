@@ -20,8 +20,6 @@ import static com.brsanthu.googleanalytics.GoogleAnalyticsParameter.EXCEPTION_FA
  * GA request to track exceptions.
  * <p>
  * <p>For more information, see <a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#exception">GA Parameters Reference</a></p>
- *
- * @author Santhosh Kumar
  */
 public class ExceptionHit extends GoogleAnalyticsRequest<ExceptionHit> {
 

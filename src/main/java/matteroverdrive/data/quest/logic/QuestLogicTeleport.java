@@ -10,9 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by Simeon on 12/30/2015.
- */
 public class QuestLogicTeleport extends AbstractQuestLogic {
     BlockPos pos;
     int minDistance;

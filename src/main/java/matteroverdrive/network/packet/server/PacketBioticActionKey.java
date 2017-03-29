@@ -9,9 +9,6 @@ import matteroverdrive.entity.player.AndroidPlayer;
 import matteroverdrive.network.packet.PacketAbstract;
 import net.minecraft.entity.player.EntityPlayer;
 
-/**
- * Created by Simeon on 1/1/2016.
- */
 public class PacketBioticActionKey extends PacketAbstract {
     public PacketBioticActionKey() {
     }

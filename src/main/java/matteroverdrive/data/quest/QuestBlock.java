@@ -3,9 +3,6 @@ package matteroverdrive.data.quest;
 import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
 
-/**
- * Created by Simeon on 12/24/2015.
- */
 public class QuestBlock {
     Block block;
     String blockName;

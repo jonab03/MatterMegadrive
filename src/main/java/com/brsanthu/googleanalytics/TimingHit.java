@@ -19,8 +19,6 @@ import static com.brsanthu.googleanalytics.GoogleAnalyticsParameter.*;
  * GA request to track performance timings like page load time, server response time etc.
  * <p>
  * <p>For more information, see <a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#timing">GA Parameters Reference</a></p>
- *
- * @author Santhosh Kumar
  */
 public class TimingHit extends GoogleAnalyticsRequest<TimingHit> {
     public TimingHit() {

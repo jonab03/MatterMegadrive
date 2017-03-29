@@ -14,9 +14,6 @@ import net.minecraft.util.MathHelper;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by Simeon on 1/5/2016.
- */
 public class GenericMultiQuest extends GenericQuest {
     protected IQuestLogic[] logics;
     boolean sequential;

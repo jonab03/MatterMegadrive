@@ -5,9 +5,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by Simeon on 3/7/2015.
- */
 public class WeightedDirection {
     public float weight = 0;
     public ForgeDirection dir;

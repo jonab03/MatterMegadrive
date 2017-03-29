@@ -8,9 +8,6 @@ import net.minecraftforge.client.IItemRenderer;
 
 import static org.lwjgl.opengl.GL11.*;
 
-/**
- * Created by Simeon on 4/5/2015.
- */
 public class ItemRendererTileEntityMachine implements IItemRenderer {
     private TileEntitySpecialRenderer renderer;
     private TileEntity tileEntity;

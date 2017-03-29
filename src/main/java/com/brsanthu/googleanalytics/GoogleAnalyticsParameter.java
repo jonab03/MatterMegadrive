@@ -17,8 +17,6 @@ package com.brsanthu.googleanalytics;
  * Google Analytics Measurement Protocol Parameters.
  * <p>
  * <p>For more information, see <a href="https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters">GA Parameters Reference</a></p>
- *
- * @author Santhosh Kumar
  */
 public enum GoogleAnalyticsParameter {
     //General

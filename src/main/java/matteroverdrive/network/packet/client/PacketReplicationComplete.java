@@ -7,9 +7,6 @@ import matteroverdrive.tile.TileEntityMachineReplicator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
-/**
- * Created by Simeon on 4/28/2015.
- */
 public class PacketReplicationComplete extends TileEntityUpdatePacket {
     public PacketReplicationComplete() {
         super();

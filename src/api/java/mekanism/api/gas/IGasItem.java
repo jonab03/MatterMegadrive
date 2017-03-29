@@ -4,8 +4,6 @@ import net.minecraft.item.ItemStack;
 
 /**
  * Implement this in your item class if it can store or transfer certain gasses.
- *
- * @author AidanBrady
  */
 public interface IGasItem {
     /**

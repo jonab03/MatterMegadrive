@@ -5,9 +5,6 @@ import matteroverdrive.data.transport.FluidPipeNetwork;
 
 import java.util.Stack;
 
-/**
- * Created by Simeon on 12/28/2015.
- */
 public class FluidNetworkHelper {
     private static final int MAX_POOL_SIZE = 32;
     private static Stack<FluidPipeNetwork> fluidPipeNetworksPool = new Stack<>();

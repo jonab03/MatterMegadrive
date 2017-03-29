@@ -10,8 +10,6 @@ import static com.brsanthu.googleanalytics.GaUtils.isEmpty;
  * <li>User Language, and Country</li>
  * <li>File Encoding</li>
  * </ul>
- *
- * @author Santhosh Kumar
  */
 public class DefaultRequestParameterDiscoverer implements RequestParameterDiscoverer {
 

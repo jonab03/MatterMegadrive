@@ -9,9 +9,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Simeon on 12/28/2015.
- */
 public class FluidPipeNetwork extends AbstractPipeNetwork<IFluidPipe> {
     Set<IFluidPipe> fluidPipes;
     Set<IFluidPipe> fluidHandlers;

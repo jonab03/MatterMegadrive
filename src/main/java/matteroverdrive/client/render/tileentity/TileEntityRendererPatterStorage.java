@@ -14,9 +14,6 @@ import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
-/**
- * Created by Simeon on 3/19/2015.
- */
 public class TileEntityRendererPatterStorage extends TileEntitySpecialRenderer {
     private IModelCustom model;
     private ResourceLocation texture;

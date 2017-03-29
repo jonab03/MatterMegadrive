@@ -10,9 +10,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 
-/**
- * Created by Simeon on 12/30/2015.
- */
 public class ContainerPatternMonitor extends ContainerMachine<TileEntityMachinePatternMonitor> {
     public ContainerPatternMonitor(InventoryPlayer inventory, TileEntityMachinePatternMonitor machine) {
         super(inventory, machine);

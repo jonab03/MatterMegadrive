@@ -8,9 +8,6 @@ import matteroverdrive.tile.MOTileEntityMachineEnergy;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 
-/**
- * Created by Simeon on 4/22/2015.
- */
 public class PacketPowerUpdate extends TileEntityUpdatePacket {
     int energy;
 

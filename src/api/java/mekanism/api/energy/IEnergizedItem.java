@@ -4,8 +4,6 @@ import net.minecraft.item.ItemStack;
 
 /**
  * Implement this in an item's class if it should be able to store electricity.
- *
- * @author aidancbrady
  */
 public interface IEnergizedItem {
     /**

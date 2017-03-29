@@ -1,8 +1,5 @@
 package matteroverdrive.animation;
 
-/**
- * Created by Simeon on 5/31/2015.
- */
 public abstract class AnimationSegment {
     int begin;
     int length;

@@ -11,8 +11,6 @@ import static matteroverdrive.init.MatterOverdriveItems.*;
 
 /**
  * Compatibility for Thermal Expansion
- *
- * @author shadowfacts
  */
 @Compat("ThermalExpansion")
 public class CompatThermalExpansion {

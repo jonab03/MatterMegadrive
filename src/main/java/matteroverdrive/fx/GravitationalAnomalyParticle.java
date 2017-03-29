@@ -7,9 +7,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-/**
- * Created by Simeon on 5/13/2015.
- */
 @SideOnly(Side.CLIENT)
 public class GravitationalAnomalyParticle extends EntityFX {
     float smokeParticleScale;

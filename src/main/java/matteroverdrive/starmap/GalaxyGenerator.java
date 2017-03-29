@@ -19,9 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/**
- * Created by Simeon on 6/13/2015.
- */
 public class GalaxyGenerator implements IConfigSubscriber {
     //region Private Vars
     private Random random, starRandom, planetRandom, starNameRandom;

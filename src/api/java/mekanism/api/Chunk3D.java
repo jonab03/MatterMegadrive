@@ -8,8 +8,6 @@ import net.minecraft.world.chunk.Chunk;
 /**
  * Chunk3D - an integer-based way to keep track of and perform operations on chunks in a Minecraft-based environment. This also takes
  * in account the dimension the chunk is in.
- *
- * @author aidancbrady
  */
 public class Chunk3D {
     public int dimensionId;

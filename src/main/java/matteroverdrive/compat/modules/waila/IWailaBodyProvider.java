@@ -12,9 +12,6 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-/**
- * @author shadowfacts
- */
 @Optional.Interface(modid = "Waila", iface = "mcp.mobius.waila.api.IWailaDataProvider")
 public interface IWailaBodyProvider extends IWailaDataProvider {
     @Override

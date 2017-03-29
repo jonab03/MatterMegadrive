@@ -5,9 +5,6 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 
-/**
- * Created by Simeon on 4/17/2015.
- */
 public class TileEntityRendererWeaponStation extends TileEntityRendererStation<TileEntityWeaponStation> {
 
     EntityItem itemEntity;

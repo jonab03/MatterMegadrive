@@ -17,9 +17,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Simeon on 6/28/2015.
- */
 public class PacketUpdateTravelEvents extends PacketAbstract {
     List<TravelEvent> travelEvents;
 

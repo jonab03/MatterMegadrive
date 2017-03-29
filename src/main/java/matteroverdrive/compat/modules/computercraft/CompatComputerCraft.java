@@ -4,9 +4,6 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import dan200.computercraft.api.ComputerCraftAPI;
 import matteroverdrive.compat.Compat;
 
-/**
- * @author shadowfacts
- */
 @Compat("ComputerCraft")
 public class CompatComputerCraft {
 

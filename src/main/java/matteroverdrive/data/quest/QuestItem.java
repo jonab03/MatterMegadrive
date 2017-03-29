@@ -5,9 +5,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
-/**
- * Created by Simeon on 12/24/2015.
- */
 public class QuestItem {
     ItemStack itemStack;
     int itemAmount;

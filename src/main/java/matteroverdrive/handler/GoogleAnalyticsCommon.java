@@ -7,9 +7,6 @@ import matteroverdrive.Reference;
 import matteroverdrive.util.IConfigSubscriber;
 import net.minecraft.entity.player.EntityPlayer;
 
-/**
- * Created by Simeon on 1/7/2016.
- */
 public class GoogleAnalyticsCommon implements IConfigSubscriber {
     private String lastScreen;
     private GoogleAnalyticsConfig config;

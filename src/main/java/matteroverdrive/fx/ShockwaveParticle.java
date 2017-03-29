@@ -6,9 +6,6 @@ import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.World;
 
-/**
- * Created by Simeon on 1/2/2016.
- */
 public class ShockwaveParticle extends EntityFX {
     private float maxScale;
 

@@ -12,8 +12,6 @@ import java.lang.reflect.Method;
 
 /**
  * Compatibility for Ex Nihilo
- *
- * @author shadowfacts
  */
 @Compat("exnihilo")
 public class CompatExNihilo {

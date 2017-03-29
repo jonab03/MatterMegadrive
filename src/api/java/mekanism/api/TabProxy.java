@@ -4,8 +4,6 @@ import net.minecraft.creativetab.CreativeTabs;
 
 /**
  * Class used to indirectly reference the Mekanism creative tab.
- *
- * @author AidanBrady
  */
 public final class TabProxy {
     /**

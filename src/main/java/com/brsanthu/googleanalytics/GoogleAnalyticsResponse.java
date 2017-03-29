@@ -21,8 +21,6 @@ import java.util.Map;
 
 /**
  * Response for GA tracking request.
- *
- * @author Santhosh Kumar
  */
 public class GoogleAnalyticsResponse {
     private int statusCode = 200;

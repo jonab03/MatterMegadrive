@@ -12,9 +12,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 import org.lwjgl.opengl.GL11;
 
-/**
- * Created by Simeon on 6/18/2015.
- */
 public class RendererBlockPipe implements ISimpleBlockRenderingHandler {
     public static int rendererID;
 

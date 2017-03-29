@@ -18,9 +18,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
-/**
- * Created by Simeon on 6/15/2015.
- */
 public class PacketUpdatePlanet extends PacketAbstract {
     int planetID;
     int starID;

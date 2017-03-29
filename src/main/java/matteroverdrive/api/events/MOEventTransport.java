@@ -5,9 +5,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraftforge.event.entity.EntityEvent;
 
-/**
- * Created by Simeon on 12/30/2015.
- */
 public class MOEventTransport extends EntityEvent {
     public final TransportLocation destination;
     public final ChunkCoordinates source;

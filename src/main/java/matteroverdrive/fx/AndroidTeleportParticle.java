@@ -6,9 +6,6 @@ import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.world.World;
 
-/**
- * Created by Simeon on 6/2/2015.
- */
 public class AndroidTeleportParticle extends EntityFX {
 
     public AndroidTeleportParticle(World world, double x, double y, double z) {

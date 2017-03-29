@@ -4,8 +4,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 
 /**
  * Implement this if your TileEntity can accept energy at a floating-point double value from Universal Cables.
- *
- * @author AidanBrady
  */
 public interface IStrictEnergyAcceptor extends IStrictEnergyStorage {
     /**

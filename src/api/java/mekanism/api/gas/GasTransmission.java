@@ -14,8 +14,6 @@ import java.util.List;
 
 /**
  * A handy class containing several utilities for efficient gas transfer.
- *
- * @author AidanBrady
  */
 public final class GasTransmission {
     /**

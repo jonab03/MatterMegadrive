@@ -3,9 +3,6 @@ package matteroverdrive.network.packet.bi;
 import io.netty.buffer.ByteBuf;
 import matteroverdrive.network.packet.TileEntityUpdatePacket;
 
-/**
- * Created by Simeon on 6/12/2015.
- */
 public class PacketMatterScannerGetPattern extends TileEntityUpdatePacket {
     int id;
     short damage;

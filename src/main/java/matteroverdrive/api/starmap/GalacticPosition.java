@@ -7,9 +7,6 @@ import matteroverdrive.starmap.data.Quadrant;
 import matteroverdrive.starmap.data.Star;
 import net.minecraft.nbt.NBTTagCompound;
 
-/**
- * Created by Simeon on 6/17/2015.
- */
 public class GalacticPosition {
     //region Private Vars
     private int quadrantID = -1;

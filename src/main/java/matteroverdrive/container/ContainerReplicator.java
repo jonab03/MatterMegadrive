@@ -7,9 +7,6 @@ import matteroverdrive.util.MOContainerHelper;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ICrafting;
 
-/**
- * Created by Simeon on 12/27/2015.
- */
 public class ContainerReplicator extends ContainerMachine<TileEntityMachineReplicator> {
     int patternReplicateCount;
 

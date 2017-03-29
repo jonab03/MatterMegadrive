@@ -7,9 +7,6 @@ import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Vec3;
 
-/**
- * Created by Simeon on 5/12/2015.
- */
 public class GravitationalAnomalySound extends PositionedSound implements ITickableSound {
 
     boolean donePlaying = false;

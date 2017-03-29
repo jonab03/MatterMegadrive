@@ -4,8 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * Implement this in your TileEntity class if your block can be modified by a Configurator.
- *
- * @author aidancbrady
  */
 public interface IConfigurable {
     /**

@@ -13,9 +13,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
-/**
- * Created by Simeon on 5/19/2015.
- */
 public class Wrench extends MOBaseItem {
     public Wrench(String name) {
         super(name);

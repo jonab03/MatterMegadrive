@@ -4,9 +4,6 @@ import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-/**
- * Created by Simeon on 3/6/2015.
- */
 public class TileEntityUpdatePacket extends PacketAbstract {
     public int x;
     public int y;

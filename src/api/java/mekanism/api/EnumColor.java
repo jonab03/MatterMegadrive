@@ -4,8 +4,6 @@ import net.minecraft.util.StatCollector;
 
 /**
  * Simple color enum for adding colors to in-game GUI strings of text.
- *
- * @author AidanBrady
  */
 public enum EnumColor {
     BLACK("\u00a70", "black", "Black", new int[]{0, 0, 0}, 0),

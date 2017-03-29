@@ -2,8 +2,6 @@ package mekanism.api.infuse;
 
 /**
  * InfuseObject - an object associated with an ItemStack that can modify a Metallurgic Infuser's internal infuse.
- *
- * @author AidanBrady
  */
 public class InfuseObject {
     /**

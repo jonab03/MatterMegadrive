@@ -6,9 +6,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 
-/**
- * Created by Simeon on 1/7/2016.
- */
 @SideOnly(Side.CLIENT)
 public class GoogleAnalyticsClient extends GoogleAnalyticsCommon {
     @Override

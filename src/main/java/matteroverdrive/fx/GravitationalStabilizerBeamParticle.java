@@ -5,9 +5,6 @@ import net.minecraft.client.particle.EntityFX;
 import net.minecraft.world.World;
 import org.lwjgl.util.vector.Vector3f;
 
-/**
- * Created by Simeon on 5/13/2015.
- */
 public class GravitationalStabilizerBeamParticle extends EntityFX {
     float smokeParticleScale;
     Vector3f from;
