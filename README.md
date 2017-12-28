@@ -1,5 +1,5 @@
 # Matter Megadrive
-![alt tag](https://raw.githubusercontent.com/Ionaru/MatterMegadrive/master/MatterMegadriveLogo.png)
+![alt tag](https://raw.githubusercontent.com/Ionaru/MatterMegadrive/1.7.10/MatterMegadriveLogo.png)
 
 <h2 align="center">
 <a href='https://mo.simeonradivoev.com/'>Website</a> |
