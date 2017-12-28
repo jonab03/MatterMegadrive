@@ -36,7 +36,7 @@ buildscript {
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-version = "${config.mc_version}-0.4.3"
+version = "${config.mc_version}-${config.mod_version}"
 
 if (System.getenv('TRAVIS_BUILD_NUMBER') != null) {
     version += "-build-" + System.getenv('TRAVIS_BUILD_NUMBER')
