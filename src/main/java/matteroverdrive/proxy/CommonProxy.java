@@ -6,7 +6,6 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import matteroverdrive.MatterOverdrive;
 import matteroverdrive.compat.MatterOverdriveCompat;
-import matteroverdrive.handler.GoogleAnalyticsCommon;
 import matteroverdrive.handler.weapon.CommonWeaponHandler;
 import matteroverdrive.starmap.GalaxyServer;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -15,11 +14,9 @@ import net.minecraftforge.common.MinecraftForge;
 
 public class CommonProxy {
     private CommonWeaponHandler commonWeaponHandler;
-    protected GoogleAnalyticsCommon googleAnalyticsCommon;
 
     public CommonProxy() {
         commonWeaponHandler = new CommonWeaponHandler();
-        googleAnalyticsCommon = new GoogleAnalyticsCommon();
     }
 
     public void registerProxies() {
@@ -28,7 +25,6 @@ public class CommonProxy {
         FMLCommonHandler.instance().bus().register(GalaxyServer.getInstance());
         MatterOverdrive.configHandler.subscribe(GalaxyServer.getInstance());
         MatterOverdrive.configHandler.subscribe(GalaxyServer.getInstance().getGalaxyGenerator());
-        MatterOverdrive.configHandler.subscribe(googleAnalyticsCommon);
     }
 
     public void registerCompatModules() {
@@ -51,9 +47,5 @@ public class CommonProxy {
 
     public CommonWeaponHandler getWeaponHandler() {
         return commonWeaponHandler;
-    }
-
-    public GoogleAnalyticsCommon getGoogleAnalytics() {
-        return googleAnalyticsCommon;
     }
 }

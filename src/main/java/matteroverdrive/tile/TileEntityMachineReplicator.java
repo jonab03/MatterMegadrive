@@ -16,7 +16,6 @@ import matteroverdrive.data.inventory.DatabaseSlot;
 import matteroverdrive.data.inventory.RemoveOnlySlot;
 import matteroverdrive.data.inventory.ShieldingSlot;
 import matteroverdrive.fx.ReplicatorParticle;
-import matteroverdrive.handler.GoogleAnalyticsCommon;
 import matteroverdrive.handler.SoundHandler;
 import matteroverdrive.init.MatterOverdriveItems;
 import matteroverdrive.machines.MachineNBTCategory;
@@ -200,11 +199,9 @@ public class TileEntityMachineReplicator extends MOTileEntityMachineMatter imple
                 if (failReplicate(MatterHelper.getMatterAmountFromItem(newItem))) {
                     int matter = this.matterStorage.getMatterStored();
                     setMatterStored(matter - matterAmount);
-                    return;
                 }
             } else {
                 if (putInOutput(newItem)) {
-                    MatterOverdrive.proxy.getGoogleAnalytics().sendEventHit(GoogleAnalyticsCommon.EVENT_CATEGORY_MACHINES, GoogleAnalyticsCommon.EVENT_ACTION_REPLICATE, newItem.getUnlocalizedName(), null);
                     int matter = this.matterStorage.getMatterStored();
                     setMatterStored(matter - matterAmount);
                     MatterNetworkTaskReplicatePattern task = taskQueueProcessing.peek();
@@ -245,7 +242,7 @@ public class TileEntityMachineReplicator extends MOTileEntityMachineMatter imple
             setInventorySlotContents(SECOND_OUTPUT_SLOT_ID, stack);
             return true;
         } else {
-            if (canReplicateIntoSecoundOutput(amount)) {
+            if (canReplicateIntoSecondOutput(amount)) {
                 stack.stackSize++;
                 return true;
             }
@@ -285,7 +282,7 @@ public class TileEntityMachineReplicator extends MOTileEntityMachineMatter imple
         if (getRedstoneActive() && taskQueueProcessing.size() > 0 && getInternalPatternStorage() != null && canCompleteTask()) {
             ItemStack item = getInternalPatternStorage().toItemStack(false);
             int matter = MatterHelper.getMatterAmountFromItem(item);
-            return this.getMatterStored() >= matter && canReplicateIntoOutput(item) && canReplicateIntoSecoundOutput(matter);
+            return this.getMatterStored() >= matter && canReplicateIntoOutput(item) && canReplicateIntoSecondOutput(matter);
         }
         return false;
     }
@@ -326,33 +323,20 @@ public class TileEntityMachineReplicator extends MOTileEntityMachineMatter imple
     }
 
     private boolean canReplicateIntoOutput(ItemStack itemStack) {
-        if (itemStack == null)
-            return false;
-
-        if (getStackInSlot(OUTPUT_SLOT_ID) == null) {
-            return true;
-        } else {
-            if (itemStack.isItemEqual(getStackInSlot(OUTPUT_SLOT_ID))
-                    && ItemStack.areItemStackTagsEqual(itemStack, getStackInSlot(OUTPUT_SLOT_ID))
-                    && getStackInSlot(OUTPUT_SLOT_ID).stackSize < getStackInSlot(OUTPUT_SLOT_ID).getMaxStackSize()) {
-                return true;
-            }
-        }
-
-        return false;
+        return itemStack != null
+            && (getStackInSlot(OUTPUT_SLOT_ID) == null
+            || itemStack.isItemEqual(getStackInSlot(OUTPUT_SLOT_ID))
+            && ItemStack.areItemStackTagsEqual(itemStack, getStackInSlot(OUTPUT_SLOT_ID))
+            && getStackInSlot(OUTPUT_SLOT_ID).stackSize < getStackInSlot(OUTPUT_SLOT_ID).getMaxStackSize());
     }
 
-    private boolean canReplicateIntoSecoundOutput(int matter) {
+    private boolean canReplicateIntoSecondOutput(int matter) {
         ItemStack stack = getStackInSlot(SECOND_OUTPUT_SLOT_ID);
 
-        if (stack == null) {
-            return true;
-        } else {
-            if (stack.getItem() == MatterOverdriveItems.matter_dust && stack.getItemDamage() == matter && stack.stackSize < stack.getMaxStackSize()) {
-                return true;
-            }
-        }
-        return false;
+        return stack == null
+            || stack.getItem() == MatterOverdriveItems.matter_dust
+            && stack.getItemDamage() == matter
+            && stack.stackSize < stack.getMaxStackSize();
     }
 
     @Override

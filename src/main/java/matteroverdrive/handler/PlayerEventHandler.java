@@ -7,13 +7,11 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import matteroverdrive.MatterOverdrive;
 import matteroverdrive.api.events.MOEventScan;
-import matteroverdrive.api.events.bionicStats.MOEventBionicStat;
 import matteroverdrive.api.weapon.IWeapon;
 import matteroverdrive.data.quest.PlayerQuestData;
 import matteroverdrive.entity.player.AndroidPlayer;
 import matteroverdrive.entity.player.MOExtendedProperties;
 import matteroverdrive.init.MatterOverdriveItems;
-import matteroverdrive.items.includes.MOBaseItem;
 import matteroverdrive.network.packet.client.PacketUpdateMatterRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,14 +27,10 @@ import java.util.EnumSet;
 import java.util.List;
 
 public class PlayerEventHandler {
-    private VersionCheckerHandler versionCheckerHandler;
     public List<EntityPlayerMP> players;
 
-    public PlayerEventHandler(ConfigurationHandler configurationHandler) {
+    public PlayerEventHandler() {
         players = new ArrayList<>();
-        versionCheckerHandler = new VersionCheckerHandler();
-
-        configurationHandler.subscribe(versionCheckerHandler);
     }
 
     @SubscribeEvent
@@ -56,10 +50,6 @@ public class PlayerEventHandler {
 
     @SubscribeEvent
     public void onPlayerTick(TickEvent.PlayerTickEvent event) {
-        if (event.side == Side.CLIENT) {
-            versionCheckerHandler.onPlayerTick(event);
-        }
-
         AndroidPlayer player = AndroidPlayer.get(event.player);
         if (player != null && event.phase.equals(TickEvent.Phase.START)) {
             if (event.side == Side.CLIENT) {
@@ -131,7 +121,6 @@ public class PlayerEventHandler {
     public void onPlayerDeath(LivingDeathEvent deathEvent) {
         if (deathEvent.entityLiving instanceof EntityPlayer) {
             if (!((EntityPlayer) deathEvent.entityLiving).worldObj.isRemote) {
-                MatterOverdrive.proxy.getGoogleAnalytics().sendEventHit(GoogleAnalyticsCommon.EVENT_CATEGORY_ENTITIES, GoogleAnalyticsCommon.EVENT_ACTION_PLAYER_DEATH, deathEvent.source.getDamageType(), ((EntityPlayer) deathEvent.entityLiving).ticksExisted / 20, (EntityPlayer) deathEvent.entityLiving);
                 AndroidPlayer androidPlayer = AndroidPlayer.get((EntityPlayer) deathEvent.entityLiving);
                 if (androidPlayer != null && androidPlayer.isAndroid()) {
                     androidPlayer.onPlayerDeath(deathEvent);
@@ -153,11 +142,7 @@ public class PlayerEventHandler {
     @SubscribeEvent
     public void onItemCrafted(PlayerEvent.ItemCraftedEvent event) {
         if (event.player != null) {
-            if (event.player.worldObj.isRemote) {
-                if (event.crafting != null && event.crafting.getItem() instanceof MOBaseItem) {
-                    MatterOverdrive.proxy.getGoogleAnalytics().sendEventHit(GoogleAnalyticsCommon.EVENT_CATEGORY_ITEMS, GoogleAnalyticsCommon.EVENT_ACTION_CRAFT_ITEMS, event.crafting.getUnlocalizedName(), event.crafting.stackSize, event.player);
-                }
-            } else {
+            if (!event.player.worldObj.isRemote) {
                 MOExtendedProperties extendedProperties = MOExtendedProperties.get(event.player);
                 if (extendedProperties != null) {
                     extendedProperties.onEvent(event);
@@ -183,19 +168,6 @@ public class PlayerEventHandler {
             if (extendedProperties != null) {
                 extendedProperties.onEvent(event);
             }
-        }
-    }
-
-    /*@SubscribeEvent
-    public void onGuiOpen(GuiOpenEvent event)
-    {
-        MatterOverdrive.proxy.getGoogleAnalytics().sendScreenHit(event.gui != null ? event.gui.getClass().getSimpleName() : "Ingame",null);
-    }*/
-
-    @SubscribeEvent
-    public void onBioticStatUse(MOEventBionicStat event) {
-        if (event.entityPlayer.worldObj.isRemote) {
-            MatterOverdrive.proxy.getGoogleAnalytics().sendEventHit(GoogleAnalyticsCommon.EVENT_CATEGORY_BIOTIC_STATS, GoogleAnalyticsCommon.EVENT_ACTION_BIOTIC_STAT_USE, event.stat.getUnlocalizedName(), event.android.getPlayer());
         }
     }
 

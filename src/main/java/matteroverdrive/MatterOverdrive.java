@@ -74,7 +74,7 @@ public class MatterOverdrive {
         packetPipeline = new PacketPipeline();
         entityHandler = new EntityHandler();
         configHandler = new ConfigurationHandler(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + "MatterOverdrive" + File.separator + Reference.MOD_NAME + ".cfg"));
-        playerEventHandler = new PlayerEventHandler(configHandler);
+        playerEventHandler = new PlayerEventHandler();
         bucketHandler = new BucketHandler();
         matterRegistrationHandler = new MatterRegistrationHandler(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + "MatterOverdrive" + File.separator + "Registry" + ".matter");
         weaponFactory = new WeaponFactory();
@@ -161,12 +161,6 @@ public class MatterOverdrive {
         event.registerServerCommand(new QuestCommands());
         event.registerServerCommand(new SaveWorldToImage());
         event.registerServerCommand(new WorldGenCommands());
-        proxy.getGoogleAnalytics().load();
-    }
-
-    @EventHandler
-    public void serverStopping(FMLServerStoppingEvent event) {
-        proxy.getGoogleAnalytics().unload();
     }
 
     @EventHandler

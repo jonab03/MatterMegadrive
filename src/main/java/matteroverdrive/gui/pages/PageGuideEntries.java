@@ -12,7 +12,6 @@ import matteroverdrive.gui.events.ITextHandler;
 import matteroverdrive.guide.GuideCategory;
 import matteroverdrive.guide.MOGuideEntry;
 import matteroverdrive.guide.MatterOverdriveGuide;
-import matteroverdrive.handler.GoogleAnalyticsCommon;
 import matteroverdrive.init.MatterOverdriveItems;
 import matteroverdrive.network.packet.server.PacketDataPadCommands;
 import matteroverdrive.proxy.ClientProxy;
@@ -88,9 +87,7 @@ public class PageGuideEntries extends ElementBaseGroup implements ITextHandler {
         elements.add(searchField);
         searchField.setText(searchFilter);
         orderButtonElement.setSelectedState(MatterOverdriveItems.dataPad.getOrdering(dataPadStack));
-        for (ElementGuideEntry entry : guideEntries) {
-            elements.add(entry);
-        }
+        elements.addAll(guideEntries);
     }
 
     @Override
@@ -117,43 +114,45 @@ public class PageGuideEntries extends ElementBaseGroup implements ITextHandler {
                 entry.setVisible(false);
             }
 
-            if (orderButtonElement.getSelectedState() == 0) {
-                if (entry.isVisible()) {
-                    entry.setPosition(x + 16, y);
-                    entry.setShowLabel(true);
-                    y += entry.getHeight() + 4;
-                    heightCount += entry.getHeight() + 4;
-                }
-            } else if (orderButtonElement.getSelectedState() == 1) {
-                if (entry.isVisible()) {
-                    entry.setPosition(x, y);
-                    entry.setShowLabel(false);
-                    x += entry.getWidth() + 4;
-                    if (x > sizeX - entry.getHeight() - 4) {
-                        x = 8;
+            switch (orderButtonElement.getSelectedState()) {
+                case 0:
+                    if (entry.isVisible()) {
+                        entry.setPosition(x + 16, y);
+                        entry.setShowLabel(true);
                         y += entry.getHeight() + 4;
                         heightCount += entry.getHeight() + 4;
                     }
-                }
-            } else {
-                if (entry.isVisible()) {
-                    entry.setPosition(x + entry.getEntry().getGuiPosX(), y + entry.getEntry().getGuiPosY());
-                    entry.setShowLabel(false);
-                    widthCount = Math.max(widthCount, entry.getEntry().getGuiPosX() + entry.getWidth() + groupPadding + 4);
-                    heightCount = Math.max(heightCount, entry.getEntry().getGuiPosY() + entry.getHeight() + groupPadding + 4);
-
-                    if (entry.getEntry().getGroup() != null) {
-                        if (!groups.containsKey(entry.getEntry().getGroup())) {
-                            Bounds bounds = new Bounds(entry.getPosX() - groupPadding, entry.getPosY() - groupPadding, entry.getPosX() + entry.getWidth() + groupPadding, entry.getPosY() + entry.getHeight() + groupPadding);
-                            groups.put(entry.getEntry().getGroup(), bounds);
-                        } else {
-                            groups.get(entry.getEntry().getGroup()).extend(entry.getPosX() - groupPadding, entry.getPosY() - groupPadding, entry.getPosX() + entry.getWidth() + groupPadding, entry.getPosY() + entry.getHeight() + groupPadding);
+                    break;
+                case 1:
+                    if (entry.isVisible()) {
+                        entry.setPosition(x, y);
+                        entry.setShowLabel(false);
+                        x += entry.getWidth() + 4;
+                        if (x > sizeX - entry.getHeight() - 4) {
+                            x = 8;
+                            y += entry.getHeight() + 4;
+                            heightCount += entry.getHeight() + 4;
                         }
                     }
-                }
+                    break;
+                default:
+                    if (entry.isVisible()) {
+                        entry.setPosition(x + entry.getEntry().getGuiPosX(), y + entry.getEntry().getGuiPosY());
+                        entry.setShowLabel(false);
+                        widthCount = Math.max(widthCount, entry.getEntry().getGuiPosX() + entry.getWidth() + groupPadding + 4);
+                        heightCount = Math.max(heightCount, entry.getEntry().getGuiPosY() + entry.getHeight() + groupPadding + 4);
+
+                        if (entry.getEntry().getGroup() != null) {
+                            if (!groups.containsKey(entry.getEntry().getGroup())) {
+                                Bounds bounds = new Bounds(entry.getPosX() - groupPadding, entry.getPosY() - groupPadding, entry.getPosX() + entry.getWidth() + groupPadding, entry.getPosY() + entry.getHeight() + groupPadding);
+                                groups.put(entry.getEntry().getGroup(), bounds);
+                            } else {
+                                groups.get(entry.getEntry().getGroup()).extend(entry.getPosX() - groupPadding, entry.getPosY() - groupPadding, entry.getPosX() + entry.getWidth() + groupPadding, entry.getPosY() + entry.getHeight() + groupPadding);
+                            }
+                        }
+                    }
+                    break;
             }
-
-
         }
 
         innerWidth = Math.max(widthCount + leftOffset, sizeX);
@@ -288,7 +287,6 @@ public class PageGuideEntries extends ElementBaseGroup implements ITextHandler {
     @Override
     public void handleElementButtonClick(MOElementBase element, String buttonName, int mouseButton) {
         if (element instanceof ElementGuideEntry) {
-            MatterOverdrive.proxy.getGoogleAnalytics().setPageHit(((ElementGuideEntry) element).getEntry().getName(), GoogleAnalyticsCommon.PAGE_PATH_GUIDE_ENTIRES + "/" + ((ElementGuideEntry) element).getEntry().getGroup(), null);
             pageGuideDescription.OpenGuide(((ElementGuideEntry) element).getEntry().getId(), false);
             MatterOverdrive.packetPipeline.sendToServer(new PacketDataPadCommands(dataPadStack));
             gui.setPage(1);

@@ -45,10 +45,6 @@ import org.lwjgl.util.vector.Vector4f;
 
 import java.util.*;
 
-/**
- * @autor Simeon
- * @since 3/11/2015
- */
 public abstract class MOTileEntityMachine extends MOTileEntity implements IMOTileEntity, ISidedInventory, IUpgradeable {
 
     protected static Random random = new Random();

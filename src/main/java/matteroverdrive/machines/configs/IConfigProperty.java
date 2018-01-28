@@ -2,10 +2,6 @@ package matteroverdrive.machines.configs;
 
 import net.minecraft.nbt.NBTTagCompound;
 
-/**
- * @autor Simeon
- * @since 8/16/2015
- */
 public interface IConfigProperty {
     String getKey();
 

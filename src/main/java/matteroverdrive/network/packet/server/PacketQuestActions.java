@@ -69,11 +69,7 @@ public class PacketQuestActions extends PacketAbstract {
                                 questStack.markComplited(player, true);
                             }
                         } else if (message.command == QUEST_ACTION_ABONDON) {
-                            QuestStack abandonedQuest = extendedProperties.getQuestData().removeQuest(message.questID);
-                            if (abandonedQuest != null) {
-                                extendedProperties.onQuestAbandoned(abandonedQuest);
-                            }
-
+                            extendedProperties.getQuestData().removeQuest(message.questID);
                             return new PacketSyncQuests(extendedProperties.getQuestData(), EnumSet.of(PlayerQuestData.DataType.ACTIVE_QUESTS));
                         }
                     }

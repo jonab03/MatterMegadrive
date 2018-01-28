@@ -6,7 +6,6 @@ import matteroverdrive.api.android.IBionicStat;
 import matteroverdrive.client.render.HoloIcon;
 import matteroverdrive.entity.player.AndroidPlayer;
 import matteroverdrive.gui.MOGuiBase;
-import matteroverdrive.handler.GoogleAnalyticsCommon;
 import matteroverdrive.network.packet.server.PacketUnlockBioticStat;
 import matteroverdrive.proxy.ClientProxy;
 import matteroverdrive.util.RenderUtils;
@@ -38,13 +37,7 @@ public class ElementBioStat extends MOElementButton {
 
     @Override
     public boolean isEnabled() {
-
-        if (stat.canBeUnlocked(player, level)) {
-            if (player.getUnlockedLevel(stat) < stat.maxLevel()) {
-                return true;
-            }
-        }
-        return false;
+        return stat.canBeUnlocked(player, level) && player.getUnlockedLevel(stat) < stat.maxLevel();
     }
 
 
@@ -75,7 +68,6 @@ public class ElementBioStat extends MOElementButton {
             if (stat.canBeUnlocked(player, level + 1) && level < stat.maxLevel()) {
                 MOGuiBase.playSound(Reference.MOD_ID + ":" + "gui.biotic_stat_unlock", 1, 1);
                 MatterOverdrive.packetPipeline.sendToServer(new PacketUnlockBioticStat(stat.getUnlocalizedName(), ++level));
-                MatterOverdrive.proxy.getGoogleAnalytics().sendEventHit(GoogleAnalyticsCommon.EVENT_CATEGORY_BIOTIC_STATS, GoogleAnalyticsCommon.EVENT_ACTION_BIOTIC_STAT_UNLOCK, stat.getUnlocalizedName(), null);
             }
         }
         super.onAction(mouseX, mouseY, mouseButton);
@@ -98,12 +90,16 @@ public class ElementBioStat extends MOElementButton {
             glTranslated(posX, posY, 0);
             glTranslated(sizeX / 2, sizeY / 2, 0);
             glTranslated(direction.offsetX * (sizeX * 0.75), -direction.offsetY * (sizeY * 0.75), 0);
-            if (direction == ForgeDirection.EAST) {
-                glRotated(90, 0, 0, 1);
-            } else if (direction == ForgeDirection.WEST) {
-                glRotated(-90, 0, 0, 1);
-            } else if (direction == ForgeDirection.DOWN) {
-                glRotated(180, 0, 0, 1);
+            switch (direction) {
+                case EAST:
+                    glRotated(90, 0, 0, 1);
+                    break;
+                case WEST:
+                    glRotated(-90, 0, 0, 1);
+                    break;
+                case DOWN:
+                    glRotated(180, 0, 0, 1);
+                    break;
             }
             glTranslated(-3.5, -3.5, 0);
             ClientProxy.holoIcons.renderIcon("up_arrow", 0, 0);

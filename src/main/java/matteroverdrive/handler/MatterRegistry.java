@@ -293,16 +293,18 @@ public class MatterRegistry implements IMatterRegistry {
             if (!blacklist.contains(getKey(item))) {
                 MatterEntry e = entries.get(getKey(item));
                 if (e == null) {
-                    if (e == null) debug("Could not find matter entry for: %s", item);
+                    debug("Could not find matter entry for: %s", item);
                     e = getOreDicionaryEntry(item);
-                    if (e == null) debug("Could not find ore dictionary entry for: %s", item);
+                    if (e == null) {
+                        debug("Could not find ore dictionary entry for: %s", item);
+                    }
                 }
                 return e;
             } else {
                 return null;
             }
         } catch (Exception e) {
-            if (e == null) debug("There was a problem getting a Matter Entry for %s.", item);
+            debug("There was a problem getting a Matter Entry for %s.", item);
             return null;
         }
     }

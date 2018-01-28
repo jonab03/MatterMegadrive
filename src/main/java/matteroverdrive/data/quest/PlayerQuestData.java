@@ -129,7 +129,6 @@ public class PlayerQuestData {
             for (int i = 0; i < activeQuests.size(); i++) {
                 if (activeQuests.get(i).getQuest() != null) {
                     if (activeQuests.get(i).getQuest().onEvent(activeQuests.get(i), event, extendedProperties.getPlayer())) {
-                        //MatterOverdrive.packetPipeline.sendTo(new PacketSyncQuests(this,EnumSet.of(DataType.ACTIVE_QUESTS)),(EntityPlayerMP) extendedProperties.getPlayer());
                         MatterOverdrive.packetPipeline.sendTo(new PacketUpdateQuest(i, this, PacketUpdateQuest.UPDATE_QUEST), (EntityPlayerMP) extendedProperties.getPlayer());
                     }
                 }
@@ -149,8 +148,8 @@ public class PlayerQuestData {
         activeQuests.remove(questStack);
     }
 
-    public QuestStack removeQuest(int id) {
-        return activeQuests.remove(id);
+    public void removeQuest(int id) {
+        activeQuests.remove(id);
     }
 
     public List<QuestStack> getActiveQuests() {

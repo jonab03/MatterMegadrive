@@ -39,8 +39,9 @@ public class MatterHelper {
                 return ((IMatterItem) item.getItem()).getMatter(item);
             } else {
                 MatterEntry matter = MatterOverdrive.matterRegistry.getEntry(item);
-                if (matter != null)
+                if (matter != null) {
                     return matter.getMatter();
+                }
             }
         }
         return 0;
