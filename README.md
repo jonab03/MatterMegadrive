@@ -20,10 +20,12 @@ Although it may seem overpowered, Matter Megadrive takes a more realistic approa
 * **Decomposer**, for braking down materials into matter.
 * **Transporter**, for beaming up.
 * **Phaser**, to set on stun.
-* **Fusion Reactor** and **Gravitational Anomalies**
+* **Fusion Reactor** and **Gravitational Anomalies**.
 * **Complex Networking** for replication control.
 * **Star Map**, with Galaxies, Stars and Planets
-* **Androids**, become an Android and learn powerful RPG like abilities, such as Teleportation and Forefield Shields.
+* **Androids**, become an Android and learn powerful RPG-like abilities, such as Teleportation and generating Forcefields.
+
+More information about items and block can be found on the in-game **Data Pad**.
 
 ## Contact
 * **Gitter**, https://gitter.im/MatterMegadrive/Lobby
