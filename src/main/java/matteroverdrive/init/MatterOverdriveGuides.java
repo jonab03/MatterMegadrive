@@ -38,7 +38,7 @@ public class MatterOverdriveGuides {
 
         //region General
         //Ore
-        addEntry(generalCategory, new MOGuideEntryBlock(MatterOverdriveBlocks.dilithium_ore).setGroup("resources"), 3, 0);
+        addEntry(generalCategory, new MOGuideEntryBlock(MatterOverdriveBlocks.dilithiumOre).setGroup("resources"), 3, 0);
         addEntry(generalCategory, new MOGuideEntryBlock(MatterOverdriveBlocks.tritaniumOre).setGroup("resources"), 4, 0);
         addEntry(generalCategory, new MOGuideEntryItem(MatterOverdriveItems.dilithium_ctystal).setGroup("resources"), 3, 1);
         addEntry(generalCategory, new MOGuideEntryItem(MatterOverdriveItems.tritanium_ingot).setGroup("resources"), 4, 1);

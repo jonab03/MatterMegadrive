@@ -5,7 +5,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import matteroverdrive.compat.Compat;
 import net.minecraft.item.ItemStack;
 
-import static matteroverdrive.init.MatterOverdriveBlocks.dilithium_ore;
+import static matteroverdrive.init.MatterOverdriveBlocks.dilithiumOre;
 import static matteroverdrive.init.MatterOverdriveBlocks.tritaniumOre;
 import static matteroverdrive.init.MatterOverdriveItems.*;
 
@@ -34,7 +34,7 @@ public class CompatThermalExpansion {
 
 //		1 Dilithum Ore		-> 1 Dilithium Crystal
         ThermalExpansionHelper.addPulverizerRecipe(4000,
-                new ItemStack(dilithium_ore),
+                new ItemStack(dilithiumOre),
                 new ItemStack(dilithium_ctystal));
     }
 

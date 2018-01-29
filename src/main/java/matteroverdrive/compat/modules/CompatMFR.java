@@ -13,7 +13,7 @@ public class CompatMFR {
     @Compat.Init
     public void init(FMLInitializationEvent event) {
         NBTTagCompound dilithiumTag = new NBTTagCompound();
-        new ItemStack(MatterOverdriveBlocks.dilithium_ore).writeToNBT(dilithiumTag);
+        new ItemStack(MatterOverdriveBlocks.dilithiumOre).writeToNBT(dilithiumTag);
         dilithiumTag.setInteger("value", 3);
         FMLInterModComms.sendMessage("MineFactoryReloaded", "addLaserPreferredOre", dilithiumTag);
 
@@ -22,5 +22,4 @@ public class CompatMFR {
         tritaniumTag.setInteger("value", 3);
         FMLInterModComms.sendMessage("MineFactoryReloaded", "addLaserPreferredOre", tritaniumTag);
     }
-
 }

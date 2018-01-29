@@ -7,8 +7,8 @@ import matteroverdrive.MatterOverdrive;
 import matteroverdrive.Reference;
 import matteroverdrive.blocks.*;
 import matteroverdrive.blocks.includes.MOBlock;
-import matteroverdrive.blocks.world.DilithiumOre;
-import net.minecraft.block.Block;
+import matteroverdrive.blocks.ores.DilithiumOre;
+import matteroverdrive.blocks.ores.TritaniumOre;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraftforge.fluids.BlockFluidFinite;
@@ -25,8 +25,8 @@ public class MatterOverdriveBlocks {
     public static BlockNetworkPipe network_pipe;
     public static BlockNetworkRouter network_router;
     public static BlockMatterAnalyzer matter_analyzer;
-    public static DilithiumOre dilithium_ore;
-    public static MOBlock tritaniumOre;
+    public static DilithiumOre dilithiumOre;
+    public static TritaniumOre tritaniumOre;
     public static MOBlock tritanium_block;
     public static MOBlock machine_hull;
     public static BlockPatternStorage pattern_storage;
@@ -86,12 +86,8 @@ public class MatterOverdriveBlocks {
         network_pipe = new BlockNetworkPipe(Material.iron, "network_pipe");
         network_router = new BlockNetworkRouter(Material.iron, "network_router");
         matter_analyzer = new BlockMatterAnalyzer(Material.iron, "matter_analyzer");
-        dilithium_ore = new DilithiumOre(Material.rock, "dilithium_ore");
-        tritaniumOre = new MOBlock(Material.rock, "tritanium_ore");
-        tritaniumOre.setHardness(8f);
-        tritaniumOre.setResistance(5.0F);
-        tritaniumOre.setHarvestLevel("pickaxe", 2);
-        tritaniumOre.setStepSound(Block.soundTypePiston);
+        dilithiumOre = new DilithiumOre("dilithium_ore");
+        tritaniumOre = new TritaniumOre("tritanium_ore");
         tritanium_block = new MOBlock(Material.iron, "tritanium_block");
         tritanium_block.setHardness(15.0F);
         tritanium_block.setResistance(10.0F);
@@ -162,7 +158,7 @@ public class MatterOverdriveBlocks {
         network_router.register();
         matter_analyzer.register();
         MatterOverdrive.configHandler.subscribe(matter_analyzer);
-        dilithium_ore.register();
+        dilithiumOre.register();
         tritaniumOre.register();
         tritanium_block.register();
         machine_hull.register();
@@ -225,7 +221,7 @@ public class MatterOverdriveBlocks {
         decorative_engine_exhaust_plasma.register();
 
         OreDictionary.registerOre("oreTritanium", tritaniumOre);
-        OreDictionary.registerOre("oreDilithium", dilithium_ore);
+        OreDictionary.registerOre("oreDilithium", dilithiumOre);
         OreDictionary.registerOre("blockTritanium", tritanium_block);
     }
 }

@@ -26,10 +26,10 @@ public class MOWorldGen implements IWorldGenerator, IConfigSubscriber {
     public static MOSandPit sandPit;
     public static MOWorldGenCrashedSpaceShip crashedSpaceShip;
     public static float BUILDING_SPAWN_CHANCE = 0.01f;
-    public static final int TRITANIUM_VEINS_PER_CHUNK = 10;
-    public static final int TRITANIUM_VEIN_SIZE = 6;
-    public static final int DILITHIUM_VEINS_PER_CHUNK = 6;
-    public static final int DILITHIUM_VEIN_SIZE = 5;
+    public static final int TRITANIUM_VEINS_PER_CHUNK = 5;
+    public static final int TRITANIUM_VEIN_SIZE = 4;
+    public static final int DILITHIUM_VEINS_PER_CHUNK = 2;
+    public static final int DILITHIUM_VEIN_SIZE = 3;
     public List<WeightedRandomMOWorldGenBuilding> buildings;
     public Queue<MOWorldGenBuilding.WorldGenBuildingWorker> worldGenBuildingQueue;
     HashSet<Integer> oreDimentionsBlacklist;
@@ -47,7 +47,7 @@ public class MOWorldGen implements IWorldGenerator, IConfigSubscriber {
         worldGenBuildingQueue = new ArrayDeque<>();
 
         tritaniumGen = new WorldGenMinable(MatterOverdriveBlocks.tritaniumOre, TRITANIUM_VEIN_SIZE);
-        dilithiumGen = new WorldGenMinable(MatterOverdriveBlocks.dilithium_ore, DILITHIUM_VEIN_SIZE);
+        dilithiumGen = new WorldGenMinable(MatterOverdriveBlocks.dilithiumOre, DILITHIUM_VEIN_SIZE);
         buildings.add(new WeightedRandomMOWorldGenBuilding(new MOAndroidHouseBuilding("android_house"), 20));
         buildings.add(new WeightedRandomMOWorldGenBuilding(new MOSandPit("sand_pit_house", 3), 100));
         buildings.add(new WeightedRandomMOWorldGenBuilding(new MOWorldGenCrashedSpaceShip("crashed_ship"), 60));
@@ -219,7 +219,7 @@ public class MOWorldGen implements IWorldGenerator, IConfigSubscriber {
         Property shouldGenerateOres = config.config.get(ConfigurationHandler.CATEGORY_WORLD_GEN, ConfigurationHandler.CATEGORY_WORLD_SPAWN_ORES, true);
         shouldGenerateOres.comment = "Should Matter Overdrive Ore Blocks be Generated ?";
         generateTritanium = shouldGenerate(MatterOverdriveBlocks.tritaniumOre, config) && shouldGenerateOres.getBoolean(true);
-        generateDilithium = shouldGenerate(MatterOverdriveBlocks.dilithium_ore, config) && shouldGenerateOres.getBoolean(true);
+        generateDilithium = shouldGenerate(MatterOverdriveBlocks.dilithiumOre, config) && shouldGenerateOres.getBoolean(true);
         Property shouldGenerateOthers = config.config.get(ConfigurationHandler.CATEGORY_WORLD_GEN, ConfigurationHandler.CATEGORY_WORLD_SPAWN_OTHER, true);
         shouldGenerateOthers.comment = "Should other Matter Overdrive World Blocks be Generated?";
         generateAnomalies = shouldGenerate(MatterOverdriveBlocks.gravitational_anomaly, config) && shouldGenerateOthers.getBoolean(true);
