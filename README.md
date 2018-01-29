@@ -1,5 +1,5 @@
 # Matter Megadrive
-![alt tag](https://raw.githubusercontent.com/Ionaru/MatterMegadrive/1.7.10/MatterMegadriveLogo.png)
+![Matter Megadrive logo](https://raw.githubusercontent.com/Ionaru/MatterMegadrive/1.7.10/src/main/resources/MatterMegadrive.png)
 
 ## Table of Contents
 * [About](#about)

@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class Reference {
     public static final String MOD_ID = "mo";
-    public static final String MOD_NAME = "Matter Overdrive";
+    public static final String MOD_NAME = "Matter Megadrive";
     public static final String VERSION = "@VERSION@";
     private static final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
     public static final String VERSION_DATE = dateFormat.format(new Date());
@@ -20,9 +20,6 @@ public class Reference {
     public static final String CHANNEL_NAME = MOD_ID + "_channel";
     public static final String CHANNEL_WEAPONS_NAME = MOD_ID + "_channel:weapons";
     public static final String CHANNEL_GUI_NAME = MOD_ID + "_channel:gui";
-    public static final String VERSIONS_CHECK_URL = "https://mo.simeonradivoev.com/wp-json/posts?type[]=mo_download&filter[posts_per_page]=1";
-    public static final String DOWNLOAD_URL = "https://mo.simeonradivoev.com/download_category/downloads/";
-
 
     //region GUI
     public static final String PATH_GFX = "mo:textures/";
