@@ -1,6 +1,6 @@
 # Matter Megadrive
-
 [![Join the chat at https://gitter.im/MatterMegadrive/Lobby](https://badges.gitter.im/MatterMegadrive/Lobby.svg)](https://gitter.im/MatterMegadrive/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ![alt tag](https://raw.githubusercontent.com/Ionaru/MatterMegadrive/1.7.10/MatterMegadriveLogo.png)
 
 <h2 align="center">
