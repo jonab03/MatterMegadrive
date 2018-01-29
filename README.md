@@ -1,68 +1,48 @@
 # Matter Megadrive
-[![Join the chat at https://gitter.im/MatterMegadrive/Lobby](https://badges.gitter.im/MatterMegadrive/Lobby.svg)](https://gitter.im/MatterMegadrive/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 ![alt tag](https://raw.githubusercontent.com/Ionaru/MatterMegadrive/1.7.10/MatterMegadriveLogo.png)
-
-<h2 align="center">
-<a href='https://mo.simeonradivoev.com/'>Website</a> |
-<a href='https://mo.simeonradivoev.com/category/gettingstarted/'>Getting Started</a> |
-<a href='https://mo.simeonradivoev.com/category/faq/'>FAQ</a> |
-<a href='https://mo.simeonradivoev.com/download_category/downloads/'>Downloads</a> |
-<a href='https://mo.simeonradivoev.com/builds/'>Dev Builds</a>
-</h2>
 
 ## Table of Contents
 * [About](#about)
 * [Features](#features)
-* [Contacts](#contacts)
-* [Isues](#issues)
-* [Building](#building)
+* [Contact](#contact)
+* [Issues](#issues)
+* [Developing](#Developing)
 * [IMC](#imc)
-* [Donations](#donations)
 
 ## About
-Matter Overdrive is a Minecraft mod inspired by the popular Sci-fi TV series Star Trek. It dwells in the concept of replicating and transforming one type matter into another.
-Although it may seem overpowered, Matter Overdrive takes a more realistic approach and requires the player to build a complex system before even the simplest replication can be achieved.
-
-## Contacts
-* [Simeon Radivoev](simeonradivoev@gmail.com)
-* IRC: **#matteroverdrive** at **irc.esper.net**
+Matter Megadrive is the continuation of the 1.7.10 version of [Matter Overdrive](https://github.com/simeonradivoev/MatterOverdrive).
+Matter Megadrive is a Minecraft mod inspired by the popular Sci-fi TV series Star Trek. It dwells in the concept of replicating and transforming one type matter into another.
+Although it may seem overpowered, Matter Megadrive takes a more realistic approach and requires the player to build a complex system before even the simplest replication can be achieved.
 
 ## Features
-* [Matter Scanner](https://mo.simeonradivoev.com/items/matter_scanner/), for scanning matter patterns for replication.
-* [Replicator](https://mo.simeonradivoev.com/items/replicator/), for transforming materials.
-* [Decomposer](https://mo.simeonradivoev.com/items/decomposer/), for braking down materials to basic form.
-* [Transporter](https://mo.simeonradivoev.com/items/transporter/), for beaming up.
-* [Phaser](https://mo.simeonradivoev.com/items/phaser/), to set on stun.
-* [Fusion Reactors](https://mo.simeonradivoev.com/fusion-reactor/) and [Gravitational Anomaly](https://mo.simeonradivoev.com/items/gravitational_anomaly/)
-* Complex Networking for replication control.
-* Star Maps, with Galaxies, Stars and Planets
-* [Androids](https://mo.simeonradivoev.com/android-guide/), become an Android and learn powerful RPG like abilities, such as Teleportation and Forefield Shields.
+* **Matter Scanner**, for scanning matter patterns for replication.
+* **Replicator**, for transforming matter into materials.
+* **Decomposer**, for braking down materials into matter.
+* **Transporter**, for beaming up.
+* **Phaser**, to set on stun.
+* **Fusion Reactor** and **Gravitational Anomalies**
+* **Complex Networking** for replication control.
+* **Star Map**, with Galaxies, Stars and Planets
+* **Androids**, become an Android and learn powerful RPG like abilities, such as Teleportation and Forefield Shields.
 
-
-![Matter Overdrive Blocks and Items](https://mo.simeonradivoev.com/wp-content/uploads/2015/05/main_screenshot.png)
+## Contact
+* **Gitter**, https://gitter.im/MatterMegadrive/Lobby
+* **Discord**, https://discord.gg/H5xd8MZ
 
 ## Issues
-If you have any crashes, problems or suggestions just open a [new Issue](https://github.com/simeonradivoev/MatterOverdrive/issues/new).
-If your crash or problem was fixed, but is not yet released as a public download you can always download the latest [Dev Build](https://mo.simeonradivoev.com/builds/).
+Open a [new issue on GitHub](https://github.com/Ionaru/MatterMegadrive/issues/new) if you have crashes, problems or suggestions.
 
-## Building
-1. Clone this repository via 
-  - SSH `git clone git@github.com:simeonradivoev/MatterOverdrive.git` or 
-  - HTTPS `git clone https://github.com/simeonradivoev/MatterOverdrive.git`
-2. Setup workspace 
-  - Decompiled source `gradlew setupDecompWorkspace`
-  - Obfuscated source `gradlew setupDevWorkspace`
-  - CI server `gradlew setupCIWorkspace`
-3. Build `gradlew build`. Jar will be in `build/libs`
-4. For core developer: Setup IDE
-  - IntelliJ: Import into IDE and execute `gradlew genIntellijRuns` afterwards
-  - Eclipse: execute `gradlew eclipse`
+## Developing
+Want to contribute to this mod? Awesome!
+Just follow these simple steps to get started:
+
+1. Clone this repository into a directory of your choice
+2. Checkout the branch you with to contribute to
+3. Run `gradlew setupDecompWorkspace` in a command prompt (And `gradlew eclipse` if you use Eclipse)
+4. Start developing!
+5. Run `gradlew runClient` or `gradlew runServer` to test the mod in action
+6. Run `gradlew build` to build the .jar file, the output can be found in the ./build/libs folder
+7. If everything works fine, create a pull request on your chosen branch.
   
 ## IMC
-See the example on [IMC](https://github.com/simeonradivoev/MatterOverdrive/blob/master/src/main/java/matteroverdrive/api/IMC.java) or you can see the [IMC handler](https://github.com/simeonradivoev/MatterOverdrive/blob/master/src/main/java/matteroverdrive/imc/MOIMCHandler.java).
-
-## Donations
-Donations go a long way to helping me continue working on Matter Overdrive, making exiting new features.
-
-[![Donate](https://mo.simeonradivoev.com/wp-content/uploads/2015/06/paypal1.png)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=KGKJSVXZQXWXS)
+See the example on [IMC](https://github.com/Ionaru/MatterMegadrive/blob/master/src/main/java/matteroverdrive/api/IMC.java) or you can see the [IMC handler](https://github.com/Ionaru/MatterMegadrive/blob/master/src/main/java/matteroverdrive/imc/MOIMCHandler.java).
