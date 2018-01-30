@@ -2,7 +2,7 @@ package matteroverdrive.world;
 
 import matteroverdrive.MatterOverdrive;
 import matteroverdrive.Reference;
-import matteroverdrive.entity.monster.EntityMeleeRougeAndroidMob;
+import matteroverdrive.entity.monster.EntityMeleeRogueAndroidMob;
 import matteroverdrive.entity.monster.EntityRangedRogueAndroidMob;
 import matteroverdrive.init.MatterOverdriveBlocks;
 import matteroverdrive.util.MOInventoryHelper;
@@ -85,7 +85,7 @@ public class MOAndroidHouseBuilding extends MOWorldGenBuilding {
             androidMob.onSpawnWithEgg(null);
             androidMob.func_110163_bv();
         } else {
-            EntityMeleeRougeAndroidMob androidMob = new EntityMeleeRougeAndroidMob(world);
+            EntityMeleeRogueAndroidMob androidMob = new EntityMeleeRogueAndroidMob(world);
             androidMob.setPosition(x + 0.5, y + 0.5, z + 0.5);
             world.spawnEntityInWorld(androidMob);
             androidMob.onSpawnWithEgg(null);

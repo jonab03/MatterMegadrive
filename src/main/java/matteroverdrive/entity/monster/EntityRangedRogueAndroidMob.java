@@ -10,7 +10,7 @@ import matteroverdrive.entity.ai.EntityAIMoveAlongPath;
 import matteroverdrive.entity.ai.EntityAIPhaserBoltAttack;
 import matteroverdrive.entity.ai.EntityAIRangedRunFromMelee;
 import matteroverdrive.init.MatterOverdriveItems;
-import matteroverdrive.items.android.RougeAndroidParts;
+import matteroverdrive.items.android.RogueAndroidParts;
 import matteroverdrive.items.weapon.EnergyWeapon;
 import matteroverdrive.network.packet.bi.PacketFirePlasmaShot;
 import matteroverdrive.util.AndroidPartsFactory;
@@ -25,7 +25,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
-public class EntityRangedRogueAndroidMob extends EntityRougeAndroidMob implements IRangedEnergyWeaponAttackMob {
+public class EntityRangedRogueAndroidMob extends EntityRogueAndroidMob implements IRangedEnergyWeaponAttackMob {
     public static boolean UNLIMITED_WEAPON_ENERGY = true;
     private EntityAIPhaserBoltAttack aiBoltAttack = new EntityAIPhaserBoltAttack(this, 1.0D, 60, 15.0F);
     private EntityAIRangedRunFromMelee aiRangedRunFromMelee = new EntityAIRangedRunFromMelee(this, 1.0D);
@@ -105,7 +105,7 @@ public class EntityRangedRogueAndroidMob extends EntityRougeAndroidMob implement
             float lootingModifier = (Math.min(lootingLevel, 10) / 10f);
             if (rand.nextFloat() < (0.15f + lootingModifier) || getIsLegendary()) {
                 ItemStack part = MatterOverdrive.androidPartsFactory.generateRandomDecoratedPart(new AndroidPartsFactory.AndroidPartFactoryContext(getAndroidLevel(), this, getIsLegendary()));
-                if (part.getItem() instanceof RougeAndroidParts) {
+                if (part.getItem() instanceof RogueAndroidParts) {
                     part.setTagCompound(new NBTTagCompound());
                     part.getTagCompound().setByte("Type", (byte) 1);
                 }

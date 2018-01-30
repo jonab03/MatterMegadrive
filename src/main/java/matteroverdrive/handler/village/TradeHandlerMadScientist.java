@@ -22,7 +22,7 @@ public class TradeHandlerMadScientist implements VillagerRegistry.IVillageTradeH
             addSellItemStack(recipeList, random, new ItemStack(MatterOverdriveItems.androidPill, 1, 1), 1, 16, 16);
             addSellItemStack(recipeList, random, new ItemStack(MatterOverdriveItems.androidPill, 1, 2), 1, 16, 16);
             addSellItemStack(recipeList, random, new ItemStack(MatterOverdriveItems.h_compensator), 0.5f, 32, 18);
-            addBuyItemStack(recipeList, random, new ItemStack(MatterOverdriveItems.dilithium_ctystal), 1, 8, 8);
+            addBuyItemStack(recipeList, random, new ItemStack(MatterOverdriveItems.dilithium_crystal), 1, 8, 8);
             addSellItemStack(recipeList, random, new ItemStack(MatterOverdriveItems.weapon_module_barrel, 1, 0), 1, 8, 4);
             addSellItemStack(recipeList, random, new ItemStack(MatterOverdriveItems.weapon_module_barrel, 1, 1), 1, 8, 4);
             addSellItemStack(recipeList, random, new ItemStack(MatterOverdriveItems.weapon_module_barrel, 1, 2), 1, 16, 16);

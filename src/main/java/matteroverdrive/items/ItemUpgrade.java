@@ -67,7 +67,7 @@ public class ItemUpgrade extends MOBaseItem implements IUpgrade {
         //power storage
         GameRegistry.addRecipe(new ItemStack(this, 1, 5), "   ", "RUR", " B ", 'U', this, 'B', MatterOverdriveItems.hc_battery, 'R', Items.redstone, 'G', Items.gold_ingot);
         //hyper speed
-        GameRegistry.addShapelessRecipe(new ItemStack(this, 1, 6), MatterOverdriveItems.dilithium_ctystal, Items.nether_star, new ItemStack(this, 1, 1));
+        GameRegistry.addShapelessRecipe(new ItemStack(this, 1, 6), MatterOverdriveItems.dilithium_crystal, Items.nether_star, new ItemStack(this, 1, 1));
         //matter storage
         GameRegistry.addRecipe(new ItemStack(this, 1, 7), " R ", "MUM", " R ", 'U', this, 'M', MatterOverdriveItems.s_magnet, 'R', Items.redstone);
     }

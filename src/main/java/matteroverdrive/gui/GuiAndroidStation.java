@@ -6,7 +6,7 @@ import matteroverdrive.api.android.IBionicStat;
 import matteroverdrive.container.ContainerAndroidStation;
 import matteroverdrive.container.slot.MOSlot;
 import matteroverdrive.data.inventory.BionicSlot;
-import matteroverdrive.entity.monster.EntityMeleeRougeAndroidMob;
+import matteroverdrive.entity.monster.EntityMeleeRogueAndroidMob;
 import matteroverdrive.entity.player.AndroidPlayer;
 import matteroverdrive.gui.element.*;
 import matteroverdrive.handler.ConfigurationHandler;
@@ -31,7 +31,7 @@ import java.util.List;
 import static org.lwjgl.opengl.GL11.*;
 
 public class GuiAndroidStation extends MOGuiMachine<TileEntityAndroidStation> {
-    private EntityMeleeRougeAndroidMob mob;
+    private EntityMeleeRogueAndroidMob mob;
     private MOElementButtonScaled hudConfigs;
     ElementSlot[] parts_slots = new ElementSlot[Reference.BIONIC_BATTERY + 1];
     List<ElementBioStat> stats = new ArrayList<>(MatterOverdrive.statRegistry.getStats().size());
@@ -74,7 +74,7 @@ public class GuiAndroidStation extends MOGuiMachine<TileEntityAndroidStation> {
         addStat(androidPlayer, MatterOverdriveBioticStats.flashCooling, 2, 2, ForgeDirection.UP);
         addStat(androidPlayer, MatterOverdriveBioticStats.shockwave, 2, 3, ForgeDirection.UP);
 
-        mob = new EntityMeleeRougeAndroidMob(Minecraft.getMinecraft().theWorld);
+        mob = new EntityMeleeRogueAndroidMob(Minecraft.getMinecraft().theWorld);
         mob.getEntityData().setBoolean("Hologram", true);
 
         hudConfigs = new MOElementButtonScaled(this, this, 48, 64, "hud_configs", 128, 24);

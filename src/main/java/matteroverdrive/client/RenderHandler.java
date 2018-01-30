@@ -19,12 +19,12 @@ import matteroverdrive.client.render.biostat.BioticStatRendererTeleporter;
 import matteroverdrive.client.render.block.*;
 import matteroverdrive.client.render.entity.*;
 import matteroverdrive.client.render.item.*;
-import matteroverdrive.client.render.parts.RougeAndroidPartsRender;
+import matteroverdrive.client.render.parts.RogueAndroidPartsRender;
 import matteroverdrive.client.render.parts.TritaniumSpineRenderer;
 import matteroverdrive.client.render.tileentity.*;
 import matteroverdrive.client.render.tileentity.starmap.*;
 import matteroverdrive.entity.*;
-import matteroverdrive.entity.monster.EntityMeleeRougeAndroidMob;
+import matteroverdrive.entity.monster.EntityMeleeRogueAndroidMob;
 import matteroverdrive.entity.monster.EntityMutantScientist;
 import matteroverdrive.entity.monster.EntityRangedRogueAndroidMob;
 import matteroverdrive.entity.player.AndroidPlayer;
@@ -32,7 +32,7 @@ import matteroverdrive.entity.weapon.PlasmaBolt;
 import matteroverdrive.handler.ConfigurationHandler;
 import matteroverdrive.init.MatterOverdriveBioticStats;
 import matteroverdrive.init.MatterOverdriveItems;
-import matteroverdrive.items.android.RougeAndroidParts;
+import matteroverdrive.items.android.RogueAndroidParts;
 import matteroverdrive.items.android.TritaniumSpine;
 import matteroverdrive.machines.fusionReactorController.TileEntityMachineFusionReactorController;
 import matteroverdrive.starmap.data.Galaxy;
@@ -99,15 +99,15 @@ public class RenderHandler {
     private static ItemRendererIonSniper rendererIonSniper;
     //endregion
     //region Entity Renderers
-    private EntityRendererRougeAndroid rendererRougeAndroid;
-    public EntityRendererRougeAndroid rendererRougeAndroidHologram;
+    private EntityRendererRogueAndroid rendererRogueAndroid;
+    public EntityRendererRogueAndroid rendererRogueAndroidHologram;
     private EntityRendererMadScientist rendererMadScientist;
     private EntityRendererFailedCow rendererFailedCow;
     private EntityRendererFailedChicken rendererFailedChicken;
     private EntityRendererFailedPig rendererFailedPig;
     private EntityRendererFailedSheep rendererFailedSheep;
     private EntityRendererPhaserFire rendererPhaserFire;
-    private EntityRendererRangedRougeAndroid rendererRangedRougeAndroid;
+    private EntityRendererRangedRogueAndroid rendererRangedRogueAndroid;
     private EntityRendererMutantScientist rendererMutantScientist;
     //endregion
     //region Tile Entity Renderers
@@ -299,27 +299,27 @@ public class RenderHandler {
     }
 
     public void createEntityRenderers() {
-        rendererRougeAndroid = new EntityRendererRougeAndroid(new ModelBiped(), 0, false);
+        rendererRogueAndroid = new EntityRendererRogueAndroid(new ModelBiped(), 0, false);
         rendererMadScientist = new EntityRendererMadScientist();
         rendererFailedPig = new EntityRendererFailedPig(new ModelPig(), new ModelPig(0.5f), 0.7F);
         rendererFailedCow = new EntityRendererFailedCow(new ModelCow(), 0.7f);
         rendererFailedChicken = new EntityRendererFailedChicken(new ModelChicken(), 0.3f);
         rendererFailedSheep = new EntityRendererFailedSheep(new ModelSheep2(), new ModelSheep1(), 0.7f);
         rendererPhaserFire = new EntityRendererPhaserFire();
-        rendererRangedRougeAndroid = new EntityRendererRangedRougeAndroid(0);
-        rendererRougeAndroidHologram = new EntityRendererRougeAndroid(new ModelBiped(), 0, true);
+        rendererRangedRogueAndroid = new EntityRendererRangedRogueAndroid(0);
+        rendererRogueAndroidHologram = new EntityRendererRogueAndroid(new ModelBiped(), 0, true);
         rendererMutantScientist = new EntityRendererMutantScientist(new ModelHulkingScientist(), 0, 1);
     }
 
     public void registerEntityRenderers() {
-        RenderingRegistry.registerEntityRenderingHandler(EntityMeleeRougeAndroidMob.class, rendererRougeAndroid);
+        RenderingRegistry.registerEntityRenderingHandler(EntityMeleeRogueAndroidMob.class, rendererRogueAndroid);
         RenderingRegistry.registerEntityRenderingHandler(EntityFailedPig.class, rendererFailedPig);
         RenderingRegistry.registerEntityRenderingHandler(EntityFailedCow.class, rendererFailedCow);
         RenderingRegistry.registerEntityRenderingHandler(EntityFailedChicken.class, rendererFailedChicken);
         RenderingRegistry.registerEntityRenderingHandler(EntityFailedSheep.class, rendererFailedSheep);
         RenderingRegistry.registerEntityRenderingHandler(EntityVillagerMadScientist.class, rendererMadScientist);
         RenderingRegistry.registerEntityRenderingHandler(PlasmaBolt.class, rendererPhaserFire);
-        RenderingRegistry.registerEntityRenderingHandler(EntityRangedRogueAndroidMob.class, rendererRangedRougeAndroid);
+        RenderingRegistry.registerEntityRenderingHandler(EntityRangedRogueAndroidMob.class, rendererRangedRogueAndroid);
         RenderingRegistry.registerEntityRenderingHandler(EntityMutantScientist.class, rendererMutantScientist);
     }
 
@@ -335,7 +335,7 @@ public class RenderHandler {
 
     public void registerBionicPartRenderers() {
         bionicPartRenderRegistry.register(TritaniumSpine.class, new TritaniumSpineRenderer());
-        bionicPartRenderRegistry.register(RougeAndroidParts.class, new RougeAndroidPartsRender());
+        bionicPartRenderRegistry.register(RogueAndroidParts.class, new RogueAndroidPartsRender());
     }
 
     public void registerWeaponModuleModels() {

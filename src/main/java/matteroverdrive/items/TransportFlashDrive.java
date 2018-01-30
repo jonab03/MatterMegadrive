@@ -79,7 +79,7 @@ public class TransportFlashDrive extends FlashDrive {
         return 0;
     }
 
-    public BlockPos getTraget(ItemStack itemStack) {
+    public BlockPos getTarget(ItemStack itemStack) {
         if (hasTarget(itemStack))
             return new BlockPos(getTargetX(itemStack), getTargetY(itemStack), getTargetZ(itemStack));
         return null;

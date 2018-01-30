@@ -1,16 +1,16 @@
 package matteroverdrive.entity.ai;
 
 import matteroverdrive.entity.monster.EntityMutantScientist;
-import matteroverdrive.entity.monster.EntityRougeAndroidMob;
+import matteroverdrive.entity.monster.EntityRogueAndroidMob;
 import matteroverdrive.entity.player.AndroidPlayer;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class AndroidTargetSelector implements IEntitySelector {
-    final EntityRougeAndroidMob mob;
+    final EntityRogueAndroidMob mob;
 
-    public AndroidTargetSelector(EntityRougeAndroidMob mob) {
+    public AndroidTargetSelector(EntityRogueAndroidMob mob) {
         this.mob = mob;
     }
 
@@ -27,9 +27,9 @@ public class AndroidTargetSelector implements IEntitySelector {
             }
         } else if (entity instanceof EntityMutantScientist) {
             return true;
-        } else if (entity instanceof EntityRougeAndroidMob) {
-            if (mob.hasTeam() && ((EntityRougeAndroidMob) entity).hasTeam()) {
-                return !((EntityRougeAndroidMob) entity).getTeam().isSameTeam(mob.getTeam());
+        } else if (entity instanceof EntityRogueAndroidMob) {
+            if (mob.hasTeam() && ((EntityRogueAndroidMob) entity).hasTeam()) {
+                return !((EntityRogueAndroidMob) entity).getTeam().isSameTeam(mob.getTeam());
             }
         }
         return false;

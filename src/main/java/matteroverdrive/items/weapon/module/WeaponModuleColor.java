@@ -45,7 +45,7 @@ public class WeaponModuleColor extends MOBaseItem implements IWeaponColor {
         this.setMaxStackSize(1);
     }
 
-    public void addToDunguns() {
+    public void addToDungeons() {
         for (int i = 0; i < colors.length; i++) {
             ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(this, 1, i), 1, 1, 1));
             ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(this, 1, i), 1, 1, 1));

@@ -3,7 +3,7 @@ package matteroverdrive.client.render.entity;
 import matteroverdrive.Reference;
 import matteroverdrive.client.data.Color;
 import matteroverdrive.client.model.MOModelRenderColored;
-import matteroverdrive.entity.monster.EntityRougeAndroidMob;
+import matteroverdrive.entity.monster.EntityRogueAndroidMob;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.Entity;
@@ -11,11 +11,11 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-public class EntityRendererRangedRougeAndroid extends EntityRendererRougeAndroid {
+public class EntityRendererRangedRogueAndroid extends EntityRendererRogueAndroid {
     public static final ResourceLocation texture = new ResourceLocation(Reference.PATH_ENTITIES + "android_ranged.png");
     MOModelRenderColored visorModel;
 
-    public EntityRendererRangedRougeAndroid(float f) {
+    public EntityRendererRangedRogueAndroid(float f) {
         super(new ModelBiped(0, 0, 96, 64), f, false);
         visorModel = new MOModelRenderColored(modelBipedMain, 64, 0);
         visorModel.setDisableLighting(true);
@@ -46,8 +46,8 @@ public class EntityRendererRangedRougeAndroid extends EntityRendererRougeAndroid
 
     @Override
     public void doRender(EntityLiving entityLiving, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_) {
-        if (entityLiving instanceof EntityRougeAndroidMob) {
-            visorModel.setColor(new Color(((EntityRougeAndroidMob) entityLiving).getVisorColor()));
+        if (entityLiving instanceof EntityRogueAndroidMob) {
+            visorModel.setColor(new Color(((EntityRogueAndroidMob) entityLiving).getVisorColor()));
         }
 
         this.field_82423_g.aimedBow = this.field_82425_h.aimedBow = this.modelBipedMain.aimedBow = true;

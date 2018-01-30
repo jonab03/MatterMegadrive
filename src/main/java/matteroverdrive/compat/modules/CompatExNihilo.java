@@ -36,7 +36,7 @@ public class CompatExNihilo {
 
 //		Register Sieve Rewards
 //		Percent = 100 / rarity
-        register(Blocks.gravel, MatterOverdriveItems.dilithium_ctystal, 0, 50); // 2%
+        register(Blocks.gravel, MatterOverdriveItems.dilithium_crystal, 0, 50); // 2%
         register(Blocks.gravel, MatterOverdriveItems.tritanium_dust, 0, 25); // 4%
     }
 

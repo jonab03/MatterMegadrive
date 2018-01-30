@@ -25,7 +25,7 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.ForgeDirection;
 
-public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditionalSpawnData, IPathableMob<EntityRougeAndroidMob> {
+public class EntityRogueAndroidMob extends EntityMob implements IEntityAdditionalSpawnData, IPathableMob<EntityRogueAndroidMob> {
     private static ResourceLocation androidNames = new ResourceLocation(Reference.PATH_INFO + "android_names.txt");
     private static String[] names = MOStringHelper.readTextFile(androidNames).split(",");
     boolean fromSpawner;
@@ -38,7 +38,7 @@ public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditiona
     private boolean legendary;
     private int level;
 
-    public EntityRougeAndroidMob(World world) {
+    public EntityRogueAndroidMob(World world) {
         super(world);
         if (!world.isRemote) {
             setAndroidLevel((int) (MathHelper.clamp_double(Math.abs(rand.nextGaussian() * (1 + world.difficultySetting.getDifficultyId() * 0.25)), 0, 3)));
@@ -50,7 +50,7 @@ public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditiona
         }
     }
 
-    public EntityRougeAndroidMob(World world, int level, boolean legendary) {
+    public EntityRogueAndroidMob(World world, int level, boolean legendary) {
         super(world);
         setAndroidLevel(level);
         setLegendary(legendary);
@@ -180,7 +180,7 @@ public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditiona
         int androidCount = 0;
         for (int i = 0; i < chunk.entityLists.length; i++) {
             for (int c = 0; c < chunk.entityLists[i].size(); c++) {
-                if (chunk.entityLists[i].get(c) instanceof EntityRougeAndroidMob) {
+                if (chunk.entityLists[i].get(c) instanceof EntityRogueAndroidMob) {
                     androidCount++;
                     if (androidCount > EntityRogueAndroid.MAX_ANDROIDS_PER_CHUNK)
                         return true;
@@ -415,7 +415,7 @@ public class EntityRougeAndroidMob extends EntityMob implements IEntityAdditiona
     }
 
     @Override
-    public EntityRougeAndroidMob getEntity() {
+    public EntityRogueAndroidMob getEntity() {
         return this;
     }
 

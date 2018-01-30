@@ -5,8 +5,8 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import matteroverdrive.Reference;
 import matteroverdrive.api.inventory.IBionicPart;
-import matteroverdrive.client.render.entity.EntityRendererRangedRougeAndroid;
-import matteroverdrive.client.render.entity.EntityRendererRougeAndroid;
+import matteroverdrive.client.render.entity.EntityRendererRangedRogueAndroid;
+import matteroverdrive.client.render.entity.EntityRendererRogueAndroid;
 import matteroverdrive.entity.player.AndroidPlayer;
 import matteroverdrive.proxy.ClientProxy;
 import matteroverdrive.util.MOStringHelper;
@@ -26,12 +26,12 @@ import net.minecraft.util.ResourceLocation;
 import java.util.List;
 import java.util.UUID;
 
-public class RougeAndroidParts extends BionicPart implements IBionicPart {
+public class RogueAndroidParts extends BionicPart implements IBionicPart {
     String[] names = new String[]{"head", "arms", "legs", "chest"};
     String[] healtModifiersIDs = new String[]{"1bb8df41-63d1-4f58-92c4-43adea7528b2", "73983b14-e605-40be-8567-36a9dec51d4f", "29419afc-63ad-4b74-87e2-38219e867119", "e4b38c80-7407-48fd-b837-8f36ae516c4d"};
     IIcon[] icons = new IIcon[names.length];
 
-    public RougeAndroidParts(String name) {
+    public RogueAndroidParts(String name) {
         super(name);
         setHasSubtypes(true);
     }
@@ -39,12 +39,12 @@ public class RougeAndroidParts extends BionicPart implements IBionicPart {
     public void addDetails(ItemStack itemstack, EntityPlayer player, List infos) {
         if (itemstack.getTagCompound() != null) {
             if (itemstack.getTagCompound().getByte("Type") == 1) {
-                infos.add(EnumChatFormatting.AQUA + MOStringHelper.translateToLocal("item.rouge_android_part.range"));
+                infos.add(EnumChatFormatting.AQUA + MOStringHelper.translateToLocal("item.rogue_android_part.range"));
             } else {
-                infos.add(EnumChatFormatting.GOLD + MOStringHelper.translateToLocal("item.rouge_android_part.melee"));
+                infos.add(EnumChatFormatting.GOLD + MOStringHelper.translateToLocal("item.rogue_android_part.melee"));
             }
         } else {
-            infos.add(EnumChatFormatting.GOLD + MOStringHelper.translateToLocal("item.rouge_android_part.melee"));
+            infos.add(EnumChatFormatting.GOLD + MOStringHelper.translateToLocal("item.rogue_android_part.melee"));
         }
         super.addDetails(itemstack, player, infos);
     }
@@ -53,7 +53,7 @@ public class RougeAndroidParts extends BionicPart implements IBionicPart {
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister) {
         for (int i = 0; i < names.length; i++) {
-            icons[i] = iconRegister.registerIcon(Reference.MOD_ID + ":" + "rouge_android_" + names[i]);
+            icons[i] = iconRegister.registerIcon(Reference.MOD_ID + ":" + "rogue_android_" + names[i]);
         }
     }
 
@@ -101,10 +101,10 @@ public class RougeAndroidParts extends BionicPart implements IBionicPart {
     public ResourceLocation getTexture(AndroidPlayer androidPlayer, ItemStack itemStack) {
         if (itemStack.getTagCompound() != null) {
             if (itemStack.getTagCompound().getByte("Type") == 1) {
-                return EntityRendererRangedRougeAndroid.texture;
+                return EntityRendererRangedRogueAndroid.texture;
             }
         }
-        return EntityRendererRougeAndroid.texture;
+        return EntityRendererRogueAndroid.texture;
     }
 
     @SideOnly(Side.CLIENT)

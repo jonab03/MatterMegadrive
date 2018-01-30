@@ -6,9 +6,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import matteroverdrive.MatterOverdrive;
 import matteroverdrive.Reference;
 import matteroverdrive.items.*;
-import matteroverdrive.items.android.RougeAndroidParts;
+import matteroverdrive.items.android.RogueAndroidParts;
 import matteroverdrive.items.android.TritaniumSpine;
-import matteroverdrive.items.armour.TritaniumArmor;
+import matteroverdrive.items.armor.TritaniumArmor;
 import matteroverdrive.items.food.AndroidPill;
 import matteroverdrive.items.food.EarlGrayTea;
 import matteroverdrive.items.food.RomulanAle;
@@ -43,7 +43,7 @@ public class MatterOverdriveItems {
     public static MOBaseItem integration_matrix;
     public static MOBaseItem machine_casing;
     public static MOBaseItem s_magnet;
-    public static MOBaseItem dilithium_ctystal;
+    public static MOBaseItem dilithium_crystal;
     public static MOBaseItem tritanium_ingot;
     public static MOBaseItem tritanium_dust;
     public static MOBaseItem tritanium_plate;
@@ -54,7 +54,7 @@ public class MatterOverdriveItems {
     public static SecurityProtocol security_protocol;
     public static SpacetimeEqualizer spacetime_equalizer;
     public static Wrench wrench;
-    public static RougeAndroidParts androidParts;
+    public static RogueAndroidParts androidParts;
     public static MOBaseItem forceFieldEmitter;
     public static ShipFactory shipFactory;
     public static ItemScoutShip scoutShip;
@@ -118,7 +118,7 @@ public class MatterOverdriveItems {
         integration_matrix = new MOBaseItem("integration_matrix");
         machine_casing = new MOBaseItem("machine_casing");
         s_magnet = new MOBaseItem("s_magnet");
-        dilithium_ctystal = new MOBaseItem("dilithium_crystal");
+        dilithium_crystal = new MOBaseItem("dilithium_crystal");
         tritanium_ingot = new MOBaseItem("tritanium_ingot");
         toolMaterialTritanium.setRepairItem(new ItemStack(tritanium_ingot));
         armorMaterialTritanium.customCraftingMaterial = tritanium_ingot;
@@ -130,7 +130,7 @@ public class MatterOverdriveItems {
         security_protocol = new SecurityProtocol("security_protocol");
         spacetime_equalizer = new SpacetimeEqualizer("spacetime_equalizer");
         wrench = new Wrench("tritanium_wrench");
-        androidParts = new RougeAndroidParts("rouge_android_part");
+        androidParts = new RogueAndroidParts("rogue_android_part");
         forceFieldEmitter = new MOBaseItem("forcefield_emitter");
         shipFactory = new ShipFactory("ship_factory");
         scoutShip = new ItemScoutShip("scout_ship");
@@ -145,7 +145,7 @@ public class MatterOverdriveItems {
         matterContainer = new MatterContainer("matter_container", false);
         matterContainerFull = new MatterContainer("matter_container_full", true);
         dataPad = new DataPad("data_pad");
-        tritaniumSpine = new TritaniumSpine("tritainum_spine");
+        tritaniumSpine = new TritaniumSpine("tritanium_spine");
         tritanium_nugget = new MOBaseItem("tritanium_nugget");
         omniTool = new OmniTool("omni_tool");
         tritaniumAxe = new TritaniumAxe("tritanium_axe");
@@ -186,8 +186,8 @@ public class MatterOverdriveItems {
         integration_matrix.register();
         machine_casing.register();
         s_magnet.register();
-        dilithium_ctystal.register();
-        MatterOverdrive.matterRegistry.addToBlacklist(dilithium_ctystal);
+        dilithium_crystal.register();
+        MatterOverdrive.matterRegistry.addToBlacklist(dilithium_crystal);
         tritanium_ingot.register();
         MatterOverdrive.matterRegistry.addToBlacklist(tritanium_ingot);
         tritanium_dust.register();
@@ -248,21 +248,21 @@ public class MatterOverdriveItems {
 
         OreDictionary.registerOre("dustTritanium", tritanium_dust);
         OreDictionary.registerOre("ingotTritanium", tritanium_ingot);
-        OreDictionary.registerOre("gemDilithium", dilithium_ctystal);
+        OreDictionary.registerOre("gemDilithium", dilithium_crystal);
         OreDictionary.registerOre("matterDust", matter_dust);
         OreDictionary.registerOre("matterDustRefined", matter_dust_refined);
         OreDictionary.registerOre("nuggetTritanium", tritanium_nugget);
     }
 
-    public static void addToDungons() {
-        weapon_module_color.addToDunguns();
-        androidPill.addToDunguns();
-        addToDungons(emergency_ration, 1, 8, 6);
-        addToDungons(earl_gray_tea, 1, 2, 2);
-        addToDungons(romulan_ale, 1, 2, 2);
+    public static void addToDungeons() {
+        weapon_module_color.addToDungeons();
+        androidPill.addToDungeons();
+        addToDungeons(emergency_ration, 1, 8, 6);
+        addToDungeons(earl_gray_tea, 1, 2, 2);
+        addToDungeons(romulan_ale, 1, 2, 2);
     }
 
-    public static void addToMODungons() {
+    public static void addToMODungeons() {
 
         ChestGenHooks.getInfo(Reference.CHEST_GEN_ANDROID_HOUSE).addItem(new WeightedRandomChestContent(new ItemStack(emergency_ration), 8, 20, 100));
         ChestGenHooks.getInfo(Reference.CHEST_GEN_ANDROID_HOUSE).addItem(new WeightedRandomChestContent(new ItemStack(earl_gray_tea), 4, 10, 50));
@@ -291,7 +291,7 @@ public class MatterOverdriveItems {
         ChestGenHooks.getInfo(Reference.CHEST_GEN_ANDROID_HOUSE).addItem(new WeightedRandomChestContent(new ItemStack(phaser), 1, 1, 10));
     }
 
-    private static void addToDungons(Item item, int min, int max, int chance) {
+    private static void addToDungeons(Item item, int min, int max, int chance) {
         ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(item), min, max, chance));
         ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST).addItem(new WeightedRandomChestContent(new ItemStack(item), min, max, chance));
         ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(item), min, max, chance));

@@ -185,7 +185,7 @@ public class MatterOverdriveMatter {
         reg(c, new ItemStack(Items.dye, 1, 3), 1);
         //endregion
 
-        //region rouge android parts
+        //region rogue android parts
         reg(c, new ItemStack(MatterOverdriveItems.androidParts, 1, Reference.BIONIC_HEAD), 64 * 5);
         reg(c, new ItemStack(MatterOverdriveItems.androidParts, 1, Reference.BIONIC_ARMS), 64 * 6);
         reg(c, new ItemStack(MatterOverdriveItems.androidParts, 1, Reference.BIONIC_LEGS), 64 * 6);

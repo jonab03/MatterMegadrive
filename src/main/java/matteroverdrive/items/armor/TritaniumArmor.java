@@ -1,4 +1,4 @@
-package matteroverdrive.items.armour;
+package matteroverdrive.items.armor;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;

@@ -2,7 +2,7 @@ package matteroverdrive.client.render.parts;
 
 import matteroverdrive.api.inventory.IBionicPart;
 import matteroverdrive.api.renderer.IBionicPartRenderer;
-import matteroverdrive.client.render.entity.EntityRendererRougeAndroid;
+import matteroverdrive.client.render.entity.EntityRendererRogueAndroid;
 import matteroverdrive.entity.player.AndroidPlayer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -18,13 +18,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
-public class RougeAndroidPartsRender implements IBionicPartRenderer {
-    private final RougeAndroidPartsRenderPlayer moRenderPlayer = new RougeAndroidPartsRenderPlayer();
+public class RogueAndroidPartsRender implements IBionicPartRenderer {
+    private final RogueAndroidPartsRenderPlayer moRenderPlayer = new RogueAndroidPartsRenderPlayer();
 
     @Override
     public void renderPart(ItemStack partStack, AndroidPlayer androidPlayer, RenderPlayer renderPlayer, float ticks) {
         moRenderPlayer.setRenderManager(RenderManager.instance);
-        Minecraft.getMinecraft().getTextureManager().bindTexture(EntityRendererRougeAndroid.texture);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(EntityRendererRogueAndroid.texture);
         EntityPlayer entityPlayer = androidPlayer.getPlayer();
 
         if (entityPlayer.ticksExisted == 0) {
@@ -52,11 +52,11 @@ public class RougeAndroidPartsRender implements IBionicPartRenderer {
 
     }
 
-    public class RougeAndroidPartsRenderPlayer extends RendererLivingEntity {
+    public class RogueAndroidPartsRenderPlayer extends RendererLivingEntity {
         private ResourceLocation textureLocation;
         public ModelBiped modelBipedMain;
 
-        public RougeAndroidPartsRenderPlayer() {
+        public RogueAndroidPartsRenderPlayer() {
             super(new ModelBiped(0.0F), 0.5F);
         }
 
@@ -91,7 +91,7 @@ public class RougeAndroidPartsRender implements IBionicPartRenderer {
             if (textureLocation != null) {
                 return textureLocation;
             }
-            return EntityRendererRougeAndroid.texture;
+            return EntityRendererRogueAndroid.texture;
         }
 
         @Override

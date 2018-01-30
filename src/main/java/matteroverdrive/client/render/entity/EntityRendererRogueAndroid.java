@@ -1,7 +1,7 @@
 package matteroverdrive.client.render.entity;
 
 import matteroverdrive.Reference;
-import matteroverdrive.entity.monster.EntityRougeAndroidMob;
+import matteroverdrive.entity.monster.EntityRogueAndroidMob;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -13,13 +13,13 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-public class EntityRendererRougeAndroid extends RenderBiped {
+public class EntityRendererRogueAndroid extends RenderBiped {
     private boolean hologram;
     public static boolean RENDER_ANDROID_LABEL = true;
     public static final ResourceLocation texture = new ResourceLocation(Reference.PATH_ENTITIES + "android.png");
     public static final ResourceLocation texture_hologram = new ResourceLocation(Reference.PATH_ENTITIES + "android_holo.png");
 
-    public EntityRendererRougeAndroid(ModelBiped modelBase, float f, boolean hologram) {
+    public EntityRendererRogueAndroid(ModelBiped modelBase, float f, boolean hologram) {
         super(modelBase, f, 1);
         this.hologram = hologram;
     }
@@ -44,8 +44,8 @@ public class EntityRendererRougeAndroid extends RenderBiped {
 
     @Override
     protected void preRenderCallback(EntityLivingBase entityLiving, float p_77041_2_) {
-        if (entityLiving instanceof EntityRougeAndroidMob) {
-            if (((EntityRougeAndroidMob) entityLiving).getIsLegendary()) {
+        if (entityLiving instanceof EntityRogueAndroidMob) {
+            if (((EntityRogueAndroidMob) entityLiving).getIsLegendary()) {
                 GL11.glScaled(1.5, 1.5, 1.5);
             }
         }

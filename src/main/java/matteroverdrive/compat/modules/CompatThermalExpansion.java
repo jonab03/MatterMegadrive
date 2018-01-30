@@ -35,7 +35,7 @@ public class CompatThermalExpansion {
 //		1 Dilithum Ore		-> 1 Dilithium Crystal
         ThermalExpansionHelper.addPulverizerRecipe(4000,
                 new ItemStack(dilithiumOre),
-                new ItemStack(dilithium_ctystal));
+                new ItemStack(dilithium_crystal));
     }
 
 }

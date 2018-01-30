@@ -52,7 +52,7 @@ public class AndroidPill extends ItemFood {
         }
     }
 
-    public void addToDunguns() {
+    public void addToDungeons() {
         ChestGenHooks.getInfo(ChestGenHooks.STRONGHOLD_CORRIDOR).addItem(new WeightedRandomChestContent(new ItemStack(this, 1), 1, 1, 1));
     }
 

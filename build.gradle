@@ -68,23 +68,3 @@ processResources {
         exclude 'mcmod.info'
     }
 }
-
-bintray {
-    user = 'simeonradivoev'
-    key = System.getenv('BINTRAY_KEY')
-    pkg {
-        repo = 'MatterOverdrive'
-        name = 'mo'
-        userOrg = 'simeonradivoev'
-        version {
-            name = config.mc_version + '-' + config.mod_version
-            released = new Date()
-            desc = System.getenv('TRAVIS_COMMIT')
-        }
-        filesSpec {
-            from 'build/libs'
-            into 'builds'
-        }
-        publish = true
-    }
-}

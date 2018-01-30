@@ -52,7 +52,7 @@ public class CompatEnderIO {
         sb.append("</SAGMillRecipes>");
 
         FMLInterModComms.sendMessage("EnderIO", IMC.SAG_RECIPE, sb.toString());
-        System.out.println(new ItemStack(MatterOverdriveItems.dilithium_ctystal).getUnlocalizedName());
+        System.out.println(new ItemStack(MatterOverdriveItems.dilithium_crystal).getUnlocalizedName());
     }
 
     private static void addAllRecipes() {

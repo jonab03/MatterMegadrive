@@ -41,7 +41,7 @@ public class WeaponModuleBarrel extends MOBaseItem implements IWeaponModule {
         super.register();
 
         //damage barrel
-        GameRegistry.addRecipe(new ItemStack(this, 1, 0), " G ", "RDR", " T ", 'T', MatterOverdriveItems.tritanium_plate, 'D', MatterOverdriveItems.dilithium_ctystal, 'R', Items.redstone, 'G', Blocks.glass);
+        GameRegistry.addRecipe(new ItemStack(this, 1, 0), " G ", "RDR", " T ", 'T', MatterOverdriveItems.tritanium_plate, 'D', MatterOverdriveItems.dilithium_crystal, 'R', Items.redstone, 'G', Blocks.glass);
         GameRegistry.addRecipe(new ItemStack(this, 1, 1), " G ", "BFB", " T ", 'T', MatterOverdriveItems.tritanium_plate, 'F', Items.fire_charge, 'B', Items.blaze_rod, 'G', Blocks.glass);
         GameRegistry.addRecipe(new ItemStack(this, 1, 2), " B ", "BRB", "DTD", 'T', MatterOverdriveItems.tritanium_plate, 'R', Items.blaze_rod, 'B', Blocks.tnt, 'G', Blocks.glass, 'D', Items.diamond);
         GameRegistry.addRecipe(new ItemStack(this, 1, 3), " S ", "SAS", "ETE", 'T', MatterOverdriveItems.tritanium_plate, 'A', Items.golden_apple, 'S', Items.sugar, 'G', Blocks.glass, 'E', Items.emerald);

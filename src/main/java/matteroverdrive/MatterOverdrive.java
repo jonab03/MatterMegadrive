@@ -142,8 +142,8 @@ public class MatterOverdrive {
         proxy.postInit(event);
         MatterOverdriveCompat.postInit(event);
         MatterOverdriveEntities.register(event);
-        MatterOverdriveItems.addToDungons();
-        MatterOverdriveItems.addToMODungons();
+        MatterOverdriveItems.addToDungeons();
+        MatterOverdriveItems.addToMODungeons();
 
         MatterOverdriveMatter.init(configHandler);
         MatterOverdriveMatter.registerBlacklistFromConfig(configHandler);
@@ -156,7 +156,7 @@ public class MatterOverdrive {
 
     @EventHandler
     public void serverStarting(FMLServerStartingEvent event) {
-        event.registerServerCommand(new AndoidCommands());
+        event.registerServerCommand(new AndroidCommands());
         event.registerServerCommand(new MatterRegistryCommands());
         event.registerServerCommand(new QuestCommands());
         event.registerServerCommand(new SaveWorldToImage());

@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 
 public class MOGuideEntryItem extends MOGuideEntry {
     public MOGuideEntryItem(Item item) {
-        super(item.getUnlocalizedName(), null);
+        super(item.getUnlocalizedName(), (ItemStack[]) null);
         setStackIcons(item);
     }
 

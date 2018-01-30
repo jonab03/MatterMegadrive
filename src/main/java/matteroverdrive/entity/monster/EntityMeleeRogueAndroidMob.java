@@ -11,8 +11,8 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.world.World;
 
-public class EntityMeleeRougeAndroidMob extends EntityRougeAndroidMob {
-    public EntityMeleeRougeAndroidMob(World world) {
+public class EntityMeleeRogueAndroidMob extends EntityRogueAndroidMob {
+    public EntityMeleeRogueAndroidMob(World world) {
         super(world);
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, new EntityAIAndroidAttackOnCollide(this, EntityLivingBase.class, 1.0D, false));

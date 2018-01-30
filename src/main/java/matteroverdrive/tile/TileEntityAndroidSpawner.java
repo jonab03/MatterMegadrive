@@ -8,9 +8,9 @@ import matteroverdrive.data.BlockPos;
 import matteroverdrive.data.Inventory;
 import matteroverdrive.data.inventory.ModuleSlot;
 import matteroverdrive.data.inventory.TeleportFlashDriveSlot;
-import matteroverdrive.entity.monster.EntityMeleeRougeAndroidMob;
+import matteroverdrive.entity.monster.EntityMeleeRogueAndroidMob;
 import matteroverdrive.entity.monster.EntityRangedRogueAndroidMob;
-import matteroverdrive.entity.monster.EntityRougeAndroidMob;
+import matteroverdrive.entity.monster.EntityRogueAndroidMob;
 import matteroverdrive.items.TransportFlashDrive;
 import matteroverdrive.machines.MOTileEntityMachine;
 import matteroverdrive.machines.MachineNBTCategory;
@@ -19,7 +19,6 @@ import matteroverdrive.machines.configs.ConfigPropertyString;
 import matteroverdrive.util.WeaponHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.scoreboard.ScorePlayerTeam;
@@ -33,7 +32,7 @@ public class TileEntityAndroidSpawner extends MOTileEntityMachine {
     public int FLASH_DRIVE_SLOT_START;
     public static final int FLASH_DRIVE_COUNT = 6;
     public int COLOR_MODULE_SLOT;
-    private Set<EntityRougeAndroidMob> spawnedAndroids;
+    private Set<EntityRogueAndroidMob> spawnedAndroids;
 
     public TileEntityAndroidSpawner() {
         super(0);
@@ -64,10 +63,10 @@ public class TileEntityAndroidSpawner extends MOTileEntityMachine {
             if (isActive()) {
                 if (getSpawnDelay() == 0 || worldObj.getTotalWorldTime() % getSpawnDelay() == 0) {
                     for (int i = spawnedAndroids.size(); i < getMaxSpawnCount(); ++i) {
-                        EntityRougeAndroidMob entity;
+                        EntityRogueAndroidMob entity;
 
                         if (random.nextInt(10) < 3) {
-                            entity = new EntityMeleeRougeAndroidMob(worldObj);
+                            entity = new EntityMeleeRogueAndroidMob(worldObj);
                         } else {
                             entity = new EntityRangedRogueAndroidMob(worldObj);
                         }
@@ -124,12 +123,12 @@ public class TileEntityAndroidSpawner extends MOTileEntityMachine {
         return true;
     }
 
-    public void assignPath(EntityRougeAndroidMob androidMob) {
+    public void assignPath(EntityRogueAndroidMob androidMob) {
         List<Vec3> paths = new ArrayList<>();
         for (int i = FLASH_DRIVE_SLOT_START; i < FLASH_DRIVE_COUNT; i++) {
             ItemStack flashDrive = inventory.getSlot(i).getItem();
             if (flashDrive != null && flashDrive.getItem() instanceof TransportFlashDrive) {
-                BlockPos position = ((TransportFlashDrive) flashDrive.getItem()).getTraget(flashDrive);
+                BlockPos position = ((TransportFlashDrive) flashDrive.getItem()).getTarget(flashDrive);
                 if (position != null)
                     paths.add(Vec3.createVectorHelper(position.x, position.y, position.z));
             }
@@ -171,7 +170,7 @@ public class TileEntityAndroidSpawner extends MOTileEntityMachine {
         configs.addProperty(new ConfigPropertyString("team", "gui.config.team", ""));
     }
 
-    public EntityRougeAndroidMob spawnEntity(EntityRougeAndroidMob entity) {
+    public EntityRogueAndroidMob spawnEntity(EntityRogueAndroidMob entity) {
         worldObj.spawnEntityInWorld(entity);
         return entity;
     }
@@ -220,10 +219,10 @@ public class TileEntityAndroidSpawner extends MOTileEntityMachine {
     protected void onAwake(Side side) {
         if (side == Side.SERVER) {
             for (Entity entity : (List<Entity>) worldObj.loadedEntityList) {
-                if (entity instanceof EntityRougeAndroidMob) {
-                    if (((EntityRougeAndroidMob) entity).wasSpawnedFrom(this)) {
-                        addSpawnedAndroid((EntityRougeAndroidMob) entity);
-                        assignPath((EntityRougeAndroidMob) entity);
+                if (entity instanceof EntityRogueAndroidMob) {
+                    if (((EntityRogueAndroidMob) entity).wasSpawnedFrom(this)) {
+                        addSpawnedAndroid((EntityRogueAndroidMob) entity);
+                        assignPath((EntityRogueAndroidMob) entity);
                     }
                 }
             }
@@ -246,20 +245,20 @@ public class TileEntityAndroidSpawner extends MOTileEntityMachine {
     }
 
     public void removeAllAndroids() {
-        for (EntityRougeAndroidMob androidMob : spawnedAndroids) {
+        for (EntityRogueAndroidMob androidMob : spawnedAndroids) {
             androidMob.isDead = true;
         }
         spawnedAndroids.clear();
     }
 
-    public void addSpawnedAndroid(EntityRougeAndroidMob androidMob) {
+    public void addSpawnedAndroid(EntityRogueAndroidMob androidMob) {
         if (!spawnedAndroids.contains(androidMob)) {
             spawnedAndroids.add(androidMob);
             assignPath(androidMob);
         }
     }
 
-    public void removeAndroid(EntityRougeAndroidMob androidMob) {
+    public void removeAndroid(EntityRogueAndroidMob androidMob) {
         if (spawnedAndroids.remove(androidMob)) {
 
         }

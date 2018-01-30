@@ -10,7 +10,7 @@ import matteroverdrive.data.quest.*;
 import matteroverdrive.data.quest.logic.*;
 import matteroverdrive.data.quest.rewards.ItemStackReward;
 import matteroverdrive.data.quest.rewards.QuestStackReward;
-import matteroverdrive.entity.monster.EntityRougeAndroidMob;
+import matteroverdrive.entity.monster.EntityRogueAndroidMob;
 import matteroverdrive.entity.player.AndroidAttributes;
 import matteroverdrive.handler.quest.Quests;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -48,7 +48,7 @@ public class MatterOverdriveQuests {
     }
 
     private static void initMatterOverdriveQuests() {
-        killAndroids = (RandomQuestText) new RandomQuestText(new QuestLogicKillCreature(EntityRougeAndroidMob.class, 12, 28, 40).setAutoComplete(true), "kill_androids", 1, 0).addQuestRewards(new ItemStackReward(MatterOverdriveItems.androidParts));
+        killAndroids = (RandomQuestText) new RandomQuestText(new QuestLogicKillCreature(EntityRogueAndroidMob.class, 12, 28, 40).setAutoComplete(true), "kill_androids", 1, 0).addQuestRewards(new ItemStackReward(MatterOverdriveItems.androidParts));
         cocktailOfAscension = (GenericQuest) new GenericQuest(new QuestLogicCocktailOfAscension(), "cocktail_of_ascension", 512).addQuestRewards(new ItemStackReward(MatterOverdriveItems.androidPill, 1, 0), new ItemStackReward(MatterOverdriveItems.androidPill, 1, 1), new ItemStackReward(MatterOverdriveItems.androidPill, 1, 2));
         sacrifice = (GenericQuest) new GenericQuest(new QuestLogicKillCreature(new Class[]{EntityChicken.class, EntityCow.class, EntityCow.class}, 8, 15, 10).setOnlyChildren(true).setAutoComplete(true), "sacrifice", 0).addQuestRewards(new ItemStackReward(Items.saddle), new ItemStackReward(Items.name_tag));
         departmentOfAgriculture = (GenericQuest) new GenericQuest(new QuestLogicCollectItem(new Item[]{Items.wheat, Items.carrot, Items.potato}, 31, 63, 3), "department_of_agriculture", 0).addQuestRewards(new ItemStackReward(Items.emerald, 4), new ItemStackReward(Items.diamond_hoe));
