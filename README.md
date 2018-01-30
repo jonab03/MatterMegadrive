@@ -1,5 +1,5 @@
 # Matter Megadrive
-![Matter Megadrive logo](https://raw.githubusercontent.com/Ionaru/MatterMegadrive/1.7.10/src/main/resources/MatterMegadrive.png)
+![Matter Megadrive logo](https://raw.githubusercontent.com/Ionaru/MatterMegadrive/1.7.10/src/main/resources/MatterMegadriveLogo.png)
 
 ## Table of Contents
 * [About](#about)
