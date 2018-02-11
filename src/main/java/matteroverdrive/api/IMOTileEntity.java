@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 /**
- * Implemented by all Matter overdrive Tile Entities
+ * Implemented by all Matter Megadrive Tile Entities
  */
 public interface IMOTileEntity {
     void onAdded(World world, int x, int y, int z);

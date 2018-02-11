@@ -29,7 +29,9 @@ public class BioticStatSpeed extends AbstractBioticStat {
     }
 
     public String getDetails(int level) {
-        return String.format(super.getDetails(level), EnumChatFormatting.GREEN + Integer.toString(Math.round(getSpeedModify(level) * 100f)) + "%" + EnumChatFormatting.GRAY);
+        // Base speed of 100%, plus 10% per level.
+        Integer nextMovementSpeed = 100 + (10 * (level + 1));
+        return String.format(super.getDetails(level), EnumChatFormatting.GREEN + Integer.toString(nextMovementSpeed) + "%" + EnumChatFormatting.GRAY);
     }
 
     @Override

@@ -165,7 +165,7 @@ public abstract class MOBlockMachine extends MOBlockContainer implements IDisman
                     return true;
                 } else {
                     if (world.isRemote) {
-                        ChatComponentText message = new ChatComponentText(EnumChatFormatting.GOLD + "[Matter Overdrive] " + EnumChatFormatting.RED + MOStringHelper.translateToLocal("alert.no_rights.dismantle").replace("$0", getLocalizedName()));
+                        ChatComponentText message = new ChatComponentText(EnumChatFormatting.GOLD + "[Matter Megadrive] " + EnumChatFormatting.RED + MOStringHelper.translateToLocal("alert.no_rights.dismantle").replace("$0", getLocalizedName()));
                         message.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED));
                         player.addChatMessage(message);
                     }

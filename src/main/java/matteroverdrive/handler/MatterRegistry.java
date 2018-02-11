@@ -395,7 +395,7 @@ public class MatterRegistry implements IMatterRegistry {
     }
 
     public void loadBlacklistFromConfig(ConfigurationHandler c) {
-        String[] list = c.getStringList(ConfigurationHandler.CATEGORY_MATTER, ConfigurationHandler.KEY_MBLACKLIST);
+        String[] list = c.getStringList(ConfigurationHandler.CATEGORY_MATTER, ConfigurationHandler.KEY_BLACKLIST);
         for (String value : list) {
             addToBlacklist(value);
         }

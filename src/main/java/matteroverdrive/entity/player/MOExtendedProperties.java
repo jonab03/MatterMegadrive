@@ -120,7 +120,7 @@ public class MOExtendedProperties implements IExtendedEntityProperties {
                     reward.giveReward(questStack, getPlayer());
                 }
                 questStack.getQuest().onCompleted(questStack, player);
-                player.addChatMessage(new ChatComponentText(String.format("[Matter Overdrive] %1$s completed %2$s", player.getDisplayName(), questStack.getTitle(player))));
+                player.addChatMessage(new ChatComponentText(String.format("[Matter Megadrive] %1$s completed %2$s", player.getDisplayName(), questStack.getTitle(player))));
             }
             MatterOverdrive.packetPipeline.sendTo(new PacketUpdateQuest(index, questStack, PacketUpdateQuest.COMPLETE_QUEST), (EntityPlayerMP) player);
         } else {

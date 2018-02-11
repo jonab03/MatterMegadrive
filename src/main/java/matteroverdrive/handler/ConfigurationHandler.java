@@ -42,9 +42,8 @@ public class ConfigurationHandler {
     public static final String KEY_AUTOMATIC_RECIPE_CALCULATION = "automatic matter calculation from recipe";
     public static final String KEY_AUTOMATIC_FURNACE_CALCULATION = "automatic matter calculation from furnace";
     public static final String KEY_MAX_BROADCASTS = "max broadcasts per tick";
-    public static final String KEY_MBLACKLIST = "blacklist";
+    public static final String KEY_BLACKLIST = "blacklist";
     public static final String KEY_BLACKLIST_MODS = "mod_blacklist";
-    public static final String KEY_VERSION_CHECK = "version_check";
     public static final String KEY_GRAVITATIONAL_ANOMALY_FALLING_BLOCKS = "gravitational anomaly falling blocks";
     public static final String KEY_GRAVITATIONAL_ANOMALY_BLOCK_ENTITIES = "gravitational anomaly block entities";
     public static final String KEY_GRAVITATIONAL_ANOMALY_SPAWN_CHANCE = "gravitational anomaly spawn chance";
@@ -64,7 +63,7 @@ public class ConfigurationHandler {
         ConfigCategory category = config.getCategory(CATEGORY_MATTER);
         category.setComment("Configuration for the Matter ");
         updateCategoryLang(category);
-        config.get(CATEGORY_MATTER, KEY_MBLACKLIST, new String[0]).comment = "Blacklist for items in the matter registry. Automatic Recipe calculation will ignore recipes with these items. Just add the unlocalized name or the ore dictionary name in the list.";
+        config.get(CATEGORY_MATTER, KEY_BLACKLIST, new String[0]).comment = "Blacklist for items in the matter registry. Automatic Recipe calculation will ignore recipes with these items. Just add the unlocalized name or the ore dictionary name in the list.";
         config.get(CATEGORY_MATTER, KEY_BLACKLIST_MODS, new String[0]).comment = "Blacklist for mods (mod ID). Automatic Recipe calculation will ignore recipes with items from this mod";
         category = config.getCategory(CATEGORY_NEW_ITEMS);
         category.setComment("Registration of new items and the amount of matter they contain. Add them like so: I:[registered name or ore Dictionary name](meta)=[matter amount]. () - optional parameter. Example I:dye2=10 I:egg=29");
@@ -74,13 +73,13 @@ public class ConfigurationHandler {
         updateCategoryLang(category);
         category = config.getCategory(CATEGORY_CLIENT);
         updateCategoryLang(category);
-        category.setComment("Options for the Matter overdrive client");
+        category.setComment("Options for the Matter Megadrive client");
         category = config.getCategory(CATEGORY_SERVER);
         updateCategoryLang(category);
-        category.setComment("Options form the Matter Overdrive server");
+        category.setComment("Options form the Matter Megadrive server");
         category = config.getCategory(CATEGORY_ENTITIES);
         updateCategoryLang(category);
-        category.setComment("Options for Matter Overdrive Entities. Such as their Entity IDs.");
+        category.setComment("Options for Matter Megadrive Entities. Such as their Entity IDs.");
         category = config.getCategory(CATEGORY_DEBUG);
         updateCategoryLang(category);
         category.setComment("Debug Options. Such as Debug Log for Matter Recipe Calculation");

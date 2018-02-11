@@ -85,7 +85,7 @@ public class TickHandler {
 
                     }
                 } catch (Throwable e) {
-                    MOLog.log(Level.ERROR, e, "There was an Error while updating Matter Overdrive Tile Entities.");
+                    MOLog.log(Level.ERROR, e, "There was an Error while updating Matter Megadrive Tile Entities.");
                     return;
                 }
             }

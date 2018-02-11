@@ -192,7 +192,7 @@ public class MatterOverdriveMatter {
         reg(c, new ItemStack(MatterOverdriveItems.androidParts, 1, Reference.BIONIC_CHEST), 64 * 9);
         //endregion
 
-        //region Matter Overdrive Basic Items
+        //region Matter Megadrive Basic Items
         reg(c, MatterOverdriveItems.emergency_ration, 3);
         reg(c, MatterOverdriveItems.earl_gray_tea, 2);
         reg(c, MatterOverdriveItems.romulan_ale, 2);

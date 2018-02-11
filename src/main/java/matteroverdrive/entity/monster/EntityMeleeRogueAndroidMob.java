@@ -23,6 +23,9 @@ public class EntityMeleeRogueAndroidMob extends EntityRogueAndroidMob {
 
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityLivingBase.class, 0, false, true, new AndroidTargetSelector(this)));
+
+        // Set attack damage based on android level.
+        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4 + androidLevel);
     }
 
     @Override
@@ -38,19 +41,9 @@ public class EntityMeleeRogueAndroidMob extends EntityRogueAndroidMob {
         this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(24);
     }
 
-    public void setAndroidLevel(int level) {
-        super.setAndroidLevel(level);
-        this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(4.0D + level);
-    }
-
     public void setLegendary(boolean legendary) {
         super.setLegendary(legendary);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(8);
-    }
-
-    @Override
-    protected void dropRareDrop(int i) {
-
     }
 
     @Override
@@ -59,7 +52,7 @@ public class EntityMeleeRogueAndroidMob extends EntityRogueAndroidMob {
             float lootingModifier = (Math.min(looting, 10) / 10f);
             if (rand.nextFloat() < (0.1f + lootingModifier) || getIsLegendary()) {
 
-                this.entityDropItem(MatterOverdrive.androidPartsFactory.generateRandomDecoratedPart(new AndroidPartsFactory.AndroidPartFactoryContext(getAndroidLevel(), this, getIsLegendary())), 0.0F);
+                this.entityDropItem(MatterOverdrive.androidPartsFactory.generateRandomDecoratedPart(new AndroidPartsFactory.AndroidPartFactoryContext(androidLevel, this, getIsLegendary())), 0.0F);
             }
         }
     }

@@ -21,7 +21,7 @@ public class MachineHelper {
                     FMLNetworkHandler.openGui(player, MatterOverdrive.instance, -1, world, x, y, z);
                     return true;
                 } else {
-                    ChatComponentText message = new ChatComponentText(EnumChatFormatting.GOLD + "[Matter Overdrive] " + EnumChatFormatting.RED + MOStringHelper.translateToLocal(errorMessage).replace("$0", ((MOTileEntityMachine) tileEntity).getInventoryName()));
+                    ChatComponentText message = new ChatComponentText(EnumChatFormatting.GOLD + "[Matter Megadrive] " + EnumChatFormatting.RED + MOStringHelper.translateToLocal(errorMessage).replace("$0", ((MOTileEntityMachine) tileEntity).getInventoryName()));
                     message.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED));
                     player.addChatMessage(message);
                 }
@@ -36,7 +36,7 @@ public class MachineHelper {
         if (tileEntity != null && tileEntity instanceof MOTileEntityMachine) {
             if (!player.capabilities.isCreativeMode &&
                     ((MOTileEntityMachine) tileEntity).hasOwner() && !((MOTileEntityMachine) tileEntity).getOwner().equals(player.getGameProfile().getId())) {
-                ChatComponentText message = new ChatComponentText(EnumChatFormatting.GOLD + "[Matter Overdrive] " + EnumChatFormatting.RED + MOStringHelper.translateToLocal("alert.no_rights.break").replace("$0", ((MOTileEntityMachine) tileEntity).getInventoryName()));
+                ChatComponentText message = new ChatComponentText(EnumChatFormatting.GOLD + "[Matter Megadrive] " + EnumChatFormatting.RED + MOStringHelper.translateToLocal("alert.no_rights.break").replace("$0", ((MOTileEntityMachine) tileEntity).getInventoryName()));
                 message.setChatStyle(new ChatStyle().setColor(EnumChatFormatting.RED));
                 player.addChatMessage(message);
                 return false;

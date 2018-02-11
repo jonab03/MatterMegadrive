@@ -1,7 +1,7 @@
 package matteroverdrive.api;
 
 /**
- * IMC message names for Matter Overdrive.
+ * IMC message names for Matter Megadrive.
  * <b>Any changes other than additions are strictly forbidden.</b>
  * <pre><code><br>NBTTagCompound data = new NBTTagCompound();
  * NBTTagCompound itemNBT = new NBTTagCompound();

@@ -15,7 +15,7 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 
 /**
- * Compatibility manager for Matter Overdrive.
+ * Compatibility manager for Matter Megadrive.
  */
 public class MatterOverdriveCompat {
 

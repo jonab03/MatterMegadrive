@@ -217,11 +217,11 @@ public class MOWorldGen implements IWorldGenerator, IConfigSubscriber {
     @Override
     public void onConfigChanged(ConfigurationHandler config) {
         Property shouldGenerateOres = config.config.get(ConfigurationHandler.CATEGORY_WORLD_GEN, ConfigurationHandler.CATEGORY_WORLD_SPAWN_ORES, true);
-        shouldGenerateOres.comment = "Should Matter Overdrive Ore Blocks be Generated ?";
+        shouldGenerateOres.comment = "Should Matter Megadrive Ore Blocks be Generated ?";
         generateTritanium = shouldGenerate(MatterOverdriveBlocks.tritaniumOre, config) && shouldGenerateOres.getBoolean(true);
         generateDilithium = shouldGenerate(MatterOverdriveBlocks.dilithiumOre, config) && shouldGenerateOres.getBoolean(true);
         Property shouldGenerateOthers = config.config.get(ConfigurationHandler.CATEGORY_WORLD_GEN, ConfigurationHandler.CATEGORY_WORLD_SPAWN_OTHER, true);
-        shouldGenerateOthers.comment = "Should other Matter Overdrive World Blocks be Generated?";
+        shouldGenerateOthers.comment = "Should other Matter Megadrive World Blocks be Generated?";
         generateAnomalies = shouldGenerate(MatterOverdriveBlocks.gravitational_anomaly, config) && shouldGenerateOthers.getBoolean(true);
         this.oreDimentionsBlacklist.clear();
         Property oreDimentionBlacklistProp = config.config.get(ConfigurationHandler.CATEGORY_WORLD_GEN, "ore_gen_blacklist", new int[]{-1, 2});
@@ -231,7 +231,7 @@ public class MOWorldGen implements IWorldGenerator, IConfigSubscriber {
         for (int i = 0; i < oreDimentionBlacklist.length; i++) {
             this.oreDimentionsBlacklist.add(oreDimentionBlacklist[i]);
         }
-        generateBuildings = config.getBool("generate buildings", ConfigurationHandler.CATEGORY_WORLD_GEN, true, "Should Matter Overdrive Buildings Generate aka ImageGen");
+        generateBuildings = config.getBool("generate buildings", ConfigurationHandler.CATEGORY_WORLD_GEN, true, "Should Matter Megadrive Buildings Generate aka ImageGen");
     }
 
     public static GenPositionWorldData getWorldPositionData(World world) {

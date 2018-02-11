@@ -1,6 +1,7 @@
 package matteroverdrive.client.render.entity;
 
 import matteroverdrive.Reference;
+import matteroverdrive.entity.monster.EntityRogueAndroid;
 import matteroverdrive.entity.monster.EntityRogueAndroidMob;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
@@ -15,7 +16,6 @@ import org.lwjgl.opengl.GL12;
 
 public class EntityRendererRogueAndroid extends RenderBiped {
     private boolean hologram;
-    public static boolean RENDER_ANDROID_LABEL = true;
     public static final ResourceLocation texture = new ResourceLocation(Reference.PATH_ENTITIES + "android.png");
     public static final ResourceLocation texture_hologram = new ResourceLocation(Reference.PATH_ENTITIES + "android_holo.png");
 
@@ -38,7 +38,9 @@ public class EntityRendererRogueAndroid extends RenderBiped {
         if (entityLiving.getTeam() != null) {
             return true;
         } else {
-            return RENDER_ANDROID_LABEL && Minecraft.getMinecraft().thePlayer.getDistanceToEntity(entityLiving) < 18;
+            return EntityRogueAndroid.ANDROID_NAMES &&
+                EntityRogueAndroid.RENDER_ANDROID_LABEL &&
+                Minecraft.getMinecraft().thePlayer.getDistanceToEntity(entityLiving) < 18;
         }
     }
 

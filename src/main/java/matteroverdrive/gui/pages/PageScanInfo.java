@@ -117,7 +117,6 @@ public class PageScanInfo extends ElementBaseGroup {
             scan_progress.setValue(pattern.getProgress());
             scan_progress.setText(String.valueOf((int) (((float) pattern.getProgress() / (float) 100) * 100)) + "%");
 
-
             scan_info_graph.setSeed(pattern.getItemID());
             itemPreview.setItemStack(itemStack);
         }

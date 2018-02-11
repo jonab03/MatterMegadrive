@@ -5,6 +5,7 @@ import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import io.netty.buffer.ByteBuf;
 import matteroverdrive.Reference;
 import matteroverdrive.api.entity.IPathableMob;
+import matteroverdrive.client.data.Color;
 import matteroverdrive.data.BlockPos;
 import matteroverdrive.init.MatterOverdriveItems;
 import matteroverdrive.tile.TileEntityAndroidSpawner;
@@ -36,13 +37,13 @@ public class EntityRogueAndroidMob extends EntityMob implements IEntityAdditiona
     private int visorColor;
     private ScorePlayerTeam team;
     private boolean legendary;
-    private int level;
+    int androidLevel;
 
     public EntityRogueAndroidMob(World world) {
         super(world);
         if (!world.isRemote) {
-            setAndroidLevel((int) (MathHelper.clamp_double(Math.abs(rand.nextGaussian() * (1 + world.difficultySetting.getDifficultyId() * 0.25)), 0, 3)));
-            boolean isLegendary = rand.nextDouble() < 0.05 * getAndroidLevel();
+            androidLevel = (int) (MathHelper.clamp_double(Math.abs(rand.nextGaussian() * (1 + world.difficultySetting.getDifficultyId() * 0.25)), 0, 3));
+            boolean isLegendary = rand.nextDouble() < 0.05 * androidLevel;
             setLegendary(isLegendary);
             init();
             getNavigator().setAvoidsWater(true);
@@ -52,17 +53,19 @@ public class EntityRogueAndroidMob extends EntityMob implements IEntityAdditiona
 
     public EntityRogueAndroidMob(World world, int level, boolean legendary) {
         super(world);
-        setAndroidLevel(level);
+        androidLevel = level;
         setLegendary(legendary);
         init();
     }
 
     private void init() {
-        String name = getIsLegendary() ? EnumChatFormatting.GOLD + String.format("%s %s ", Reference.UNICODE_LEGENDARY, MOStringHelper.translateToLocal("rarity.legendary")) : "";
-        name += String.format("[%s] ", getAndroidLevel());
-        name += names[rand.nextInt(names.length)];
-        setCustomNameTag(name);
-        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(getIsLegendary() ? 128 : getAndroidLevel() * 10 + 32);
+        if (EntityRogueAndroid.ANDROID_NAMES) {
+            String name = getIsLegendary() ? EnumChatFormatting.GOLD + String.format("%s %s ", Reference.UNICODE_LEGENDARY, MOStringHelper.translateToLocal("rarity.legendary")) : "";
+            name += names[rand.nextInt(names.length)];
+            setCustomNameTag(name);
+        }
+
+        this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(getIsLegendary() ? 128 : androidLevel * 10 + 32);
         this.setHealth(this.getMaxHealth());
 
         if (fromSpawner) {
@@ -74,18 +77,18 @@ public class EntityRogueAndroidMob extends EntityMob implements IEntityAdditiona
         if (getIsLegendary()) {
             setVisorColor(Reference.COLOR_HOLO_RED.getColor());
         } else {
-            switch (getAndroidLevel()) {
+            switch (androidLevel) {
                 case 0:
-                    setVisorColor(Reference.COLOR_HOLO.getColor());
+                    setVisorColor(new Color(42, 42, 42).getColor()); // Gray
                     break;
                 case 1:
-                    setVisorColor(Reference.COLOR_HOLO_YELLOW.getColor());
+                    setVisorColor(new Color(0, 170, 170).getColor()); // Dark Aqua
                     break;
                 case 2:
-                    setVisorColor(Reference.COLOR_HOLO_PURPLE.getColor());
+                    setVisorColor(new Color(170, 0, 170).getColor()); // Dark Purple
                     break;
                 default:
-                    setVisorColor(0xFFFFFFFF);
+                    setVisorColor(new Color(255, 255, 255).getColor()); // White
             }
         }
     }
@@ -94,7 +97,7 @@ public class EntityRogueAndroidMob extends EntityMob implements IEntityAdditiona
         if (getIsLegendary()) {
             return EnumChatFormatting.GOLD;
         } else {
-            switch (getAndroidLevel()) {
+            switch (androidLevel) {
                 case 0:
                     return EnumChatFormatting.GRAY;
                 case 1:
@@ -112,7 +115,7 @@ public class EntityRogueAndroidMob extends EntityMob implements IEntityAdditiona
     public void readEntityFromNBT(NBTTagCompound nbtTagCompound) {
         super.readEntityFromNBT(nbtTagCompound);
         setLegendary(nbtTagCompound.getBoolean("Legendary"));
-        setAndroidLevel(nbtTagCompound.getByte("Level"));
+        androidLevel = nbtTagCompound.getByte("Level");
         setVisorColor(nbtTagCompound.getInteger("VisorColor"));
         if (nbtTagCompound.hasKey("Team", Constants.NBT.TAG_STRING)) {
             ScorePlayerTeam team = worldObj.getScoreboard().getTeam(nbtTagCompound.getString("Team"));
@@ -132,7 +135,7 @@ public class EntityRogueAndroidMob extends EntityMob implements IEntityAdditiona
     @Override
     public void writeEntityToNBT(NBTTagCompound nbtTagCompound) {
         super.writeEntityToNBT(nbtTagCompound);
-        nbtTagCompound.setByte("Level", (byte) getAndroidLevel());
+        nbtTagCompound.setByte("Level", (byte) androidLevel);
         nbtTagCompound.setBoolean("Legendary", getIsLegendary());
         nbtTagCompound.setInteger("VisorColor", getVisorColor());
         if (getTeam() != null) {
@@ -291,14 +294,6 @@ public class EntityRogueAndroidMob extends EntityMob implements IEntityAdditiona
         return EntityRogueAndroid.dimensionBlacklist.contains(worldObj.provider.dimensionId);
     }
 
-    public void setAndroidLevel(int level) {
-        this.level = level;
-    }
-
-    public int getAndroidLevel() {
-        return this.level;
-    }
-
     public void setLegendary(boolean legendary) {
         this.legendary = legendary;
         if (legendary) {
@@ -372,7 +367,7 @@ public class EntityRogueAndroidMob extends EntityMob implements IEntityAdditiona
 
     @Override
     public void writeSpawnData(ByteBuf buffer) {
-        buffer.writeByte(level);
+        buffer.writeByte(androidLevel);
         buffer.writeBoolean(legendary);
         buffer.writeInt(visorColor);
         buffer.writeBoolean(hasTeam());
@@ -383,7 +378,7 @@ public class EntityRogueAndroidMob extends EntityMob implements IEntityAdditiona
 
     @Override
     public void readSpawnData(ByteBuf additionalData) {
-        setAndroidLevel(additionalData.readByte());
+        androidLevel = additionalData.readByte();
         setLegendary(additionalData.readBoolean());
         setVisorColor(additionalData.readInt());
         if (additionalData.readBoolean()) {

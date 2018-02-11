@@ -8,7 +8,7 @@
             When placed in a high-frequency electromagnetic field, magnetic eddies are induced in its structure which
             keep charged particles away from the crystal lattice.
         </text>
-        <text class="matter-text text-block">Used by most Matter Overdrive machines. Dilithium can only be procured from
+        <text class="matter-text text-block">Used by most Matter Megadrive machines. Dilithium can only be procured from
             [block name=dilithium_ore] by mining it with tool with an iron mining capability or above. Fortune
             enchantments can increase the amount of crystals, [block name=dilithium_ore] drops.
         </text>

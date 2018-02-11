@@ -30,7 +30,7 @@ public class KeyHandler {
     public KeyHandler() {
         keys = new KeyBinding[keyValues.length];
         for (int i = 0; i < keys.length; i++) {
-            keys[i] = new KeyBinding(keyDesc[i], keyValues[i], "Matter Overdrive");
+            keys[i] = new KeyBinding(keyDesc[i], keyValues[i], "Matter Megadrive");
             ClientRegistry.registerKeyBinding(keys[i]);
         }
     }

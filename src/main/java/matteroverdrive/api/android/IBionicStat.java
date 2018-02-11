@@ -15,7 +15,7 @@ import java.util.List;
 public interface IBionicStat {
     /**
      * The unlocalized name of the Bionic Stat.
-     * This is also used in the Matter Overdrive console commands.
+     * This is also used in the Matter Megadrive console commands.
      *
      * @return the name itself without any prefixes like biotic_stat.stat
      */

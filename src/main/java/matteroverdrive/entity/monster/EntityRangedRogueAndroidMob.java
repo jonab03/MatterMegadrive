@@ -26,7 +26,6 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 public class EntityRangedRogueAndroidMob extends EntityRogueAndroidMob implements IRangedEnergyWeaponAttackMob {
-    public static boolean UNLIMITED_WEAPON_ENERGY = true;
     private EntityAIPhaserBoltAttack aiBoltAttack = new EntityAIPhaserBoltAttack(this, 1.0D, 60, 15.0F);
     private EntityAIRangedRunFromMelee aiRangedRunFromMelee = new EntityAIRangedRunFromMelee(this, 1.0D);
 
@@ -83,14 +82,6 @@ public class EntityRangedRogueAndroidMob extends EntityRogueAndroidMob implement
     }
 
     @Override
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
-        if (getHeldItem() != null) {
-            //getHeldItem().getItem().onUpdate(getHeldItem(),worldObj,this,0,true);
-        }
-    }
-
-    @Override
     protected void dropFewItems(boolean recentlyHit, int lootingLevel) {
         if (!hasTeam() || recentlyHit) {
             int j;
@@ -104,7 +95,7 @@ public class EntityRangedRogueAndroidMob extends EntityRogueAndroidMob implement
 
             float lootingModifier = (Math.min(lootingLevel, 10) / 10f);
             if (rand.nextFloat() < (0.15f + lootingModifier) || getIsLegendary()) {
-                ItemStack part = MatterOverdrive.androidPartsFactory.generateRandomDecoratedPart(new AndroidPartsFactory.AndroidPartFactoryContext(getAndroidLevel(), this, getIsLegendary()));
+                ItemStack part = MatterOverdrive.androidPartsFactory.generateRandomDecoratedPart(new AndroidPartsFactory.AndroidPartFactoryContext(androidLevel, this, getIsLegendary()));
                 if (part.getItem() instanceof RogueAndroidParts) {
                     part.setTagCompound(new NBTTagCompound());
                     part.getTagCompound().setByte("Type", (byte) 1);
@@ -117,7 +108,6 @@ public class EntityRangedRogueAndroidMob extends EntityRogueAndroidMob implement
     @Override
     public void addRandomArmor() {
         super.addRandomArmor();
-        int androidLevel = getAndroidLevel();
         ItemStack gun = MatterOverdrive.weaponFactory.getRandomDecoratedEnergyWeapon(new WeaponFactory.WeaponGenerationContext(androidLevel, this, getIsLegendary()));
         setCurrentItemOrArmor(0, gun);
         this.getEntityAttribute(SharedMonsterAttributes.followRange).setBaseValue(((EnergyWeapon) gun.getItem()).getRange(gun) - 2);
@@ -157,13 +147,13 @@ public class EntityRangedRogueAndroidMob extends EntityRogueAndroidMob implement
                 Vec3 pos = Vec3.createVectorHelper(this.posX, this.posY + getEyeHeight(), this.posZ);
                 Vec3 dir = Vec3.createVectorHelper(lastSeenPosition.xCoord - this.posX, lastSeenPosition.yCoord - this.posY, lastSeenPosition.zCoord - this.posZ);
                 WeaponShot shot = energyWeapon.createShot(weapon, this, true);
-                float difficulty = MathHelper.clamp_float((0.6f / 3f) * worldObj.difficultySetting.getDifficultyId(), 0, 0.6f) + getAndroidLevel() * (0.4f / 3f) + (getIsLegendary() ? 0.3f : 0);
+                float difficulty = MathHelper.clamp_float((0.6f / 3f) * worldObj.difficultySetting.getDifficultyId(), 0, 0.6f) + androidLevel * (0.4f / 3f) + (getIsLegendary() ? 0.3f : 0);
                 shot.setDamage(shot.getDamage() * difficulty);
                 difficulty = (3 - worldObj.difficultySetting.getDifficultyId()) * 4f;
                 shot.setAccuracy(shot.getAccuracy() + difficulty);
                 energyWeapon.onServerFire(weapon, this, shot, pos, dir, 0);
                 energyWeapon.setHeat(weapon, 0);
-                if (UNLIMITED_WEAPON_ENERGY)
+                if (EntityRogueAndroid.UNLIMITED_WEAPON_ENERGY)
                     energyWeapon.rechargeFully(weapon);
                 MatterOverdrive.packetPipeline.sendToAllAround(new PacketFirePlasmaShot(this.getEntityId(), pos, dir, shot), worldObj.provider.dimensionId, posX, posY, posZ, 64);
 

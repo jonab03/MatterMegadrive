@@ -37,7 +37,7 @@ public class MatterRegistrationHandler {
                         MOLog.log(Level.INFO, e, "Starting automatic matter calculation thread.");
                         runCalculationThread();
                     } else {
-                        MOLog.log(Level.INFO, e, "Automatic matter calculation disabled. To enable go to Matter Overdrive configs");
+                        MOLog.log(Level.INFO, e, "Automatic matter calculation disabled. To enable go to Matter Megadrive configs");
                     }
                 }
             }

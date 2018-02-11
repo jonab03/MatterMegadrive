@@ -1,7 +1,7 @@
 <entry stylesheet="mo:info/styles/guide.css">
     <page class="padded-page">
         <title size="2" class="matter-text small-title">Machine Upgrades</title>
-        <text class="matter-text text-block">Most machines in Matter Overdrive can be upgraded. There are all sorts for
+        <text class="matter-text text-block">Most machines in Matter Megadrive can be upgraded. There are all sorts for
             upgrades.
             From efficiency upgrades to speed upgrades.
             They are all constructed from [item name=upgrade].
@@ -11,7 +11,7 @@
     <page class="padded-page">
         <title size="2" class="matter-text small-title">Speed Upgrade</title>
         <text class="matter-text text-block">The Speed Upgrade is used to speed up machines. It can be used in almost
-            every Matter Overdrive machine.
+            every Matter Megadrive machine.
         </text>
         <recipe item="[item name=upgrade damage=1]" style="float:left"></recipe>
         <details item="[item name=upgrade damage=1]" style="margin-left:16px;margin-top:8px"></details>
@@ -19,7 +19,7 @@
     <page class="padded-page">
         <title size="2" class="matter-text small-title">Power Upgrade</title>
         <text class="matter-text text-block">The Power Upgrade can be used to decrease the power usage of most machines
-            in Matter Overdrive.
+            in Matter Megadrive.
         </text>
         <recipe item="[item name=upgrade damage=2]" style="float:left"></recipe>
         <details item="[item name=upgrade damage=2]" style="margin-left:16px;margin-top:8px"></details>

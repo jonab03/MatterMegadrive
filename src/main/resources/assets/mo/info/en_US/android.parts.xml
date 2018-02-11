@@ -2,8 +2,8 @@
     <page class="padded-page">
         <title size="2" class="matter-text small-title">Rogue Android Parts</title>
         <text class="matter-text text-block">Rogue Androids can drop [guide name=android.parts]. They consist of 4
-            parts. The [item name=rogue_android_part damage=0], [item name=rogue_android_part damage=1], [item
-            name=rogue_android_part damage=2] and the [item name=rogue_android_part damage=3].
+            parts. The [item name=rogue_android_part damage=0], [item name=rogue_android_part damage=1],
+            [item name=rogue_android_part damage=2] and the [item name=rogue_android_part damage=3].
         </text>
         <image src="guide/mad_scientist_conversation.png" style="float:left" width="167" height="100"></image>
         <text class="matter-text text-block" style="width:33%;margin-left:8px">They are used in the process of Android

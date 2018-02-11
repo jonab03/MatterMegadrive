@@ -3,7 +3,6 @@ package matteroverdrive.items;
 import com.mojang.realmsclient.gui.ChatFormatting;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import matteroverdrive.MatterOverdrive;
 import matteroverdrive.Reference;
 import matteroverdrive.api.IScannable;
 import matteroverdrive.api.events.MOEventScan;
@@ -63,13 +62,13 @@ public class MatterScanner extends MOBaseItem implements IBlockScanner {
     }
 
     @Override
-    public void addInformation(ItemStack itemstack, EntityPlayer player, List infos, boolean p_77624_4_) {
+    public void addInformation(ItemStack itemstack, EntityPlayer player, List info, boolean p_77624_4_) {
         if (hasDetails(itemstack)) {
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
-                addDetails(itemstack, player, infos);
+                addDetails(itemstack, player, info);
             } else {
-                infos.add(MOStringHelper.MORE_INFO);
-                infos.add("Press '" + EnumChatFormatting.YELLOW + GameSettings.getKeyDisplayString(ClientProxy.keyHandler.getBinding(KeyHandler.MATTER_SCANNER_KEY).getKeyCode()) + EnumChatFormatting.GRAY + "' to open GUI");
+                info.add(MOStringHelper.MORE_INFO);
+                info.add("Press '" + EnumChatFormatting.YELLOW + GameSettings.getKeyDisplayString(ClientProxy.keyHandler.getBinding(KeyHandler.MATTER_SCANNER_KEY).getKeyCode()) + EnumChatFormatting.GRAY + "' to open GUI");
             }
         }
     }
@@ -82,19 +81,19 @@ public class MatterScanner extends MOBaseItem implements IBlockScanner {
     }
 
     @Override
-    public void addDetails(ItemStack itemstack, EntityPlayer player, List infos) {
+    public void addDetails(ItemStack itemstack, EntityPlayer player, List info) {
         if (isLinked(itemstack)) {
             if (itemstack.hasTagCompound()) {
-                infos.add(ChatFormatting.GREEN + "Online");
+                info.add(ChatFormatting.GREEN + "Linked");
             }
 
             ItemPattern lastSelected = getSelectedAsPattern(itemstack);
             if (lastSelected != null) {
-                infos.add("Progress: " + lastSelected.getProgress() + " / " + 100 + " %");
-                infos.add("Selected: " + lastSelected.getDisplayName());
+                info.add("Progress: " + lastSelected.getProgress() + " / " + 100 + " %");
+                info.add("Selected: " + lastSelected.getDisplayName());
             }
         } else {
-            infos.add(ChatFormatting.RED + "Offline");
+            info.add(ChatFormatting.RED + "Unlinked");
         }
     }
 
@@ -104,27 +103,22 @@ public class MatterScanner extends MOBaseItem implements IBlockScanner {
     }
 
     public static IMatterDatabase getLink(World world, ItemStack scanner) {
-        if (scanner != null && scanner.getItem() instanceof MatterScanner) {
-            if (scanner.hasTagCompound()) {
-                if (scanner.getTagCompound().getBoolean("isLinked")) {
-                    int x = scanner.getTagCompound().getInteger("link_x");
-                    int y = scanner.getTagCompound().getInteger("link_y");
-                    int z = scanner.getTagCompound().getInteger("link_z");
+        if (isLinked(scanner)) {
+            int x = scanner.getTagCompound().getInteger("link_x");
+            int y = scanner.getTagCompound().getInteger("link_y");
+            int z = scanner.getTagCompound().getInteger("link_z");
 
-                    TileEntity e = world.getTileEntity(x, y, z);
-                    if (e instanceof IMatterDatabase)
-                        return (IMatterDatabase) e;
-                }
+            TileEntity e = world.getTileEntity(x, y, z);
+            if (e instanceof IMatterDatabase) {
+                return (IMatterDatabase) e;
             }
         }
         return null;
     }
 
     public static BlockPos getLinkPosition(ItemStack scanner) {
-        if (scanner != null && scanner.getItem() instanceof MatterScanner) {
-            if (scanner.hasTagCompound()) {
-                return new BlockPos(scanner.getTagCompound().getInteger("link_x"), scanner.getTagCompound().getInteger("link_y"), scanner.getTagCompound().getInteger("link_z"));
-            }
+        if (isLinked(scanner)) {
+            return new BlockPos(scanner.getTagCompound().getInteger("link_x"), scanner.getTagCompound().getInteger("link_y"), scanner.getTagCompound().getInteger("link_z"));
         }
         return new BlockPos(0, 0, 0);
     }
@@ -139,7 +133,7 @@ public class MatterScanner extends MOBaseItem implements IBlockScanner {
     }
 
     public static void unLink(World world, ItemStack scanner) {
-        if (scanner.hasTagCompound()) {
+        if (isLinked(scanner)) {
             scanner.getTagCompound().setBoolean("isLinked", false);
         }
     }
@@ -176,16 +170,13 @@ public class MatterScanner extends MOBaseItem implements IBlockScanner {
         return false;
     }
 
-
     public static void setSelected(World world, ItemStack scanner, ItemStack itemStack) {
-        if (scanner.hasTagCompound()) {
-            ItemPattern itemPattern = getSelectedFromDatabase(world, scanner, itemStack);
-            if (itemPattern == null) {
-                itemPattern = new ItemPattern(itemStack);
-            }
-
-            setSelected(scanner, itemPattern);
+        ItemPattern itemPattern = getSelectedFromDatabase(world, scanner, itemStack);
+        if (itemPattern == null) {
+            itemPattern = new ItemPattern(itemStack);
         }
+
+        setSelected(scanner, itemPattern);
     }
 
     public static void setSelected(ItemStack scanner, ItemPattern itemPattern) {
@@ -271,37 +262,30 @@ public class MatterScanner extends MOBaseItem implements IBlockScanner {
         return Integer.MAX_VALUE;
     }
 
-    public ItemStack onItemRightClick(ItemStack itemstack, World world, EntityPlayer entityplayer) {
-        MovingObjectPosition hit = getScanningPos(itemstack, entityplayer);
+    public boolean onItemUse(ItemStack scanner, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ) {
+        MovingObjectPosition hit = getScanningPos(scanner, player);
         if (hit != null && hit.typeOfHit != MovingObjectPosition.MovingObjectType.MISS) {
-            if (world.isRemote)
-                playSound(entityplayer.posX, entityplayer.posY, entityplayer.posZ);
-
-            entityplayer.setItemInUse(itemstack, getMaxItemUseDuration(itemstack));
-        }
-        return itemstack;
-    }
-
-    @Override
-    public void onUpdate(ItemStack itemStack, World world, Entity entity, int p_77663_4_, boolean p_77663_5_) {
-        super.onUpdate(itemStack, world, entity, p_77663_4_, p_77663_5_);
-
-        if (world.isRemote) {
-            if (entity instanceof EntityPlayer) {
-                EntityPlayer player = (EntityPlayer) entity;
-                if (player.isUsingItem()) {
-
-                } else {
-                    stopScanSounds();
+            if (isLinked(scanner)) {
+                if (world.isRemote) {
+                    playSound(player.posX, player.posY, player.posZ);
+                }
+            } else {
+                if (!world.isRemote) {
+                    SoundHandler.PlaySoundAt(world, "scanner_fail", player);
+                    StringBuilder scanInfo = new StringBuilder();
+                    scanInfo.append(EnumChatFormatting.YELLOW + "[" + scanner.getDisplayName() + "] " +
+                        EnumChatFormatting.RED + "Not linked to Pattern Storage!");
+                    DisplayInfo(player, scanInfo, EnumChatFormatting.RED);
                 }
             }
         }
+        player.setItemInUse(scanner, getMaxItemUseDuration(scanner));
+        return true;
     }
 
     public ItemStack onEaten(ItemStack scanner, World world, EntityPlayer player) {
         if (world.isRemote) {
             stopScanSounds();
-            return scanner;
         }
 
         MovingObjectPosition position = getScanningPos(scanner, player);
@@ -314,7 +298,7 @@ public class MatterScanner extends MOBaseItem implements IBlockScanner {
 
                 //finished scanning
                 if (!MinecraftForge.EVENT_BUS.post(new MOEventScan(player, scanner, position))) {
-                    Scan(world, scanner, player, worldItem, x, y, z);
+                    Scan(scanner, world, player, worldItem, x, y, z);
                 }
             }
         }
@@ -333,30 +317,28 @@ public class MatterScanner extends MOBaseItem implements IBlockScanner {
 
     @Override
     public void onUsingTick(ItemStack scanner, EntityPlayer player, int count) {
-        MovingObjectPosition hit = getScanningPos(scanner, player);
+        if (isLinked(scanner)) {
+            MovingObjectPosition hit = getScanningPos(scanner, player);
+            if (hit != null) {
 
-        if (hit != null) {
+                if (hit.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+                    int x = hit.blockX;
+                    int y = hit.blockY;
+                    int z = hit.blockZ;
+                    ItemStack lastSelected = getSelectedAsItem(scanner);
+                    ItemStack worldItem = MatterDatabaseHelper.GetItemStackFromWorld(player.worldObj, x, y, z);
 
-            if (hit.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                int x = hit.blockX;
-                int y = hit.blockY;
-                int z = hit.blockZ;
-                ItemStack lastSelected = getSelectedAsItem(scanner);
-                ItemStack worldItem = MatterDatabaseHelper.GetItemStackFromWorld(player.worldObj, x, y, z);
+                    if (!MatterDatabaseHelper.areEqual(lastSelected, worldItem)) {
 
-                if (!MatterDatabaseHelper.areEqual(lastSelected, worldItem)) {
-
-                    setSelected(player.worldObj, scanner, worldItem);
-
-                    player.stopUsingItem();
-                    if (player.worldObj.isRemote) {
-                        stopScanSounds();
+                        ItemPattern itemPattern = getSelectedFromDatabase(player.worldObj, scanner, worldItem);
+                        if (itemPattern == null) {
+                            itemPattern = new ItemPattern(worldItem);
+                        }
+                        setSelected(scanner, itemPattern);
+                        player.stopUsingItem();
                     }
                 }
-            }
-        } else {
-            if (player.worldObj.isRemote) {
-                stopScanSounds();
+            } else {
                 player.stopUsingItem();
             }
         }
@@ -371,8 +353,9 @@ public class MatterScanner extends MOBaseItem implements IBlockScanner {
     }
 
     public void onPlayerStoppedUsing(ItemStack scanner, World world, EntityPlayer player, int count) {
-        if (world.isRemote)
+        if (world.isRemote) {
             stopScanSounds();
+        }
     }
 
     @SideOnly(Side.CLIENT)
@@ -383,7 +366,7 @@ public class MatterScanner extends MOBaseItem implements IBlockScanner {
         }
     }
 
-    public boolean Scan(World world, ItemStack scanner, EntityPlayer player, ItemStack worldBlock, int x, int y, int z) {
+    public boolean Scan(ItemStack scanner, World world, EntityPlayer player, ItemStack worldBlock, int x, int y, int z) {
         this.TagCompountCheck(scanner);
 
         StringBuilder scanInfo = new StringBuilder();

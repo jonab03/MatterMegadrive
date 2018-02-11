@@ -6,6 +6,7 @@ import matteroverdrive.api.inventory.IBlockScanner;
 import matteroverdrive.client.RenderHandler;
 import matteroverdrive.client.render.tileentity.TileEntityRendererPatternMonitor;
 import matteroverdrive.entity.player.AndroidPlayer;
+import matteroverdrive.items.MatterScanner;
 import matteroverdrive.util.MatterDatabaseHelper;
 import matteroverdrive.util.MatterHelper;
 import matteroverdrive.util.RenderUtils;
@@ -16,6 +17,7 @@ import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
@@ -36,13 +38,31 @@ public class RenderMatterScannerInfoHandler implements IWorldLastRenderer {
     public void onRenderWorldLast(RenderHandler renderHandler, RenderWorldLastEvent event) {
         ItemStack heldItem = Minecraft.getMinecraft().thePlayer.getHeldItem();
 
-        if (heldItem != null && heldItem.getItem() instanceof IBlockScanner && Minecraft.getMinecraft().thePlayer.isUsingItem()) {
+        if (isScanning(heldItem)) {
             glPushMatrix();
             renderInfo(Minecraft.getMinecraft().thePlayer, heldItem, event.partialTicks);
             glPopMatrix();
         } else if (AndroidPlayer.get(Minecraft.getMinecraft().thePlayer).isAndroid()) {
             renderInfo(Minecraft.getMinecraft().thePlayer, Minecraft.getMinecraft().objectMouseOver, null, event.partialTicks);
         }
+    }
+
+    private boolean isScanning(ItemStack heldItemStack) {
+        if (heldItemStack != null) {
+            Item heldItem = heldItemStack.getItem();
+
+            if (heldItem instanceof MatterScanner && !MatterScanner.isLinked(heldItemStack)) {
+                // Item is a matter scanner, but is not linked to a pattern storage.
+                return false;
+            }
+
+            //noinspection RedundantIfStatement
+            if (heldItem instanceof IBlockScanner && Minecraft.getMinecraft().thePlayer.isUsingItem()) {
+                // Item is some kind of scanner and the player is using it.
+                return true;
+            }
+        }
+        return false;
     }
 
     private void renderInfo(EntityPlayer player, ItemStack scanner, float ticks) {

@@ -6,7 +6,7 @@ package matteroverdrive.api.dialog;
  */
 public interface IDialogRegistry {
     /**
-     * Register Message to Matter Overdrive Dialog Registry.
+     * Register Message to Matter Megadrive Dialog Registry.
      *
      * @param message The Dialog Message
      */

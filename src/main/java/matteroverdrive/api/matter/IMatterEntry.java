@@ -25,7 +25,7 @@ public interface IMatterEntry {
     String getName();
 
     /**
-     * Is the matter entry calculated or added by configs or by Matter overdrive.
+     * Is the matter entry calculated or added by configs or by Matter Megadrive.
      * Used to show if the matter entry was created by the automatic recipe calculation process.
      */
     boolean getCalculated();

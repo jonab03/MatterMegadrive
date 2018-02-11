@@ -74,7 +74,7 @@ item.matter_container_full.name=Full Matter Container
 item.tritanium_nugget.name=Tritanium Nugget
 item.tritanium_spine.name=Tritanium Spine
 item.data_pad.name=Data Pad
-item.data_pad.details=Holds information on all of Matter Overdrive
+item.data_pad.details=Holds information on all of Matter Megadrive
 item.omni_tool.name=Omni Tool
 item.android_pill_yellow.name=Yellow Pill
 item.android_pill_yellow.details=Used to reset all unlocked Android Abilities
@@ -309,12 +309,12 @@ dialog.mad_scientist.junkie.cocktail_quest.are_you_ok.question=Are you ok?
 ##########################################################################################################
 # Creative Panels
 
-itemGroup.tabMatterOverdrive=Matter Overdrive
-itemGroup.tabMatterOverdrive_modules=Matter Overdrive: Modules
-itemGroup.tabMatterOverdrive_upgrades=Matter Overdrive: Upgrades
-itemGroup.tabMatterOverdrive_food=Matter Overdrive: Food
-itemGroup.tabMatterOverdrive_ships=Matter Overdrive: Ships
-itemGroup.tabMatterOverdrive_buildings=Matter Overdrive: Buildings
+itemGroup.tabMatterOverdrive=Matter Megadrive
+itemGroup.tabMatterOverdrive_modules=Matter Megadrive: Modules
+itemGroup.tabMatterOverdrive_upgrades=Matter Megadrive: Upgrades
+itemGroup.tabMatterOverdrive_food=Matter Megadrive: Food
+itemGroup.tabMatterOverdrive_ships=Matter Megadrive: Ships
+itemGroup.tabMatterOverdrive_buildings=Matter Megadrive: Buildings
 
 ##########################################################################################################
 # Upgrade Types
@@ -477,7 +477,7 @@ biotic_stat.nano_armor.details=Absorbs %1$s of incoming damage
 biotic_stat.floatation.name=Air Bags
 biotic_stat.floatation.details=Enables floating when in water
 biotic_stat.speed.name=Limb Overclocking
-biotic_stat.speed.details=Increases movement speed by %1$s
+biotic_stat.speed.details=Increases movement speed to %1$s
 biotic_stat.high_jump.name=High Jump
 biotic_stat.high_jump.details=Enables higher jumping while sneaking /n/Each jump drains %1$s /n/A battery capable of extracting %1$s is required
 biotic_stat.equalizer.name=Space-Time Equalizer

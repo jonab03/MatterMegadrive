@@ -45,6 +45,8 @@ public class PacketMatterScannerGetDatabase extends TileEntityUpdatePacket {
 
     @Override
     public void toBytes(ByteBuf buf) {
+        // Only works when not empty?
+        // TODO: Investigate NullPointerException & EncoderException here.
         super.toBytes(buf);
         buf.writeInt(list.size());
         for (ItemPattern pattern : list) {

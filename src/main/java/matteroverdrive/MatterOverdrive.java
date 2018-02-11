@@ -73,10 +73,10 @@ public class MatterOverdrive {
         guiHandler = new GuiHandler();
         packetPipeline = new PacketPipeline();
         entityHandler = new EntityHandler();
-        configHandler = new ConfigurationHandler(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + "MatterOverdrive" + File.separator + Reference.MOD_NAME + ".cfg"));
+        configHandler = new ConfigurationHandler(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + "MatterMegadrive" + File.separator + Reference.MOD_NAME + ".cfg"));
         playerEventHandler = new PlayerEventHandler();
         bucketHandler = new BucketHandler();
-        matterRegistrationHandler = new MatterRegistrationHandler(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + "MatterOverdrive" + File.separator + "Registry" + ".matter");
+        matterRegistrationHandler = new MatterRegistrationHandler(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + "MatterMegadrive" + File.separator + "Registry" + ".matter");
         weaponFactory = new WeaponFactory();
         androidPartsFactory = new AndroidPartsFactory();
         quests = new Quests();
@@ -190,7 +190,7 @@ public class MatterOverdrive {
         pos = versionString.indexOf('.', pos + 1);
         double version = Double.parseDouble(versionString.substring(0, pos));
         if (version < 1.8) {
-            MOLog.warn("Matter Overdrive only supports Java 8 and above. Please update your Java version. You are currently using: " + version);
+            MOLog.warn("Matter Megadrive only supports Java 8 and above. Please update your Java version. You are currently using: " + version);
         }
     }
 }

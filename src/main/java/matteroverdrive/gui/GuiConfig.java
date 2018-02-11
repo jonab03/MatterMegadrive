@@ -13,7 +13,7 @@ import java.util.List;
 public class GuiConfig extends cpw.mods.fml.client.config.GuiConfig {
 
     public GuiConfig(GuiScreen parent) {
-        super(parent, getAllGuiCategories(), Reference.MOD_ID, false, false, "Matter Overdrive Configurations");
+        super(parent, getAllGuiCategories(), Reference.MOD_ID, false, false, "Matter Megadrive Configurations");
     }
 
     public GuiConfig(GuiScreen parent, String category) {
