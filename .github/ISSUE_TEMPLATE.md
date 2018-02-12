@@ -1,7 +1,7 @@
-Brief explanation of problem:
+**Brief explanation of the problem**
 
-Steps to reproduce:
+**Steps to reproduce**
 
-Crash report paste (if any) on [gist](https://gist.github.com) or [pastebin](https://pastebin.com/):
+**Crash report (if any) on [gist](https://gist.github.com) or [pastebin](https://pastebin.com/)**
 
-MatterMegadrive version:
+**Matter Megadrive version**
