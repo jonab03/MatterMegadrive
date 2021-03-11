@@ -41,3 +41,6 @@ out/
 
 # Java
 *.hprof
+/.classpath
+/.project
+/gradle-app.setting

@@ -20,7 +20,7 @@ buildscript {
         mavenCentral()
         maven {
             name = "ForgeFS"
-            url = "http://files.minecraftforge.net/maven"
+            url = "https://files.minecraftforge.net/maven"
         }
         maven {
             name = "sonatype"
@@ -28,8 +28,12 @@ buildscript {
         }
     }
     dependencies {
+        /*
         classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
+        */
+        classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {
+            changing = true
+        }        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
     }
 }
 
