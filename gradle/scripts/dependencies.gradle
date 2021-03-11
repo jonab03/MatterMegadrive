@@ -1,76 +1,80 @@
 repositories {
 	ivy {
 		name "CoFHLib"
-		artifactPattern "http://addons-origin.cursecdn.com/files/2243/944/[module]-[revision].[ext]"
+		artifactPattern "https://media.forgecdn.net/files/2243/944/[module]-[revision].[ext]"
 	}
 	ivy {
 		name "CoFHCore"
-		artifactPattern 'http://addons-origin.cursecdn.com/files/2244/285/[module]-[revision].[ext]'
+		artifactPattern 'https://media.forgecdn.net/files/2244/285/[module]-[revision].[ext]'
 	}
 	ivy {
 		name "ThermalFoundation"
-		artifactPattern "http://addons-origin.cursecdn.com/files/2243/149/[module]-[revision].[ext]"
+		artifactPattern "https://media.forgecdn.net/files/2243/149/[module]-[revision].[ext]"
 	}
 	ivy {
 		name "ThermalExpansion"
-		artifactPattern "http://addons-origin.cursecdn.com/files/2233/797/[module]-[revision].[ext]"
+		artifactPattern "https://media.forgecdn.net/files/2233/797/[module]-[revision].[ext]"
 	}
 
 	ivy {
 		name "ThermalDynamics"
-		artifactPattern "http://addons-origin.cursecdn.com/files/2244/301/[module]-[revision].[ext]"
+		artifactPattern "https://media.forgecdn.net/files/2244/301/[module]-[revision].[ext]"
 	}
 
 	ivy {
 		name "ExtraUtilities"
-		artifactPattern "http://addons-origin.cursecdn.com/files/2242/27/[module]-[revision].[ext]"
+		artifactPattern "https://media.forgecdn.net/files/2242/27/[module]-[revision].[ext]"
 	}
 
 	ivy {
 		name "BuildCraft"
-		artifactPattern "http://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
+		artifactPattern "https://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
 	}
 
 	//maven repos
 	maven {
 		name "ChickenBones"
-		url "http://chickenbones.net/maven/"
+		url "https://chickenbones.net/maven/"
 	}
 
 	maven {
 		name "Mobius"
-		url "http://mobiusstrip.eu/maven"
+		url "https://mobiusstrip.eu/maven"
 	}
 
 	maven {
 		name "tterrag"
-		url "http://maven.tterrag.com"
+		url "https://maven.tterrag.com"
 	}
 
 	maven {
 		name "IC2 and Forestry" // Forestry is required by EnderIO
-		url "http://maven.ic2.player.to"
+		url "https://maven.ic2.player.to"
 	}
 
 	maven {
 		name "OpenComputers"
-		url "http://maven.cil.li"
+		url "https://maven.cil.li"
 	}
-
+/*
 	maven {
 		name "FireBall API Depot"
-		url "http://dl.tsr.me/artifactory/libs-release-local"
+		url "https://dl.tsr.me/artifactory/libs-release-local"
 	}
 
 	maven  {
 		name = "RX14 Proxy"
-		url = "http://mvn.rx14.co.uk/repo/"
+		url = "https://mvn.rx14.co.uk/repo/"
 	}
-
+*/
 	maven {
 		name = "MM repo"
-		url = "http://maven.k-4u.nl/"
+		url = "https://maven.k-4u.nl/"
 	}
+  maven {
+    name "Modmaven"
+    url "https://modmaven.dev/"
+    }
 }
 
 dependencies {
