@@ -10,13 +10,11 @@ configFile.withReader {
 
 apply plugin: 'forge'
 apply plugin: 'maven'
-apply plugin: 'com.jfrog.bintray'
 apply from: 'gradle/scripts/dependencies.gradle'
 apply from: 'gradle/scripts/artifacts.gradle'
 
 buildscript {
     repositories {
-        jcenter()
         mavenCentral()
         maven {
             name = "ForgeFS"
@@ -33,7 +31,7 @@ buildscript {
         */
         classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.0.+') {
             changing = true
-        }        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
+        }
     }
 }
 

@@ -32,6 +32,7 @@ public class MadScientistHouse extends StructureVillagePieces.Village {
         this.boundingBox = boundingBox;
     }
 
+    @SuppressWarnings("rawtypes")
     public static MadScientistHouse func_74898_a(StructureVillagePieces.Start start, List list, Random p_74898_2_, int x, int y, int z, int p_74898_6_, int p_74898_7_) {
         StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(x, y, z, 0, 0, 0, 9, 9, 6, p_74898_6_);
         return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(list, structureboundingbox) == null ? new MadScientistHouse(start, p_74898_7_, p_74898_2_, structureboundingbox, p_74898_6_) : null;
@@ -127,14 +128,14 @@ public class MadScientistHouse extends StructureVillagePieces.Village {
 
         if (!this.hasMadeChest) {
             this.hasMadeChest = true;
-            int i1 = this.getXWithOffset(1, 4);
-            int j1 = this.getYWithOffset(1);
-            int k1 = this.getZWithOffset(1, 4);
+            int chestXPos = this.getXWithOffset(1, 4);
+            int chestYPos = this.getYWithOffset(1);
+            int chestZPos = this.getZWithOffset(1, 4);
 
-            if (boundingBox.isVecInside(i1, j1, k1)) {
-                world.setBlock(i1, j1, k1, MatterOverdriveBlocks.tritaniumCrate[random.nextInt(MatterOverdriveBlocks.tritaniumCrate.length)], 0, 2);
-                TileEntityTritaniumCrate tileentitycrate = (TileEntityTritaniumCrate) world.getTileEntity(i1, j1, k1);
-                tileentitycrate.getInventory().addItem(MatterOverdrive.questFactory.generateQuestStack(random, MatterOverdriveQuests.gmo).getContract());
+            if (this.boundingBox.isVecInside(chestXPos, chestYPos, chestZPos)) {
+                world.setBlock(chestXPos, chestYPos, chestZPos, MatterOverdriveBlocks.tritaniumCrate[random.nextInt(MatterOverdriveBlocks.tritaniumCrate.length)], 0, 2);
+                TileEntityTritaniumCrate tileEntityCrate = (TileEntityTritaniumCrate) world.getTileEntity(chestXPos, chestYPos, chestZPos);
+                tileEntityCrate.getInventory().addItem(MatterOverdrive.questFactory.generateQuestStack(random, MatterOverdriveQuests.gmo).getContract());
                 ItemStack scanner = new ItemStack(MatterOverdriveItems.dataPad);
                 scanner.setStackDisplayName("Mad Scientist's Data Pad");
                 MatterOverdriveItems.dataPad.addToScanWhitelist(scanner, Blocks.carrots);
@@ -142,10 +143,8 @@ public class MadScientistHouse extends StructureVillagePieces.Village {
                 MatterOverdriveItems.dataPad.addToScanWhitelist(scanner, Blocks.wheat);
                 scanner.getTagCompound().setBoolean("Destroys", true);
                 scanner.getTagCompound().setBoolean("nogui", true);
-                tileentitycrate.getInventory().addItem(scanner);
-                return true;
-            } else {
-                return false;
+                tileEntityCrate.getInventory().addItem(scanner);
+                //return true;
             }
         }
 
@@ -176,13 +175,13 @@ public class MadScientistHouse extends StructureVillagePieces.Village {
                 int k1 = this.getYWithOffset(y);
                 int l1 = this.getZWithOffset(x + i1, z);
 
-                if (!structureBoundingBox.isVecInside(j1, k1, l1)) {
+                if (!this.boundingBox.isVecInside(j1, k1, l1)) {
                     break;
                 }
 
                 ++this.villagersSpawned;
                 EntityVillagerMadScientist madScientist = new EntityVillagerMadScientist(world);
-                madScientist.setLocationAndAngles((double) j1 + 0.5D, (double) k1, (double) l1 + 0.5D, 0.0F, 0.0F);
+                madScientist.setLocationAndAngles((double) j1 + 0.5D, k1, (double) l1 + 0.5D, 0.0F, 0.0F);
                 world.spawnEntityInWorld(madScientist);
             }
         }
