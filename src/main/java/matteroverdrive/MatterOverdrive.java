@@ -61,6 +61,7 @@ public class MatterOverdrive {
     public static BlockHandler blockHandler;
     public static final ExecutorService threadPool = Executors.newFixedThreadPool(2);
 
+    @SuppressWarnings("InstantiationOfUtilityClass") // Why this does this I have no idea but I'm not touching it at 10 PM.
     public static MOLog log = new MOLog();
 
 
@@ -148,7 +149,7 @@ public class MatterOverdrive {
         MatterOverdriveMatter.init(configHandler);
         MatterOverdriveMatter.registerBlacklistFromConfig(configHandler);
         MatterOverdriveMatter.registerFromConfig(configHandler);
-        MatterOverdriveMatter.registerBasic(configHandler);
+    //    MatterOverdriveMatter.registerBasic(configHandler);
 
         configHandler.postInit();
     }

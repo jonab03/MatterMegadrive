@@ -13,6 +13,7 @@ import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MatterRegistryCommands extends CommandBase {
 
@@ -35,17 +36,13 @@ public class MatterRegistryCommands extends CommandBase {
         if (parameters.length == 1) {
             if (parameters[0].equalsIgnoreCase("recalculate")) {
                 MatterOverdrive.matterRegistry.getEntries().clear();
-                MatterOverdriveMatter.registerBasic(MatterOverdrive.configHandler);
+            //    MatterOverdriveMatter.registerBasic(MatterOverdrive.configHandler);
                 MatterOverdrive.matterRegistrationHandler.runCalculationThread();
             }
         } else if (parameters.length == 2) {
-            if (parameters[0].equalsIgnoreCase("blacklist")) {
+            if (parameters[0].equalsIgnoreCase("blacklist")) {  //TODO: fix this wiping the config if there are already entries in the blacklist.
                 ItemStack stack;
-                if (parameters.length >= 4) {
-                    stack = getPlayer(commandSender, parameters[3]).getCurrentEquippedItem();
-                } else {
-                    stack = getPlayer(commandSender, commandSender.getCommandSenderName()).getCurrentEquippedItem();
-                }
+                stack = getPlayer(commandSender, commandSender.getCommandSenderName()).getCurrentEquippedItem();
 
                 String key;
                 if (stack != null) {
@@ -68,7 +65,7 @@ public class MatterRegistryCommands extends CommandBase {
                     MatterOverdrive.matterRegistry.addToBlacklist(key);
                     String[] oldBlacklist = MatterOverdrive.configHandler.getStringList(ConfigurationHandler.CATEGORY_MATTER, ConfigurationHandler.KEY_BLACKLIST);
                     String[] newBlacklist = new String[oldBlacklist != null ? oldBlacklist.length + 1 : 1];
-                    newBlacklist[oldBlacklist.length] = key;
+                    newBlacklist[Objects.requireNonNull(oldBlacklist).length] = key;
                     MatterOverdrive.configHandler.config.get(ConfigurationHandler.CATEGORY_MATTER, ConfigurationHandler.KEY_BLACKLIST, new String[]{}, "").set(newBlacklist);
                     MatterOverdrive.configHandler.save();
                     commandSender.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "[" + key + "]" + EnumChatFormatting.RESET + " Added $s to matter blacklist and config.\nYou must recalculate the registry for changes to take effect.\nUse /matter_registry recalculate."));
@@ -116,6 +113,7 @@ public class MatterRegistryCommands extends CommandBase {
         }
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     public List addTabCompletionOptions(ICommandSender commandSender, String[] parameters) {
         List<String> commands = new ArrayList<>();

@@ -14,14 +14,14 @@ public class MatterOverdriveMatter {
     public static void init(ConfigurationHandler config) {
 
     }
-
-    public static void registerBasic(ConfigurationHandler c) {
+/*
+    public static void registerBasic(ConfigurationHandler c) {  // TODO: Make this a config option
         registerBasicItems(c);
         registerBasicBlocks(c);
 
         registerBasicCompoundItems(c);
     }
-
+*/
     public static void registerFromConfig(ConfigurationHandler c) {
         MatterOverdrive.matterRegistry.loadNewItemsFromConfig(c);
     }
@@ -280,17 +280,17 @@ public class MatterOverdriveMatter {
     }
 
     private static void reg(ConfigurationHandler c, String name, int matter, Object... items) {
-        for (int i = 0; i < items.length; i++) {
+        for (Object item : items) {
             MatterEntry entry = null;
 
-            if (items[i] instanceof String) {
-                entry = MatterOverdrive.matterRegistry.getEntry((String) items[i]);
-            } else if (items[i] instanceof Item) {
-                entry = MatterOverdrive.matterRegistry.getEntry((Item) items[i]);
-            } else if (items[i] instanceof Block) {
-                entry = MatterOverdrive.matterRegistry.getEntry((Block) items[i]);
-            } else if (items[i] instanceof ItemStack) {
-                entry = MatterOverdrive.matterRegistry.getEntry((ItemStack) items[i]);
+            if (item instanceof String) {
+                entry = MatterOverdrive.matterRegistry.getEntry((String) item);
+            } else if (item instanceof Item) {
+                entry = MatterOverdrive.matterRegistry.getEntry((Item) item);
+            } else if (item instanceof Block) {
+                entry = MatterOverdrive.matterRegistry.getEntry((Block) item);
+            } else if (item instanceof ItemStack) {
+                entry = MatterOverdrive.matterRegistry.getEntry((ItemStack) item);
             }
 
             if (entry != null) {
