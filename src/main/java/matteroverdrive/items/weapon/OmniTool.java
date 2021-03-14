@@ -38,11 +38,14 @@ public class OmniTool extends EnergyWeapon {
     private static final int MAX_USE_TIME = 240;
     private static final int ENERGY_PER_SHOT = 512;
     private static final float DIG_POWER_MULTIPLY = 0.007f;
+    private static final float MINING_SPEED_MULTIPLIER = 9.0F; /* The tritanium pickaxe has 6.0F.
+        I'm increasing it to 9.0 to see if that feels better. Having it at 6.0 just felt underwhelming. */
 
     public OmniTool(String name) {
         super(name, 32000, 128, 128, RANGE);
         setHarvestLevel("pickaxe", 3);
         setHarvestLevel("axe", 3);
+        setHarvestLevel("shovel", 3);
         this.bFull3D = true;
         this.leftClickFire = true;
     }
@@ -70,6 +73,11 @@ public class OmniTool extends EnergyWeapon {
             chargeFromEnergyPack(item, player);
         }
         return item;
+    }
+
+    @Override
+    public float getDigSpeed(ItemStack weapon, Block block, int meta) {
+        return modifyStatFromModules(Reference.WS_DAMAGE, weapon, MINING_SPEED_MULTIPLIER);
     }
 
     @Override
@@ -104,8 +112,11 @@ public class OmniTool extends EnergyWeapon {
                             } else if (BLOCK_DAMAGE == 0) {
                                 MatterOverdrive.packetPipeline.sendToServer(new PacketDigBlock(x, y, z, 0, movingObjectPosition.sideHit));
                             }
-
+                        /*
                             BLOCK_DAMAGE = MathHelper.clamp_float(modifyStatFromModules(Reference.WS_DAMAGE, itemStack, BLOCK_DAMAGE + block.getPlayerRelativeBlockHardness(player, player.worldObj, x, y, z)), 0, 1);
+                            player.worldObj.destroyBlockInWorldPartially(player.getEntityId(), x, y, z, (int) (BLOCK_DAMAGE * 10));
+                        */
+                            BLOCK_DAMAGE = MathHelper.clamp_float( BLOCK_DAMAGE + block.getPlayerRelativeBlockHardness(player, player.worldObj, x, y, z), 0, 1);
                             player.worldObj.destroyBlockInWorldPartially(player.getEntityId(), x, y, z, (int) (BLOCK_DAMAGE * 10));
                         } else {
                             stopMiningLastBlock();
@@ -201,6 +212,7 @@ public class OmniTool extends EnergyWeapon {
         return x == CURRENT_BLOCK_X && y == CURRENT_BLOCK_Y && z == CURRENT_BLOCK_Z;
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
     @SideOnly(Side.CLIENT)
     protected void addCustomDetails(ItemStack weapon, EntityPlayer player, List infos) {
@@ -310,9 +322,9 @@ public class OmniTool extends EnergyWeapon {
     private Vec3 getFirePosition(EntityPlayer entityPlayer, Vec3 dir, boolean isAiming) {
         Vec3 pos = Vec3.createVectorHelper(entityPlayer.posX, entityPlayer.posY, entityPlayer.posZ);
         if (!isAiming) {
-            pos.xCoord -= (double) (MathHelper.cos(entityPlayer.rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
-            pos.zCoord -= (double) (MathHelper.sin(entityPlayer.rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
-            pos.yCoord -= (double) (MathHelper.cos(entityPlayer.rotationPitch / 180.0F * (float) Math.PI) * 0.16F);
+            pos.xCoord -= (MathHelper.cos(entityPlayer.rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
+            pos.zCoord -= (MathHelper.sin(entityPlayer.rotationYaw / 180.0F * (float) Math.PI) * 0.16F);
+            pos.yCoord -= (MathHelper.cos(entityPlayer.rotationPitch / 180.0F * (float) Math.PI) * 0.16F);
         }
         pos = pos.addVector(dir.xCoord, dir.yCoord, dir.zCoord);
         return pos;
