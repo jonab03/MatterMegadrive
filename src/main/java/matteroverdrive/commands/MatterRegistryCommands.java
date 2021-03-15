@@ -2,7 +2,6 @@ package matteroverdrive.commands;
 
 import matteroverdrive.MatterOverdrive;
 import matteroverdrive.handler.ConfigurationHandler;
-import matteroverdrive.init.MatterOverdriveMatter;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -65,6 +64,9 @@ public class MatterRegistryCommands extends CommandBase {
                     MatterOverdrive.matterRegistry.addToBlacklist(key);
                     String[] oldBlacklist = MatterOverdrive.configHandler.getStringList(ConfigurationHandler.CATEGORY_MATTER, ConfigurationHandler.KEY_BLACKLIST);
                     String[] newBlacklist = new String[oldBlacklist != null ? oldBlacklist.length + 1 : 1];
+                    if (newBlacklist.length != 1 & oldBlacklist != null) {
+                        System.arraycopy(oldBlacklist, 0, newBlacklist, 0, oldBlacklist.length);
+                    }
                     newBlacklist[Objects.requireNonNull(oldBlacklist).length] = key;
                     MatterOverdrive.configHandler.config.get(ConfigurationHandler.CATEGORY_MATTER, ConfigurationHandler.KEY_BLACKLIST, new String[]{}, "").set(newBlacklist);
                     MatterOverdrive.configHandler.save();
