@@ -68,6 +68,8 @@ public class MatterRegistryCommands extends CommandBase {
                         System.arraycopy(oldBlacklist, 0, newBlacklist, 0, oldBlacklist.length);
                     }
                     newBlacklist[Objects.requireNonNull(oldBlacklist).length] = key;
+                    //noinspection UnusedAssignment
+                    oldBlacklist = null; //The IDE thinks this is bad for some reason.
                     MatterOverdrive.configHandler.config.get(ConfigurationHandler.CATEGORY_MATTER, ConfigurationHandler.KEY_BLACKLIST, new String[]{}, "").set(newBlacklist);
                     MatterOverdrive.configHandler.save();
                     commandSender.addChatMessage(new ChatComponentText(EnumChatFormatting.GOLD + "[" + key + "]" + EnumChatFormatting.RESET + " Added $s to matter blacklist and config.\nYou must recalculate the registry for changes to take effect.\nUse /matter_registry recalculate."));

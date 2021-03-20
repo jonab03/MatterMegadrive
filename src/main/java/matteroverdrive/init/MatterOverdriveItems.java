@@ -187,13 +187,14 @@ public class MatterOverdriveItems {
         machine_casing.register();
         s_magnet.register();
         dilithium_crystal.register();
-        MatterOverdrive.matterRegistry.addToBlacklist(dilithium_crystal);
+        //MatterOverdrive.matterRegistry.addToBlacklist(dilithium_crystal);
         tritanium_ingot.register();
-        MatterOverdrive.matterRegistry.addToBlacklist(tritanium_ingot);
+        //MatterOverdrive.matterRegistry.addToBlacklist(tritanium_ingot);
         tritanium_dust.register();
-        MatterOverdrive.matterRegistry.addToBlacklist(tritanium_dust);
+        //MatterOverdrive.matterRegistry.addToBlacklist(tritanium_dust);
         tritanium_plate.register();
-        MatterOverdrive.matterRegistry.addToBlacklist(tritanium_plate);
+        //MatterOverdrive.matterRegistry.addToBlacklist(tritanium_plate);
+        //I like my replication working on the materials they are made of as well, thanks!
         pattern_drive.register();
         weapon_module_color.register();
         weapon_module_barrel.register();
