@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class MOWorldGenCargoShip extends MOWorldGenBuilding {
-    private static final int MIN_DISTANCE_APART = 4096;
+    private static final int MIN_DISTANCE_APART = 3072;
 
     public MOWorldGenCargoShip(String name) {
         super(name, new ResourceLocation(Reference.PATH_WORLD_TEXTURES + "cargo_ship.png"), 58, 23);
@@ -22,7 +22,7 @@ public class MOWorldGenCargoShip extends MOWorldGenBuilding {
         addMapping(0x5fffbe, MatterOverdriveBlocks.transporter);
         addMapping(0xd2fb50, MatterOverdriveBlocks.forceGlass);
         addMapping(0xdc01d8, Blocks.wooden_pressure_plate);
-        addMapping(0xfc6b34, new BlockMapping(true, Blocks.gold_ore, Blocks.iron_ore, Blocks.coal_ore, MatterOverdriveBlocks.tritaniumOre));
+        addMapping(0xfc6b34, new BlockMapping(true, MatterOverdriveBlocks.dilithiumOre, MatterOverdriveBlocks.tritaniumOre));
         addMapping(0xd1626, MatterOverdriveBlocks.fusionReactorIO);
         addMapping(0x1b2ff7, MatterOverdriveBlocks.network_pipe);
         addMapping(0x1f2312, MatterOverdriveBlocks.tritaniumCrate);
