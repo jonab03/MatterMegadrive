@@ -24,7 +24,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import java.util.Random;
 
 public class MOWorldGenCrashedSpaceShip extends MOWorldGenBuilding {
-    private static final int MIN_DISTANCE_APART = 256;
+    private static final int MIN_DISTANCE_APART = 512;
     private String[] holoTexts;
 
     public MOWorldGenCrashedSpaceShip(String name) {

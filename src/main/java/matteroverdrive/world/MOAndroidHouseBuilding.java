@@ -19,6 +19,8 @@ import net.minecraftforge.common.ChestGenHooks;
 import java.util.Random;
 
 public class MOAndroidHouseBuilding extends MOWorldGenBuilding {
+    private static final int MIN_DISTANCE_APART = 512;
+
     public MOAndroidHouseBuilding(String name) {
         super(name, new ResourceLocation(Reference.PATH_WORLD_TEXTURES + "android_house.png"), 21, 21);
         setyOffset(-2);
@@ -56,7 +58,7 @@ public class MOAndroidHouseBuilding extends MOWorldGenBuilding {
 
     @Override
     protected boolean shouldGenerate(Random random, World world, int x, int y, int z) {
-        return world.provider.dimensionId == 0;
+        return world.provider.dimensionId == 0 && isFarEnoughFromOthers(world, x, z, MIN_DISTANCE_APART);
     }
 
     @Override
