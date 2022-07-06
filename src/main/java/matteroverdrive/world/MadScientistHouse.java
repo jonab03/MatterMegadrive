@@ -63,7 +63,9 @@ public class MadScientistHouse extends StructureVillagePieces.Village {
             this.boundingBox.offset(0, this.field_143015_k - this.boundingBox.maxY + 9 - 1, 0);
         }
 
-        this.fillWithBlocks(world, boundingBox, 1, 1, 1, 7, 5, 4, Blocks.air, Blocks.air, false);
+        if (!this.hasMadeChest) {
+            this.fillWithBlocks(world, boundingBox, 1, 1, 1, 7, 5, 4, Blocks.air, Blocks.air, false);
+        }
         this.fillWithBlocks(world, boundingBox, 0, 0, 0, 8, 0, 5, Blocks.cobblestone, Blocks.cobblestone, false);
         this.fillWithBlocks(world, boundingBox, 0, 5, 0, 8, 5, 5, Blocks.cobblestone, Blocks.cobblestone, false);
         this.fillWithBlocks(world, boundingBox, 0, 6, 1, 8, 6, 4, Blocks.cobblestone, Blocks.cobblestone, false);

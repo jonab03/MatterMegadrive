@@ -26,7 +26,12 @@ repositories {
 		artifactPattern "https://media.forgecdn.net/files/2242/27/[module]-[revision].[ext]"
 	}
 
-	ivy {
+    ivy {
+        name "AppliedEnergistics2"
+        artifactPattern "https://ae-mod.info/builds/[module]-[revision]-dev.[ext]"
+    }
+
+    ivy {
 		name "BuildCraft"
 		artifactPattern "https://www.mod-buildcraft.com/releases/BuildCraft/[revision]/[module]-[revision]-[classifier].[ext]"
 	}
@@ -105,5 +110,5 @@ dependencies {
 	compile group: 'li.cil.oc', name: 'OpenComputers', version: "${config.oc_version}", classifier:  'dev'
 
 	// AE2
-	// compile group: "appeng", name: "appliedenergistics2", version: "${config.ae2_version}", classifier: "dev"
+	compile group: "appeng", name: "appliedenergistics2", version: "${config.ae2_version}", ext: 'jar'
 }
