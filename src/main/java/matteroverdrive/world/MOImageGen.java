@@ -13,8 +13,8 @@ import java.awt.image.DataBufferByte;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public abstract class MOImageGen {
     public static HashMap<Block, Integer> worldGenerationBlockColors = new HashMap<>();
@@ -39,8 +39,14 @@ public abstract class MOImageGen {
 
     public void placeBlock(World world, int color, int x, int y, int z, int layer, Random random, int placeNotify) {
         Block block = getBlockFromColor(color, random);
+        Block preBlock = world.getBlock(x, y, z);
         int meta = getMetaFromColor(color, random);
-        if (block != null) {
+        String unname = preBlock.getUnlocalizedName();
+        //warn("%s", unname);
+        if (block != null
+            && preBlock.getBlockHardness(world, x, y, z) != -1.0F
+            && !unname.equalsIgnoreCase("tile.ModelledChromaticTile3")
+            && !unname.equalsIgnoreCase("tile.chroma.loot")) {
             world.setBlock(x, y, z, block, meta, placeNotify);
             onBlockPlace(world, block, x, y, z, random, color);
         }
