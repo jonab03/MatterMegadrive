@@ -39,7 +39,7 @@ public class MatterRegistryCommands extends CommandBase {
                 MatterOverdrive.matterRegistrationHandler.runCalculationThread();
             }
         } else if (parameters.length == 2) {
-            if (parameters[0].equalsIgnoreCase("blacklist")) {  //TODO: fix this wiping the config if there are already entries in the blacklist.
+            if (parameters[0].equalsIgnoreCase("blacklist")) {
                 ItemStack stack;
                 stack = getPlayer(commandSender, commandSender.getCommandSenderName()).getCurrentEquippedItem();
 
