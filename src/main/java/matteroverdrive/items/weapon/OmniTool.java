@@ -34,7 +34,7 @@ import java.util.List;
 public class OmniTool extends EnergyWeapon {
     private static float BLOCK_DAMAGE, STEP_SOUND_COUNTER, LAST_BRAKE_TIME;
     private static int CURRENT_BLOCK_X, CURRENT_BLOCK_Y, CURRENT_BLOCK_Z, LAST_SIDE;
-    public static final int RANGE = 24;
+    public static final int RANGE = 48;
     private static final int MAX_USE_TIME = 240;
     private static final int ENERGY_PER_SHOT = 512;
     private static final float DIG_POWER_MULTIPLY = 0.007f;
