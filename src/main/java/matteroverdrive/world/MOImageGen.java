@@ -18,7 +18,7 @@ import java.util.*;
 
 public abstract class MOImageGen {
     public static HashMap<Block, Integer> worldGenerationBlockColors = new HashMap<>();
-    private HashMap<Integer, BlockMapping> blockMap;
+    private final HashMap<Integer, BlockMapping> blockMap;
     protected ResourceLocation texture;
     private List<int[][]> layers;
     private int textureWidth;
@@ -39,17 +39,24 @@ public abstract class MOImageGen {
 
     public void placeBlock(World world, int color, int x, int y, int z, int layer, Random random, int placeNotify) {
         Block block = getBlockFromColor(color, random);
-        Block preBlock = world.getBlock(x, y, z);
-        int meta = getMetaFromColor(color, random);
-        String unname = preBlock.getUnlocalizedName();
-        //warn("%s", unname);
-        if (block != null
-            && preBlock.getBlockHardness(world, x, y, z) != -1.0F
-            && !unname.equalsIgnoreCase("tile.ModelledChromaticTile3")
-            && !unname.equalsIgnoreCase("tile.chroma.loot")) {
-            world.setBlock(x, y, z, block, meta, placeNotify);
-            onBlockPlace(world, block, x, y, z, random, color);
+        if (block == null) {
+            return;
         }
+
+        Block preBlock = world.getBlock(x, y, z);
+        if (preBlock.getBlockHardness(world, x, y, z) == -1.0F) {
+            return;
+        }
+
+        String unname = preBlock.getUnlocalizedName();
+        if (unname.equalsIgnoreCase("tile.ModelledChromaticTile3")
+            || unname.equalsIgnoreCase("tile.chroma.loot")) {
+            return;
+        }
+        //warn("%s", unname);
+        int meta = getMetaFromColor(color, random);
+        world.setBlock(x, y, z, block, meta, placeNotify);
+        onBlockPlace(world, block, x, y, z, random, color);
     }
 
     public abstract void onBlockPlace(World world, Block block, int x, int y, int z, Random random, int color);
@@ -320,7 +327,7 @@ public abstract class MOImageGen {
     }
 
     public static class BlockMapping {
-        private Block[] blocks;
+        private final Block[] blocks;
         private boolean noise;
         private int lastSelected;
 
